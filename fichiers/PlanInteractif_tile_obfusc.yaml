@@ -1,0 +1,298 @@
+title: Plan intéractif
+path: maison
+icon: mdi:floor-plan
+type: sections
+max_columns: 1
+sections:
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: 🏠 La maison
+      - type: custom:mushroom-template-card
+        primary: Maison des dous
+        secondary: >
+          {{ states('sensor.zg_227z_07_temperature') }} °C · {{
+          states('sensor.zg_227z_07_humidity') }} %
+        icon: mdi:home-heart
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/galetas
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Galetas
+        secondary: >
+          {{ states('sensor.zg_227z_17_galetas_temperature') }} °C · {{
+          states('sensor.zg_227z_17_galetas_humidity') }} %
+        icon: mdi:home-roof
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/galetas
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: 🛏️ Étage
+      - type: custom:mushroom-template-card
+        secondary: >
+          {{ states('sensor.zg_227z_07_temperature') }} °C · {{
+          states('sensor.zg_227z_07_humidity') }} %
+        icon: mdi:home-import-outline
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/couloir-premier
+        features_position: bottom
+        primary: 1er
+      - type: custom:mushroom-template-card
+        primary: Chambre TBX7D_ORG_0007
+        secondary: >
+          {{ states('sensor.zg_227z_08_temperature') }} °C · {{
+          states('sensor.zg_227z_08_humidity') }} %
+        icon: mdi:bed-king-outline
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0007
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008
+        secondary: >
+          {{ states('sensor.zg_227z_06_temperature') }} °C · {{
+          states('sensor.zg_227z_06_humidity') }} %
+        icon: mdi:human-male-female
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0009-TBX7D_ORG_0008
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Chambre TBX7D_ORG_0010
+        secondary: >
+          {{ states('sensor.zg_227z_15_temperature') }} °C · {{
+          states('sensor.zg_227z_15_humidity') }} %
+        icon: mdi:human-child
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0010
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Salle de jeu
+        secondary: >
+          {{ states('sensor.zg_227z_09_temperature') }} °C · {{
+          states('sensor.zg_227z_09_humidity') }} %
+        icon: mdi:nintendo-game-boy
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pc/salle-de-jeu
+      - type: custom:mushroom-template-card
+        primary: Salon
+        secondary: >
+          {{ states('sensor.zg_227z_18_temperature') }} °C · {{
+          states('sensor.zg_227z_18_humidity') }} %
+        icon: mdi:sofa
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/salon
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Salle à manger
+        secondary: Contrôle de la pièce
+        icon: mdi:table-chair
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/salle-a-manger
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Cuisine
+        secondary: >
+          {{ states('sensor.zg_227z_16_temperature') }} °C · {{
+          states('sensor.zg_227z_16_humidity') }} %
+        icon: mdi:countertop-outline
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/cuisine
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Toilettes
+        secondary: >
+          {{ states('sensor.zg_227z_23_temperature') }} °C · {{
+          states('sensor.zg_227z_23_humidity') }} %
+        icon: mdi:paper-roll-outline
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Salle de bain
+        secondary: >
+          {{ states('sensor.zg_227z_01_temperature') }} °C · {{
+          states('sensor.zg_227z_01_humidity') }} %
+        icon: mdi:shower
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: 🛋️ Rez-de-chaussée
+      - type: custom:mushroom-template-card
+        primary: Rez
+        secondary: >
+          {{ states('sensor.zg_227z_09_temperature') }} °C · {{
+          states('sensor.zg_227z_09_humidity') }} %
+        icon: mdi:home-export-outline
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/couloir-rez
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Serveurs
+        secondary: >
+          {{ states('sensor.zg_227z_11_temperature') }} °C · {{
+          states('sensor.s1pm30_power') }} W
+        icon: mdi:server
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/serveur
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Buanderie
+        secondary: >
+          {{ states('sensor.zg_227z_22_temperature') }} °C · {{
+          states('sensor.zg_227z_22_humidity') }} %
+        icon: mdi:washing-machine
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/buanderie
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Cave
+        secondary: >
+          {{ states('sensor.zg_227z_12_temperature') }} °C · {{
+          states('sensor.zg_227z_12_humidity') }} %
+        icon: mdi:bottle-wine
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/cave
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Bureau FV
+        secondary: >
+          {{ states('sensor.zg_227z_05_temperature') }} °C · {{
+          states('sensor.zg_227z_05_humidity') }} %
+        icon: mdi:desktop-tower-monitor
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/bureau
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Bureau CR
+        secondary: >
+          {{ states('sensor.zg_227z_19_temperature') }} °C · {{
+          states('sensor.zg_227z_19_humidity') }} %
+        icon: mdi:desk
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/bureau-cr
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Salle de bain
+        secondary: >
+          {{ states('sensor.zg_227z_02_temperature') }} °C · {{
+          states('sensor.zg_227z_02_humidity') }} %
+        icon: mdi:toilet
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-rez
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: 🛠️ Annexes
+      - type: custom:mushroom-template-card
+        primary: Atelier
+        secondary: >
+          {{ states('sensor.zg_227z_13_temperature') }} °C · {{
+          states('sensor.zg_227z_13_humidity') }} %
+        icon: mdi:hammer-wrench
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/atelier
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Jardin
+        secondary: Éclairage & équipements extérieurs
+        icon: mdi:tree
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/jardin
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Garage
+        secondary: Équipements du garage
+        icon: mdi:garage-variant
+        tap_action:
+          action: navigate
+          navigation_path: /TBX7D_ORG_0011-new/garage
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: ⚙️ Outils maison
+      - type: custom:mushroom-template-card
+        primary: Santé système
+        secondary: Serveurs · UPS · HA
+        icon: mdi:heart-pulse
+        tap_action:
+          action: navigate
+          navigation_path: /la-maison-des-dous/sante-systeme
+        color: red
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Appareils oubliés
+        secondary: Zigbee · réseau · disponibilité
+        icon: mdi:lan-connect
+        tap_action:
+          action: navigate
+          navigation_path: /la-maison-des-dous/appareils-oublies
+        color: orange
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Journal des automatisations
+        secondary: Historique des actions
+        icon: mdi:history
+        tap_action:
+          action: navigate
+          navigation_path: /la-maison-des-dous/automatisations
+        color: blue
+        features_position: bottom
+cards: []
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: |-
+      # 🏡 Plan interactif
+      Détails, intéractions, confort, chauffage et énergie
+badges:
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: sensor.zg_227z_14_temperature
+    icon: mdi:home-map-marker
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: sensor.zg_227z_07_temperature
+    icon: mdi:home-floor-1
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: sensor.zg_227z_10_temperature
+    icon: mdi:home-floor-0

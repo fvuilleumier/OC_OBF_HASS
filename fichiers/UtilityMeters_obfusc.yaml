@@ -1,0 +1,63 @@
+s1pm30_energy_day:
+  source: sensor.s1pm30_energy
+  cycle: daily
+
+s1pm31_energy_day:
+  source: sensor.s1pm31_energy
+  cycle: daily
+
+s1pm40_energy_day:
+  source: sensor.s1pm40_energy
+  cycle: daily
+
+s1pm42_energy_day:
+  source: sensor.s1pm42_energy
+  cycle: daily
+
+s1pm43_energy_day:
+  source: sensor.s1pm43_energy
+  cycle: daily
+
+s1pm44_energy_day:
+  source: sensor.s1pm44_energy
+  cycle: daily
+
+s1pm52_energy_day:
+  source: sensor.s1pm52_energy
+  cycle: daily
+
+s1pm58_energy_day:
+  source: sensor.s1pm58_energy
+  cycle: daily
+
+s1pm59_energy_day:
+  source: sensor.s1pm59_energy
+  cycle: daily
+
+s1pm60_energy_day:
+  source: sensor.s1pm60_energy
+  cycle: daily
+
+sp1pm61_energy_day:
+  source: sensor.sp1pm61_energy
+  cycle: daily
+
+sp1pm62_energy_day:
+  source: sensor.sp1pm62_energy
+  cycle: daily
+
+sp1pm63_energy_day:
+  source: sensor.sp1pm63_energy
+  cycle: daily
+
+sp1pm64_energy_day:
+  source: sensor.sp1pm64_energy
+  cycle: daily
+
+msws65_energy_day:
+  source: sensor.msws65_energy
+  cycle: daily
+
+sp1pm70_energy_day:
+  source: sensor.sp1pm70_energy
+  cycle: daily

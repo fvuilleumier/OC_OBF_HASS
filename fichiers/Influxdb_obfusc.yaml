@@ -1,0 +1,114 @@
+api_version: 1
+host: 1bd4a9fb-victoria-metrics
+port: 41006
+max_retries: 3
+database: home_assistant
+
+measurement_attr: entity_id
+
+tags_attributes:
+  - friendly_name
+  - unit_of_measurement
+
+ignore_attributes:
+  - icon
+  - source
+  - options
+  - editable
+  - min
+  - max
+  - step
+  - mode
+  - marker_type
+  - preset_modes
+  - supported_features
+  - supported_color_modes
+  - effect_list
+  - attribution
+  - assumed_state
+  - state_open
+  - state_closed
+  - writable
+  - stateExtra
+  - event
+  - device_class
+  - state_class
+  - ip_address
+  - device_file
+  - unitOfMeasure
+  - color_mode
+  - hs_color
+  - rgb_color
+  - xy_color
+  - hvac_action
+  - value
+  - writeable
+  - dataCorrect
+  - dayname
+
+include:
+  domains:
+    - sensor
+    - binary_sensor
+    - light
+    - switch
+    - cover
+    - climate
+    - input_boolean
+    - input_select
+    - number
+    - lock
+    - weather
+
+exclude:
+  entity_globs:
+    - sensor.clock*
+    - sensor.date*
+    - sensor.glances*
+    - sensor.time*
+    - sensor.uptime*
+    - sensor.dwd_weather_warnings_*
+    - weather.weatherstation
+
+    - binary_sensor.*smartphone*
+    - sensor.*smartphone*
+
+    - sensor.adguard_home_*
+
+    - binary_sensor.*_internet_access
+
+    - number.chambre_yoto*
+    - sensor.chambre_yoto*
+
+    - weather.astroweather*
+    - sensor.astroweather*
+    - binary_sensor.astroweather*
+
+    - sensor.websocket*
+    - sensor.sonic*
+    - sensor.sm_x200*
+    - sensor.pixel*
+    - sensor.natel*
+
+    - sensor.*overheating*
+    - sensor.*overpowering*
+    - sensor.*overvoltage*
+    - sensor.*overcurrent*
+    - sensor.*input_*
+    - sensor.*restart_reason*
+    - sensor.*ssid_state*
+    - sensor.*restart_reason_state*
+
+    - binary_sensor.websocket*
+    - binary_sensor.sonic*
+    - binary_sensor.sm_x200*
+    - binary_sensor.pixel*
+    - binary_sensor.natel*
+
+    - binary_sensor.*overheating*
+    - binary_sensor.*overpowering*
+    - binary_sensor.*overvoltage*
+    - binary_sensor.*overcurrent*
+    - binary_sensor.*input_*
+
+    - binary_sensor.lavette_connectivity*

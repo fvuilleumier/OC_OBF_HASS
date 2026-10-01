@@ -1,0 +1,1768 @@
+- id: '1666376385142'
+  alias: Ventilation toilettes ON
+  description: 'Lance la ventilation des toilettes lorsque la lumière s''éteint '
+  triggers:
+  - type: turned_off
+    device_id: TBX7D_SECRET_0166
+    entity_id: switch.sm25
+    domain: switch
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+    trigger: device
+  conditions:
+  - condition: time
+    after: 08:00:00
+    before: '22:00:00'
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0167
+    entity_id: switch.sm26
+    domain: switch
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0166
+    entity_id: switch.sm25
+    domain: switch
+  - condition: state
+    entity_id: input_boolean.lumiere_toilettes_rez_was_on
+    state: 'on'
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0167
+    entity_id: switch.sm26
+    domain: switch
+  - data: {}
+    target:
+      entity_id: input_boolean.lumiere_toilettes_rez_was_on
+    action: input_boolean.turn_off
+  mode: single
+- id: '1666376501098'
+  alias: Ventilation toilettes OFF
+  description: 'Arrête la ventilation des toilettes '
+  triggers:
+  - type: turned_on
+    device_id: TBX7D_SECRET_0167
+    entity_id: switch.sm26
+    domain: switch
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0167
+    entity_id: switch.sm26
+    domain: switch
+  - data: {}
+    target:
+      entity_id: input_boolean.lumiere_toilettes_rez_was_on
+    action: input_boolean.turn_off
+  mode: single
+- id: '1667906231474'
+  alias: Lavette - End of program
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.lavette_operation_state
+    trigger: state
+    to: finished
+    from: run
+  conditions: []
+  actions:
+  - data:
+      message: Lavette à terminé son programme, vous pouvez aller pendre le linge
+      title: ⚠️⚠️⚠️Lavette à terminé son programme⚠️⚠️⚠️
+      data:
+        ttl: 0
+        priority: high
+    action: notify.TBX7D_SECRET_0192
+  - action: notify.TBX7D_SECRET_0191
+    data:
+      title: ⚠️⚠️⚠️Lavette à terminé son programme⚠️⚠️⚠️
+      message: Lavette à terminé son programme, vous pouvez aller pendre le linge
+      data:
+        ttl: 0
+        priority: high
+  mode: single
+- id: '1667919224067'
+  alias: Lucien - end task correctly
+  description: ''
+  triggers:
+  - device_id: TBX7D_SECRET_0168
+    domain: vacuum
+    entity_id: vacuum.ducon
+    type: docked
+    trigger: device
+  conditions: []
+  actions:
+  - data:
+      message: Ducon a terminé sa tâche avec succès
+      title: Ducon a terminé sa tâche avec succès
+    action: notify.TBX7D_SECRET_0192
+  - data:
+      message: Ducon a terminé sa tâche avec succès
+      title: Ducon a terminé sa tâche avec succès
+    action: notify.TBX7D_SECRET_0191
+  mode: single
+- id: '1667919253288'
+  alias: Lucien - end task with error
+  description: ''
+  triggers:
+  - entity_id:
+    - vacuum.ducon
+    to: error
+    trigger: state
+  conditions: []
+  actions:
+  - data:
+      message: Ducon a terminé sa tâche mais est conincé
+      title: Ducon a terminé sa tâche mais est conincé
+    action: notify.mobile_app_pixel_de_TBX7D_ORG_0001
+  mode: single
+- id: '1667919397230'
+  alias: Lucien - Bin full
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: TBX7D_SECRET_0168
+    entity_id: binary_sensor.ducon_bin_full
+    domain: binary_sensor
+    trigger: device
+  conditions: []
+  actions:
+  - data: {}
+    action: notify.TBX7D_SECRET_0192
+  - data:
+      message: Ducon est plein et doit être vidé
+      title: Ducon est plein et doit être vidé
+    action: notify.TBX7D_SECRET_0191
+  mode: single
+- id: '1667919456382'
+  alias: Lucien - Task started
+  description: ''
+  triggers:
+  - device_id: TBX7D_SECRET_0168
+    domain: vacuum
+    entity_id: vacuum.ducon
+    type: cleaning
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    trigger: device
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: vacuum.ducon
+      attribute: status
+      state: Charging
+  actions:
+  - data:
+      message: Ducon commence sa tâche
+      title: Ducon commence sa tâche
+    action: notify.TBX7D_SECRET_0192
+  - data:
+      message: Ducon commence sa tâche
+      title: Ducon commence sa tâche
+    action: notify.TBX7D_SECRET_0191
+  mode: single
+- id: 'TBX7D_VAL_0003'
+  alias: Lumière toilettes rez was on
+  description: After 1min, toggle lumière rez
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: TBX7D_SECRET_0166
+    entity_id: switch.sm25
+    domain: switch
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0166
+    entity_id: switch.sm25
+    domain: switch
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.lumiere_toilettes_rez_was_on
+  mode: single
+- id: 'TBX7D_VAL_0004'
+  alias: Sapin de Noël On
+  description: ''
+  triggers:
+  - at: 06:00:00
+    trigger: time
+  - at: '17:30:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0172
+    entity_id: TBX7D_SECRET_0195
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0172
+    entity_id: TBX7D_SECRET_0195
+    domain: switch
+  mode: single
+- id: '1670083346602'
+  alias: Sapin de Noël Off
+  description: ''
+  triggers:
+  - at: 09:00:00
+    trigger: time
+  - at: '23:00:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0172
+    entity_id: TBX7D_SECRET_0195
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0172
+    entity_id: TBX7D_SECRET_0195
+    domain: switch
+  mode: single
+- id: '1672046011619'
+  alias: Vacances lampe salon ON
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 07:00:00
+    trigger: time
+  - at: '17:30:00'
+    trigger: time
+  - at: '19:15:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0169
+    entity_id: switch.s1pm31
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0169
+    entity_id: switch.s1pm31
+    domain: switch
+  mode: single
+- id: '1672046901254'
+  alias: Vacances lampe salon OFF
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 08:00:00
+    trigger: time
+  - at: '18:45:00'
+    trigger: time
+  - at: '20:30:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0169
+    entity_id: switch.s1pm31
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0169
+    entity_id: switch.s1pm31
+    domain: switch
+  mode: single
+- id: '1672047017588'
+  alias: Vacances enfants ON
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 08:00:00
+    trigger: time
+  - at: '17:00:00'
+    trigger: time
+  - at: '19:30:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  mode: single
+- id: '1672047072383'
+  alias: Vacances enfants OFF
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 09:30:00
+    trigger: time
+  - at: '18:00:00'
+    trigger: time
+  - at: '20:00:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  mode: single
+- id: '1672047179898'
+  alias: Vacances chambre ON
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: '18:45:00'
+    trigger: time
+  - at: '20:30:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0172
+    entity_id: switch.sb20
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0172
+    entity_id: switch.sb20
+    domain: switch
+  mode: single
+- id: '1672047239683'
+  alias: Vacances chambre OFF
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: '19:15:00'
+    trigger: time
+  - at: '21:30:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0172
+    entity_id: switch.sb20
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0172
+    entity_id: switch.sb20
+    domain: switch
+  mode: single
+- id: '1676920532859'
+  alias: Toilettes 1er after 45min OFF
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: TBX7D_SECRET_0189
+    entity_id: light.sb41
+    domain: light
+    for:
+      hours: 0
+      minutes: 45
+      seconds: 0
+    trigger: device
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0189
+    entity_id: light.sb41
+    domain: light
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0189
+    entity_id: light.sb41
+    domain: light
+  mode: single
+- id: '1676920715082'
+  alias: Lumières exterieur after 2h OFF
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: TBX7D_SECRET_0173
+    entity_id: switch.sm28_lumieres_exterieur
+    domain: switch
+    for:
+      hours: 2
+      minutes: 15
+      seconds: 0
+    trigger: device
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0173
+    entity_id: switch.sm28_lumieres_exterieur
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0173
+    entity_id: switch.sm28_lumieres_exterieur
+    domain: switch
+  mode: single
+- id: '1677336265960'
+  alias: Eponge started
+  description: ''
+  trigger:
+  - type: power
+    platform: device
+    device_id: TBX7D_SECRET_0175
+    entity_id: sensor.s1pm42_power
+    domain: sensor
+    above: 20
+  condition:
+  - condition: state
+    entity_id: input_boolean.eponge_started
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.eponge_started
+  mode: single
+- id: '1677336506593'
+  alias: Eponge finished
+  description: ''
+  triggers:
+  - type: power
+    device_id: TBX7D_SECRET_0175
+    entity_id: sensor.s1pm42_power
+    domain: sensor
+    for:
+      hours: 3
+      minutes: 30
+      seconds: 0
+    trigger: device
+    above: 20
+  conditions:
+  - condition: state
+    entity_id: input_boolean.eponge_started
+    state: 'on'
+  - type: is_power
+    condition: device
+    device_id: TBX7D_SECRET_0175
+    entity_id: sensor.s1pm42_power
+    domain: sensor
+    below: 7
+  - condition: time
+    after: 08:00:00
+    before: '21:00:00'
+    weekday:
+    - sun
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+    - mon
+  actions:
+  - data:
+      message: Eponge a bien fini son travail, on peut aller vider le lave vaiselle
+        !
+      title: Eponge a terminé !
+      data:
+        ttl: 0
+        priority: high
+    action: notify.TBX7D_SECRET_0192
+  - data:
+      message: Eponge a bien fini son travail, on peut aller vider le lave vaiselle
+        !
+      title: Eponge a terminé !
+      data:
+        ttl: 0
+        priority: high
+    action: notify.TBX7D_SECRET_0191
+    enabled: false
+  - data: {}
+    target:
+      entity_id: input_boolean.eponge_started
+    action: input_boolean.turn_off
+  mode: single
+- id: '1686067926205'
+  alias: 'Ordi allumé '
+  description: ''
+  triggers:
+  - at: '22:00:00'
+    trigger: time
+  conditions:
+  - type: is_power
+    condition: device
+    device_id: TBX7D_SECRET_0184
+    entity_id: TBX7D_SECRET_0206
+    domain: sensor
+    above: 10
+  actions:
+  - data:
+      message: "Salut TBX7D_ORG_0001, as-tu bien éteint ton ordi ? Désolé du tu es encore
+        en train de travailler \U0001F605 bon courage, sinon va éteindre ton ordi
+        \U0001F609"
+      title: Ordinateur allumé
+      data:
+        ttl: 0
+        priority: high
+    action: notify.TBX7D_SECRET_0192
+  mode: single
+- id: '1692647201131'
+  alias: Lumières reduit after 15 min off
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: TBX7D_SECRET_0178
+    entity_id: TBX7D_SECRET_0198
+    domain: switch
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+    trigger: device
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0178
+    entity_id: TBX7D_SECRET_0198
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0178
+    entity_id: TBX7D_SECRET_0198
+    domain: switch
+  mode: single
+- id: '1692858972044'
+  alias: HDD NAS daily ON
+  description: For daily backup
+  triggers:
+  - at: 02:55:00
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  mode: single
+- id: '1692859021139'
+  alias: HDD NAS daily OFF
+  description: ''
+  triggers:
+  - at: 04:00:00
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  mode: single
+- id: '1692877322293'
+  alias: HDD NAS weekly OFF
+  description: Check consistency of backup
+  triggers:
+  - at: 06:05:00
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  - condition: time
+    weekday:
+    - mon
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  mode: single
+- id: '1692877410230'
+  alias: HDD NAS weekly ON
+  description: For backup integrity
+  triggers:
+  - at: 04:55:00
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  - condition: time
+    weekday:
+    - mon
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0207
+    entity_id: TBX7D_SECRET_0204
+    domain: switch
+  mode: single
+- id: '1697204392746'
+  alias: Bouton porte garage
+  description: ''
+  trigger:
+  - platform: device
+    device_id: TBX7D_SECRET_0190
+    domain: shelly
+    type: single
+    subtype: button
+  condition: []
+  action:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0176
+    entity_id: TBX7D_SECRET_0197
+    domain: switch
+  mode: single
+- id: '1712906105262'
+  alias: Luigi - End task
+  description: ''
+  triggers:
+  - entity_id:
+    - automation.luigi_end_task
+    to: 'on'
+    from: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - data:
+      message: Luigi a terminé sa tâche avec succès
+      title: Luigi a terminé sa tâche avec succès
+    action: notify.TBX7D_SECRET_0192
+  - data:
+      message: Luigi a terminé sa tâche avec succès
+      title: Luigi a terminé sa tâche avec succès
+    action: notify.TBX7D_SECRET_0191
+  mode: single
+- id: '1712906199315'
+  alias: Luigi - start task
+  description: ''
+  triggers:
+  - entity_id:
+    - automation.luigi_start_task
+    from: 'Off '
+    to: 'on'
+    trigger: state
+  conditions: []
+  actions:
+  - data:
+      message: Luigi commence sa tâche
+      title: Luigi commence sa tâche
+    action: notify.TBX7D_SECRET_0192
+  - data:
+      message: Luigi commence sa tâche
+      title: Luigi commence sa tâche
+    action: notify.TBX7D_SECRET_0191
+  mode: single
+- id: '1730142123156'
+  alias: Lampe lecture enfants ON
+  description: ''
+  triggers:
+  - trigger: time
+    at: '19:30:00'
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  mode: single
+- id: '1730142178369'
+  alias: Lampe lecture enfants OFF
+  description: ''
+  triggers:
+  - trigger: time
+    at: '20:20:00'
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0183
+    entity_id: TBX7D_SECRET_0205
+    domain: switch
+  mode: single
+- id: '1730966316097'
+  alias: Deshumidificateur off
+  description: ''
+  triggers:
+  - type: humidity
+    device_id: TBX7D_SECRET_0180
+    entity_id: TBX7D_SECRET_0201
+    domain: sensor
+    trigger: device
+    below: 49
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0179
+    entity_id: TBX7D_SECRET_0200
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0179
+    entity_id: TBX7D_SECRET_0200
+    domain: switch
+  mode: single
+- id: 'TBX7D_VAL_0005'
+  alias: Deshumidificateur ON
+  description: ''
+  triggers:
+  - type: humidity
+    device_id: TBX7D_SECRET_0180
+    entity_id: TBX7D_SECRET_0201
+    domain: sensor
+    trigger: device
+    above: 65
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0179
+    entity_id: TBX7D_SECRET_0200
+    domain: switch
+  - condition: time
+    after: 09:00:00
+    before: '20:00:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - type: is_humidity
+    condition: device
+    device_id: TBX7D_SECRET_0181
+    entity_id: TBX7D_SECRET_0202
+    domain: sensor
+    below: 65
+  - condition: state
+    entity_id: binary_sensor.production_panneaux_solaire
+    state:
+    - 'on'
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0179
+    entity_id: TBX7D_SECRET_0200
+    domain: switch
+  mode: single
+- id: '1735165673266'
+  alias: Vacances bureau on
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 08:00:00
+    trigger: time
+  - at: '18:00:00'
+    trigger: time
+  - trigger: time
+    at: '20:15:00'
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0174
+    entity_id: TBX7D_SECRET_0196
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0174
+    entity_id: TBX7D_SECRET_0196
+    domain: switch
+  mode: single
+- id: '1735165772616'
+  alias: Vacances bureau off
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 08:30:00
+    trigger: time
+  - at: '19:00:00'
+    trigger: time
+  - at: '21:45:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0174
+    entity_id: TBX7D_SECRET_0196
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0174
+    entity_id: TBX7D_SECRET_0196
+    domain: switch
+  mode: single
+- id: '1735165879343'
+  alias: Vacances SDB on
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 06:45:00
+    trigger: time
+  - at: '21:45:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0189
+    entity_id: TBX7D_SECRET_0199
+    domain: light
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0189
+    entity_id: TBX7D_SECRET_0199
+    domain: light
+  mode: single
+- id: '1735166043011'
+  alias: Vacances SDB off
+  description: 'Lampe salon
+
+    7h00-8h00
+
+    17h30-18h45
+
+    19h15-20h30
+
+
+    Lampe chambre
+
+    18h45-19h15
+
+    20h30-21h30
+
+
+    Lampe enfants
+
+    8h00-9h30
+
+    17h00-18h00
+
+    19h30-20h00
+
+
+    Lampe bureau
+
+    8h00-8h30
+
+    18h00-19h00
+
+    20h15-21h45
+
+
+    Salle de bain
+
+    6h45-7h15
+
+    21h45-22h00'
+  triggers:
+  - at: 07:15:00
+    trigger: time
+  - at: '22:00:00'
+    trigger: time
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0189
+    entity_id: TBX7D_SECRET_0199
+    domain: light
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0189
+    entity_id: TBX7D_SECRET_0199
+    domain: light
+  mode: single
+- id: '1746796377010'
+  alias: Compresseur Off at 20h30
+  description: ''
+  triggers:
+  - trigger: time
+    at: '20:30:00'
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0171
+    entity_id: TBX7D_SECRET_0194
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0171
+    entity_id: TBX7D_SECRET_0194
+    domain: switch
+  mode: single
+- id: '1750079361013'
+  alias: Piscine (prise jardin) ON
+  description: ''
+  triggers:
+  - trigger: time
+    at: '20:00:00'
+  - trigger: time
+    at: 05:00:00
+  - trigger: time
+    at: '12:00:00'
+  conditions:
+  - condition: device
+    type: is_off
+    device_id: TBX7D_SECRET_0182
+    entity_id: TBX7D_SECRET_0203
+    domain: switch
+  actions:
+  - type: turn_on
+    device_id: TBX7D_SECRET_0182
+    entity_id: TBX7D_SECRET_0203
+    domain: switch
+  mode: single
+- id: '1750079493021'
+  alias: Piscine (prise jardin) OFF
+  description: ''
+  triggers:
+  - trigger: time
+    at: '23:00:00'
+  - trigger: time
+    at: 09:30:00
+  - trigger: time
+    at: '14:30:00'
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0182
+    entity_id: TBX7D_SECRET_0203
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0182
+    entity_id: TBX7D_SECRET_0203
+    domain: switch
+  mode: single
+- id: '1760455113894'
+  alias: Chauffage mode vacances
+  description: ''
+  triggers:
+  - entity_id: input_boolean.holiday_mode
+    trigger: state
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.holiday_mode
+        state: 'on'
+      sequence:
+      - target:
+          entity_id:
+          - climate.trv_btr_01_chambre_1er_sud_est_bureau
+          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+          - climate.trv_btr_03_chambre_1er_sud_est_enfants
+          - climate.trv_btr_04_chambre_rez_salle_de_jeu
+          - climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+          - climate.trv_btr_06_rez_sud_est_salon
+        data:
+          preset_mode: holiday
+        action: climate.set_preset_mode
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.holiday_mode
+        state: 'off'
+      sequence:
+      - target:
+          entity_id:
+          - climate.trv_btr_01_chambre_1er_sud_est_bureau
+          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+          - climate.trv_btr_03_chambre_1er_sud_est_enfants
+          - climate.trv_btr_04_chambre_rez_salle_de_jeu
+          - climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+          - climate.trv_btr_06_rez_sud_est_salon
+        data:
+          preset_mode: programming
+        action: climate.set_preset_mode
+  mode: single
+- id: '1785950548467'
+  alias: UPS is on battery
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.ups_status
+    to:
+    - On Battery, Battery Discharging
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions: []
+  actions:
+  - action: notify.TBX7D_SECRET_0192
+    metadata: {}
+    data:
+      message: L'UPS des serveurs fonctionne actuellement sur batterie.
+      title: Coupure électrique
+      data:
+        ttl: 0
+        priority: high
+  mode: single
+- id: '1785955010131'
+  alias: UPS battery low
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.ups_battery_charge
+    below: 25
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions: []
+  actions:
+  - action: notify.TBX7D_SECRET_0192
+    metadata: {}
+    data:
+      message: La batterie de l'UPS des serveurs est basse (<25%).
+      title: Extinction des serveurs
+      data:
+        ttl: 0
+        priority: high
+- id: '1786651002106'
+  alias: Lumieres ext noel off at 23h
+  description: ''
+  triggers:
+  - trigger: time
+    at: '23:00:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  conditions:
+  - condition: device
+    type: is_on
+    device_id: TBX7D_SECRET_0170
+    entity_id: TBX7D_SECRET_0193
+    domain: switch
+  actions:
+  - type: turn_off
+    device_id: TBX7D_SECRET_0170
+    entity_id: TBX7D_SECRET_0193
+    domain: switch
+  mode: single
+- id: '1787558398661'
+  alias: Atelier switch off chargeur
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.msws65_atelier_power
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+    below: 5
+  conditions:
+  - condition: switch.is_on
+    target:
+      entity_id: switch.msws65_atelier
+    options:
+      behavior: any
+      for: 00:00:00
+  - condition: switch.is_on
+    target:
+      entity_id: input_boolean.atelier_chargeur_started
+    options:
+      behavior: any
+      for: 00:00:00
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id: switch.msws65_atelier
+    data: {}
+  - action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id: input_boolean.atelier_chargeur_started
+    data: {}
+  mode: single
+- id: '1787560199768'
+  alias: Atelier chargeur is charging
+  description: ''
+  triggers:
+  - trigger: power.changed
+    target:
+      area_id: atelier
+    options:
+      threshold:
+        type: above
+        value:
+          active_choice: number
+          number: 20
+          unit_of_measurement: W
+  conditions:
+  - condition: switch.is_off
+    target:
+      entity_id: input_boolean.atelier_chargeur_started
+    options:
+      behavior: any
+      for: 00:00:00
+  actions:
+  - action: input_boolean.turn_on
+    metadata: {}
+    target:
+      entity_id: input_boolean.atelier_chargeur_started
+    data: {}
+  mode: single
+- id: '1787566919858'
+  alias: Cave à vin - gestion optimisée
+  description: Gestion de la température en privilégiant le refroidissement solaire
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.zg_227z_20_temperature
+    above: 20
+    for:
+      minutes: 5
+    id: trop_chaud
+  - trigger: numeric_state
+    entity_id: sensor.zg_227z_20_temperature
+    above: 18
+    for:
+      minutes: 5
+    id: solaire
+  - trigger: numeric_state
+    entity_id: sensor.zg_227z_20_temperature
+    above: 19
+    for:
+      minutes: 5
+    id: normal
+  - trigger: numeric_state
+    entity_id:
+    - sensor.zg_227z_20_temperature
+    below: 17
+    for:
+      minutes: 5
+    id: froid
+  - trigger: state
+    entity_id: binary_sensor.production_panneaux_solaire
+    to: 'on'
+    id: solaire_on
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: trop_chaud
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.sb19_sb19_cave_a_vin
+    - conditions:
+      - condition: trigger
+        id: froid
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.sb19_sb19_cave_a_vin
+    - conditions:
+      - condition: trigger
+        id: solaire
+      - condition: state
+        entity_id: binary_sensor.production_panneaux_solaire
+        state: 'on'
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.sb19_sb19_cave_a_vin
+    - conditions:
+      - condition: trigger
+        id: normal
+      - condition: state
+        entity_id: binary_sensor.production_panneaux_solaire
+        state: 'off'
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.sb19_sb19_cave_a_vin
+    - conditions:
+      - condition: trigger
+        id: solaire_on
+      - condition: numeric_state
+        entity_id: sensor.zg_227z_20_temperature
+        above: 16
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.sb19_sb19_cave_a_vin
+  mode: single
+- id: '1787831749036'
+  alias: Porte 1er Toggle from bureau FV button
+  description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
+  triggers:
+  - trigger: device
+    device_id: TBX7D_SECRET_0187
+    domain: mqtt
+    type: action
+    subtype: single
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: lock.porte_1er
+        state: locked
+      sequence:
+      - action: lock.unlock
+        target:
+          device_id: TBX7D_SECRET_0185
+      - action: notify.TBX7D_SECRET_0192
+        metadata: {}
+        data:
+          message: La Porte 1er s'ouvre !
+          data:
+            ttl: 0
+            priority: high
+    - conditions:
+      - condition: state
+        entity_id: lock.porte_1er
+        state: unlocked
+      sequence:
+      - action: lock.lock
+        target:
+          device_id: TBX7D_SECRET_0185
+  mode: single
+- id: 'TBX7D_VAL_0006'
+  alias: Nuki locked
+  description: ''
+  triggers:
+  - trigger: lock.locked
+    target:
+      entity_id: lock.porte_1er
+    id: porte_1er
+    options:
+      behavior: each
+      for: 00:00:00
+  - trigger: lock.locked
+    target:
+      device_id: TBX7D_SECRET_0186
+    id: porte_rez
+    options:
+      behavior: each
+  conditions: []
+  actions:
+  - action: notify.TBX7D_SECRET_0192
+    metadata: {}
+    data:
+      message: 'La {% if trigger.id == ''porte_1er'' %}Porte 1er{% elif trigger.id
+        == ''porte_rez'' %}Porte rez{% endif %} est verrouillée !
+
+        '
+      data:
+        ttl: 0
+        priority: high
+  mode: single
+- id: '1787846436756'
+  alias: Porte rez Toggle from entree 1er button
+  description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
+  triggers:
+  - trigger: device
+    device_id: TBX7D_SECRET_0188
+    domain: mqtt
+    type: action
+    subtype: single
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: lock.porte_rez
+        state: locked
+      sequence:
+      - action: lock.unlock
+        target:
+          device_id: TBX7D_SECRET_0186
+      - action: notify.TBX7D_SECRET_0192
+        metadata: {}
+        data:
+          message: La Porte rez s'ouvre !
+    - conditions:
+      - condition: state
+        entity_id: lock.porte_rez
+        state: unlocked
+      sequence:
+      - action: lock.lock
+        target:
+          device_id: TBX7D_SECRET_0186
+  mode: single
+- id: '1790865443590'
+  alias: Pompe eau chaude start
+  description: ''
+  triggers:
+  - trigger: time
+    at: 06:00:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - trigger: time
+    at: '11:45:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - trigger: time
+    at: '17:30:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  conditions:
+  - condition: switch.is_off
+    target:
+      device_id: TBX7D_SECRET_0177
+    options:
+      behavior: any
+      for: 00:00:00
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      device_id: TBX7D_SECRET_0177
+    data: {}
+  mode: single
+- id: '1790865595237'
+  alias: Pompe eau chaude stop
+  description: ''
+  triggers:
+  - trigger: time
+    at: 08:30:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - trigger: time
+    at: '13:45:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - trigger: time
+    at: '22:30:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  conditions:
+  - condition: switch.is_on
+    target:
+      device_id: TBX7D_SECRET_0177
+    options:
+      behavior: any
+      for: 00:00:00
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      device_id: TBX7D_SECRET_0177
+    data: {}
+  mode: single

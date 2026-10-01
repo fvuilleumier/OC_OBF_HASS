@@ -1,0 +1,75 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# DEPRECATED
+# Listen on port TBX7D_SECRET_0002
+#http:
+#  server_port: TBX7D_SECRET_0002
+#  use_x_forwarded_for: true
+#  trusted_proxies:
+#    - TBX7D_HOST_0002             # Add Reverse Proxy IPv4 address
+#    - TBX7D_HOST_0003/24           # Add LAN
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml
+influxdb: !include influxdb.yaml
+utility_meter: !include utility_meters.yaml
+frontend:
+  themes: !include_dir_merge_named themes/
+
+template:
+  - binary_sensor:
+    - name: Production panneaux solaire
+      unique_id: production_panneaux_solaire
+      delay_on:
+        minutes: 5
+      delay_off:
+        minutes: 10
+      state: '{{ states(''sensor.onduleur_des_dous_grid_power'')|float(0) < -500 }}'
+      
+  - sensor:
+    - default_entity_id: sensor.moon_phase_image
+      picture: "{% set phase = states('sensor.moon_phase') %} {% if phase == 'new_moon'
+        %}\n  /local/images/MoonPhases/new_moon.png\n{% elif phase == 'waxing_crescent'
+        %}\n  /local/images/MoonPhases/waxing_crescent.png\n{% elif phase == 'first_quarter'
+        %}\n  /local/images/MoonPhases/first_quarter.png\n{% elif phase == 'waxing_gibbous'
+        %}\n  /local/images/MoonPhases/waxing_gibbous.png\n{% elif phase == 'full_moon'
+        %}\n  /local/images/MoonPhases/full_moon.png\n{% elif phase == 'waning_gibbous'
+        %}\n  /local/images/MoonPhases/waning_gibbous.png\n{% elif phase == 'last_quarter'
+        %}\n  /local/images/MoonPhases/last_quarter.png\n{% elif phase == 'waning_crescent'
+        %}\n  /local/images/MoonPhases/waning_crescent.png\n{% else %}\n  /local/images/MoonPhases/default.png\n{%
+        endif %}"
+      name: Moon Phase Image
+      state: '{{ states(''sensor.moon_phase'') }}'
+
+#utility_meter:
+#
+#  bureau_energie_jour:
+#    source: sensor.sp1pm63_energy
+#    cycle: daily
+#
+#  bureau_energie_mois:
+#    source: sensor.sp1pm63_energy
+#    cycle: monthly
+
+#Test MQTT for shellies
+#group: !include groups.yaml
+#binary_sensor: !include_dir_merge_list shellies/binsensors/
+#sensor: !include_dir_merge_list shellies/sensors/
+#switch: !include_dir_merge_list shellies/switches/
+#light: !include_dir_merge_list shellies/lights/
+
+# Ping mikrotik server
+#binary_sensor:
+#  - platform: ping
+#    host: TBX7D_HOST_0001
+#    name: "Mikrotik rooter"
+#    count: 2
+#    scan_interval: 500

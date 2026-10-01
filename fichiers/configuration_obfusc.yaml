@@ -1,0 +1,119 @@
+advanced:
+  last_seen: ISO_8601
+  network_key:
+    - 242
+    - 241
+    - 216
+    - 42
+    - 127
+    - 195
+    - 131
+    - 249
+    - 23
+    - 139
+    - 245
+    - 13
+    - 251
+    - 147
+    - 163
+    - 188
+  pan_id: 30405
+  ext_pan_id:
+    - 49
+    - 137
+    - 70
+    - 62
+    - 200
+    - 36
+    - 94
+    - 253
+  transmit_power: 20
+devices:
+  "0x003c84fffe2677bc":
+    friendly_name: TRV-BTR-01 - Chambre 1er nord est (Bureau)
+  "0xa4c138739d3c63c9":
+    friendly_name: ZG-227Z-01 - Salle de bain 1er
+  "0xa4c138fd9d4ada0e":
+    friendly_name: ZG-227Z-02 - Salle de bain rez
+  "0xa4c138733ffb78b7":
+    friendly_name: ZG-227Z-03 - Deshumidificateur
+  "0xa4c138d30633d680":
+    friendly_name: TRV-BTR-03 - Chambre 1er sud est (enfants)
+  "0xa4c13811218e5ca4":
+    friendly_name: TRV-BTR-04 - Chambre rez (Salle de jeu)
+  "0xa4c1381ebf9a14a2":
+    friendly_name: TRV-BTR-05 - Rez sud ouest (salle à manger)
+  "0xa4c138600344097c":
+    friendly_name: TRV-BTR-06 - Rez sud est (salon)
+  "0xa4c1380d8ef826d1":
+    friendly_name: ZG-227Z-05 - Bureau TBX7D_ORG_0001
+  "0xa4c138621cc3aba0":
+    friendly_name: ZG-227Z-06 - Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+  "0xa4c1389e85562cc8":
+    friendly_name: ZG-227Z-07 - Couloir 1er
+  "0xa4c138a305a5a04c":
+    friendly_name: ZG-227Z-08 - Chambre TBX7D_ORG_0007
+  "0xa4c13892b299c65f":
+    friendly_name: ZG-227Z-09 - Salle de jeu
+  "0xa4c138e490179c42":
+    friendly_name: ZG-227Z-10 - Rez
+  "0xa4c1383daa25320b":
+    friendly_name: ZG-227Z-11 - Entrée
+  "0xa4c138c59605147c":
+    friendly_name: ZG-227Z-12 - Cave
+  "0xa4c138b90293e8fc":
+    friendly_name: ZG-227Z-13 - Atelier
+  "0xa4c13898f92c9563":
+    friendly_name: TRV-BTR-02 - Chambre 1er sud ouest (TBX7D_ORG_0007)
+  "0x449fdafffe61aac3":
+    friendly_name: SLZB-06MR - Routeur
+  "0xa4c13836584d7324":
+    friendly_name: ZG-227Z-14 - Dehors
+  "0xa4c13802bd8eefce":
+    friendly_name: ZG-227Z-15 - Chambre TBX7D_ORG_0010
+  "0xa4c138c91503bd89":
+    friendly_name: ZG-227Z-16 - Cuisine
+  "0xa4c138a24af79390":
+    friendly_name: ZG-227Z-17 - Galetas
+  "0xa4c1380270beb5c0":
+    friendly_name: ZG-227Z-18 - Salon
+  "0xa4c1380abb16180e":
+    friendly_name: ZG-227Z-19 - Bureau TBX7D_ORG_0002
+  "0x540f57fffe9030cf":
+    friendly_name: SLZB-06MRUA - Routeur
+  "0xa4c1388b560f4222":
+    friendly_name: ZG-227Z-20 - Interieur cave a vin
+  "0x18690afffe453eae":
+    friendly_name: SNZB-01P-01 - Bouton porte haut bureau FV
+  "0x18690afffe1256d2":
+    friendly_name: SNZB-01P-04 - Bouton porte rez entrée 1er
+  "0xa4c1385cd3754dca":
+    friendly_name: ZG-227Z-21 - Garages
+  "0xa4c138f1a37c550d":
+    friendly_name: ZG-227Z-22 - Buanderie
+  "0xa4c1389a10c7dfdb":
+    friendly_name: ZG-227Z-23 - Toilettes 1er
+  "0xb0e8e8fffe5e7386":
+    friendly_name: TRV-ZB07 - Bureau FV
+version: 5
+homeassistant:
+  enabled: true
+mqtt:
+  server: mqtt://dom0001.example.invalid.3:41003
+  user: TBX7D_CRED_0004
+  password: TBX7D_SECRET_0001
+serial:
+  port: tcp://dom0001.example.invalid.10:41004
+  adapter: ember
+  baudrate: 115200
+frontend:
+  enabled: true
+  port: 41005
+availability:
+  enabled: true
+  active:
+    timeout: 10
+  passive:
+    timeout: 4320
+blocklist:
+  - "0xa4c138d8bab7938c"

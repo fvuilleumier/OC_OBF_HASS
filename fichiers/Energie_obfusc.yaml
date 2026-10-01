@@ -1,0 +1,113 @@
+# ⚡ ÉNERGIE — section generique.
+# Remplacer « s1pm30 » par le prefixe de la prise de la piece (4 occurrences) :
+#   sensor.<prefixe>_power       puissance instantanee (W)
+#   sensor.<prefixe>_energy_day  energie cumulee du jour (kWh, utility_meter)
+# Puis ajuster « max: » de la jauge a la charge attendue de la piece.
+#
+# Piece a plusieurs prises : creer un helper « Groupe de capteurs » de type
+# Somme sur les *_power, un utility_meter journalier dessus, et pointer la
+# section sur ces deux entites.
+#
+# Style : tout vient du theme, aucun card_mod ni couleur en dur.
+type: grid
+column_span: 1
+cards:
+  - type: custom:button-card
+    template: section_title
+    name: ⚡ Énergie
+  - type: gauge
+    entity: sensor.s1pm30_power
+    name: Puissance pièce
+    needle: true
+    min: 0
+    max: 600
+    severity:
+      green: 0
+      yellow: 360
+      red: 510
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-template-card
+        entity: sensor.s1pm30_power
+        icon: mdi:flash
+        icon_color: orange
+        primary: "{{ states('sensor.s1pm30_power') | float(0) | round(0) }} W"
+        secondary: Puissance actuelle
+        tap_action:
+          action: more-info
+        vertical: true
+      - type: custom:mushroom-template-card
+        entity: sensor.s1pm30_energy_day
+        icon: mdi:lightning-bolt
+        icon_color: amber
+        primary: "{{ states('sensor.s1pm30_energy_day') | float(0) | round(2) }} kWh"
+        secondary: Énergie du jour (24 h)
+        tap_action:
+          action: more-info
+        vertical: true
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: custom:apexcharts-card
+    graph_span: 24h
+    update_interval: 5min
+    header:
+      show: true
+      title: Puissance · 24 h
+      show_states: true
+      colorize_states: true
+    apex_config:
+      chart:
+        height: 180
+        animations:
+          enabled: false
+        toolbar:
+          show: false
+        zoom:
+          enabled: false
+      stroke:
+        curve: smooth
+        width: 2
+      dataLabels:
+        enabled: false
+      markers:
+        size: 0
+      legend:
+        show: false
+      fill:
+        type: gradient
+        gradient:
+          opacityFrom: 0.42
+          opacityTo: 0.03
+          stops:
+            - 0
+            - 85
+            - 100
+      xaxis:
+        labels:
+          datetimeUTC: false
+          format: HH:mm
+          style:
+            fontSize: 10px
+    yaxis:
+      - min: 0
+        max: "|+10|"
+        decimals: 0
+        apex_config:
+          tickAmount: 4
+    series:
+      - entity: sensor.s1pm30_power
+        name: Serveurs
+        color: var(--warning-color)
+        type: area
+        stroke_width: 2
+        float_precision: 0
+        group_by:
+          func: avg
+          duration: 10min
+    grid_options:
+      columns: full
+      rows: auto

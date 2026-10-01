@@ -1,0 +1,5830 @@
+button_card_templates:
+  section_title:
+    show_icon: false
+    show_state: false
+    tap_action:
+      action: none
+    styles:
+      card:
+        - height: 34px
+        - padding: 0 12px
+        - background: transparent
+        - background-color: null
+        - border: none
+        - border-radius: 0
+        - box-shadow: none
+      grid:
+        - grid-template-areas: '"n"'
+      name:
+        - display: flex
+        - align-items: center
+        - justify-content: center
+        - gap: 10px
+        - width: 100%
+        - color: var(--section-title-color, var(--primary-text-color))
+        - font-size: 14px
+        - font-weight: 400
+    extra_styles: |
+      #name::before,
+      #name::after {
+        content: "";
+        height: 1px;
+        background: var(--section-title-line-color, var(--divider-color));
+        flex: 1;
+      }
+  section_title_upper:
+    template: section_title
+    styles:
+      name:
+        - text-transform: uppercase
+        - white-space: nowrap
+views:
+  - theme: Backend-selected
+    title: Home
+    icon: mdi:home-assistant
+    badges:
+      - type: entity
+        entity: switch.s1pm31
+        show_entity_picture: true
+        tap_action:
+          action: toggle
+        state_content: name
+        color: orange
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: switch.s1pm59
+        color: pink
+        name: Déshumidificateur
+        tap_action:
+          action: toggle
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: switch.sb20
+        color: green
+        icon: mdi:pine-tree
+        name: Sapin
+        tap_action:
+          action: toggle
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: switch.sb18
+        tap_action:
+          action: toggle
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: La vie est belle pour ceux qui la regardent avec le cœur
+                secondary: >-
+                  {{ states('sensor.moon_phase') | replace('_',' ') | capitalize
+                  }}
+                icon: mdi:home
+                picture: "{{ state_attr('sensor.moon_phase_image','entity_picture') }}"
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-size: cover;
+                      background-blend-mode: overlay;
+                      background: url('/local/images/wp/moon_wp.png');
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      padding: 5px;
+                    }
+                    :host {
+                      --mush-icon-size: 60px;
+                      --primary-text-color: #fff;
+                      --secondary-text-color: #fff;
+                      border-width: 0px;
+                    }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: entity
+                    entity: sensor.astroweather_la_TBX7D_ORG_0003_moon_next_rising
+                    tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: 0px outset black !important;
+                        }
+                  - type: entity
+                    entity: sensor.astroweather_la_TBX7D_ORG_0003_moon_next_setting
+                    tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: 0px outset black !important;
+                        }
+      - type: grid
+        cards:
+          - type: custom:mushroom-template-card
+            primary: >-
+              {% if is_state('binary_sensor.production_panneaux_solaire','on')
+              %}
+                ☀️ Production active
+              {% else %}
+                🌙 Pas de production
+              {% endif %}
+            secondary: |
+              {{ states('sensor.onduleur_des_dous_solar_power') }} W
+            icon: >
+              {% if is_state('binary_sensor.production_panneaux_solaire','on')
+              %}
+                mdi:solar-power
+              {% else %}
+                mdi:sun-angle-outline
+              {% endif %}
+            color: >
+              {% if is_state('binary_sensor.production_panneaux_solaire','on')
+              %}
+                deep-orange
+              {% else %}
+                blue
+              {% endif %}
+            features_position: bottom
+            multiline_secondary: false
+            grid_options:
+              columns: full
+          - type: tile
+            entity: lock.porte_1er
+            vertical: false
+            features:
+              - type: lock-commands
+            features_position: bottom
+          - type: tile
+            entity: lock.porte_rez
+            features:
+              - type: lock-commands
+          - type: tile
+            entity: switch.s146
+            features:
+              - type: toggle
+          - type: tile
+            entity: switch.s168
+            features:
+              - type: toggle
+      - type: grid
+        cards:
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            entities:
+              - entity: sensor.zg_227z_14_temperature
+                show_state: true
+              - entity: sensor.zg_227z_14_humidity
+                show_state: true
+              - entity: sensor.zg_227z_07_temperature
+                icon: mdi:arrow-up-bold-hexagon-outline
+                show_state: true
+              - entity: sensor.zg_227z_07_humidity
+                show_state: true
+              - entity: sensor.zg_227z_10_temperature
+                icon: mdi:arrow-down-bold-hexagon-outline
+                show_state: true
+              - entity: sensor.zg_227z_10_humidity
+                show_state: true
+            title: La maison des Dous
+            image:
+              media_content_id: media-source://host0013.example.invalid/6c2db3f99378d8a9e7786befb240e128
+              media_content_type: image/jpeg
+              metadata:
+                title: famille_hass_2.jpeg
+                thumbnail: /api/image/serve/6c2db3f99378d8a9e7786befb240e128/256x256
+                media_class: image
+                navigateIds:
+                  - {}
+                  - media_content_type: app
+                    media_content_id: media-source://host0013.example.invalid
+      - type: grid
+        cards:
+          - type: custom:mushroom-template-card
+            primary: IP publique
+            secondary: "{{ states('sensor.myip') }}"
+            icon: mdi:ip-network
+            entity: sensor.myip
+            icon_color: ""
+            grid_options:
+              columns: full
+      - type: grid
+        cards:
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.TBX7D_SECRET_0165
+            forecast_type: daily
+            name: La maison des dous
+            secondary_info_attribute: humidity
+            forecast_slots: 5
+      - type: grid
+        cards:
+          - type: custom:horizon-card
+            card_mod:
+              style: |
+                ha-card {
+                  border: 0px outset black !important;
+                  background: url('/local/images/wp/sea_wp_2.png');
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                }
+      - type: grid
+        cards:
+          - type: shopping-list
+            title: Ma todo list
+    header:
+      layout: center
+      badges_position: bottom
+      badges_wrap: wrap
+      card:
+        type: markdown
+        text_only: true
+        content: |-
+          # 🏠 L'Orée des Dous
+          ✨ Sois toi même, tous les autres sont déjà pris ✨
+    footer:
+      type: markdown
+      content: ""
+    cards: []
+  - title: Plan intéractif
+    path: maison
+    icon: mdi:floor-plan
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🏠 La maison
+          - type: custom:mushroom-template-card
+            primary: Maison des dous
+            secondary: >
+              {{ states('sensor.zg_227z_07_temperature') }} °C · {{
+              states('sensor.zg_227z_07_humidity') }} %
+            icon: mdi:home-heart
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/galetas
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Galetas
+            secondary: >
+              {{ states('sensor.zg_227z_17_galetas_temperature') }} °C · {{
+              states('sensor.zg_227z_17_galetas_humidity') }} %
+            icon: mdi:home-roof
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/galetas
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🛏️ Étage
+          - type: custom:mushroom-template-card
+            secondary: >
+              {{ states('sensor.zg_227z_07_temperature') }} °C · {{
+              states('sensor.zg_227z_07_humidity') }} %
+            icon: mdi:home-import-outline
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/couloir-premier
+            features_position: bottom
+            primary: 1er
+          - type: custom:mushroom-template-card
+            primary: Chambre TBX7D_ORG_0007
+            secondary: >
+              {{ states('sensor.zg_227z_08_temperature') }} °C · {{
+              states('sensor.zg_227z_08_humidity') }} %
+            icon: mdi:bed-king-outline
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0007
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008
+            secondary: >
+              {{ states('sensor.zg_227z_06_temperature') }} °C · {{
+              states('sensor.zg_227z_06_humidity') }} %
+            icon: mdi:human-male-female
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0009-TBX7D_ORG_0008
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Chambre TBX7D_ORG_0010
+            secondary: >
+              {{ states('sensor.zg_227z_15_temperature') }} °C · {{
+              states('sensor.zg_227z_15_humidity') }} %
+            icon: mdi:human-child
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0010
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Salle de jeu
+            secondary: >
+              {{ states('sensor.zg_227z_09_temperature') }} °C · {{
+              states('sensor.zg_227z_09_humidity') }} %
+            icon: mdi:nintendo-game-boy
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-pc/salle-de-jeu
+          - type: custom:mushroom-template-card
+            primary: Salon
+            secondary: >
+              {{ states('sensor.zg_227z_18_temperature') }} °C · {{
+              states('sensor.zg_227z_18_humidity') }} %
+            icon: mdi:sofa
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/salon
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Salle à manger
+            secondary: Contrôle de la pièce
+            icon: mdi:table-chair
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/salle-a-manger
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Cuisine
+            secondary: >
+              {{ states('sensor.zg_227z_16_temperature') }} °C · {{
+              states('sensor.zg_227z_16_humidity') }} %
+            icon: mdi:countertop-outline
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/cuisine
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Toilettes
+            secondary: >
+              {{ states('sensor.zg_227z_23_temperature') }} °C · {{
+              states('sensor.zg_227z_23_humidity') }} %
+            icon: mdi:paper-roll-outline
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Salle de bain
+            secondary: >
+              {{ states('sensor.zg_227z_01_temperature') }} °C · {{
+              states('sensor.zg_227z_01_humidity') }} %
+            icon: mdi:shower
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🛋️ Rez-de-chaussée
+          - type: custom:mushroom-template-card
+            primary: Rez
+            secondary: >
+              {{ states('sensor.zg_227z_09_temperature') }} °C · {{
+              states('sensor.zg_227z_09_humidity') }} %
+            icon: mdi:home-export-outline
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/couloir-rez
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Serveurs
+            secondary: >
+              {{ states('sensor.zg_227z_11_temperature') }} °C · {{
+              states('sensor.s1pm30_power') }} W
+            icon: mdi:server
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/serveur
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Buanderie
+            secondary: >
+              {{ states('sensor.zg_227z_22_temperature') }} °C · {{
+              states('sensor.zg_227z_22_humidity') }} %
+            icon: mdi:washing-machine
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/buanderie
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Cave
+            secondary: >
+              {{ states('sensor.zg_227z_12_temperature') }} °C · {{
+              states('sensor.zg_227z_12_humidity') }} %
+            icon: mdi:bottle-wine
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/cave
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Bureau FV
+            secondary: >
+              {{ states('sensor.zg_227z_05_temperature') }} °C · {{
+              states('sensor.zg_227z_05_humidity') }} %
+            icon: mdi:desktop-tower-monitor
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/bureau
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Bureau CR
+            secondary: >
+              {{ states('sensor.zg_227z_19_temperature') }} °C · {{
+              states('sensor.zg_227z_19_humidity') }} %
+            icon: mdi:desk
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/bureau-cr
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Salle de bain
+            secondary: >
+              {{ states('sensor.zg_227z_02_temperature') }} °C · {{
+              states('sensor.zg_227z_02_humidity') }} %
+            icon: mdi:toilet
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-rez
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🛠️ Annexes
+          - type: custom:mushroom-template-card
+            primary: Atelier
+            secondary: >
+              {{ states('sensor.zg_227z_13_temperature') }} °C · {{
+              states('sensor.zg_227z_13_humidity') }} %
+            icon: mdi:hammer-wrench
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/atelier
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Jardin
+            secondary: Éclairage & équipements extérieurs
+            icon: mdi:tree
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/jardin
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Garage
+            secondary: Équipements du garage
+            icon: mdi:garage-variant
+            tap_action:
+              action: navigate
+              navigation_path: /TBX7D_ORG_0011-new/garage
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ⚙️ Outils maison
+          - type: custom:mushroom-template-card
+            primary: Santé système
+            secondary: Serveurs · UPS · HA
+            icon: mdi:heart-pulse
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/sante-systeme
+            color: red
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Appareils oubliés
+            secondary: Zigbee · réseau · disponibilité
+            icon: mdi:lan-connect
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/appareils-oublies
+            color: orange
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            primary: Journal des automatisations
+            secondary: Historique des actions
+            icon: mdi:history
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/automatisations
+            color: blue
+            features_position: bottom
+    cards: []
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |-
+          # 🏡 Plan interactif
+          Détails, intéractions, confort, chauffage et énergie
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.zg_227z_14_temperature
+        icon: mdi:home-map-marker
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.zg_227z_07_temperature
+        icon: mdi:home-floor-1
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.zg_227z_10_temperature
+        icon: mdi:home-floor-0
+  - title: La maison des Dous
+    path: m
+    icon: mdi:home-thermometer-outline
+    badges: []
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: gauge
+            name: Rez
+            unit: °C
+            max: 35
+            severity:
+              green: 18
+              yellow: 25
+              red: 30
+            needle: true
+            entity: sensor.zg_227z_10_temperature
+            min: 10
+      - type: grid
+        cards:
+          - type: gauge
+            name: 1er
+            unit: °C
+            max: 35
+            severity:
+              green: 18
+              yellow: 25
+              red: 30
+            needle: true
+            entity: sensor.zg_227z_07_temperature
+            min: 10
+      - type: grid
+        cards:
+          - type: gauge
+            name: Dehors
+            unit: °C
+            max: 40
+            needle: true
+            severity:
+              green: 0
+              yellow: 25
+              red: 30
+            min: -10
+            entity: sensor.zg_227z_14_temperature
+      - type: grid
+        cards:
+          - type: gauge
+            name: Cave
+            max: 35
+            unit: °C
+            severity:
+              green: 18
+              yellow: 25
+              red: 30
+            needle: true
+            min: 10
+            entity: sensor.zg_227z_12_temperature
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Températures — 7 jours
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_10_temperature
+                name: Rez
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_07_temperature
+                name: 1er
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_14_temperature
+                name: Dehors
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Humidité — 7 jours
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_10_humidity
+                name: Rez
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_07_humidity
+                name: 1er
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_14_humidity
+                name: Dehors
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_12_humidity
+                name: Cave
+                color: var(--purple-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🌡️ Températures
+          - type: entities
+            entities:
+              - entity: sensor.zg_227z_07_temperature
+                name: 1er
+              - entity: sensor.zg_227z_18_temperature
+                name: Salon
+              - entity: sensor.zg_227z_16_temperature
+                name: Cuisine
+              - entity: sensor.zg_227z_01_temperature
+                name: Salle de bain 1er
+              - entity: sensor.zg_227z_10_temperature
+                name: Salle de jeu
+              - entity: sensor.zg_227z_06_temperature
+                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+              - entity: sensor.zg_227z_08_temperature
+                name: Chambre TBX7D_ORG_0010
+              - entity: sensor.zg_227z_15_temperature
+                name: Chambre TBX7D_ORG_0007
+              - entity: sensor.zg_227z_10_temperature
+                name: Rez
+              - entity: sensor.zg_227z_11_temperature
+                name: Entrée
+              - entity: sensor.zg_227z_22_temperature
+                name: Buanderie
+              - entity: sensor.zg_227z_03_temperature
+                name: Déshumidificateur
+              - entity: sensor.zg_227z_05_temperature
+                name: Bureau TBX7D_ORG_0001
+              - entity: sensor.zg_227z_19_temperature
+                name: Bureau TBX7D_ORG_0002
+              - entity: sensor.zg_227z_02_temperature
+                name: Salle de bain rez
+              - entity: sensor.zg_227z_12_temperature
+                name: Cave
+              - entity: sensor.zg_227z_13_temperature
+                name: Atelier
+              - entity: sensor.zg_227z_14_temperature
+                name: Dehors
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 💧 Humidité
+          - type: entities
+            entities:
+              - entity: sensor.zg_227z_07_humidity
+                name: 1er
+              - entity: sensor.zg_227z_18_humidity
+                name: Salon
+              - entity: sensor.zg_227z_16_humidity
+                name: Cuisine
+              - entity: sensor.zg_227z_01_humidity
+                name: Salle de bain 1er
+              - entity: sensor.zg_227z_10_humidity
+                name: Salle de jeu
+              - entity: sensor.zg_227z_06_humidity
+                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+              - entity: sensor.zg_227z_08_humidity
+                name: Chambre TBX7D_ORG_0010
+              - entity: sensor.zg_227z_15_humidity
+                name: Chambre TBX7D_ORG_0007
+              - entity: sensor.zg_227z_10_humidity
+                name: Rez
+              - entity: sensor.zg_227z_11_humidity
+                name: Entrée
+              - entity: sensor.zg_227z_22_humidity
+                name: Buanderie
+              - entity: sensor.zg_227z_03_humidity
+                name: Déshumidificateur
+              - entity: sensor.zg_227z_05_humidity
+                name: Bureau TBX7D_ORG_0001
+              - entity: sensor.zg_227z_19_humidity
+                name: Bureau TBX7D_ORG_0002
+              - entity: sensor.zg_227z_02_humidity
+                name: Salle de bain rez
+              - entity: sensor.zg_227z_12_humidity
+                name: Cave
+              - entity: sensor.zg_227z_13_humidity
+                name: Atelier
+              - entity: sensor.zg_227z_14_humidity
+                name: Dehors
+      - type: grid
+        cards:
+          - type: gauge
+            name: Intérieur Cave à vin
+            unit: °C
+            severity:
+              green: 15
+              yellow: 18
+              red: 19
+            needle: true
+            min: 15
+            entity: sensor.zg_227z_20_temperature
+            max: 21
+    header:
+      layout: center
+      badges_position: bottom
+      badges_wrap: wrap
+      card:
+        type: markdown
+        text_only: true
+        content: "# 🌡️ Température - 💧 Humidité"
+    footer:
+      type: markdown
+      content: ""
+    cards: []
+  - type: sections
+    max_columns: 4
+    title: Energy
+    path: energy
+    icon: mdi:home-lightning-bolt
+    sections:
+      - type: grid
+        cards:
+          - type: energy-date-selection
+            vertical_opening_direction: auto
+            opening_direction: auto
+            grid_options:
+              rows: 1
+              columns: full
+        column_span: 4
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 💡 Distribution
+            grid_options:
+              columns: full
+          - type: energy-distribution
+            title: Energy distribution
+            grid_options:
+              rows: auto
+              columns: 24
+            link_dashboard: true
+          - square: false
+            type: grid
+            cards:
+              - type: energy-grid-balance
+              - type: energy-grid-neutrality-gauge
+              - type: energy-solar-consumed-gauge
+              - type: energy-self-sufficiency-gauge
+            columns: 2
+            grid_options:
+              columns: 24
+              rows: auto
+        column_span: 4
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📈 Devices
+            grid_options:
+              columns: full
+          - type: energy-solar-graph
+            grid_options:
+              columns: full
+            title: Solar production
+          - type: power-sources-graph
+            grid_options:
+              columns: full
+            title: Power sources
+        column_span: 4
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📊 Data
+            grid_options:
+              columns: full
+          - type: energy-devices-detail-graph
+            title: Individual devices detail
+            grid_options:
+              columns: full
+          - type: energy-devices-graph
+            modes:
+              - bar
+              - pie
+            grid_options:
+              rows: auto
+              columns: full
+            title: Individual devices
+        column_span: 4
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔌 Flow
+            grid_options:
+              columns: full
+          - type: power-sankey
+            layout: horizontal
+            group_by_floor: true
+            group_by_area: true
+            title: Current Power flow
+            grid_options:
+              columns: full
+          - type: energy-sankey
+            layout: horizontal
+            group_by_floor: true
+            group_by_area: true
+            title: Energy flow
+            grid_options:
+              columns: full
+        column_span: 4
+      - type: grid
+        cards:
+          - type: energy-date-selection
+            vertical_opening_direction: auto
+            opening_direction: auto
+            grid_options:
+              rows: 1
+              columns: full
+        column_span: 4
+    header:
+      layout: center
+      badges_position: bottom
+      badges_wrap: wrap
+      card:
+        type: markdown
+        text_only: true
+        content: "# ⚡️ Energie"
+    footer:
+      type: markdown
+      content: ""
+    cards: []
+  - title: Graphes & consommation
+    path: graphes-and-consommation
+    icon: mdi:chart-bar
+    badges: []
+    type: sections
+    max_columns: 4
+    sections:
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.s1pm30_power
+            needle: true
+            max: 350
+            severity:
+              green: 0
+              yellow: 90
+              red: 110
+            name: Serveurs
+      - type: grid
+        cards:
+          - type: gauge
+            name: Cave
+            max: 250
+            severity:
+              green: 0
+              yellow: 55
+              red: 120
+            needle: true
+            entity: sensor.sp1pm64_power
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.sp1pm63_power
+            name: Bureau
+            min: 1
+            max: 350
+            severity:
+              green: 0
+              yellow: 100
+              red: 120
+            needle: true
+      - type: grid
+        cards:
+          - type: gauge
+            severity:
+              green: 0
+              yellow: 300
+              red: 350
+            needle: true
+            entity: sensor.s1pm59_power
+            name: "Deshumidificateur "
+            max: 450
+      - type: grid
+        cards:
+          - type: gauge
+            needle: true
+            severity:
+              green: 0
+              yellow: 35
+              red: 60
+            name: Pompe boiler
+            entity: sensor.s1pm44_power
+            max: 100
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.s1pm43_power
+            name: "Chauffage "
+            needle: true
+            severity:
+              green: 0
+              yellow: 25
+              red: 50
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.s1pm60_power
+            name: Culligan
+            needle: true
+            severity:
+              green: 0
+              yellow: 25
+              red: 50
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.sp1pm61_power
+            needle: true
+            severity:
+              green: 0
+              yellow: 100
+              red: 120
+            name: Many
+            max: 150
+      - type: grid
+        cards:
+          - type: gauge
+            needle: true
+            severity:
+              green: 0
+              yellow: 50
+              red: 80
+            entity: sensor.s1pm40_power
+            name: "Compresseur "
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.sp1pm62_power
+            needle: true
+            name: Lavette
+            severity:
+              green: 0
+              yellow: 50
+              red: 200
+            max: 400
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.s1pm42_power
+            needle: true
+            name: Eponge
+            severity:
+              green: 0
+              yellow: 50
+              red: 80
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.s1pm31_power
+            needle: true
+            name: Lampe salon
+            severity:
+              green: 0
+              yellow: 25
+              red: 35
+            max: 50
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Rez (°C)
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_10_temperature
+                name: zg 227z 10 temperature · moy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_10_temperature
+                name: zg 227z 10 temperature · max
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_10_temperature
+                name: zg 227z 10 temperature · min
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: min
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: 1er (°C)
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_07_temperature
+                name: zg 227z 07 temperature · moy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_07_temperature
+                name: zg 227z 07 temperature · max
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_07_temperature
+                name: zg 227z 07 temperature · min
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: min
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Extérieur (°C)
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_14_temperature
+                name: zg 227z 14 temperature · moy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_14_temperature
+                name: zg 227z 14 temperature · max
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_14_temperature
+                name: zg 227z 14 temperature · min
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: min
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Cave (°C)
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_12_temperature
+                name: zg 227z 12 temperature · moy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_12_temperature
+                name: zg 227z 12 temperature · max
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_12_temperature
+                name: zg 227z 12 temperature · min
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: min
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Atelier (°C)
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_13_temperature
+                name: zg 227z 13 temperature · moy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_13_temperature
+                name: zg 227z 13 temperature · max
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: hour
+                  align: middle
+              - entity: sensor.zg_227z_13_temperature
+                name: zg 227z 13 temperature · min
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: min
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Serveurs
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm30_power
+                name: s1pm30 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: "Bureau "
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm63_power
+                name: sp1pm63 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Deshumidificateur
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm59_power
+                name: s1pm59 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Cave
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm64_power
+                name: sp1pm64 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: day
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Pompe panneaux
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm44_power
+                name: s1pm44 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Chauffage
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm43_power
+                name: s1pm43 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Culligan
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm60_power
+                name: s1pm60 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Many
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm61_power
+                name: sp1pm61 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Lavette
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm32_power
+                name: s1pm32 power
+                color: var(--info-color)
+                type: column
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: day
+                  align: middle
+              - entity: sensor.sp1pm62_power
+                name: sp1pm62 power
+                color: var(--warning-color)
+                type: column
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: day
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Eponge
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm42_power
+                name: s1pm42 power
+                color: var(--info-color)
+                type: column
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: day
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Deshumidificateur total
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm59_energy
+                name: s1pm59 energy
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: sum
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Cave total
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm64_energy
+                name: sp1pm64 energy
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: sum
+                  period: day
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: Boiler total
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm44_energy
+                name: s1pm44 energy
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: sum
+                  period: day
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: "Chauffage cumul "
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm43_energy
+                name: s1pm43 energy
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: sum
+                  period: day
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Lavette total
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm32_energy
+                name: s1pm32 energy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: state
+                  period: hour
+                  align: middle
+              - entity: sensor.sp1pm62_energy
+                name: sp1pm62 energy
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: state
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Eponge total
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm42_energy
+                name: s1pm42 energy
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: state
+                  period: hour
+                  align: middle
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            update_interval: 1h
+            header:
+              show: true
+              title: "Culligan cumul "
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 2
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm60_energy
+                name: s1pm60 energy
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: sum
+                  period: day
+                  align: middle
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 📈 Métriques
+    footer:
+      type: markdown
+      content: ""
+    cards: []
+  - title: Santé système
+    path: sante-systeme
+    icon: mdi:heart-pulse
+    badges:
+      - type: entity
+        entity: sensor.ups_status
+        name: UPS
+        show_name: true
+        show_state: true
+        show_icon: true
+      - type: entity
+        entity: sensor.ups_battery_charge
+        name: Batterie UPS
+        show_name: true
+        show_state: true
+        show_icon: true
+      - type: entity
+        entity: sensor.myip
+        name: IP publique
+        show_name: true
+        show_state: true
+        show_icon: true
+    sections:
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔋 Alimentation de secours
+          - type: entities
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: sensor.ups_status
+                name: État
+              - entity: sensor.ups_battery_charge
+                name: Batterie
+              - entity: sensor.ups_load
+                name: Charge
+          - type: gauge
+            entity: sensor.ups_battery_charge
+            name: Batterie UPS
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 50
+              yellow: 25
+              red: 0
+          - type: gauge
+            entity: sensor.ups_load
+            name: Charge UPS
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 60
+              red: 80
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: UPS — dernières 24h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 200
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.ups_battery_charge
+                name: Batterie
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 10min
+              - entity: sensor.ups_load
+                name: Charge
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 10min
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🖥️ Serveurs
+          - type: entities
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: switch.s1pm30
+                name: Serveurs
+              - entity: sensor.s1pm30_power
+                name: Consommation instantanée
+              - entity: sensor.s1pm30_energy
+                name: Énergie aujourd'hui
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Consommation des serveurs
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm30_power
+                name: s1pm30 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: min
+                  period: hour
+                  align: middle
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Serveurs — dernières 24h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 200
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm30_power
+                name: Serveurs
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 10min
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🌐 Réseau
+          - type: entities
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: sensor.myip
+                name: IP publique
+          - type: entities
+            title: 📡 Zigbee
+            show_header_toggle: false
+            entities:
+              - entity: sensor.slzb_06m_zigbee_type
+                name: Coordinator (SLZB-06)
+              - entity: sensor.slzb_06m_r_zigbee_type
+                name: Routeur haut (SLZB-06MR)
+              - entity: sensor.slzb_06mra_zigbee_type
+                name: Routeur atelier (SLZB-06MRUA)
+              - entity: binary_sensor.slzb_06m_internet
+                name: Coordinator Internet
+              - entity: binary_sensor.slzb_06m_r_internet
+                name: Routeur haut Internet
+              - entity: binary_sensor.slzb_06mra_internet
+                name: Routeur atelier Internet
+              - entity: sensor.slzb_06m_core_chip_temp
+                name: Coordinator Core chip
+              - entity: sensor.slzb_06m_r_core_chip_temp
+                name: Routeur haut Core chip
+              - entity: sensor.slzb_06mra_core_chip_temp
+                name: Routeur atelier Core chip
+              - entity: sensor.slzb_06m_zigbee_chip_temp
+                name: Coordinator Zigbee chip
+              - entity: sensor.slzb_06m_r_zigbee_chip_temp
+                name: Routeur haut Zigbee chip
+              - entity: sensor.slzb_06mra_zigbee_chip_temp
+                name: Routeur atelier Zigbee chip
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ⚡ Infrastructure
+          - type: entities
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: switch.s1pm30
+                name: Alimentation serveurs
+              - entity: switch.sb15
+                name: HDD NAS
+              - entity: switch.sp1pm64
+                name: Cave
+              - entity: switch.s1pm59
+                name: Déshumidificateur
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔋Batteries
+          - type: entities
+            entities:
+              - entity: sensor.porte_1er_battery
+                name: Porte 1er
+              - entity: sensor.porte_rez_battery
+                name: Porte rez
+              - entity: sensor.snzb_01p_01_battery
+                name: Bouton porte 1er Bureau FV
+              - entity: sensor.zg_227z_07_battery
+                name: 1er
+              - entity: sensor.zg_227z_18_battery
+                name: Salon
+              - entity: sensor.trv_btr_06_rez_sud_est_salon_battery
+                name: Salon (vanne)
+              - entity: sensor.zg_227z_16_battery
+                name: Cuisine
+              - entity: sensor.zg_227z_01_battery
+                name: Salle de bain 1er
+              - entity: sensor.zg_227z_10_battery
+                name: Salle de jeu
+              - entity: sensor.trv_btr_04_chambre_rez_salle_de_jeu_battery
+                name: Salle de jeu (vanne)
+              - entity: sensor.zg_227z_06_battery
+                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+              - entity: sensor.trv_btr_03_battery
+                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009 (vanne)
+              - entity: sensor.zg_227z_15_battery
+                name: Chambre TBX7D_ORG_0010
+              - entity: sensor.zg_227z_08_chambre_TBX7D_ORG_0007_battery
+                name: Chambre TBX7D_ORG_0007
+              - entity: sensor.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_battery
+                name: Chambre TBX7D_ORG_0007 (vanne)
+              - entity: sensor.zg_227z_10_battery
+                name: Rez
+              - entity: sensor.trv_btr_05_battery
+                name: Salle à manger (vanne)
+              - entity: sensor.zg_227z_11_reduit_battery
+                name: Entrée
+              - entity: sensor.zg_227z_03_battery
+                name: Déshumidificateur / Buanderie
+              - entity: sensor.zg_227z_05_battery
+                name: Bureau TBX7D_ORG_0001
+              - entity: sensor.trv_btr_01_chambre_1er_sud_est_bureau_battery
+                name: Bureau TBX7D_ORG_0001 (vanne)
+              - entity: sensor.zg_227z_19_battery
+                name: Bureau TBX7D_ORG_0002
+              - entity: sensor.zg_227z_02_battery
+                name: Salle de bain rez
+              - entity: sensor.zg_227z_12_battery
+                name: Cave
+              - entity: sensor.zg_227z_13_battery
+                name: Atelier
+              - entity: sensor.zg_227z_14_battery
+                name: Dehors
+              - entity: sensor.zg_227z_21_battery
+                name: Garages
+              - entity: sensor.zg_227z_22_battery
+                name: Buanderie
+              - entity: sensor.zg_227z_23_battery
+                name: Toilettes
+    cards: []
+    header:
+      card:
+        type: markdown
+        content: |
+          # 🧠 Santé du système
+        text_only: true
+    type: sections
+    max_columns: 5
+  - type: sections
+    title: Appareils oubliés
+    path: appareils-oublies
+    icon: mdi:alert-remove
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📜 Résumé
+            grid_options:
+              columns: full
+          - type: custom:mushroom-template-card
+            primary: |
+              {% set appareils = [
+                states('sensor.s1pm42_power'),
+                states('sensor.sp1pm62_power'),
+                states('sensor.s1pm40_power'),
+                states('sensor.sp1pm63_power'),
+                states('sensor.sp1pm61_power'),
+              ] %} {% set actifs = appareils
+                | select('is_number')
+                | map('float')
+                | select('gt', 8)
+                | list
+                | count %}
+              {% if actifs == 0 %}
+                🟢 Rien d'anormal
+              {% else %}
+                🟠 {{ actifs }} appareil(s) actif(s)
+              {% endif %}
+            secondary: |
+              Surveillance des appareils à consommation variable
+            icon: |
+              {% if
+                states('sensor.s1pm42_power')|float(0) > 5 or
+                states('sensor.sp1pm62_power')|float(0) > 5 or
+                states('sensor.s1pm40_power')|float(0) > 5 or
+                states('sensor.sp1pm63_power')|float(0) > 8 or
+                states('sensor.sp1pm61_power')|float(0) > 5 
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            grid_options:
+              columns: full
+            color: |
+              {% if
+                states('sensor.s1pm42_power')|float(0) > 5 or
+                states('sensor.sp1pm62_power')|float(0) > 5 or
+                states('sensor.s1pm40_power')|float(0) > 5 or
+                states('sensor.sp1pm63_power')|float(0) > 8 or
+                states('sensor.sp1pm61_power')|float(0) > 5 
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/appareils-oublies
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📟 Appareils
+            grid_options:
+              columns: full
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.s1pm42_power')|float(0) > 5 %}
+                🧽 Eponge active
+              {% else %}
+                🧽 Eponge éteinte
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.s1pm42_power')|float(0) > 5
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.s1pm42_power')|float(0) > 5
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.sp1pm62_power')|float(0) > 5 %}
+                🍽️ Lavette active
+              {% else %}
+                🍽️ Lavette éteinte
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.sp1pm62_power')|float(0) > 5
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.sp1pm62_power')|float(0) > 5
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.s1pm40_power')|float(0) > 5 %}
+                💨 Compresseur actif
+              {% else %}
+                💨 Compresseur éteint
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.s1pm40_power')|float(0) > 5
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.s1pm40_power')|float(0) > 5
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.sp1pm63_power')|float(0) > 8 %}
+                🖥️ Bureau FV actif
+              {% else %}
+                🖥️ Bureau FV éteint
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.sp1pm63_power')|float(0) > 8
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.sp1pm63_power')|float(0) > 8
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.sp1pm61_power')|float(0) > 5 %}
+                🚜 Wall-e actif
+              {% else %}
+                🚜 Wall-e éteint
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.sp1pm61_power')|float(0) > 5
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.sp1pm61_power')|float(0) > 5
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ♾️ Appareils à cycles
+            grid_options:
+              columns: full
+          - type: custom:mushroom-template-card
+            primary: Éponge
+            secondary: |
+              {{ states('sensor.s1pm42_power') }} W
+            icon: mdi:power-cycle
+            icon_color: |
+              {% if states('sensor.s1pm42_power')|float(0) > 5 %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+            tap_action:
+              action: more-info
+              entity: sensor.s1pm42_power
+          - type: custom:mushroom-template-card
+            primary: Lavette
+            secondary: |
+              {{ states('sensor.sp1pm62_power') }} W
+            icon: mdi:washing-machine
+            icon_color: |
+              {% if states('sensor.sp1pm62_power')|float(0) > 5 %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+            tap_action:
+              action: more-info
+              entity: sensor.sp1pm62_power
+          - type: entities
+            title: État Lavette
+            show_header_toggle: false
+            entities:
+              - entity: sensor.lavette_operation_state
+                name: État
+              - entity: sensor.lavette_program_progress
+                name: Progression
+              - entity: sensor.lavette_program_finish_time
+                name: Fin prévue
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ⚙️ Outils
+            grid_options:
+              columns: full
+          - type: custom:mushroom-template-card
+            primary: Compresseur
+            secondary: |
+              {{ states('sensor.s1pm40_power') }} W
+            icon: mdi:air-compressor
+            icon_color: |
+              {% if states('sensor.s1pm40_power')|float(0) > 5 %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+            tap_action:
+              action: more-info
+              entity: sensor.s1pm40_power
+          - type: custom:mushroom-template-card
+            primary: Déshumidifacteur
+            secondary: |
+              {{ states('sensor.s1pm59_power') }} W
+            icon: mdi:power-cycle
+            color: |
+              {% if states('sensor.s1pm59_power')|float(0) > 5 %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 💻 Informatique
+            grid_options:
+              columns: full
+          - type: custom:mushroom-template-card
+            primary: PC Game
+            secondary: |
+              {{ states('sensor.sm25_power') }} W
+            icon: mdi:desktop-classic
+            icon_color: |
+              {% if states('sensor.sm25_power')|float(0) > 10 %}
+                green
+              {% else %}
+                grey
+              {% endif %}
+            tap_action:
+              action: more-info
+              entity: switch.sm25
+          - type: custom:mushroom-template-card
+            primary: Bureau / écrans
+            secondary: |
+              {{ states('sensor.sm26_power') }} W
+            icon: mdi:monitor-multiple
+            icon_color: |
+              {% if states('sensor.sm26_power')|float(0) > 10 %}
+                amber
+              {% else %}
+                grey
+              {% endif %}
+            tap_action:
+              action: more-info
+              entity: switch.sm26
+          - type: custom:mushroom-template-card
+            primary: Prise bureau
+            secondary: |
+              {{ states('sensor.sp1pm63_power') }} W
+            icon: mdi:power-socket-fr
+            icon_color: |
+              {% if states('sensor.sp1pm63_power')|float(0) > 10 %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+            tap_action:
+              action: more-info
+              entity: switch.sp1pm63
+          - type: custom:mushroom-template-card
+            primary: Serveurs
+            secondary: |
+              {{ states('sensor.s1pm30_power') }} W
+            icon: mdi:server
+            icon_color: green
+            tap_action:
+              action: more-info
+              entity: switch.s1pm30
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔌 Appareils permanents
+            grid_options:
+              columns: full
+          - type: entities
+            title: Consommations actuelles
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: sensor.s1pm30_power
+                name: 🖥️ Serveurs
+              - entity: sensor.sp1pm64_power
+                name: 🍷 Cave
+              - entity: sensor.s1pm59_power
+                name: 💧 Déshumidificateur
+              - entity: sensor.s1pm43_power
+                name: 🔥 Chauffage
+              - entity: sensor.s1pm44_power
+                name: 🚿 Boiler
+              - entity: sensor.s1pm60_power
+                name: 💦 Culligan
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📊 Historique
+            grid_options:
+              columns: full
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Appareils à surveiller — 24h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm42_power
+                name: Eponge · moy
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+              - entity: sensor.s1pm42_power
+                name: Eponge · max
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: 5minute
+                  align: middle
+              - entity: sensor.sp1pm62_power
+                name: Lavette · moy
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+              - entity: sensor.sp1pm62_power
+                name: Lavette · max
+                color: var(--purple-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: 5minute
+                  align: middle
+              - entity: sensor.s1pm40_power
+                name: Compresseur · moy
+                color: var(--error-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+              - entity: sensor.s1pm40_power
+                name: Compresseur · max
+                color: var(--cyan-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: 5minute
+                  align: middle
+              - entity: sensor.sp1pm63_power
+                name: Bureau FV · moy
+                color: var(--orange-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+              - entity: sensor.sp1pm63_power
+                name: Bureau FV · max
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: 5minute
+                  align: middle
+              - entity: sensor.s1pm47_prise_jardin_power
+                name: Wall-e · moy
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: 5minute
+                  align: middle
+              - entity: sensor.s1pm47_prise_jardin_power
+                name: Wall-e · max
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: max
+                  period: 5minute
+                  align: middle
+          - type: custom:apexcharts-card
+            graph_span: 7d
+            update_interval: 30min
+            header:
+              show: true
+              title: Appareils à surveiller — 7 jours
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: dd/MM
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm42_power
+                name: Eponge
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.sp1pm62_power
+                name: Lavette
+                color: var(--warning-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.s1pm40_power
+                name: Compresseur
+                color: var(--success-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.sp1pm63_power
+                name: Bureau FV
+                color: var(--purple-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+              - entity: sensor.s1pm47_prise_jardin_power
+                name: Wall-e
+                color: var(--error-color)
+                type: line
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+    cards: []
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: "# 🔍 Surveillance"
+  - type: sections
+    title: Journal des automatisations
+    path: automatisations
+    icon: mdi:history
+    max_columns: 4
+    sections:
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🤖 Automatisations
+            grid_options:
+              columns: full
+          - type: tile
+            entity: automation.eponge_start
+            name: Éponge démarrée
+            icon: mdi:power-cycle
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.automation_27
+            name: Éponge terminée
+            icon: mdi:check-circle
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.lavette_end_of_program_2
+            name: Lavette terminée
+            icon: mdi:washing-machine
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.chauffage_mode_vacances
+            name: Chauffage vacances
+            icon: mdi:radiator
+          - type: tile
+            entity: automation.turn_off_deshumidificateur
+            name: Déshumidificateur
+            icon: mdi:air-humidifier
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.turn_off_compresseur_air_20h30
+            name: Compresseur 20h30
+            icon: mdi:air-compressor
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.ordi_allume
+            name: Ordinateur allumé
+            icon: mdi:monitor-alert
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 💾 Sauvegardes NAS
+            grid_options:
+              columns: full
+          - type: tile
+            entity: automation.turn_hdd_nas_on
+            name: NAS ON — quotidien
+            icon: mdi:harddisk
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.turn_hdd_nas_off
+            name: NAS OFF — quotidien
+            icon: mdi:harddisk-remove
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.turn_hdd_nas_on_weekly
+            name: NAS ON — hebdo
+            icon: mdi:backup-restore
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.turn_off_hdd_nas_weekly
+            name: NAS OFF — hebdo
+            icon: mdi:backup-restore
+            vertical: false
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔋 UPS
+            grid_options:
+              columns: full
+          - type: tile
+            entity: automation.ups_battery_low
+            name: Batterie faible
+            icon: mdi:battery-alert
+            color: red
+          - type: tile
+            entity: automation.ups_on_battery
+            name: Coupure électrique
+            icon: mdi:power-plug-off
+            color: orange
+            vertical: false
+            features_position: bottom
+          - type: entities
+            title: État actuel
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: sensor.ups_status
+                name: État UPS
+              - entity: sensor.ups_battery_charge
+                name: Batterie
+              - entity: sensor.ups_load
+                name: Charge
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 💡 Éclairage automatique
+            grid_options:
+              columns: full
+          - type: tile
+            entity: automation.sapin_de_noel_on
+            name: Sapin ON
+            icon: mdi:pine-tree
+          - type: tile
+            entity: automation.sapin_de_noel_off
+            name: Sapin OFF
+            icon: mdi:pine-tree
+          - type: tile
+            entity: switch.sb18
+            name: Lumières Noël OFF
+            icon: mdi:string-lights
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.switch_off_lumieres_exterieur_after_2h
+            name: Extérieur OFF après 2h
+            icon: mdi:outdoor-lamp
+            vertical: false
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔥 Chauffage
+            grid_options:
+              columns: full
+          - type: tile
+            entity: input_boolean.holiday_mode
+            name: Mode vacances
+            icon: mdi:beach
+            color: blue
+          - type: entities
+            title: Thermostats
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+                name: Bureau
+              - entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+                name: Chambre TBX7D_ORG_0007
+              - entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
+                name: Chambre enfants
+              - entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
+                name: Salle de jeu
+              - entity: climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+                name: Salle à manger
+              - entity: climate.trv_btr_06_rez_sud_est_salon
+                name: Salon
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📟 Appareils
+            grid_options:
+              columns: full
+          - type: entities
+            title: Éponge
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: input_boolean.eponge_started
+                name: Cycle en cours
+              - entity: sensor.s1pm42_power
+                name: Puissance
+          - type: entities
+            title: Lavette
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: sensor.lavette_operation_state
+                name: État
+              - entity: sensor.lavette_program_progress
+                name: Progression
+              - entity: sensor.lavette_program_finish_time
+                name: Fin prévue
+              - entity: binary_sensor.lavette_remote_start
+                name: Démarrage à distance
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 📜 Historique
+            grid_options:
+              columns: full
+          - type: logbook
+            title: Activité récente
+            hours_to_show: 24
+            target:
+              entity_id:
+                - automation.chauffage_mode_vacances
+                - automation.ups_battery_low
+                - automation.ordi_allume
+                - automation.eponge_start
+                - automation.automation_27
+                - automation.lavette_end_of_program_2
+                - automation.ups_on_battery
+                - automation.turn_hdd_nas_on
+                - automation.turn_hdd_nas_off
+                - automation.turn_hdd_nas_on_weekly
+                - automation.turn_off_hdd_nas_weekly
+                - automation.atelier_chargeur_is_charging
+                - automation.atelier_switch_off_chargeur
+                - automation.cave_a_vin_gestion_optimisee
+                - automation.turn_off_compresseur_air_20h30
+                - automation.turn_off_deshumidificateur
+                - automation.turn_on_deshumidificateur
+                - automation.ducon_task_started
+                - automation.ducon_end_task_correctly
+                - automation.ducon_bin_full
+                - automation.lumieres_ext_noel_off_after_2h
+                - automation.switch_off_lumieres_exterieur_after_2h
+                - automation.vacances_bureau_off_2
+                - automation.sapin_de_noel_on
+                - automation.sapin_de_noel_off
+                - automation.vacances_bureau_on_2
+                - automation.vacances_bureau_off
+                - automation.vacances_chambre_off
+                - automation.vacances_chambre_on
+                - automation.vacances_bureau_on
+                - automation.vacances_lampe_salon_off
+                - automation.vacances_lamp_salon_on
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🏝️ Vacances
+            grid_options:
+              columns: full
+          - type: tile
+            entity: automation.vacances_lamp_salon_on
+            name: Salon ON
+            icon: mdi:lamps-outline
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_lampe_salon_off
+            name: Salon OFF
+            icon: mdi:lamps-outline
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_bureau_on_2
+            name: Bureau ON
+            icon: mdi:lamps-outline
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_bureau_off_2
+            name: Bureau OFF
+            icon: mdi:lamps-outline
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_bureau_on
+            name: Enfants ON (Tasmorallonge)
+            icon: mdi:lamps-outline
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_bureau_off
+            name: Enfants OFF (Tasmorallonge)
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_chambre_on
+            name: Chambre ON (Tasmorallonge vacances)
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: automation.vacances_chambre_off
+            name: Chambre OFF (Tasmorallonge vacances)
+            vertical: false
+            features_position: bottom
+    cards: []
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 📰 Journalisation des automations
+  - title: Boutons
+    path: boutons
+    icon: mdi:toggle-switch-off
+    subview: false
+    badges: []
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🚪 Portes
+          - type: tile
+            entity: lock.porte_1er
+            features:
+              - type: lock-commands
+          - type: tile
+            entity: lock.porte_rez
+            features:
+              - type: lock-commands
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 💡 Lumières
+          - type: tile
+            entity: switch.s1pm31
+            icon: mdi:lamps-outline
+            color: orange
+            show_entity_picture: false
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: switch.sm27_lumiere_bureau
+            name: Lumière bureau
+            icon: mdi:office-building
+            color: amber
+            show_entity_picture: false
+            vertical: false
+            features_position: bottom
+          - color: blue-grey
+            type: tile
+            show_entity_picture: false
+            entity: switch.sm35
+            name: Lumière réduit
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🚗 Garages
+          - type: tile
+            entity: switch.s146
+            name: Garage gauche
+            icon: mdi:garage
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: switch.s168
+            name: Garage droite
+            icon: ""
+            color: purple
+            vertical: false
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🎛️ Divers
+          - color: lime
+            type: tile
+            show_entity_picture: false
+            entity: switch.sb50
+            name: TV des Dous
+          - color: black
+            type: tile
+            show_entity_picture: false
+            entity: switch.sb15
+            name: HDD NAS des Dous
+            features_position: bottom
+            vertical: false
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🧺 Buanderie
+          - color: pink
+            type: tile
+            entity: switch.s1pm59
+            show_entity_picture: false
+            name: "Deshumidificateur "
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🖥️ Bureau FV
+          - type: tile
+            entity: switch.sm26
+            name: Bureau Ecrans
+            color: purple
+            show_entity_picture: false
+            vertical: false
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+          - type: tile
+            entity: switch.sm25
+            name: PC Game
+            color: green
+            show_entity_picture: false
+            vertical: false
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+        column_span: 1
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🛠️ Atelier
+          - type: tile
+            entity: switch.msws65_atelier
+            icon: ""
+            color: light-blue
+            show_entity_picture: false
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: switch.s1pm40
+            icon: ""
+            color: green
+            show_entity_picture: false
+            vertical: false
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ⚡ Mesures
+          - color: cyan
+            type: tile
+            show_entity_picture: false
+            entity: switch.s1pm42
+            name: Eponge
+          - color: teal
+            type: tile
+            show_entity_picture: false
+            entity: switch.sp1pm62
+            features_position: bottom
+            vertical: false
+          - type: tile
+            entity: switch.sp1pm61
+            icon: ""
+            color: cyan
+            show_entity_picture: false
+            vertical: false
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+          - type: tile
+            entity: switch.s1pm30
+            name: Serveurs
+            icon: mdi:server-network
+            color: green
+            show_entity_picture: false
+            vertical: false
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+          - type: tile
+            entity: switch.sp1pm63
+            name: Prise bureau
+            color: deep-orange
+            show_entity_picture: false
+            vertical: false
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+          - type: tile
+            entity: switch.sp1pm64
+            name: Cave
+            icon: mdi:fridge-industrial-outline
+            color: red
+            show_entity_picture: false
+            vertical: false
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+          - type: tile
+            entity: switch.sb19_sb19_cave_a_vin
+            name: Cave à vin
+            icon: mdi:glass-wine
+            color: red
+            show_entity_picture: false
+            vertical: false
+            icon_tap_action:
+              action: more-info
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🎄 Noël
+          - type: tile
+            entity: switch.sb18
+            name: "Lumières et Noël "
+            icon: mdi:string-lights
+            color: yellow
+            show_entity_picture: false
+            vertical: false
+            features_position: bottom
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ♨️ Chauffage
+          - color: light-blue
+            type: tile
+            show_entity_picture: false
+            entity: switch.s1pm44
+            name: Boiler
+          - color: light-blue
+            type: tile
+            show_entity_picture: false
+            entity: switch.s1pm43
+            name: "Chauffage "
+            icon_tap_action:
+              action: more-info
+      - type: grid
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: 🔌 Tasmorallonges
+          - color: cyan
+            type: tile
+            show_entity_picture: false
+            name: Tasmorallonge
+            features_position: bottom
+            vertical: false
+            entity: switch.sb24_sb24_tasmorallonge
+          - color: light-green
+            type: tile
+            show_entity_picture: false
+            entity: switch.sb20
+            name: Tasmorallonge vacances
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 🔘 Toutes les intéractions
+    footer:
+      type: markdown
+      content: ""
+    cards: []
+  - title: Chauffage
+    path: chauffage
+    icon: mdi:sun-thermometer-outline
+    badges: []
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if is_state('input_boolean.holiday_mode','on') %}
+                🌴 Mode vacances
+              {% else %}
+                🏠 Mode normal
+              {% endif %}
+            secondary: Chauffage
+            icon: mdi:radiator
+            entity: input_boolean.holiday_mode
+            tap_action:
+              action: toggle
+            grid_options:
+              columns: full
+            color: |
+              {% if is_state('input_boolean.holiday_mode','on') %}
+                blue
+              {% else %}
+                deep-orange
+              {% endif %}
+            features_position: bottom
+            multiline_secondary: false
+        column_span: 2
+      - type: grid
+        cards:
+          - type: thermostat
+            entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+            name: Bureau
+            show_current_as_primary: true
+          - type: thermostat
+            name: Salon
+            show_current_as_primary: true
+            entity: climate.trv_btr_06_rez_sud_est_salon
+        column_span: 2
+      - type: grid
+        cards:
+          - type: thermostat
+            name: Chambre à coucher
+            show_current_as_primary: true
+            entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+      - type: grid
+        cards:
+          - type: thermostat
+            name: Chambre des enfants
+            show_current_as_primary: true
+            entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
+      - type: grid
+        cards:
+          - type: thermostat
+            name: Salle de jeu
+            show_current_as_primary: true
+            entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
+      - type: grid
+        cards:
+          - type: thermostat
+            name: Salle à manger
+            show_current_as_primary: true
+            entity: climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+    header:
+      layout: center
+      badges_position: bottom
+      badges_wrap: wrap
+      card:
+        type: heading
+        heading: Chauffage
+        icon: mdi:sun-thermometer-outline
+    footer:
+      type: markdown
+      content: ""
+    cards: []
+  - theme: Backend-selected
+    title: Lavette
+    path: lavette
+    icon: mdi:washing-machine
+    badges:
+      - entity: sensor.lavette_operation_state
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.lavette_program_progress
+        color: ""
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.lavette_program_finish_time
+        color: ""
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - color: state
+            type: entities
+            entities:
+              - entity: sensor.lavette_operation_state
+                name: Operation State
+              - entity: sensor.lavette_program_progress
+                name: Program Progress
+              - entity: sensor.lavette_program_finish_time
+                name: Program finish time
+              - entity: switch.lavette_child_lock
+                name: Child Lock
+              - entity: binary_sensor.lavette_remote_control
+                name: Remote Control
+              - entity: binary_sensor.lavette_remote_start
+                name: Remote Start
+            show_header_toggle: false
+          - type: custom:apexcharts-card
+            graph_span: 5h
+            update_interval: 5min
+            header:
+              show: true
+              title: Progression
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 160
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.lavette_program_progress
+                name: Progression
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 10min
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.sp1pm62_power
+            needle: true
+            name: Consommation Lavette
+            max: 400
+            severity:
+              green: 0
+              yellow: 50
+              red: 200
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: sp1pm62 power
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm62_power
+                name: sp1pm62 power
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                statistics:
+                  type: mean
+                  period: hour
+                  align: middle
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 🧼 Lavette
+    footer:
+      type: markdown
+      content: ""
+  - theme: Backend-selected
+    title: Ducon
+    path: ducon
+    icon: mdi:vacuum
+    badges:
+      - entity: vacuum.ducon
+      - entity: sensor.ducon_battery_level
+      - entity: binary_sensor.ducon_bin_full
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: entities
+            entities:
+              - entity: vacuum.ducon
+                name: Lucien
+                color: green
+      - type: grid
+        cards:
+          - color: state
+            type: entities
+            entities:
+              - entity: binary_sensor.ducon_bin_full
+                name: Vider Lucien ?
+                color: red
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # ⛀ Lucien
+    footer:
+      type: markdown
+      content: ""
+  - theme: Backend-selected
+    title: Natel de TBX7D_ORG_0001
+    path: natel-de-TBX7D_ORG_0001
+    icon: mdi:cellphone
+    visible:
+      - user: TBX7D_CRED_0002
+      - user: TBX7D_CRED_0001
+    badges: []
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.TBX7D_ORG_0005_battery_level
+            min: 1
+            max: 100
+            severity:
+              green: 20
+              yellow: 5
+              red: 0
+            needle: true
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Niveau de la batterie
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 200
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+            yaxis:
+              - decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.TBX7D_ORG_0005_battery_level
+                name: Niveau de la batterie
+                color: var(--info-color)
+                type: area
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 10min
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 📱 Natel de TBX7D_ORG_0001
+    footer:
+      type: markdown
+      content: ""
+  - theme: Backend-selected
+    title: TV des Dous
+    path: tv-des-dous
+    icon: mdi:youtube-tv
+    badges:
+      - entity: media_player.tv_des_dous
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: media-control
+            entity: media_player.tv_des_dous
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 🖥️ TV des Dous
+    footer:
+      type: markdown
+      content: ""
+  - type: sections
+    title: Yoto
+    path: yoto
+    icon: mdi:ipod
+    sections: []
+    badges:
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: media_player.chambre_yoto_d_TBX7D_ORG_0010
+        color: deep-orange
+    max_columns: 1
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 🎧 Yoto
+    footer:
+      type: markdown
+      content: ""
+  - type: sections
+    max_columns: 1
+    title: UPS
+    path: ups
+    icon: mdi:fuel-cell
+    sections:
+      - type: grid
+        cards:
+          - type: tile
+            entity: sensor.ups_battery_charge
+            features:
+              - type: trend-graph
+            grid_options:
+              columns: 12
+              rows: 3
+      - type: grid
+        cards:
+          - type: gauge
+            entity: sensor.ups_load
+            severity:
+              green: 0
+              yellow: 60
+              red: 80
+            needle: true
+    badges:
+      - type: entity
+        entity: sensor.ups_status
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # 🔋 UPS
+    footer:
+      type: markdown
+      content: ""
+  - title: Tests
+    path: tests
+    icon: mdi:router-network
+    type: custom:grid-layout
+    layout:
+      margin: 0
+      padding: 0
+      grid-gap: 8px
+      grid-template-columns: repeat(12, minmax(0, 1fr))
+      grid-template-areas: >
+        "wan wan wan wan devices devices devices devices adguard adguard adguard
+        adguard"
+
+        "router router router router router router router router router router
+        router router"
+
+        "floor floor floor floor floor floor ground ground ground ground ground
+        ground"
+      mediaquery:
+        "(max-width: 1100px)":
+          grid-template-columns: repeat(2, minmax(0, 1fr))
+          grid-template-areas: |
+            "wan devices"
+            "adguard adguard"
+            "router router"
+            "floor ground"
+        "(max-width: 700px)":
+          grid-template-columns: 1fr
+          grid-template-areas: |
+            "wan"
+            "devices"
+            "adguard"
+            "router"
+            "floor"
+            "ground"
+    cards:
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: wan
+        card_mod:
+          style: |
+            ha-card {
+              height: 214px;
+              overflow: hidden;
+              background: var(--card-background-color);
+              border: 0 !important;
+              border-radius: 6px;
+              box-shadow: none !important;
+            }
+        cards:
+          - type: custom:button-card
+            template: section_title_upper
+            name: WAN
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              margin: 0
+              padding: 0 8px 8px 8px
+              grid-gap: 0
+              grid-template-columns: repeat(3, minmax(0, 1fr))
+            cards:
+              - type: custom:button-card
+                entity: sensor.wan_upc_load
+                name: UPC
+                icon: mdi:web
+                show_icon: true
+                show_state: true
+                show_label: true
+                label: |
+                  [[[
+                    return entity?.attributes?.ip_address || "198.18.1.16";
+                  ]]]
+                state_display: |
+                  [[[
+                    const value = parseFloat(entity?.state);
+                    return Number.isFinite(value) ? value.toFixed(1) + "%" : "N/C";
+                  ]]]
+                tap_action:
+                  action: more-info
+                styles:
+                  card:
+                    - height: 175px
+                    - padding: 4px 2px 8px
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "s" "l" "n"'
+                    - grid-template-rows: 52px 37px 35px 28px
+                  icon:
+                    - width: 43px
+                    - color: var(--secondary-text-color)
+                  state:
+                    - font-size: 28px
+                    - font-weight: 400
+                    - color: var(--success-color)
+                  label:
+                    - font-size: 15px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - align-self: end
+                    - font-size: 12px
+                    - font-weight: 400
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: sensor.vpn_tunnel_load
+                name: VPN
+                icon: mdi:shield-link-variant
+                show_icon: true
+                show_state: true
+                show_label: true
+                label: |
+                  [[[
+                    return entity?.attributes?.remote_ip || "198.18.2.78";
+                  ]]]
+                state_display: |
+                  [[[
+                    const value = parseFloat(entity?.state);
+                    return Number.isFinite(value) ? value.toFixed(1) + "%" : "N/C";
+                  ]]]
+                tap_action:
+                  action: more-info
+                styles:
+                  card:
+                    - height: 175px
+                    - padding: 4px 2px 8px
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "s" "l" "n"'
+                    - grid-template-rows: 52px 37px 35px 28px
+                  icon:
+                    - width: 43px
+                    - color: var(--secondary-text-color)
+                  state:
+                    - font-size: 28px
+                    - font-weight: 400
+                    - color: var(--success-color)
+                  label:
+                    - font-size: 15px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - align-self: end
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: binary_sensor.router_lte_connected
+                name: LTE
+                icon: mdi:signal-off
+                show_icon: true
+                show_state: true
+                show_label: true
+                label: |
+                  [[[
+                    return entity?.state === "on" ? "UP" : "DOWN";
+                  ]]]
+                state_display: |
+                  [[[
+                    return entity?.state === "on" ? "OK" : "N/C";
+                  ]]]
+                tap_action:
+                  action: more-info
+                styles:
+                  card:
+                    - height: 175px
+                    - padding: 4px 2px 8px
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "s" "l" "n"'
+                    - grid-template-rows: 52px 37px 35px 28px
+                  icon:
+                    - width: 43px
+                    - color: var(--secondary-text-color)
+                  state:
+                    - font-size: 28px
+                    - font-weight: 400
+                    - color: var(--orange-color)
+                  label:
+                    - font-size: 15px
+                    - color: var(--orange-color)
+                  name:
+                    - align-self: end
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: devices
+        card_mod:
+          style: |
+            ha-card {
+              height: 214px;
+              overflow: hidden;
+              background: var(--card-background-color);
+              border: 0 !important;
+              border-radius: 6px;
+              box-shadow: none !important;
+            }
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: DEVICES
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              margin: 0
+              padding: 0 8px 8px
+              grid-gap: 0
+              grid-template-columns: repeat(3, minmax(0, 1fr))
+            cards:
+              - type: custom:button-card
+                entity: sensor.router_wired_clients
+                name: WIRED
+                icon: mdi:desktop-classic
+                show_icon: true
+                show_state: true
+                show_label: true
+                label: |
+                  [[[
+                    const total = entity?.attributes?.maximum || 42;
+                    return String(total);
+                  ]]]
+                tap_action:
+                  action: more-info
+                styles:
+                  card:
+                    - height: 175px
+                    - padding: 4px 2px 8px
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "s" "l" "n"'
+                    - grid-template-rows: 52px 37px 35px 28px
+                  icon:
+                    - width: 41px
+                    - color: var(--secondary-text-color)
+                  state:
+                    - font-size: 28px
+                    - color: var(--success-color)
+                  label:
+                    - font-size: 15px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - align-self: end
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: sensor.router_wifi_clients
+                name: WIFI
+                icon: mdi:access-point-network
+                show_icon: true
+                show_state: true
+                show_label: true
+                label: |
+                  [[[
+                    const total = entity?.attributes?.maximum || 28;
+                    return String(total);
+                  ]]]
+                tap_action:
+                  action: more-info
+                styles:
+                  card:
+                    - height: 175px
+                    - padding: 4px 2px 8px
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "s" "l" "n"'
+                    - grid-template-rows: 52px 37px 35px 28px
+                  icon:
+                    - width: 41px
+                    - color: var(--secondary-text-color)
+                  state:
+                    - font-size: 28px
+                    - color: var(--success-color)
+                  label:
+                    - font-size: 15px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - align-self: end
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: sensor.router_guest_clients
+                name: GUESTS
+                icon: mdi:monitor-question
+                show_icon: true
+                show_state: true
+                show_label: true
+                label: |
+                  [[[
+                    const total = entity?.attributes?.maximum || 11;
+                    return String(total);
+                  ]]]
+                tap_action:
+                  action: more-info
+                styles:
+                  card:
+                    - height: 175px
+                    - padding: 4px 2px 8px
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "s" "l" "n"'
+                    - grid-template-rows: 52px 37px 35px 28px
+                  icon:
+                    - width: 41px
+                    - color: var(--secondary-text-color)
+                  state:
+                    - font-size: 28px
+                    - color: var(--success-color)
+                  label:
+                    - font-size: 15px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - align-self: end
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: adguard
+        card_mod:
+          style: |
+            ha-card {
+              height: 214px;
+              overflow: hidden;
+              background: var(--card-background-color);
+              border: 0 !important;
+              border-radius: 6px;
+              box-shadow: none !important;
+            }
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ADGUARD
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              margin: 0
+              padding: 0 5px
+              grid-gap: 0
+              grid-template-columns: repeat(5, minmax(0, 1fr))
+            cards:
+              - type: custom:button-card
+                entity: switch.adguard_filtering
+                name: Filtering
+                icon: mdi:shield-check
+                show_state: false
+                show_label: false
+                styles:
+                  card:
+                    - height: 57px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "n"'
+                    - grid-template-rows: 33px 22px
+                  icon:
+                    - width: 31px
+                    - color: |
+                        [[[
+                          return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
+                        ]]]
+                  name:
+                    - font-size: 11px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: switch.adguard_parental_control
+                name: Parental
+                icon: mdi:shield-account
+                show_state: false
+                styles:
+                  card:
+                    - height: 57px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "n"'
+                    - grid-template-rows: 33px 22px
+                  icon:
+                    - width: 31px
+                    - color: |
+                        [[[
+                          return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
+                        ]]]
+                  name:
+                    - font-size: 11px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: switch.adguard_safe_browsing
+                name: Protection
+                icon: mdi:shield-bug
+                show_state: false
+                styles:
+                  card:
+                    - height: 57px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "n"'
+                    - grid-template-rows: 33px 22px
+                  icon:
+                    - width: 31px
+                    - color: |
+                        [[[
+                          return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
+                        ]]]
+                  name:
+                    - font-size: 11px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: switch.adguard_safe_browsing
+                name: Browsing
+                icon: mdi:shield-star
+                show_state: false
+                styles:
+                  card:
+                    - height: 57px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "n"'
+                    - grid-template-rows: 33px 22px
+                  icon:
+                    - width: 31px
+                    - color: |
+                        [[[
+                          return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
+                        ]]]
+                  name:
+                    - font-size: 11px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: switch.adguard_safe_search
+                name: Searching
+                icon: mdi:shield-search
+                show_state: false
+                styles:
+                  card:
+                    - height: 57px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i" "n"'
+                    - grid-template-rows: 33px 22px
+                  icon:
+                    - width: 31px
+                    - color: |
+                        [[[
+                          return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
+                        ]]]
+                  name:
+                    - font-size: 11px
+                    - color: var(--secondary-text-color)
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              margin: 0
+              padding: 0
+              grid-gap: 0
+              grid-template-columns: repeat(3, minmax(0, 1fr))
+            cards:
+              - type: custom:apexcharts-card
+                graph_span: 3h
+                header:
+                  show: true
+                  show_states: true
+                  colorize_states: false
+                apex_config:
+                  chart:
+                    height: 116px
+                    sparkline:
+                      enabled: true
+                    animations:
+                      enabled: false
+                  stroke:
+                    curve: smooth
+                    width: 1
+                  fill:
+                    type: gradient
+                    gradient:
+                      shadeIntensity: 0.3
+                      opacityFrom: 0.65
+                      opacityTo: 0.05
+                  tooltip:
+                    enabled: false
+                series:
+                  - entity: sensor.mikrotik_disk_usage
+                    name: queries
+                    color: var(--success-color)
+                    type: area
+                    show:
+                      legend_value: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 119px;
+                      padding: 0 2px !important;
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                    }
+                    .header {
+                      min-height: 27px !important;
+                      padding: 0 8px !important;
+                    }
+                    .state__value {
+                      font-size: 15px !important;
+                      color: var(--secondary-text-color) !important;
+                    }
+                    .state__name {
+                      font-size: 8px !important;
+                      color: var(--disabled-text-color) !important;
+                    }
+              - type: custom:apexcharts-card
+                graph_span: 3h
+                header:
+                  show: true
+                  show_states: true
+                  colorize_states: false
+                apex_config:
+                  chart:
+                    height: 116px
+                    sparkline:
+                      enabled: true
+                    animations:
+                      enabled: false
+                  stroke:
+                    curve: smooth
+                    width: 1
+                  fill:
+                    type: gradient
+                    gradient:
+                      shadeIntensity: 0.3
+                      opacityFrom: 0.65
+                      opacityTo: 0.05
+                  tooltip:
+                    enabled: false
+                series:
+                  - entity: sensor.mikrotik_memory_usage
+                    name: queries
+                    color: var(--info-color)
+                    type: area
+                    show:
+                      legend_value: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 119px;
+                      padding: 0 2px !important;
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                    }
+                    .header {
+                      min-height: 27px !important;
+                      padding: 0 8px !important;
+                    }
+                    .state__value {
+                      font-size: 15px !important;
+                      color: var(--secondary-text-color) !important;
+                    }
+                    .state__name {
+                      font-size: 8px !important;
+                      color: var(--disabled-text-color) !important;
+                    }
+              - type: custom:apexcharts-card
+                graph_span: 3h
+                header:
+                  show: true
+                  show_states: true
+                  colorize_states: false
+                apex_config:
+                  chart:
+                    height: 116px
+                    sparkline:
+                      enabled: true
+                    animations:
+                      enabled: false
+                  stroke:
+                    curve: smooth
+                    width: 1
+                  fill:
+                    type: gradient
+                    gradient:
+                      shadeIntensity: 0.3
+                      opacityFrom: 0.65
+                      opacityTo: 0.05
+                  tooltip:
+                    enabled: false
+                series:
+                  - entity: sensor.mikrotik_cpu_usage
+                    name: ms
+                    color: var(--purple-color)
+                    type: area
+                    show:
+                      legend_value: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 119px;
+                      padding: 0 2px !important;
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                    }
+                    .header {
+                      min-height: 27px !important;
+                      padding: 0 8px !important;
+                    }
+                    .state__value {
+                      font-size: 15px !important;
+                      color: var(--secondary-text-color) !important;
+                    }
+                    .state__name {
+                      font-size: 8px !important;
+                      color: var(--disabled-text-color) !important;
+                    }
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: router
+        card_mod:
+          style: |
+            ha-card {
+              background: var(--card-background-color);
+              border: 0 !important;
+              border-radius: 6px;
+              box-shadow: none !important;
+              overflow: hidden;
+            }
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: ROUTER
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              margin: 0
+              padding: 5px 14px 9px
+              grid-gap: 6px
+              grid-template-columns: repeat(3, minmax(0, 1fr))
+            cards:
+              - type: custom:button-card
+                entity: sensor.router_model
+                icon: mdi:information-variant
+                name: |
+                  [[[
+                    return "Model: " + (entity?.state || "Vigor2927L");
+                  ]]]
+                show_state: false
+                styles:
+                  card:
+                    - height: 31px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i n"'
+                    - grid-template-columns: 22px 1fr
+                  icon:
+                    - width: 19px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - justify-self: start
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: sensor.router_firmware
+                icon: mdi:alert-outline
+                name: |
+                  [[[
+                    return "FW Ver: " + (entity?.state || "198.18.3.3");
+                  ]]]
+                show_state: false
+                styles:
+                  card:
+                    - height: 31px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i n"'
+                    - grid-template-columns: 22px 1fr
+                  icon:
+                    - width: 20px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - justify-self: start
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+              - type: custom:button-card
+                entity: sensor.router_uptime
+                icon: mdi:clock-alert-outline
+                name: |
+                  [[[
+                    return "Uptime: " + (entity?.state || "13d 17h 57m");
+                  ]]]
+                show_state: false
+                styles:
+                  card:
+                    - height: 31px
+                    - padding: 0
+                    - background: transparent
+                    - border: none
+                    - box-shadow: none
+                  grid:
+                    - grid-template-areas: '"i n"'
+                    - grid-template-columns: 22px 1fr
+                  icon:
+                    - width: 20px
+                    - color: var(--secondary-text-color)
+                  name:
+                    - justify-self: start
+                    - font-size: 12px
+                    - color: var(--secondary-text-color)
+          - type: custom:layout-card
+            layout_type: custom:grid-layout
+            layout:
+              margin: 0
+              padding: 0
+              grid-gap: 0
+              grid-template-columns: repeat(3, minmax(0, 1fr))
+              mediaquery:
+                "(max-width: 800px)":
+                  grid-template-columns: 1fr
+            cards:
+              - type: custom:apexcharts-card
+                graph_span: 6h
+                update_interval: 1min
+                header:
+                  show: true
+                  title: WAN Throughput
+                  show_states: false
+                yaxis:
+                  - min: 0
+                    decimals: 1
+                    apex_config:
+                      tickAmount: 4
+                all_series_config:
+                  stroke_width: 2
+                  curve: smooth
+                  group_by:
+                    func: avg
+                    duration: 1min
+                apex_config:
+                  chart:
+                    height: 260px
+                    animations:
+                      enabled: false
+                    toolbar:
+                      show: false
+                    zoom:
+                      enabled: false
+                  grid:
+                    borderColor: var(--divider-color)
+                    strokeDashArray: 0
+                  dataLabels:
+                    enabled: false
+                  markers:
+                    size: 0
+                  fill:
+                    type: gradient
+                    gradient:
+                      shadeIntensity: 0.3
+                      opacityFrom: 0.42
+                      opacityTo: 0.04
+                      stops:
+                        - 0
+                        - 85
+                        - 100
+                  legend:
+                    show: true
+                    position: bottom
+                    fontSize: 10px
+                    labels:
+                      colors: var(--secondary-text-color)
+                    markers:
+                      width: 9
+                      height: 9
+                  xaxis:
+                    labels:
+                      datetimeUTC: false
+                      style:
+                        colors: var(--secondary-text-color)
+                        fontSize: 9px
+                  tooltip:
+                    theme: dark
+                series:
+                  - entity: sensor.mikrotik_cpu_usage
+                    name: IN
+                    color: var(--success-color)
+                    type: area
+                  - entity: sensor.mikrotik_memory_usage
+                    name: OUT
+                    color: var(--success-color)
+                    type: area
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 316px;
+                      padding: 0 7px !important;
+                      background: transparent;
+                      border: none;
+                      border-radius: 0;
+                      box-shadow: none;
+                    }
+                    .header {
+                      min-height: 38px !important;
+                      padding: 0 !important;
+                    }
+                    .header__title {
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                      width: 100%;
+                      color: var(--primary-text-color) !important;
+                      font-size: 13px !important;
+                      font-weight: 400 !important;
+                    }
+                    .header__title::before,
+                    .header__title::after {
+                      content: "";
+                      height: 1px;
+                      background: var(--divider-color);
+                      flex: 1;
+                    }
+              - type: custom:apexcharts-card
+                graph_span: 6h
+                update_interval: 1min
+                header:
+                  show: true
+                  title: VPN Throughput
+                  show_states: false
+                yaxis:
+                  - min: 0
+                    decimals: 1
+                    apex_config:
+                      tickAmount: 4
+                all_series_config:
+                  stroke_width: 2
+                  curve: smooth
+                  group_by:
+                    func: avg
+                    duration: 1min
+                apex_config:
+                  chart:
+                    height: 260px
+                    animations:
+                      enabled: false
+                    toolbar:
+                      show: false
+                    zoom:
+                      enabled: false
+                  grid:
+                    borderColor: var(--divider-color)
+                    strokeDashArray: 0
+                  dataLabels:
+                    enabled: false
+                  markers:
+                    size: 0
+                  fill:
+                    type: gradient
+                    gradient:
+                      shadeIntensity: 0.3
+                      opacityFrom: 0.42
+                      opacityTo: 0.04
+                      stops:
+                        - 0
+                        - 85
+                        - 100
+                  legend:
+                    show: true
+                    position: bottom
+                    fontSize: 10px
+                    labels:
+                      colors: var(--secondary-text-color)
+                    markers:
+                      width: 9
+                      height: 9
+                  xaxis:
+                    labels:
+                      datetimeUTC: false
+                      style:
+                        colors: var(--secondary-text-color)
+                        fontSize: 9px
+                  tooltip:
+                    theme: dark
+                series:
+                  - entity: sensor.mikrotik_cpu_usage
+                    name: IN
+                    color: var(--warning-color)
+                    type: area
+                  - entity: sensor.mikrotik_memory_usage
+                    name: OUT
+                    color: var(--orange-color)
+                    type: area
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 316px;
+                      padding: 0 7px !important;
+                      background: transparent;
+                      border: none;
+                      border-radius: 0;
+                      box-shadow: none;
+                    }
+                    .header {
+                      min-height: 38px !important;
+                      padding: 0 !important;
+                    }
+                    .header__title {
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                      width: 100%;
+                      color: var(--primary-text-color) !important;
+                      font-size: 13px !important;
+                      font-weight: 400 !important;
+                    }
+                    .header__title::before,
+                    .header__title::after {
+                      content: "";
+                      height: 1px;
+                      background: var(--divider-color);
+                      flex: 1;
+                    }
+              - type: custom:apexcharts-card
+                graph_span: 6h
+                update_interval: 1min
+                header:
+                  show: true
+                  title: WAN Latency
+                  show_states: false
+                yaxis:
+                  - min: 0
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                apex_config:
+                  chart:
+                    height: 260px
+                    animations:
+                      enabled: false
+                    toolbar:
+                      show: false
+                    zoom:
+                      enabled: false
+                  stroke:
+                    curve: smooth
+                    width: 2
+                  grid:
+                    borderColor: var(--divider-color)
+                    strokeDashArray: 0
+                  dataLabels:
+                    enabled: false
+                  markers:
+                    size: 0
+                  fill:
+                    type: gradient
+                    gradient:
+                      shadeIntensity: 0.35
+                      opacityFrom: 0.45
+                      opacityTo: 0.04
+                      stops:
+                        - 0
+                        - 85
+                        - 100
+                  legend:
+                    show: true
+                    position: bottom
+                    fontSize: 10px
+                    labels:
+                      colors: var(--secondary-text-color)
+                  xaxis:
+                    labels:
+                      datetimeUTC: false
+                      style:
+                        colors: var(--secondary-text-color)
+                        fontSize: 9px
+                  tooltip:
+                    theme: dark
+                series:
+                  - entity: sensor.mikrotik_cpu_usage
+                    name: LATENCY
+                    color: var(--error-color)
+                    type: area
+                    stroke_width: 2
+                    group_by:
+                      func: avg
+                      duration: 1min
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 316px;
+                      padding: 0 7px !important;
+                      background: transparent;
+                      border: none;
+                      border-radius: 0;
+                      box-shadow: none;
+                    }
+                    .header {
+                      min-height: 38px !important;
+                      padding: 0 !important;
+                    }
+                    .header__title {
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                      width: 100%;
+                      color: var(--primary-text-color) !important;
+                      font-size: 13px !important;
+                      font-weight: 400 !important;
+                    }
+                    .header__title::before,
+                    .header__title::after {
+                      content: "";
+                      height: 1px;
+                      background: var(--divider-color);
+                      flex: 1;
+                    }
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: floor
+        card_mod:
+          style: |
+            ha-card {
+              background: var(--card-background-color);
+              border: 0 !important;
+              border-radius: 6px;
+              box-shadow: none !important;
+              overflow: hidden;
+            }
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: AP-FLOOR
+          - type: custom:button-card
+            entity: sensor.ap_floor_uptime
+            show_icon: false
+            show_state: false
+            show_name: false
+            custom_fields:
+              information: |
+                [[[
+                  const firmware =
+                    states["sensor.ap_floor_firmware"]?.state || "1.4.9";
+                  const uptime = entity?.state || "32d 06h 09m";
+
+                  return `
+                    <div class="info-line">
+                      <ha-icon icon="mdi:information-variant"></ha-icon>
+                      <span>Mesh Root: VigorAP903</span>
+                    </div>
+                    <div class="info-line">
+                      <ha-icon icon="mdi:alert-outline"></ha-icon>
+                      <span>FW Ver: ${firmware}</span>
+                    </div>
+                    <div class="info-line">
+                      <ha-icon icon="mdi:clock-alert-outline"></ha-icon>
+                      <span>Uptime: ${uptime}</span>
+                    </div>
+                  `;
+                ]]]
+            styles:
+              card:
+                - height: 100px
+                - padding: 6px 16px
+                - background: transparent
+                - border: none
+                - box-shadow: none
+              custom_fields:
+                information:
+                  - justify-self: start
+                  - width: 100%
+                  - color: var(--secondary-text-color)
+                  - font-size: 12px
+            extra_styles: |
+              .info-line {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                height: 27px;
+              }
+              .info-line ha-icon {
+                width: 20px;
+                color: var(--secondary-text-color);
+              }
+          - type: custom:apexcharts-card
+            graph_span: 6h
+            update_interval: 1min
+            header:
+              show: true
+              title: WI-FI Throughput
+              show_states: false
+            yaxis:
+              - min: ~0
+                decimals: 1
+                apex_config:
+                  tickAmount: 5
+            all_series_config:
+              stroke_width: 2
+              curve: smooth
+              group_by:
+                func: avg
+                duration: 1min
+            apex_config:
+              chart:
+                height: 255px
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              grid:
+                borderColor: var(--divider-color)
+                strokeDashArray: 0
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              fill:
+                type: gradient
+                gradient:
+                  shadeIntensity: 0.3
+                  opacityFrom: 0.45
+                  opacityTo: 0.04
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+                labels:
+                  colors: var(--secondary-text-color)
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  style:
+                    colors: var(--secondary-text-color)
+                    fontSize: 9px
+              tooltip:
+                theme: dark
+            series:
+              - entity: sensor.mikrotik_disk_usage
+                name: IN
+                color: var(--info-color)
+                type: area
+              - entity: sensor.mikrotik_cpu_usage
+                name: OUT
+                color: var(--info-color)
+                type: area
+            card_mod:
+              style: |
+                ha-card {
+                  height: 311px;
+                  padding: 0 9px !important;
+                  background: transparent;
+                  border: none;
+                  border-radius: 0;
+                  box-shadow: none;
+                }
+                .header {
+                  min-height: 38px !important;
+                  padding: 0 !important;
+                }
+                .header__title {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  width: 100%;
+                  color: var(--primary-text-color) !important;
+                  font-size: 13px !important;
+                  font-weight: 400 !important;
+                }
+                .header__title::before,
+                .header__title::after {
+                  content: "";
+                  height: 1px;
+                  background: var(--divider-color);
+                  flex: 1;
+                }
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: ground
+        card_mod:
+          style: |
+            ha-card {
+              background: var(--card-background-color);
+              border: 0 !important;
+              border-radius: 6px;
+              box-shadow: none !important;
+              overflow: hidden;
+            }
+        cards:
+          - type: custom:button-card
+            template: section_title
+            name: AP-GROUND
+          - type: custom:button-card
+            entity: sensor.ap_ground_uptime
+            show_icon: false
+            show_state: false
+            show_name: false
+            custom_fields:
+              information: |
+                [[[
+                  const firmware =
+                    states["sensor.ap_ground_firmware"]?.state || "1.4.9";
+                  const uptime = entity?.state || "32d 05h 15m";
+
+                  return `
+                    <div class="info-line">
+                      <ha-icon icon="mdi:information-variant"></ha-icon>
+                      <span>Mesh Node: VigorAP903</span>
+                    </div>
+                    <div class="info-line">
+                      <ha-icon icon="mdi:alert-outline"></ha-icon>
+                      <span>FW Ver: ${firmware}</span>
+                    </div>
+                    <div class="info-line">
+                      <ha-icon icon="mdi:clock-alert-outline"></ha-icon>
+                      <span>Uptime: ${uptime}</span>
+                    </div>
+                  `;
+                ]]]
+            styles:
+              card:
+                - height: 100px
+                - padding: 6px 16px
+                - background: transparent
+                - border: none
+                - box-shadow: none
+              custom_fields:
+                information:
+                  - justify-self: start
+                  - width: 100%
+                  - color: var(--secondary-text-color)
+                  - font-size: 12px
+            extra_styles: |
+              .info-line {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                height: 27px;
+              }
+              .info-line ha-icon {
+                width: 20px;
+                color: var(--secondary-text-color);
+              }
+          - type: custom:apexcharts-card
+            graph_span: 6h
+            update_interval: 1min
+            header:
+              show: true
+              title: WI-FI Throughput
+              show_states: false
+            yaxis:
+              - min: ~0
+                decimals: 1
+                apex_config:
+                  tickAmount: 5
+            all_series_config:
+              stroke_width: 2
+              curve: smooth
+              group_by:
+                func: avg
+                duration: 1min
+            apex_config:
+              chart:
+                height: 255px
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              grid:
+                borderColor: var(--divider-color)
+                strokeDashArray: 0
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              fill:
+                type: gradient
+                gradient:
+                  shadeIntensity: 0.3
+                  opacityFrom: 0.45
+                  opacityTo: 0.04
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+                labels:
+                  colors: var(--secondary-text-color)
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  style:
+                    colors: var(--secondary-text-color)
+                    fontSize: 9px
+              tooltip:
+                theme: dark
+            series:
+              - entity: sensor.sp1pm62_power
+                name: IN
+                color: var(--purple-color)
+                type: area
+              - entity: sensor.sp1pm61_power
+                name: OUT
+                color: var(--purple-color)
+                type: area
+            card_mod:
+              style: |
+                ha-card {
+                  height: 311px;
+                  padding: 0 9px !important;
+                  background: transparent;
+                  border: none;
+                  border-radius: 0;
+                  box-shadow: none;
+                }
+                .header {
+                  min-height: 38px !important;
+                  padding: 0 !important;
+                }
+                .header__title {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  width: 100%;
+                  color: var(--primary-text-color) !important;
+                  font-size: 13px !important;
+                  font-weight: 400 !important;
+                }
+                .header__title::before,
+                .header__title::after {
+                  content: "";
+                  height: 1px;
+                  background: var(--divider-color);
+                  flex: 1;
+                }
+title: La maison des Dous

@@ -1,0 +1,730 @@
+# 📟 APPAREILS — catalogue de cartes d'appareil réutilisables.
+#
+# Chaque appareil est une custom:vertical-stack-in-card bâtie sur le même
+# gabarit, pour garder un rendu homogène d'une pièce à l'autre :
+#
+#   1. mushroom-title-card         → le nom de l'appareil, centré
+#   2. une ou plusieurs lignes     → mushroom-template-card, valeur en
+#      d'état                        primary, libellé en secondary
+#   3. gauge                       → la puissance instantanée
+#   4. apexcharts-card             → la courbe 24 h (facultatif)
+#
+# Couleurs : uniquement des noms mushroom (green/amber/red/grey…) et des
+# variables de thème. Aucun card_mod, aucune valeur en dur.
+type: grid
+column_span: 1
+cards:
+  - type: custom:button-card
+    template: section_title
+    name: 📟 Appareils
+
+  # ====================================================================
+  #  🧺 LAVE-LINGE — intégration Bosch Home Connect
+  # --------------------------------------------------------------------
+  #  Réutilisation pour un autre appareil Home Connect (sèche-linge,
+  #  lave-vaisselle, four…) : remplacer « lavette » par le nom de
+  #  l'appareil, puis « sp1pm62 » par la prise qui le mesure.
+  #  Aucun helper nécessaire.
+  #
+  #  Les états Home Connect sont en anglais côté API ; la table `m`
+  #  ci-dessous les traduit et retombe proprement sur l'état brut si un
+  #  nouvel état apparaît.
+  # ====================================================================
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-title-card
+        alignment: center
+        subtitle: 🧺 Lavette
+
+      - type: custom:mushroom-template-card
+        entity: sensor.lavette_operation_state
+        icon: mdi:washing-machine
+        primary: >-
+          {% set s = states('sensor.lavette_operation_state') %}
+          {% set m = {'run': 'En marche', 'ready': 'Prête',
+                      'inactive': 'Éteinte', 'pause': 'En pause',
+                      'delayedstart': 'Départ différé',
+                      'actionrequired': 'Action requise',
+                      'finished': 'Terminée', 'aborting': 'Arrêt en cours',
+                      'error': 'Erreur'} %}
+          {{ m.get(s, s | replace('_', ' ') | capitalize) }}
+        secondary: >-
+          {% set p = states('select.lavette_active_program') %}
+          {% if p in ['unknown', 'unavailable', 'none', ''] %}
+            {% set p = states('select.lavette_selected_program') %}
+          {% endif %}
+          {% if p in ['unknown', 'unavailable', 'none', ''] %}Aucun programme
+          {% else %}{{ p.split('.')[-1] | replace('_', ' ') | capitalize }}
+          {% endif %}
+        color: >-
+          {% set s = states('sensor.lavette_operation_state') %}
+          {% if s == 'run' %}blue
+          {% elif s == 'finished' %}green
+          {% elif s in ['error', 'actionrequired'] %}red
+          {% elif s in ['pause', 'delayedstart'] %}amber
+          {% else %}grey{% endif %}
+        multiline_secondary: false
+        tap_action:
+          action: more-info
+
+      - type: custom:mushroom-template-card
+        entity: sensor.lavette_program_progress
+        icon: mdi:timelapse
+        primary: "{{ states('sensor.lavette_program_progress') | float(0) | round(0) }} %"
+        secondary: >-
+          {% set ts = as_timestamp(states('sensor.lavette_program_finish_time'), 0) %}
+          {% if ts > 0 %}Fin prévue à {{ ts | timestamp_custom('%H:%M') }}
+          {% else %}Aucun programme en cours{% endif %}
+        color: >-
+          {% if is_state('sensor.lavette_operation_state', 'run') %}blue
+          {% else %}grey{% endif %}
+        tap_action:
+          action: more-info
+
+      - type: custom:mushroom-template-card
+        entity: binary_sensor.lavette_door
+        icon: >-
+          {% if is_state('binary_sensor.lavette_door', 'on') %}mdi:door-open
+          {% else %}mdi:door-closed{% endif %}
+        primary: >-
+          {% if is_state('binary_sensor.lavette_door', 'on') %}Ouverte
+          {% else %}Fermée{% endif %}
+        secondary: Hublot
+        color: >-
+          {% if is_state('binary_sensor.lavette_door', 'on') %}amber
+          {% else %}green{% endif %}
+
+      - type: custom:mushroom-template-card
+        entity: binary_sensor.lavette_remote_start
+        icon: mdi:cellphone-wireless
+        primary: >-
+          {% if is_state('binary_sensor.lavette_remote_start', 'on') %}Autorisé
+          {% else %}Verrouillé{% endif %}
+        secondary: Départ à distance
+        color: >-
+          {% if is_state('binary_sensor.lavette_remote_start', 'on') %}green
+          {% else %}grey{% endif %}
+
+      - type: custom:mushroom-template-card
+        entity: switch.lavette_child_lock
+        icon: >-
+          {% if is_state('switch.lavette_child_lock', 'on') %}mdi:lock
+          {% else %}mdi:lock-open-variant{% endif %}
+        primary: >-
+          {% if is_state('switch.lavette_child_lock', 'on') %}Activée
+          {% else %}Désactivée{% endif %}
+        secondary: Sécurité enfant
+        tap_action:
+          action: toggle
+        color: >-
+          {% if is_state('switch.lavette_child_lock', 'on') %}blue
+          {% else %}grey{% endif %}
+
+      # La jauge de la prise qui mesure l'appareil, en petit.
+      - type: gauge
+        entity: sensor.sp1pm62_power
+        name: Puissance
+        needle: true
+        min: 0
+        max: 2500
+        severity:
+          green: 0
+          yellow: 1500
+          red: 2100
+
+      - type: custom:mushroom-template-card
+        entity: sensor.sp1pm62_energy
+        icon: mdi:lightning-bolt
+        icon_color: amber
+        primary: >-
+          {{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W ·
+          {{ states('sensor.sp1pm62_energy') | float(0) | round(2) }} kWh
+        secondary: Consommation cumulée
+        tap_action:
+          action: more-info
+    column_span: 2
+    grid_options:
+      rows: auto
+      columns: 6
+
+  # ====================================================================
+  #  🔌 APPAREIL SIMPLEMENT MESURÉ — carte générique
+  # --------------------------------------------------------------------
+  #  Pour tout appareil dont on ne connaît que la consommation.
+  #  Réutilisation : remplacer « s1pm44 » (7 occurrences) par le préfixe
+  #  de la prise, puis adapter le titre, l'icône, le « max » de la jauge
+  #  et le seuil « en marche » (5 W ci-dessous).
+  #
+  #  Aucun helper nécessaire : _power et _energy existent sur toutes les
+  #  prises Shelly PM. Si la pièce a un utility_meter journalier, on peut
+  #  pointer la dernière ligne sur _energy_day à la place de _energy.
+  #
+  #  L'astuce du graphique : les deux séries « moy » et « max » ne sont
+  #  pas tracées (in_chart: false), elles servent uniquement à afficher
+  #  la moyenne et le pic des 24 h dans l'en-tête, à côté de la valeur
+  #  courante. Aucun capteur supplémentaire n'est requis.
+  # ====================================================================
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-title-card
+        alignment: center
+        subtitle: ☀️ Pompe panneaux
+
+      - type: custom:mushroom-template-card
+        entity: switch.s1pm44
+        icon: mdi:pump
+        primary: >-
+          {% set p = states('sensor.s1pm44_power') | float(0) %}
+          {% if not is_state('switch.s1pm44', 'on') %}Hors tension
+          {% elif p > 5 %}En marche
+          {% else %}En veille{% endif %}
+        secondary: "{{ states('sensor.s1pm44_power') | float(0) | round(0) }} W"
+        tap_action:
+          action: toggle
+        color: >-
+          {% set p = states('sensor.s1pm44_power') | float(0) %}
+          {% if not is_state('switch.s1pm44', 'on') %}red
+          {% elif p > 5 %}orange
+          {% else %}green{% endif %}
+
+      - type: gauge
+        entity: sensor.s1pm44_power
+        name: Puissance
+        needle: true
+        min: 0
+        max: 100
+        severity:
+          green: 0
+          yellow: 35
+          red: 60
+
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Puissance · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 160
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            max: "|+10|"
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm44_power
+            name: Maintenant
+            color: var(--warning-color)
+            type: area
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+          - entity: sensor.s1pm44_power
+            name: moy 24 h
+            color: var(--info-color)
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 24h
+            show:
+              in_chart: false
+              in_header: true
+          - entity: sensor.s1pm44_power
+            name: pic 24 h
+            color: var(--error-color)
+            float_precision: 0
+            group_by:
+              func: max
+              duration: 24h
+            show:
+              in_chart: false
+              in_header: true
+
+      - type: custom:mushroom-template-card
+        entity: sensor.s1pm44_energy
+        icon: mdi:lightning-bolt
+        icon_color: amber
+        primary: "{{ states('sensor.s1pm44_energy') | float(0) | round(2) }} kWh"
+        secondary: Consommation cumulée
+        tap_action:
+          action: more-info
+    column_span: 2
+    grid_options:
+      rows: auto
+      columns: full
+
+  # ====================================================================
+  #  🔆 ONDULEUR KOSTAL — carte pleine largeur (12 colonnes)
+  # --------------------------------------------------------------------
+  #  Réutilisation : remplacer « onduleur_des_dous » par le nom de
+  #  l'onduleur. Toutes les entités viennent de l'intégration Kostal
+  #  Plenticore, aucun helper n'est nécessaire.
+  #
+  #  Deux bandeaux de quatre tuiles : l'instantané en haut (W), les
+  #  cumuls du jour en bas (kWh / %). Puis la courbe 24 h des trois flux
+  #  et l'histogramme production / consommation des 7 derniers jours.
+  #
+  #  Kostal expose aussi un capteur d'état de charge de la batterie,
+  #  désactivé par défaut dans l'intégration. Une fois activé, il se
+  #  glisse bien en jauge sous la ligne « Batterie ».
+  # ====================================================================
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-title-card
+        alignment: center
+        subtitle: 🔆 Onduleur Kostal
+
+      - type: custom:mushroom-template-card
+        entity: sensor.onduleur_des_dous_inverter_state
+        icon: >-
+          {% if is_state('binary_sensor.production_panneaux_solaire', 'on') %}
+          mdi:solar-power{% else %}mdi:solar-power-variant-outline{% endif %}
+        primary: "{{ states('sensor.onduleur_des_dous_inverter_state') }}"
+        secondary: >-
+          Gestion d'énergie :
+          {{ states('sensor.onduleur_des_dous_energy_manager_state') }}
+        color: >-
+          {% if is_state('binary_sensor.production_panneaux_solaire', 'on') %}
+          amber{% else %}grey{% endif %}
+        multiline_secondary: false
+        tap_action:
+          action: more-info
+
+      # --- Instantané ------------------------------------------------
+      - type: grid
+        columns: 4
+        square: false
+        cards:
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_solar_power
+            icon: mdi:white-balance-sunny
+            icon_color: amber
+            primary: "{{ states('sensor.onduleur_des_dous_solar_power') | float(0) | round(0) }} W"
+            secondary: Production
+            vertical: true
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_home_power
+            icon: mdi:home-lightning-bolt
+            icon_color: blue
+            primary: "{{ states('sensor.onduleur_des_dous_home_power') | float(0) | round(0) }} W"
+            secondary: Maison
+            vertical: true
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_home_power_from_grid
+            icon: mdi:transmission-tower
+            primary: "{{ states('sensor.onduleur_des_dous_home_power_from_grid') | float(0) | round(0) }} W"
+            secondary: Soutirage réseau
+            vertical: true
+            tap_action:
+              action: more-info
+            color: >-
+              {% set v = states('sensor.onduleur_des_dous_home_power_from_grid') | float(0) %}
+              {% if v > 1000 %}red{% elif v > 100 %}orange{% else %}green{% endif %}
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_autarky_day
+            icon: mdi:leaf
+            primary: "{{ states('sensor.onduleur_des_dous_autarky_day') | float(0) | round(0) }} %"
+            secondary: Autonomie du jour
+            vertical: true
+            tap_action:
+              action: more-info
+            color: >-
+              {% set v = states('sensor.onduleur_des_dous_autarky_day') | float(0) %}
+              {% if v >= 70 %}green{% elif v >= 40 %}amber{% else %}red{% endif %}
+
+      # --- Cumuls du jour --------------------------------------------
+      - type: grid
+        columns: 4
+        square: false
+        cards:
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_energy_yield_day
+            icon: mdi:solar-panel
+            icon_color: amber
+            primary: "{{ states('sensor.onduleur_des_dous_energy_yield_day') | float(0) | round(1) }} kWh"
+            secondary: Produit
+            vertical: true
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_home_consumption_day
+            icon: mdi:home-import-outline
+            icon_color: blue
+            primary: "{{ states('sensor.onduleur_des_dous_home_consumption_day') | float(0) | round(1) }} kWh"
+            secondary: Consommé
+            vertical: true
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_energy_to_grid_day
+            icon: mdi:transmission-tower-export
+            icon_color: green
+            primary: "{{ states('sensor.onduleur_des_dous_energy_to_grid_day') | float(0) | round(1) }} kWh"
+            secondary: Injecté
+            vertical: true
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: sensor.onduleur_des_dous_own_consumption_rate_day
+            icon: mdi:recycle
+            icon_color: purple
+            primary: "{{ states('sensor.onduleur_des_dous_own_consumption_rate_day') | float(0) | round(0) }} %"
+            secondary: Autoconsommation
+            vertical: true
+            tap_action:
+              action: more-info
+
+      # --- Batterie ---------------------------------------------------
+      - type: custom:mushroom-template-card
+        entity: sensor.onduleur_des_dous_pv_to_battery_power
+        icon: >-
+          {% set c = states('sensor.onduleur_des_dous_pv_to_battery_power') | float(0) %}
+          {% set d = states('sensor.onduleur_des_dous_home_power_from_battery') | float(0) %}
+          {% if c > 10 %}mdi:battery-charging
+          {% elif d > 10 %}mdi:battery-arrow-down
+          {% else %}mdi:battery{% endif %}
+        primary: >-
+          {% set c = states('sensor.onduleur_des_dous_pv_to_battery_power') | float(0) %}
+          {% set d = states('sensor.onduleur_des_dous_home_power_from_battery') | float(0) %}
+          {% if c > 10 %}Charge · {{ c | round(0) }} W
+          {% elif d > 10 %}Décharge · {{ d | round(0) }} W
+          {% else %}Au repos{% endif %}
+        secondary: >-
+          Batterie · {{ states('sensor.onduleur_des_dous_battery_charge_from_pv_day')
+          | float(0) | round(1) }} kWh chargés aujourd'hui
+        color: >-
+          {% set c = states('sensor.onduleur_des_dous_pv_to_battery_power') | float(0) %}
+          {% set d = states('sensor.onduleur_des_dous_home_power_from_battery') | float(0) %}
+          {% if c > 10 %}green{% elif d > 10 %}orange{% else %}grey{% endif %}
+        multiline_secondary: false
+        tap_action:
+          action: more-info
+
+      # --- Les trois flux sur 24 h ------------------------------------
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Flux · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 240
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.onduleur_des_dous_solar_power
+            name: Production
+            color: var(--warning-color)
+            type: area
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+          - entity: sensor.onduleur_des_dous_home_power
+            name: Maison
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+          - entity: sensor.onduleur_des_dous_home_power_from_grid
+            name: Réseau
+            color: var(--error-color)
+            type: line
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+
+      # --- Bilan des 7 derniers jours ---------------------------------
+      # Les capteurs _day se remettent à zéro chaque nuit : la statistique
+      # « max » de chaque journée donne donc le total de la journée.
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Bilan · 7 jours
+          show_states: false
+        apex_config:
+          chart:
+            height: 200
+            type: bar
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          plotOptions:
+            bar:
+              columnWidth: 55%
+              borderRadius: 3
+          dataLabels:
+            enabled: false
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: ddd
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.onduleur_des_dous_energy_yield_day
+            name: Produit
+            color: var(--warning-color)
+            type: column
+            float_precision: 1
+            statistics:
+              type: max
+              period: day
+              align: middle
+          - entity: sensor.onduleur_des_dous_home_consumption_day
+            name: Consommé
+            color: var(--info-color)
+            type: column
+            float_precision: 1
+            statistics:
+              type: max
+              period: day
+              align: middle
+    grid_options:
+      columns: full
+      rows: auto
+
+  # ====================================================================
+  #  Exemples existants de la vue Serveur
+  # ====================================================================
+  - type: custom:mushroom-template-card
+    entity: switch.s1pm30
+    primary: Alimentation serveurs
+    secondary: >-
+      {% if is_state('switch.s1pm30', 'on') %}Sous tension
+      {% else %}Hors tension{% endif %}
+    icon: mdi:server-network
+    tap_action:
+      action: toggle
+    features_position: bottom
+    color: >-
+      {% if is_state('switch.s1pm30', 'on') %}green{% else %}red{% endif %}
+    vertical: true
+    grid_options:
+      columns: 6
+      rows: 2
+
+  - type: tile
+    entity: sensor.ups_battery_charge
+    show_entity_picture: false
+    hide_state: false
+    vertical: false
+    features:
+      - type: trend-graph
+    features_position: bottom
+
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-title-card
+        alignment: center
+        subtitle: 📡 SLZB-06M
+      - type: custom:mushroom-template-card
+        entity: sensor.slzb_06m_connection_mode
+        icon: mdi:router-wireless
+        primary: SLZB-06M
+        secondary: "{{ states('sensor.slzb_06m_connection_mode') }}"
+        color: >-
+          {% if is_state('sensor.slzb_06m_connection_mode', 'eth') %}green
+          {% else %}amber{% endif %}
+        features_position: bottom
+        multiline_secondary: false
+      - type: custom:mushroom-template-card
+        entity: sensor.slzb_06m_core_chip_temp
+        icon: mdi:chip
+        icon_color: >-
+          {% set t = states('sensor.slzb_06m_core_chip_temp') | float(0) %}
+          {% if t >= 70 %}red{% elif t >= 55 %}amber{% else %}green{% endif %}
+        primary: CPU
+        secondary: "{{ states('sensor.slzb_06m_core_chip_temp') }} °C"
+      - type: custom:mushroom-template-card
+        entity: binary_sensor.slzb_06m_ethernet
+        icon: mdi:ethernet
+        icon_color: >-
+          {% if is_state(entity, 'on') %}green{% else %}red{% endif %}
+        primary: Ethernet
+        secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{% endif %}"
+      - type: custom:mushroom-template-card
+        entity: binary_sensor.slzb_06m_internet
+        icon: mdi:web
+        icon_color: >-
+          {% if is_state(entity, 'on') %}green{% else %}red{% endif %}
+        primary: Internet
+        secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{% endif %}"
+      - type: custom:mushroom-template-card
+        entity: sensor.slzb_06m_firmware_channel
+        icon: mdi:update
+        icon_color: blue
+        primary: Firmware
+        secondary: "{{ states('sensor.slzb_06m_firmware_channel') }}"
+      - type: custom:mushroom-template-card
+        entity: sensor.slzb_06m_zigbee_chip_temp
+        icon: mdi:zigbee
+        icon_color: >-
+          {% set t = states('sensor.slzb_06m_zigbee_chip_temp') | float(0) %}
+          {% if t >= 70 %}red{% elif t >= 55 %}amber{% else %}green{% endif %}
+        primary: Zigbee
+        secondary: >-
+          {{ states('sensor.slzb_06m_zigbee_chip_temp') }} °C ·
+          {{ states('sensor.slzb_06m_zigbee_type') }}
+    column_span: 2
+    grid_options:
+      rows: auto
+      columns: 6
+
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-title-card
+        alignment: center
+        subtitle: 🛜 Mikrotik
+      - type: custom:mushroom-template-card
+        entity: sensor.mikrotik_uptime
+        icon: mdi:clock-check-outline
+        primary: Mikrotik
+        secondary: >-
+          {% set s = states('sensor.mikrotik_uptime') | int(0) %}
+          {% set d = (s / 86400) | int %}
+          {% if d < 1 %}{{ (s / 3600) | int }} heure{% if (s / 3600) | int > 1 %}s{% endif %}
+          {% elif d < 7 %}{{ d }} jour{% if d > 1 %}s{% endif %}
+          {% elif d < 30 %}{% set w = (d / 7) | int %}{{ w }} semaine{% if w > 1 %}s{% endif %}
+          {% elif d < 365 %}{{ (d / 30) | int }} mois
+          {% else %}{% set y = (d / 365) | int %}{{ y }} an{% if y > 1 %}s{% endif %}
+          {% endif %}
+        icon_color: >-
+          {% set u = states('sensor.mikrotik_uptime') | int(0) %}
+          {% if u < 1209600 %}green{% elif u < 2592000 %}amber{% else %}red{% endif %}
+      - type: custom:mushroom-template-card
+        entity: sensor.mikrotik_cpu_usage
+        icon: mdi:chip
+        primary: CPU
+        secondary: "{{ states('sensor.mikrotik_cpu_usage') }} %"
+        icon_color: >-
+          {% set t = states('sensor.mikrotik_cpu_usage') | float(0) %}
+          {% if t >= 70 %}red{% elif t >= 55 %}amber{% else %}green{% endif %}
+      - type: custom:mushroom-template-card
+        entity: sensor.mikrotik_memory_usage
+        icon: mdi:memory
+        primary: RAM
+        secondary: "{{ states('sensor.mikrotik_memory_usage') | float | round(2) }} %"
+        icon_color: >-
+          {% set t = states('sensor.mikrotik_memory_usage') | float(0) %}
+          {% if t >= 70 %}red{% elif t >= 55 %}amber{% else %}green{% endif %}
+      - type: custom:mushroom-template-card
+        entity: sensor.mikrotik_disk_usage
+        icon: mdi:harddisk
+        primary: Disk
+        secondary: "{{ states('sensor.mikrotik_disk_usage') | float | round(2) }} %"
+        icon_color: >-
+          {% set t = states('sensor.mikrotik_disk_usage') | float(0) %}
+          {% if t >= 90 %}red{% elif t >= 80 %}amber{% else %}green{% endif %}
+      - type: custom:mushroom-template-card
+        entity: update.mikrotik_routerboard
+        icon: mdi:update
+        primary: Firmware
+        secondary: >-
+          {% if is_state('update.mikrotik_routerboard', 'off') %}À jour
+          {% else %}Update dispo{% endif %}
+        icon_color: >-
+          {% if is_state('update.mikrotik_routerboard', 'off') %}green
+          {% else %}amber{% endif %}
+    column_span: 2
+    grid_options:
+      rows: auto
+      columns: 6

@@ -1766,3 +1766,90 @@
       device_id: TBX7D_SECRET_0177
     data: {}
   mode: single
+- id: 'chaudiere_in_wrong_state'
+  alias: Chaudière in wrong state
+  description: >-
+    Alerte si la pompe de dilatation (sp1pm70) n'a rien consommé depuis plus de
+    12 h : la chaudière ne cycle plus. L'ancienneté de la consommation est lue
+    sur le dernier changement d'état du compteur sensor.sp1pm70_energy, un
+    instantané > 1 W étant interprété comme une pompe en marche. Le rythme des
+    notifications est bridé à une fois toutes les 12 h via last_triggered.
+  triggers:
+  - trigger: time_pattern
+    minutes: '/30'
+  conditions:
+  - condition: template
+    value_template: >-
+      {% set e = states.get('sensor.sp1pm70_energy') %} {{ e is not none
+      and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200 and
+      states('sensor.sp1pm70_power') | float(0) < 1 }}
+  - condition: template
+    value_template: >-
+      {{ this.attributes.last_triggered is none or (as_timestamp(now()) -
+      as_timestamp(this.attributes.last_triggered)) > 43200 }}
+  actions:
+  - action: notify.TBX7D_SECRET_0192
+    data:
+      title: ⚠️ Chaudière en mauvais état
+      message: >-
+        La pompe de dilatation (sp1pm70) n'a rien consommé depuis
+        {{ ((as_timestamp(now()) - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) / 3600) | round(0) | int }} h
+        (seuil 12 h). Contrôler la pression du circuit et l'alimentation de la
+        chaudière.
+      data:
+        ttl: 0
+        priority: high
+  mode: single
+- id: 'cave_a_vin_memorise_dernier_allumage'
+  alias: Cave à vin - mémorise le dernier allumage
+  description: >-
+    Consigne l'instant du dernier passage à « on » du switch
+    switch.sb19_sb19_cave_a_vin dans le helper
+    input_datetime.cave_a_vin_dernier_allumage, source des alertes « cave à vin
+    pas allumée depuis 2 jours » du dashboard et de l'automation de
+    notification associée.
+  triggers:
+  - trigger: state
+    entity_id: switch.sb19_sb19_cave_a_vin
+    to: 'on'
+  conditions: []
+  actions:
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.cave_a_vin_dernier_allumage
+    data:
+      datetime: '{{ now().isoformat() }}'
+  mode: single
+- id: 'cave_a_vin_pas_allumee_depuis_2_jours'
+  alias: Cave à vin - pas allumée depuis 2 jours
+  description: >-
+    Alerte si le switch de la cave à vin est éteint et n'a pas été rallumé
+    depuis plus de 48 h. Un switch allumé n'est jamais signalé, et le helper
+    encore inconnu est traité comme « jamais allumé ». Notifications brisées à
+    une fois toutes les 24 h via last_triggered.
+  triggers:
+  - trigger: time_pattern
+    minutes: '/5'
+  conditions:
+  - condition: template
+    value_template: >-
+      {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {{
+      is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown',
+      'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) }}
+  - condition: template
+    value_template: >-
+      {{ this.attributes.last_triggered is none or (as_timestamp(now()) -
+      as_timestamp(this.attributes.last_triggered)) > 86400 }}
+  actions:
+  - action: notify.TBX7D_SECRET_0192
+    data:
+      title: ⚠️ Cave à vin pas aérée
+      message: >-
+        Le switch de la cave à vin est éteint et n'a pas été rallumé depuis
+        {% if states('input_datetime.cave_a_vin_dernier_allumage') in ['unknown',
+        'unavailable', 'none'] %}plus de 48 h (jamais allumé depuis la création du helper){% else %}{{ ((as_timestamp(now()) - as_timestamp(states.input_datetime.cave_a_vin_dernier_allumage)) / 3600) | round(0) | int }} h{% endif %}
+        (seuil 48 h). Lancer un cycle d'aération de la cave.
+      data:
+        ttl: 0
+        priority: high
+  mode: single

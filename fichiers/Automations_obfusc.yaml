@@ -1493,84 +1493,53 @@
   mode: single
 - id: '1787566919858'
   alias: Cave à vin - gestion optimisée
-  description: Gestion de la température en privilégiant le refroidissement solaire
+  description: >-
+    Gestion de la température en privilégiant le refroidissement solaire.
+    La consigne est recalculée à chaque variation de température, à chaque
+    bascule de la production solaire et toutes les 10 minutes : une commande
+    restée sans effet parce que le switch était indisponible est donc rejouée
+    au cycle suivant. Règle : on au-dessus de 19 °C, ou dès 16 °C si les
+    panneaux produisent ; on coupe en dessous de 16 °C ; entre les deux seuils
+    l'état courant est conservé (hystérésis, pas d'oscillation).
   triggers:
-  - trigger: numeric_state
+  - trigger: state
     entity_id: sensor.zg_227z_20_temperature
-    above: 20
-    for:
-      minutes: 5
-    id: trop_chaud
-  - trigger: numeric_state
-    entity_id: sensor.zg_227z_20_temperature
-    above: 18
-    for:
-      minutes: 5
-    id: solaire
-  - trigger: numeric_state
-    entity_id: sensor.zg_227z_20_temperature
-    above: 19
-    for:
-      minutes: 5
-    id: normal
-  - trigger: numeric_state
-    entity_id:
-    - sensor.zg_227z_20_temperature
-    below: 17
-    for:
-      minutes: 5
-    id: froid
   - trigger: state
     entity_id: binary_sensor.production_panneaux_solaire
-    to: 'on'
-    id: solaire_on
+  - trigger: time_pattern
+    minutes: '/10'
+  conditions: []
   actions:
+  - variables:
+      courant: "{{ states('switch.sb19_sb19_cave_a_vin') }}"
+      cible: >-
+        {%- set t = states('sensor.zg_227z_20_temperature') | float(none) -%}
+        {%- set soleil = is_state('binary_sensor.production_panneaux_solaire',
+        'on') -%}
+        {%- if t is none or (t >= 16 and t < 19 and not soleil) -%}{{ courant }}
+        {%- elif t < 16 -%}off
+        {%- else -%}on
+        {%- endif -%}
   - choose:
     - conditions:
-      - condition: trigger
-        id: trop_chaud
+      - condition: template
+        value_template: >-
+          {{ courant in ['on', 'off'] and courant != cible and cible
+          == 'on' }}
       sequence:
       - action: switch.turn_on
+        continue_on_error: true
         target:
           entity_id: switch.sb19_sb19_cave_a_vin
     - conditions:
-      - condition: trigger
-        id: froid
+      - condition: template
+        value_template: "{{ courant in ['on', 'off'] and courant != cible }}"
       sequence:
       - action: switch.turn_off
+        continue_on_error: true
         target:
           entity_id: switch.sb19_sb19_cave_a_vin
-    - conditions:
-      - condition: trigger
-        id: solaire
-      - condition: state
-        entity_id: binary_sensor.production_panneaux_solaire
-        state: 'on'
-      sequence:
-      - action: switch.turn_on
-        target:
-          entity_id: switch.sb19_sb19_cave_a_vin
-    - conditions:
-      - condition: trigger
-        id: normal
-      - condition: state
-        entity_id: binary_sensor.production_panneaux_solaire
-        state: 'off'
-      sequence:
-      - action: switch.turn_on
-        target:
-          entity_id: switch.sb19_sb19_cave_a_vin
-    - conditions:
-      - condition: trigger
-        id: solaire_on
-      - condition: numeric_state
-        entity_id: sensor.zg_227z_20_temperature
-        above: 16
-      sequence:
-      - action: switch.turn_on
-        target:
-          entity_id: switch.sb19_sb19_cave_a_vin
-  mode: single
+  mode: restart
 - id: '1787831749036'
   alias: Porte 1er Toggle from bureau FV button
   description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
@@ -1823,10 +1792,12 @@
 - id: 'cave_a_vin_pas_allumee_depuis_2_jours'
   alias: Cave à vin - pas allumée depuis 2 jours
   description: >-
-    Alerte si le switch de la cave à vin est éteint et n'a pas été rallumé
-    depuis plus de 48 h. Un switch allumé n'est jamais signalé, et le helper
-    encore inconnu est traité comme « jamais allumé ». Notifications brisées à
-    une fois toutes les 24 h via last_triggered.
+    Alerte si le switch de la cave à vin est éteint ou indisponible et n'a pas
+    été rallumé depuis plus de 48 h. Un switch allumé n'est jamais signalé, un
+    switch indisponible est traité comme éteint (c'est souvent lui qui empêche
+    le relance automatique), et le helper encore inconnu est traité comme
+    « jamais allumé ». Notifications brisées à une fois toutes les 24 h via
+    last_triggered.
   triggers:
   - trigger: time_pattern
     minutes: '/5'
@@ -1834,8 +1805,9 @@
   - condition: template
     value_template: >-
       {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {{
-      is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown',
-      'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) }}
+      states('switch.sb19_sb19_cave_a_vin') in ['off', 'unavailable',
+      'unknown'] and (d in ['unknown', 'unavailable', 'none'] or
+      (as_timestamp(now()) - as_timestamp(d)) > 172800) }}
   - condition: template
     value_template: >-
       {{ this.attributes.last_triggered is none or (as_timestamp(now()) -

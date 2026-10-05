@@ -2879,9 +2879,9 @@ views:
                 | select('gt', 8)
                 | list
                 | count %}
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% set pompe = e
-                is not none and (as_timestamp(now()) - as_timestamp(e.last_changed))
-                > 43200 and states('sensor.sp1pm70_power') | float(0) < 1 %}
+              {% set pompe = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
+                - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
+                and states('sensor.sp1pm70_power') | float(0) < 1 %}
               {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% set cave
                 = is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown',
                 'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
@@ -2895,13 +2895,13 @@ views:
               Surveillance des appareils à consommation variable et des seuils
               de fonctionnement (12 h / 2 j)
             icon: |
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
                 states('sensor.s1pm42_power')|float(0) > 5 or
                 states('sensor.sp1pm62_power')|float(0) > 5 or
                 states('sensor.s1pm40_power')|float(0) > 5 or
                 states('sensor.sp1pm63_power')|float(0) > 8 or
                 states('sensor.sp1pm61_power')|float(0) > 5 or
-                (e is not none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200
+                (has_value('sensor.sp1pm70_energy') and (as_timestamp(now()) - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
                  and states('sensor.sp1pm70_power') | float(0) < 1) or
                 (is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown', 'unavailable', 'none']
                  or (as_timestamp(now()) - as_timestamp(d)) > 172800))
@@ -2913,13 +2913,13 @@ views:
             grid_options:
               columns: full
             color: |
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
                 states('sensor.s1pm42_power')|float(0) > 5 or
                 states('sensor.sp1pm62_power')|float(0) > 5 or
                 states('sensor.s1pm40_power')|float(0) > 5 or
                 states('sensor.sp1pm63_power')|float(0) > 8 or
                 states('sensor.sp1pm61_power')|float(0) > 5 or
-                (e is not none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200
+                (has_value('sensor.sp1pm70_energy') and (as_timestamp(now()) - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
                  and states('sensor.sp1pm70_power') | float(0) < 1) or
                 (is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown', 'unavailable', 'none']
                  or (as_timestamp(now()) - as_timestamp(d)) > 172800))
@@ -3068,20 +3068,19 @@ views:
               columns: full
           - type: custom:mushroom-template-card
             primary: |
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% set bloq = e
-                is not none and (as_timestamp(now()) - as_timestamp(e.last_changed))
-                > 43200 and states('sensor.sp1pm70_power') | float(0) < 1 %}
+              {% set bloq = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
+                - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
+                and states('sensor.sp1pm70_power') | float(0) < 1 %}
               {% if bloq %}
                 🚨 Pompe de dilatation à l'arrêt
               {% else %}
                 ✅ Pompe de dilatation en marche
               {% endif %}
             secondary: |
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% if e is none
-                or e.last_changed is none %}
+              {% if not has_value('sensor.sp1pm70_energy') %}
                 Compteur sp1pm70 introuvable
               {% else %}
-                {% set h = ((as_timestamp(now()) - as_timestamp(e.last_changed)) / 3600) | round(0) | int %}
+                {% set h = ((as_timestamp(now()) - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) / 3600) | round(0) | int %}
                 {% if h > 12 %}
                   Aucune consommation depuis {{ h }} h · seuil 12 h
                 {% else %}
@@ -3089,13 +3088,19 @@ views:
                 {% endif %}
               {% endif %}
             icon: |
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% if e is not none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200 and states('sensor.sp1pm70_power') | float(0) < 1 %}
+              {% set bloq = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
+                - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
+                and states('sensor.sp1pm70_power') | float(0) < 1 %}
+              {% if bloq %}
                 mdi:alert-circle
               {% else %}
                 mdi:shield-check
               {% endif %}
             color: |
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% if e is not none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200 and states('sensor.sp1pm70_power') | float(0) < 1 %}
+              {% set bloq = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
+                - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
+                and states('sensor.sp1pm70_power') | float(0) < 1 %}
+              {% if bloq %}
                 orange
               {% else %}
                 green
@@ -3107,9 +3112,11 @@ views:
           - type: custom:mushroom-template-card
             primary: |
               {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {%
-                set connu = d not in ['unknown', 'unavailable', 'none'] %} {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'on') %}
+                set connu = d not in ['unknown', 'unavailable', 'none'] %} {% set s
+                = states('switch.sb19_sb19_cave_a_vin') %} {% if s == 'on' %}
                 🍷 Cave à vin allumée
+              {% elif s in ['unavailable', 'unknown'] %}
+                ⚠️ Switch cave à vin indisponible
               {% elif not connu or (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
                 🚨 Cave à vin pas aérée depuis 2 jours
               {% else %}
@@ -3117,8 +3124,13 @@ views:
               {% endif %}
             secondary: |
               {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'on') %}
+                states('switch.sb19_sb19_cave_a_vin') == 'on' %}
                 Switch de la cave à vin allumé
+              {% elif states('switch.sb19_sb19_cave_a_vin') in ['unavailable',
+                'unknown'] %}
+                Switch indisponible (dernière valeur connue : {% if d in ['unknown',
+                'unavailable', 'none'] %}inconnue{% else %}{{ ((as_timestamp(now())
+                - as_timestamp(d)) / 3600) | round(0) | int }} h{% endif %})
               {% elif d in ['unknown', 'unavailable', 'none'] %}
                 Switch éteint et dernier allumage inconnu
               {% else %}
@@ -3126,18 +3138,20 @@ views:
                 Dernier allumage il y a {{ h }} h · seuil 48 h
               {% endif %}
             icon: |
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'on') %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {%
+                set s = states('switch.sb19_sb19_cave_a_vin') %} {% if s == 'on' %}
                 mdi:glass-wine
-              {% elif d in ['unknown', 'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
+              {% elif s in ['unavailable', 'unknown'] or d in ['unknown',
+                'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
                 mdi:alert-circle
               {% else %}
                 mdi:glass-wine
               {% endif %}
             color: |
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown',
-                'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {%
+                set s = states('switch.sb19_sb19_cave_a_vin') %} {% if s in ['off',
+                'unavailable', 'unknown'] and (d in ['unknown', 'unavailable',
+                'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
                 orange
               {% else %}
                 green

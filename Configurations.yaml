@@ -8,8 +8,8 @@ default_config:
 #  server_port: TBX7D_SECRET_0002
 #  use_x_forwarded_for: true
 #  trusted_proxies:
-#    - TBX7D_HOST_0002             # Add Reverse Proxy IPv4 address
-#    - TBX7D_HOST_0003/24           # Add LAN
+#    - 192.168.166.10             # Add Reverse Proxy IPv4 address
+#    - 192.168.97.0/24           # Add LAN
 
 # Text to speech
 tts:
@@ -69,7 +69,7 @@ template:
 # Ping mikrotik server
 #binary_sensor:
 #  - platform: ping
-#    host: TBX7D_HOST_0001
+#    host: 192.168.206.1
 #    name: "Mikrotik rooter"
 #    count: 2
 #    scan_interval: 500

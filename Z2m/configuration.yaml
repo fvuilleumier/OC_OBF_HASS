@@ -99,11 +99,11 @@ version: 5
 homeassistant:
   enabled: true
 mqtt:
-  server: mqtt://dom0001.example.invalid.3:41003
+  server: mqtt://192.168.185.3:41003
   user: TBX7D_CRED_0004
   password: TBX7D_SECRET_0001
 serial:
-  port: tcp://dom0001.example.invalid.10:41004
+  port: tcp://192.168.185.10:41004
   adapter: ember
   baudrate: 115200
 frontend:

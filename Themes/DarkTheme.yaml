@@ -1,0 +1,392 @@
+DarkTheme:
+  # ============================================================
+  # 🎨 PRINCIPAL
+  # ============================================================
+
+  primary-color: "#4DA6FF"
+  accent-color: "#4DA6FF"
+
+  dark-primary-color: "#3D85CC"
+  darker-primary-color: "#2E6599"
+  light-primary-color: "#70BAFF"
+
+  # ============================================================
+  # 🏠 BACKGROUND
+  # Intermédiaire entre #2C313A et #1E1E1E
+  # ============================================================
+
+  primary-background-color: "#25282C"
+  secondary-background-color: "#25282C"
+  lovelace-background: "#25282C"
+
+  card-background-color: "#25282C"
+  ha-card-background: "#25282C"
+
+  # ============================================================
+  # 🃏 BORDURES
+  # ============================================================
+
+  divider-color: "#454C59"
+  outline-color: "#454C59"
+  outline-hover-color: "#626B7A"
+  ha-card-border-color: "#454C59"
+
+  # ============================================================
+  # ✍️ TEXTES
+  # ============================================================
+
+  primary-text-color: "#D5D9E0"
+  secondary-text-color: "#9DA5B2"
+  disabled-text-color: "#626A77"
+
+  text-primary-color: "#D5D9E0"
+  text-light-primary-color: "#D5D9E0"
+
+  ha-color-text-primary: "#D5D9E0"
+  ha-color-text-secondary: "#9DA5B2"
+  ha-color-text-disabled: "#626A77"
+
+  # ============================================================
+  # 🏷️ TITRES DE SECTION
+  # Utilisés par les button-card de titre (« ⚡ Énergie »,
+  # « 📟 Appareils », « 🧭 Navigation »…) de Dashboard/Views/Pieces.
+  #
+  # « primary-text-color » et « divider-color » sont déjà définis plus
+  # haut et suffiraient ; ces deux alias existent pour pouvoir retoucher
+  # uniquement les titres de section sans toucher au reste de l'interface.
+  # Les cartes les appellent avec un repli :
+  #   var(--section-title-color, var(--primary-text-color))
+  #   var(--section-title-line-color, var(--divider-color))
+  # ============================================================
+
+  section-title-color: "#D5D9E0"
+  section-title-line-color: "#454C59"
+
+  # ============================================================
+  # 🧱 NEUTRES
+  # ============================================================
+
+  ha-color-neutral-05: "#22262D"
+  ha-color-neutral-10: "#272C33"
+  ha-color-neutral-20: "#2C313A"
+  ha-color-neutral-30: "#454C59"
+  ha-color-neutral-40: "#596271"
+  ha-color-neutral-50: "#697382"
+  ha-color-neutral-60: "#7C8695"
+  ha-color-neutral-70: "#919BAA"
+  ha-color-neutral-80: "#AAB2BE"
+  ha-color-neutral-90: "#C5CBD4"
+  ha-color-neutral-95: "#E0E3E8"
+
+  # ============================================================
+  # 🖱️ HOVER / FOCUS
+  # ============================================================
+
+  ha-color-focus: "#4DA6FF"
+
+  ha-color-fill-neutral-quiet-resting: "#252A31"
+  ha-color-fill-neutral-quiet-hover: "#333943"
+  ha-color-fill-neutral-quiet-active: "#252A31"
+
+  ha-color-fill-neutral-normal-resting: "#333943"
+  ha-color-fill-neutral-normal-hover: "#3B424D"
+  ha-color-fill-neutral-normal-active: "#333943"
+
+  ha-color-fill-neutral-loud-resting: "#454C59"
+  ha-color-fill-neutral-loud-hover: "#596271"
+  ha-color-fill-neutral-loud-active: "#454C59"
+
+  # ============================================================
+  # 🔵 PRIMARY
+  # ============================================================
+
+  ha-color-primary-40: "#4DA6FF"
+  ha-color-primary-50: "#3D8EDB"
+  ha-color-primary-60: "#3378B8"
+  ha-color-primary-70: "#2C6498"
+  ha-color-primary-80: "#28557D"
+  ha-color-primary-90: "#25445F"
+  ha-color-primary-95: "#23394D"
+
+  ha-color-fill-primary-quiet-resting: "#23394D"
+  ha-color-fill-primary-quiet-hover: "#25445F"
+  ha-color-fill-primary-quiet-active: "#23394D"
+
+  ha-color-fill-primary-normal-resting: "#25445F"
+  ha-color-fill-primary-normal-hover: "#28557D"
+  ha-color-fill-primary-normal-active: "#25445F"
+
+  ha-color-fill-primary-loud-resting: "#4DA6FF"
+  ha-color-fill-primary-loud-hover: "#70BAFF"
+  ha-color-fill-primary-loud-active: "#4DA6FF"
+
+  # ============================================================
+  # 🔘 TEXTE BOUTONS
+  # ============================================================
+
+  ha-color-on-primary-quiet: "#70BAFF"
+  ha-color-on-primary-normal: "#4DA6FF"
+  ha-color-on-primary-loud: "#20242A"
+
+  ha-color-on-neutral-quiet: "#919BAA"
+  ha-color-on-neutral-normal: "#C5CBD4"
+  ha-color-on-neutral-loud: "#E0E3E8"
+
+  # ============================================================
+  # 🧾 INPUT / SELECT / COMBOBOX
+  # ============================================================
+
+  ha-color-form-background: "#252A31"
+  ha-color-form-background-hover: "#2B3038"
+  ha-color-form-background-disabled: "#303640"
+
+  ha-color-surface-default: "#252A31"
+  ha-color-on-surface-default: "#D5D9E0"
+
+  paper-listbox-background-color: "#252A31"
+  paper-listbox-color: "#D5D9E0"
+
+  material-background-color: "#252A31"
+  material-secondary-background-color: "#20242A"
+
+  # ------------------------------------------------------------
+  # Champs MDC (ha-textfield, ha-select, cases à cocher)
+  #
+  # Le CSS de ces composants est du type :
+  #   background-color: var(--mdc-text-field-fill-color, whitesmoke);
+  #
+  # Contrairement aux interrupteurs, le repli est ici une couleur
+  # littérale et non un token de thème : il n'y a donc rien à
+  # redéfinir en amont, c'est la variable --mdc-* elle-même qu'il faut
+  # poser. Sans ça, tout champ « filled » (le « + Add » d'une liste de
+  # courses, les champs des boîtes de dialogue…) reste blanc cassé.
+  #
+  # Le fond est volontairement un cran plus clair que la carte
+  # (#2C313A contre #25282C) pour que la zone de saisie reste lisible.
+  # ------------------------------------------------------------
+
+  mdc-text-field-fill-color: "#2C313A"
+  mdc-text-field-ink-color: "#D5D9E0"
+  mdc-text-field-label-ink-color: "#9DA5B2"
+  mdc-text-field-idle-line-color: "#454C59"
+  mdc-text-field-hover-line-color: "#626B7A"
+  mdc-text-field-disabled-fill-color: "#272C33"
+  mdc-text-field-disabled-ink-color: "#626A77"
+  mdc-text-field-disabled-line-color: "#3B424D"
+  mdc-text-field-outlined-idle-border-color: "#454C59"
+  mdc-text-field-outlined-hover-border-color: "#626B7A"
+  mdc-text-field-outlined-disabled-border-color: "#3B424D"
+
+  mdc-select-fill-color: "#2C313A"
+  mdc-select-ink-color: "#D5D9E0"
+  mdc-select-label-ink-color: "#9DA5B2"
+  mdc-select-idle-line-color: "#454C59"
+  mdc-select-hover-line-color: "#626B7A"
+  mdc-select-dropdown-icon-color: "#9DA5B2"
+  mdc-select-disabled-fill-color: "#272C33"
+  mdc-select-disabled-ink-color: "#626A77"
+  mdc-select-outlined-idle-border-color: "#454C59"
+  mdc-select-outlined-hover-border-color: "#626B7A"
+  mdc-select-outlined-disabled-border-color: "#3B424D"
+
+  mdc-checkbox-unchecked-color: "#7C8695"
+  mdc-checkbox-disabled-color: "#4E5666"
+  mdc-radio-unchecked-color: "#7C8695"
+  mdc-radio-disabled-color: "#4E5666"
+
+  # ============================================================
+  # 📑 SÉLECTION
+  # ============================================================
+
+  paper-item-selected_-_background-color: "#20242A"
+  paper-item-selected_-_color: "#D5D9E0"
+
+  # ============================================================
+  # 🧮 INPUTS NUMÉRIQUES
+  # ============================================================
+
+  input-background-color: "#252A31"
+
+  # ============================================================
+  # 🧭 BARRE SUPÉRIEURE
+  # ============================================================
+
+  app-header-background-color: "#252A31"
+  app-header-text-color: "#D5D9E0"
+
+  # ============================================================
+  # 📂 SIDEBAR
+  # ============================================================
+
+  sidebar-background-color: "#252A31"
+  sidebar-text-color: "#C5CBD4"
+  sidebar-icon-color: "#919BAA"
+
+  sidebar-selected-background-color: "#333943"
+  sidebar-selected-icon-color: "#4DA6FF"
+  sidebar-selected-text-color: "#E0E3E8"
+
+  # ============================================================
+  # 🌈 COULEURS ONE DARK PRO
+  # ============================================================
+
+  state-icon-color: "#7C8695"
+  state-icon-active-color: "#4DA6FF"
+
+  state-sensor-temperature-color: "#FF6472"
+  state-sensor-humidity-color: "#A5D65A"
+
+  error-color: "#FF6472"
+  warning-color: "#FFC857"
+  success-color: "#A5D65A"
+  info-color: "#4DA6FF"
+
+  purple-color: "#D56BEB"
+  cyan-color: "#4DC4D6"
+  orange-color: "#E5A45C"
+
+  # ============================================================
+  # 🔌 ÉTATS ÉTEINTS / INACTIFS
+  # Par défaut Home Assistant et Mushroom utilisent des gris très
+  # clairs (#9E9E9E pour « grey », #BDBDBD pour « disabled »), qui
+  # ressortent trop sur ce fond sombre. On les rabat sur les neutres
+  # 40/50 de la palette ci-dessus.
+  #
+  # Réglage : monter vers ha-color-neutral-60 (#7C8695) pour éclaircir,
+  # descendre vers ha-color-neutral-30 (#454C59) pour assombrir encore.
+  # ============================================================
+
+  # Cartes tile / entities : entité éteinte ou inactive
+  state-inactive-color: "#596271"
+
+  # « grey » — la couleur choisie dans les cartes mushroom pour l'état
+  # éteint (icon_color: grey). rgb-grey est la variante lue par Mushroom.
+  grey-color: "#697382"
+  rgb-grey-color: "105, 115, 130"
+  rgb-grey: "105, 115, 130"
+
+  # ------------------------------------------------------------
+  # Palette Mushroom alignée sur le thème
+  #
+  # Les cartes mushroom n'acceptent pas var(--purple-color) dans
+  # « color: » : elles attendent un NOM de couleur, qu'elles résolvent
+  # en var(--rgb-<nom>) — d'où un triplet R, G, B et non un hex.
+  # Sans ces lignes, mushroom applique sa palette Material d'origine
+  # (violet #9C27B0, orange #FF9800…), qui jure avec les couleurs du
+  # thème utilisées ailleurs, par exemple sur les pastilles du plan
+  # interactif.
+  #
+  # Chaque triplet est la conversion exacte de la variable du même nom
+  # définie plus haut. Ces lignes repeignent donc TOUTES les cartes
+  # mushroom des dashboards, ce qui est justement le but.
+  # ------------------------------------------------------------
+
+  rgb-red: "255, 100, 114"        # error-color   #FF6472
+  rgb-amber: "255, 200, 87"       # warning-color #FFC857
+  rgb-yellow: "255, 200, 87"      # warning-color #FFC857
+  rgb-green: "165, 214, 90"       # success-color #A5D65A
+  rgb-blue: "77, 166, 255"        # info-color    #4DA6FF
+  rgb-purple: "213, 107, 235"     # purple-color  #D56BEB
+  rgb-cyan: "77, 196, 214"        # cyan-color    #4DC4D6
+  rgb-orange: "229, 164, 92"      # orange-color  #E5A45C
+
+  # « disabled » — entité indisponible / grisée
+  disabled-color: "#4E5666"
+  rgb-disabled-color: "78, 86, 102"
+  rgb-disabled: "78, 86, 102"
+
+  # ============================================================
+  # 📝 ÉDITEURS YAML / CODEMIRROR
+  # Syntaxe plus claire et plus lisible
+  # ============================================================
+
+  code-editor-background-color: "#25282C"
+
+  codemirror-property: "#FF5C8A"
+  codemirror-string: "#33B5E5"
+  codemirror-keyword: "#FF7A85"
+  codemirror-number: "#FFB454"
+  codemirror-atom: "#FFB454"
+  codemirror-variable: "#D5D9E0"
+  codemirror-variable-2: "#70BAFF"
+  codemirror-variable-3: "#4DC4D6"
+  codemirror-operator: "#D5D9E0"
+  codemirror-comment: "#8590A0"
+  codemirror-def: "#D56BEB"
+  codemirror-tag: "#FF7A85"
+  codemirror-attribute: "#A5D65A"
+  codemirror-type: "#4DC4D6"
+  codemirror-meta: "#AAB2BE"
+  codemirror-builtin: "#D56BEB"
+  codemirror-link: "#70BAFF"
+  codemirror-error: "#FF6472"
+
+  # ============================================================
+  # 🎚️ SLIDERS
+  # ============================================================
+
+  paper-slider-knob-color: "#4DA6FF"
+  paper-slider-active-color: "#4DA6FF"
+  paper-slider-secondary-color: "#3378B8"
+
+  # ============================================================
+  # 🔘 SWITCHES
+  # Le CSS réel de ha-switch dans le nouveau design system est :
+  #
+  #   rail      background-color: var(--ha-switch-background-color,
+  #                                   var(--ha-color-fill-disabled-quiet-resting))
+  #             border-color:     var(--ha-switch-border-color,
+  #                                   var(--ha-color-border-neutral-normal))
+  #   pastille  background-color: var(--ha-switch-thumb-background-color,
+  #                                   var(--ha-color-on-neutral-normal))
+  #
+  # D'où l'état éteint trop clair : ha-color-fill-disabled-quiet-resting
+  # n'était pas défini (HA appliquait donc son défaut clair) et la
+  # pastille retombe sur ha-color-on-neutral-normal, réglé à #C5CBD4.
+  #
+  # On corrige par les VARIABLES DE REPLI et non par --ha-switch-* :
+  # ces dernières s'appliqueraient aussi à l'état allumé, qui doit
+  # rester bleu. ha-color-on-neutral-normal n'est pas touché non plus,
+  # il sert au texte des boutons ailleurs dans l'interface.
+  # ============================================================
+
+  # Rail de l'interrupteur ÉTEINT (et fonds « disabled » en général)
+  ha-color-fill-disabled-quiet-resting: "#3B424D"
+  ha-color-fill-disabled-normal-resting: "#454C59"
+  ha-color-fill-disabled-loud-resting: "#596271"
+
+  ha-color-on-disabled-quiet: "#697382"
+  ha-color-on-disabled-normal: "#7C8695"
+  ha-color-on-disabled-loud: "#919BAA"
+
+  # Bordure du rail
+  ha-color-border-neutral-quiet: "#3B424D"
+  ha-color-border-neutral-normal: "#596271"
+  ha-color-border-neutral-loud: "#7C8695"
+
+  # Si la pastille reste trop lumineuse, décommenter ces deux lignes.
+  # Attention : elles s'appliquent AUSSI à l'état allumé, la pastille
+  # ne sera donc plus blanche sur le rail bleu.
+  # ha-switch-thumb-background-color: "#AAB2BE"
+  # ha-switch-thumb-border-color: "#AAB2BE"
+  # ha-switch-thumb-box-shadow: none
+
+  # --- Compatibilité anciennes versions de HA / cartes tierces --------
+  switch-checked-color: "#4DA6FF"
+  switch-checked-button-color: "#4DA6FF"
+  switch-checked-track-color: "#28557D"
+  switch-unchecked-color: "#596271"
+  switch-unchecked-button-color: "#7C8695"
+  switch-unchecked-track-color: "#3B424D"
+
+  paper-toggle-button-checked-button-color: "#4DA6FF"
+  paper-toggle-button-checked-bar-color: "#3378B8"
+  paper-toggle-button-unchecked-button-color: "#7C8695"
+  paper-toggle-button-unchecked-bar-color: "#3B424D"
+
+  # ============================================================
+  # 📜 SCROLLBAR
+  # ============================================================
+
+  scrollbar-thumb-color: "#596271"
+  scrollbar-track-color: "#252A31"

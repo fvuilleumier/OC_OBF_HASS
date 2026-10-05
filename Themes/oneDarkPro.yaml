@@ -1,0 +1,207 @@
+One Dark Pro:
+
+  # ============================================================
+  # 🎨 PRINCIPAL
+  # ============================================================
+
+  primary-color: "#4DA6FF"
+  accent-color: "#4DA6FF"
+
+  dark-primary-color: "#3D85CC"
+  darker-primary-color: "#2E6599"
+  light-primary-color: "#70BAFF"
+
+  # ============================================================
+  # 🏠 BACKGROUND
+  # ============================================================
+
+  primary-background-color: "#2C313A"
+  secondary-background-color: "#2C313A"
+  lovelace-background: "#2C313A"
+
+  card-background-color: "#2C313A"
+  ha-card-background: "#2C313A"
+
+  # ============================================================
+  # 🃏 BORDURES
+  # ============================================================
+
+  divider-color: "#454C59"
+  outline-color: "#454C59"
+  outline-hover-color: "#626B7A"
+  ha-card-border-color: "#454C59"
+
+  # ============================================================
+  # ✍️ TEXTES
+  # ============================================================
+
+  primary-text-color: "#D5D9E0"
+  secondary-text-color: "#9DA5B2"
+  disabled-text-color: "#626A77"
+
+  text-primary-color: "#D5D9E0"
+  text-light-primary-color: "#D5D9E0"
+
+  ha-color-text-primary: "#D5D9E0"
+  ha-color-text-secondary: "#9DA5B2"
+  ha-color-text-disabled: "#626A77"
+
+  # ============================================================
+  # 🧱 NEUTRES
+  # ============================================================
+
+  ha-color-neutral-05: "#22262D"
+  ha-color-neutral-10: "#272C33"
+  ha-color-neutral-20: "#2C313A"
+  ha-color-neutral-30: "#454C59"
+  ha-color-neutral-40: "#596271"
+  ha-color-neutral-50: "#697382"
+  ha-color-neutral-60: "#7C8695"
+  ha-color-neutral-70: "#919BAA"
+  ha-color-neutral-80: "#AAB2BE"
+  ha-color-neutral-90: "#C5CBD4"
+  ha-color-neutral-95: "#E0E3E8"
+
+  # ============================================================
+  # 🖱️ HOVER / FOCUS
+  # ============================================================
+
+  ha-color-focus: "#4DA6FF"
+
+  ha-color-fill-neutral-quiet-resting: "#252A31"
+  ha-color-fill-neutral-quiet-hover: "#333943"
+  ha-color-fill-neutral-quiet-active: "#252A31"
+
+  ha-color-fill-neutral-normal-resting: "#333943"
+  ha-color-fill-neutral-normal-hover: "#3B424D"
+  ha-color-fill-neutral-normal-active: "#333943"
+
+  ha-color-fill-neutral-loud-resting: "#454C59"
+  ha-color-fill-neutral-loud-hover: "#596271"
+  ha-color-fill-neutral-loud-active: "#454C59"
+
+  # ============================================================
+  # 🔵 PRIMARY
+  # ============================================================
+
+  ha-color-primary-40: "#4DA6FF"
+  ha-color-primary-50: "#3D8EDB"
+  ha-color-primary-60: "#3378B8"
+  ha-color-primary-70: "#2C6498"
+  ha-color-primary-80: "#28557D"
+  ha-color-primary-90: "#25445F"
+  ha-color-primary-95: "#23394D"
+
+  ha-color-fill-primary-quiet-resting: "#23394D"
+  ha-color-fill-primary-quiet-hover: "#25445F"
+  ha-color-fill-primary-quiet-active: "#23394D"
+
+  ha-color-fill-primary-normal-resting: "#25445F"
+  ha-color-fill-primary-normal-hover: "#28557D"
+  ha-color-fill-primary-normal-active: "#25445F"
+
+  ha-color-fill-primary-loud-resting: "#4DA6FF"
+  ha-color-fill-primary-loud-hover: "#70BAFF"
+  ha-color-fill-primary-loud-active: "#4DA6FF"
+
+  # ============================================================
+  # 🔘 TEXTE BOUTONS
+  # ============================================================
+
+  ha-color-on-primary-quiet: "#70BAFF"
+  ha-color-on-primary-normal: "#4DA6FF"
+  ha-color-on-primary-loud: "#20242A"
+
+  ha-color-on-neutral-quiet: "#919BAA"
+  ha-color-on-neutral-normal: "#C5CBD4"
+  ha-color-on-neutral-loud: "#E0E3E8"
+
+  # ============================================================
+  # 🧾 INPUT / SELECT / COMBOBOX
+  # ============================================================
+
+  ha-color-form-background: "#252A31"
+  ha-color-form-background-hover: "#2B3038"
+  ha-color-form-background-disabled: "#303640"
+
+  ha-color-surface-default: "#252A31"
+  ha-color-on-surface-default: "#D5D9E0"
+
+  paper-listbox-background-color: "#252A31"
+  paper-listbox-color: "#D5D9E0"
+
+  material-background-color: "#252A31"
+  material-secondary-background-color: "#20242A"
+
+  # ============================================================
+  # 📑 SÉLECTION
+  # ============================================================
+
+  paper-item-selected_-_background-color: "#20242A"
+  paper-item-selected_-_color: "#D5D9E0"
+
+  # ============================================================
+  # 🧮 INPUTS NUMÉRIQUES
+  # ============================================================
+
+  input-background-color: "#252A31"
+
+  # ============================================================
+  # 🧭 BARRE SUPÉRIEURE
+  # ============================================================
+
+  app-header-background-color: "#252A31"
+  app-header-text-color: "#D5D9E0"
+
+  # ============================================================
+  # 📂 SIDEBAR
+  # ============================================================
+
+  sidebar-background-color: "#252A31"
+  sidebar-text-color: "#C5CBD4"
+  sidebar-icon-color: "#919BAA"
+
+  sidebar-selected-background-color: "#333943"
+  sidebar-selected-icon-color: "#4DA6FF"
+  sidebar-selected-text-color: "#E0E3E8"
+
+  # ============================================================
+  # 🌈 COULEURS ONE DARK PRO
+  # ============================================================
+
+  state-icon-color: "#919BAA"
+  state-icon-active-color: "#4DA6FF"
+
+  state-sensor-temperature-color: "#FF6472"
+  state-sensor-humidity-color: "#A5D65A"
+
+  error-color: "#FF6472"
+  warning-color: "#FFC857"
+  success-color: "#A5D65A"
+  info-color: "#4DA6FF"
+
+  purple-color: "#D56BEB"
+  cyan-color: "#4DC4D6"
+  orange-color: "#E5A45C"
+
+  # ============================================================
+  # 🎚️ SLIDERS
+  # ============================================================
+
+  paper-slider-knob-color: "#4DA6FF"
+  paper-slider-active-color: "#4DA6FF"
+  paper-slider-secondary-color: "#3378B8"
+
+  # ============================================================
+  # 🔘 SWITCHES
+  # ============================================================
+
+  paper-toggle-button-checked-button-color: "#4DA6FF"
+  paper-toggle-button-checked-bar-color: "#3378B8"
+
+  # ============================================================
+  # 📜 SCROLLBAR
+  # ============================================================
+
+  scrollbar-thumb-color: "#596271"
+  scrollbar-track-color: "#252A31"

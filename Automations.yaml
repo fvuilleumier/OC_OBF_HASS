@@ -1493,55 +1493,67 @@
   mode: single
 - id: '900000047'
   alias: Cave à vin - gestion optimisée
-  description: >-
-    Gestion de la température en privilégiant le refroidissement solaire.
-    La consigne est recalculée à chaque variation de température, à chaque
-    bascule de la production solaire et toutes les 10 minutes : une commande
-    restée sans effet parce que le switch était indisponible est donc rejouée
-    au cycle suivant. Règle : on au-dessus de 19 °C, ou dès 16 °C si les
-    panneaux produisent ; on coupe en dessous de 16 °C ; entre les deux seuils
-    l'état courant est conservé (hystérésis, pas d'oscillation).
+  description: 'Cave à vin : on garde le vin entre 16 et 20 °C en minimisant le recours
+    au réseau. Jamais en dessous de 16 °C (cible atteinte) ; au dessus de 20 °C on
+    refroidit quoi qu''il arrive (hors bande) ; entre les deux on profite du soleil
+    pour descendre à 16 °C (stockage de froid), sinon on laisse l''appareil finir
+    son cycle ou on reste éteint. Capteur inconnu : fail-safe allumé + notification.
+    Verrou de 5 min entre deux changements d''état pour préserver le compresseur,
+    recalcul toutes les 10 min pour rejouer une commande ratée.'
   triggers:
   - trigger: state
     entity_id: sensor.zg_227z_20_temperature
   - trigger: state
     entity_id: binary_sensor.production_panneaux_solaire
   - trigger: time_pattern
-    minutes: '/10'
+    minutes: /10
   conditions: []
   actions:
   - variables:
-      courant: "{{ states('switch.sb19_sb19_cave_a_vin') }}"
-      cible: >-
-        {%- set t = states('sensor.zg_227z_20_temperature') | float(none) -%}
-        {%- set soleil = is_state('binary_sensor.production_panneaux_solaire',
-        'on') -%}
-        {%- if t is none or (t >= 16 and t < 19 and not soleil) -%}{{ courant }}
-        {%- elif t < 16 -%}off
-        {%- else -%}on
-        {%- endif -%}
+      cible: '{%- set e = states.switch.s1pm58 -%} {%- set s = ''unknown'' if e is
+        none else e.state -%} {%- set t = states(''sensor.zg_227z_20_temperature'')
+        | float(none) -%} {%- set soleil = is_state(''binary_sensor.production_panneaux_solaire'',
+        ''on'') -%} {%- if t is none -%}on {%- elif t > 20 -%}on {%- elif t <= 16
+        -%}off {%- elif t >= 17 and soleil -%}on {%- else -%}{{ s }} {%- endif -%}'
   - choose:
     - conditions:
       - condition: template
-        value_template: >-
-          {{ courant in ['on', 'off'] and courant != cible and cible
-          == 'on' }}
+        value_template: '{%- set e = states.switch.s1pm58 -%} {%- set dt = 0 if e
+          is none else (as_timestamp(now()) - as_timestamp(e.last_changed)) -%} {{-
+          cible == ''on'' and e is not none and e.state == ''off'' and dt >= 300 -}}'
       sequence:
       - action: switch.turn_on
         continue_on_error: true
         target:
-          entity_id: switch.sb19_sb19_cave_a_vin
+          entity_id: switch.s1pm58
     - conditions:
       - condition: template
-        value_template: "{{ courant in ['on', 'off'] and courant != cible }}"
+        value_template: '{%- set e = states.switch.s1pm58 -%} {%- set dt = 0 if e
+          is none else (as_timestamp(now()) - as_timestamp(e.last_changed)) -%} {{-
+          cible == ''off'' and e is not none and e.state == ''on'' and dt >= 300 -}}'
       sequence:
       - action: switch.turn_off
         continue_on_error: true
         target:
-          entity_id: switch.sb19_sb19_cave_a_vin
+          entity_id: switch.s1pm58
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{%- set e = states.sensor.zg_227z_20_temperature -%} {{-
+          e is not none and e.state in [''unknown'', ''unavailable''] and (as_timestamp(now())
+          - as_timestamp(e.last_changed)) < 600 -}}'
+      sequence:
+      - action: notify.TBX7D_SECRET_0192
+        data:
+          title: ⚠️ Capteur cave à vin perdu
+          message: 'Le capteur de température de la cave (zg_227z_20) est indisponible
+            : la cave à vin est en sécurité (allumée en continu) jusqu''à son retour.'
+          data:
+            ttl: 0
+            priority: high
   mode: restart
 - id: '900000048'
-  alias: Porte 1er Toggle from bureau FV button
+  alias: Porte haut Toggle from bureau FV button
   description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
   triggers:
   - trigger: device
@@ -1563,7 +1575,7 @@
       - action: notify.TBX7D_SECRET_0192
         metadata: {}
         data:
-          message: La Porte 1er s'ouvre !
+          message: La Porte haut s'ouvre !
           data:
             ttl: 0
             priority: high
@@ -1575,6 +1587,7 @@
       - action: lock.lock
         target:
           device_id: TBX7D_SECRET_0185
+        data: {}
   mode: single
 - id: '900000049'
   alias: Nuki locked
@@ -1598,8 +1611,8 @@
   - action: notify.TBX7D_SECRET_0192
     metadata: {}
     data:
-      message: 'La {% if trigger.id == ''porte_1er'' %}Porte 1er{% elif trigger.id
-        == ''porte_rez'' %}Porte rez{% endif %} est verrouillée !
+      message: 'La {% if trigger.id == ''porte_1er'' %}Porte haut{% elif trigger.id
+        == ''porte_rez'' %}Porte bas{% endif %} est verrouillée !
 
         '
       data:
@@ -1607,7 +1620,7 @@
         priority: high
   mode: single
 - id: '900000050'
-  alias: Porte rez Toggle from entree 1er button
+  alias: Porte bas Toggle from entree 1er button
   description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
   triggers:
   - trigger: device
@@ -1629,7 +1642,7 @@
       - action: notify.TBX7D_SECRET_0192
         metadata: {}
         data:
-          message: La Porte rez s'ouvre !
+          message: La Porte bas s'ouvre !
     - conditions:
       - condition: state
         entity_id: lock.porte_rez
@@ -1735,51 +1748,45 @@
       device_id: TBX7D_SECRET_0177
     data: {}
   mode: single
-- id: 'TBX7D_ID_0053'
+- id: TBX7D_ID_0053
   alias: Chaudière in wrong state
-  description: >-
-    Alerte si la pompe de dilatation (sp1pm70) n'a rien consommé depuis plus de
-    12 h : la chaudière ne cycle plus. L'ancienneté de la consommation est lue
-    sur le dernier changement d'état du compteur sensor.sp1pm70_energy, un
-    instantané > 1 W étant interprété comme une pompe en marche. Le rythme des
-    notifications est bridé à une fois toutes les 12 h via last_triggered.
+  description: 'Alerte si la pompe de dilatation (sp1pm70) n''a rien consommé depuis
+    plus de 12 h : la chaudière ne cycle plus. L''ancienneté de la consommation est
+    lue sur le dernier changement d''état du compteur sensor.sp1pm70_energy, un instantané
+    > 1 W étant interprété comme une pompe en marche. Le rythme des notifications
+    est bridé à une fois toutes les 12 h via last_triggered.'
   triggers:
   - trigger: time_pattern
-    minutes: '/30'
+    minutes: /30
   conditions:
   - condition: template
-    value_template: >-
-      {% set e = states.get('sensor.sp1pm70_energy') %} {{ e is not none
-      and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200 and
-      states('sensor.sp1pm70_power') | float(0) < 1 }}
+    value_template: '{% set e = states.get(''sensor.sp1pm70_energy'') %} {{ e is not
+      none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200 and states(''sensor.sp1pm70_power'')
+      | float(0) < 1 }}'
   - condition: template
-    value_template: >-
-      {{ this.attributes.last_triggered is none or (as_timestamp(now()) -
-      as_timestamp(this.attributes.last_triggered)) > 43200 }}
+    value_template: '{{ this.attributes.last_triggered is none or (as_timestamp(now())
+      - as_timestamp(this.attributes.last_triggered)) > 43200 }}'
   actions:
   - action: notify.TBX7D_SECRET_0192
     data:
       title: ⚠️ Chaudière en mauvais état
-      message: >-
-        La pompe de dilatation (sp1pm70) n'a rien consommé depuis
-        {{ ((as_timestamp(now()) - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) / 3600) | round(0) | int }} h
-        (seuil 12 h). Contrôler la pression du circuit et l'alimentation de la
-        chaudière.
+      message: La pompe de dilatation (sp1pm70) n'a rien consommé depuis {{ ((as_timestamp(now())
+        - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) / 3600) | round(0)
+        | int }} h (seuil 12 h). Contrôler la pression du circuit et l'alimentation
+        de la chaudière.
       data:
         ttl: 0
         priority: high
   mode: single
-- id: 'TBX7D_ID_0054'
+- id: TBX7D_ID_0054
   alias: Cave à vin - mémorise le dernier allumage
-  description: >-
-    Consigne l'instant du dernier passage à « on » du switch
-    switch.sb19_sb19_cave_a_vin dans le helper
-    input_datetime.cave_a_vin_dernier_allumage, source des alertes « cave à vin
-    pas allumée depuis 2 jours » du dashboard et de l'automation de
-    notification associée.
+  description: Consigne l'instant du dernier passage à « on » du switch switch.s1pm58
+    dans le helper input_datetime.cave_a_vin_dernier_allumage, source des alertes
+    « cave à vin pas allumée depuis 2 jours » du dashboard et de l'automation de notification
+    associée.
   triggers:
   - trigger: state
-    entity_id: switch.sb19_sb19_cave_a_vin
+    entity_id: switch.s1pm58
     to: 'on'
   conditions: []
   actions:
@@ -1789,35 +1796,34 @@
     data:
       datetime: '{{ now().isoformat() }}'
   mode: single
-- id: 'TBX7D_ID_0055'
+- id: TBX7D_ID_0055
   alias: Cave à vin - pas allumée depuis 2 jours
-  description: >-
-    Alerte si le switch de la cave à vin est éteint et n'a pas été rallumé
-    depuis plus de 48 h. Un switch allumé n'est jamais signalé, et le helper
-    encore inconnu est traité comme « jamais allumé ». Notifications brisées à
-    une fois toutes les 24 h via last_triggered.
+  description: Alerte si le switch de la cave à vin est éteint et n'a pas été rallumé
+    depuis plus de 48 h. Un switch allumé n'est jamais signalé, et le helper encore
+    inconnu est traité comme « jamais allumé ». Notifications brisées à une fois toutes
+    les 24 h via last_triggered.
   triggers:
   - trigger: time_pattern
-    minutes: '/5'
+    minutes: /5
   conditions:
   - condition: template
-    value_template: >-
-      {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {{
-      is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown',
-      'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) }}
+    value_template: '{% set d = states(''input_datetime.cave_a_vin_dernier_allumage'')
+      %}  {{ states(''switch.s1pm58'') in [''off'', ''unavailable'', ''unknown'']
+      and (d in [''unknown'', ''unavailable'', ''none''] or (as_timestamp(now()) -
+      as_timestamp(d)) > 172800) }}'
   - condition: template
-    value_template: >-
-      {{ this.attributes.last_triggered is none or (as_timestamp(now()) -
-      as_timestamp(this.attributes.last_triggered)) > 86400 }}
+    value_template: '{{ this.attributes.last_triggered is none or (as_timestamp(now())
+      - as_timestamp(this.attributes.last_triggered)) > 86400 }}'
   actions:
   - action: notify.TBX7D_SECRET_0192
     data:
       title: ⚠️ Cave à vin pas aérée
-      message: >-
-        Le switch de la cave à vin est éteint et n'a pas été rallumé depuis
+      message: Le switch de la cave à vin est éteint et n'a pas été rallumé depuis
         {% if states('input_datetime.cave_a_vin_dernier_allumage') in ['unknown',
-        'unavailable', 'none'] %}plus de 48 h (jamais allumé depuis la création du helper){% else %}{{ ((as_timestamp(now()) - as_timestamp(states.input_datetime.cave_a_vin_dernier_allumage)) / 3600) | round(0) | int }} h{% endif %}
-        (seuil 48 h). Lancer un cycle d'aération de la cave.
+        'unavailable', 'none'] %}plus de 48 h (jamais allumé depuis la création du
+        helper){% else %}{{ ((as_timestamp(now()) - as_timestamp(states.input_datetime.cave_a_vin_dernier_allumage))
+        / 3600) | round(0) | int }} h{% endif %} (seuil 48 h). Lancer un cycle d'aération
+        de la cave.
       data:
         ttl: 0
         priority: high

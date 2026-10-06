@@ -171,15 +171,15 @@ views:
             grid_options:
               columns: full
           - type: tile
-            entity: lock.porte_1er
-            name: Porte haut
+            entity: lock.porte_rez
+            name: Porte bas
             vertical: false
             features:
               - type: lock-commands
             features_position: bottom
           - type: tile
-            entity: lock.porte_rez
-            name: Porte bas
+            entity: lock.porte_1er
+            name: Porte haut
             vertical: false
             features:
               - type: lock-commands
@@ -1076,6 +1076,49 @@ views:
             entity: sensor.zg_227z_12_temperature
       - type: grid
         cards:
+          - type: gauge
+            name: Intérieur Cave à vin
+            unit: °C
+            severity:
+              green: 15
+              yellow: 18
+              red: 19
+            needle: true
+            min: 15
+            entity: sensor.zg_227z_20_temperature
+            max: 21
+      - type: grid
+        cards:
+          - type: gauge
+            unit: °C
+            severity:
+              green: 45
+              yellow: 50
+              red: 55
+            needle: true
+            min: 30
+            entity: sensor.zg_227z_24_temperature
+            max: 80
+            name: Boiler haut
+            grid_options:
+              columns: 6
+              rows: auto
+          - type: gauge
+            unit: °C
+            severity:
+              green: 55
+              yellow: 60
+              red: 65
+            needle: true
+            min: 30
+            entity: sensor.zg_227z_25_temperature
+            max: 80
+            name: Boiler bas
+            grid_options:
+              columns: 6
+              rows: auto
+      - type: grid
+        cards:
           - type: custom:apexcharts-card
             graph_span: 7d
             update_interval: 30min
@@ -1305,19 +1348,6 @@ views:
                 name: Atelier
               - entity: sensor.zg_227z_14_humidity
                 name: Dehors
-      - type: grid
-        cards:
-          - type: gauge
-            name: Intérieur Cave à vin
-            unit: °C
-            severity:
-              green: 15
-              yellow: 18
-              red: 19
-            needle: true
-            min: 15
-            entity: sensor.zg_227z_20_temperature
-            max: 21
     header:
       layout: center
       badges_position: bottom
@@ -1470,7 +1500,7 @@ views:
       - type: grid
         cards:
           - type: gauge
-            name: Cave
+            name: Congélateur
             max: 250
             severity:
               green: 0
@@ -1478,6 +1508,17 @@ views:
               red: 120
             needle: true
             entity: sensor.sp1pm64_power
+      - type: grid
+        cards:
+          - type: gauge
+            name: Cave à vin
+            max: 250
+            severity:
+              green: 0
+              yellow: 55
+              red: 120
+            needle: true
+            entity: sensor.s1pm58_power
       - type: grid
         cards:
           - type: gauge
@@ -1516,7 +1557,7 @@ views:
         cards:
           - type: gauge
             entity: sensor.s1pm43_power
-            name: 'Chauffage '
+            name: Chaudière
             needle: true
             severity:
               green: 0
@@ -3368,6 +3409,8 @@ views:
             primary: |
               {% set appareils = [
                 states('sensor.s1pm42_power'),
+                states('sensor.s1pm58_power'),
+                states('sensor.s1pm44_power'),
                 states('sensor.sp1pm62_power'),
                 states('sensor.s1pm40_power'),
                 states('sensor.sp1pm63_power'),
@@ -3389,14 +3432,16 @@ views:
             icon: >
               {% set e = states.get('sensor.sp1pm70_energy') %} {% set d =
               states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
-                states('sensor.s1pm42_power')|float(0) > 5 or
-                states('sensor.sp1pm62_power')|float(0) > 5 or
-                states('sensor.s1pm40_power')|float(0) > 5 or
+                states('sensor.s1pm42_power')|float(0) > 8 or
+                states('sensor.s1pm44_power')|float(0) > 8 or
+                states('sensor.s1pm58_power')|float(0) > 8 or
+                states('sensor.sp1pm62_power')|float(0) > 8 or
+                states('sensor.s1pm40_power')|float(0) > 8 or
                 states('sensor.sp1pm63_power')|float(0) > 8 or
-                states('sensor.sp1pm61_power')|float(0) > 5 or
+                states('sensor.sp1pm61_power')|float(0) > 8 or
                 (e is not none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200
                  and states('sensor.sp1pm70_power') | float(0) < 1) or
-                (is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown', 'unavailable', 'none']
+               (d in ['unknown', 'unavailable', 'none']
                  or (as_timestamp(now()) - as_timestamp(d)) > 172800))
               %}
                 mdi:alert-circle
@@ -3408,14 +3453,16 @@ views:
             color: >
               {% set e = states.get('sensor.sp1pm70_energy') %} {% set d =
               states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
-                states('sensor.s1pm42_power')|float(0) > 5 or
-                states('sensor.sp1pm62_power')|float(0) > 5 or
-                states('sensor.s1pm40_power')|float(0) > 5 or
+                states('sensor.s1pm42_power')|float(0) > 8 or
+                states('sensor.s1pm44_power')|float(0) > 8 or
+                states('sensor.s1pm58_power')|float(0) > 8 or
+                states('sensor.sp1pm62_power')|float(0) > 8 or
+                states('sensor.s1pm40_power')|float(0) > 8 or
                 states('sensor.sp1pm63_power')|float(0) > 8 or
-                states('sensor.sp1pm61_power')|float(0) > 5 or
+                states('sensor.sp1pm61_power')|float(0) > 8 or
                 (e is not none and (as_timestamp(now()) - as_timestamp(e.last_changed)) > 43200
                  and states('sensor.sp1pm70_power') | float(0) < 1) or
-                (is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown', 'unavailable', 'none']
+                (d in ['unknown', 'unavailable', 'none']
                  or (as_timestamp(now()) - as_timestamp(d)) > 172800))
               %}
                 orange
@@ -3482,11 +3529,12 @@ views:
             entity: switch.sp1pm70
           - type: custom:mushroom-template-card
             primary: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}
-              {%
-                set connu = d not in ['unknown', 'unavailable', 'none'] %} {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'on') %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage')
+              %}  {% set connu = d not in ['unknown', 'unavailable', 'none'] %} 
+              {% set s = states('switch.s1pm58') %} {% if s == 'on' %}
                 🍷 Cave à vin allumée
+              {% elif s in ['unavailable', 'unknown'] %}
+                  ⚠️ Switch cave à vin indisponible
               {% elif not connu or (as_timestamp(now()) - as_timestamp(d)) >
               172800 %}
                 🚨 Cave à vin pas aérée depuis 2 jours
@@ -3494,10 +3542,11 @@ views:
                 ✅ Cave à vin aérée récemment
               {% endif %}
             secondary: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}
-              {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'on') %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage')
+              %}  {% if states('switch.s1pm58') == 'on' %}
                 Switch de la cave à vin allumé
+              {% elif states('switch.s1pm58') in ['unavailable', 'unknown'] %}
+                    Switch indisponible (dernière valeur connue : {% if d in ['unknown', 'unavailable', 'none'] %}inconnue{% else %}{{ ((as_timestamp(now()) - as_timestamp(d)) / 3600) | round(0) | int }} h{% endif %})
               {% elif d in ['unknown', 'unavailable', 'none'] %}
                 Switch éteint et dernier allumage inconnu
               {% else %}
@@ -3505,9 +3554,8 @@ views:
                 Dernier allumage il y a {{ h }} h · seuil 48 h
               {% endif %}
             icon: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}
-              {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'on') %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage')
+              %}  {% set s = states('switch.s1pm58') %} {% if s == 'on' %}
                 mdi:glass-wine
               {% elif d in ['unknown', 'unavailable', 'none'] or
               (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
@@ -3516,10 +3564,9 @@ views:
                 mdi:glass-wine
               {% endif %}
             color: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}
-              {% if
-                is_state('switch.sb19_sb19_cave_a_vin', 'off') and (d in ['unknown',
-                'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
+              {% set s = states('switch.s1pm58') %} {% if s in ['off',
+              'unavailable', 'unknown'] and (d in ['unknown', 'unavailable',
+              'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
                 orange
               {% else %}
                 green
@@ -3527,7 +3574,7 @@ views:
             features_position: bottom
             tap_action:
               action: more-info
-            entity: switch.sb19_sb19_cave_a_vin
+            entity: switch.s1pm58
             vertical: true
       - type: grid
         cards:
@@ -3608,6 +3655,7 @@ views:
               {% else %}
                 green
               {% endif %}
+            entity: switch.s1pm40
           - type: custom:mushroom-template-card
             primary: |
               {% if states('sensor.sp1pm63_power')|float(0) > 8 %}
@@ -3632,6 +3680,7 @@ views:
               {% else %}
                 green
               {% endif %}
+            entity: switch.sp1pm63
           - type: custom:mushroom-template-card
             primary: |
               {% if states('sensor.sp1pm61_power')|float(0) > 5 %}
@@ -3656,6 +3705,58 @@ views:
               {% else %}
                 green
               {% endif %}
+            entity: switch.sp1pm61
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.s1pm58_power')|float(0) > 8 %}
+                🍷 Cave à vin active
+              {% else %}
+                🍷 Cave à vin éteinte
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.s1pm58_power')|float(0) > 8
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.s1pm58_power')|float(0) > 8
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+            entity: switch.s1pm58
+          - type: custom:mushroom-template-card
+            primary: |
+              {% if states('sensor.s1pm44_power')|float(0) > 8 %}
+                🚰 Pompe eau chaude active
+              {% else %}
+                🚰 Pompe eau chaude éteinte
+              {% endif %}
+            icon: |
+              {% if
+                states('sensor.s1pm44_power')|float(0) > 8
+              %}
+                mdi:alert-circle
+              {% else %}
+                mdi:shield-check
+              {% endif %}
+            features_position: bottom
+            color: |
+              {% if
+                states('sensor.s1pm44_power')|float(0) > 8
+              %}
+                orange
+              {% else %}
+                green
+              {% endif %}
+            entity: switch.s1pm44
+            area: buanderie
       - type: grid
         cards:
           - type: custom:button-card
@@ -4435,7 +4536,7 @@ views:
             name: 'Deshumidificateur '
           - type: tile
             entity: switch.s1pm44
-            name: 'Deshumidificateur '
+            name: Pompe eau chaude
             color: blue
             show_entity_picture: false
             vertical: false
@@ -4541,8 +4642,8 @@ views:
             features_position: bottom
           - type: tile
             entity: switch.sp1pm64
-            name: Cave
-            icon: mdi:fridge-industrial-outline
+            name: Congélateur
+            icon: mdi:snowflake
             color: red
             show_entity_picture: false
             vertical: false
@@ -4550,7 +4651,7 @@ views:
               action: more-info
             features_position: bottom
           - type: tile
-            entity: switch.sb19_sb19_cave_a_vin
+            entity: sensor.s1pm58_power
             name: Cave à vin
             icon: mdi:glass-wine
             color: red

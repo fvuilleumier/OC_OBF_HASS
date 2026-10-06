@@ -116,8 +116,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -262,7 +262,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🏠 L'Orée des Dous"
+        content: '# 🏠 L''Orée des Dous'
     background:
       opacity: 33
       alignment: center
@@ -334,8 +334,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -478,7 +478,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 1️⃣ 1er"
+        content: '# 1️⃣ 1er'
   - title: Chambre TBX7D_ORG_0007
     path: chambre-TBX7D_ORG_0007
     icon: mdi:bed-king-outline
@@ -549,8 +549,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -631,12 +631,12 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - "off"
+              - 'off'
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_02_position
-            primary: "{{ states('sensor.trv_btr_02_position') | float(0) | round(0) }} %"
+            primary: '{{ states(''sensor.trv_btr_02_position'') | float(0) | round(0) }} %'
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
@@ -716,7 +716,7 @@ views:
                 entity: sensor.s1pm31_power
                 icon: mdi:flash
                 icon_color: orange
-                primary: "{{ states('sensor.s1pm31_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.s1pm31_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -778,7 +778,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -813,7 +813,7 @@ views:
                   {% set p = states('sensor.s1pm31_power') | float(0) %} {% if
                   not is_state('switch.s1pm31', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm31_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm31_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -873,7 +873,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -911,7 +911,7 @@ views:
                 entity: sensor.s1pm31_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm31_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm31_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -960,7 +960,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🛏️ Chambre TBX7D_ORG_0007"
+        content: '# 🛏️ Chambre TBX7D_ORG_0007'
   - title: Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008
     path: chambre-TBX7D_ORG_0009-TBX7D_ORG_0008
     icon: mdi:human-male-female
@@ -1031,8 +1031,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -1113,12 +1113,12 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - "off"
+              - 'off'
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_03_position
-            primary: "{{ states('sensor.trv_btr_03_position') | float(0) | round(0) }} %"
+            primary: '{{ states(''sensor.trv_btr_03_position'') | float(0) | round(0) }} %'
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
@@ -1246,7 +1246,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 👭 Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008"
+        content: '# 👭 Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008'
   - title: Chambre TBX7D_ORG_0010
     path: chambre-TBX7D_ORG_0010
     icon: mdi:human-child
@@ -1317,8 +1317,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -1429,7 +1429,7 @@ views:
                 fill_container: false
               - type: custom:mushroom-template-card
                 primary: Batterie
-                secondary: "{{ states('sensor.chambre_yoto_d_TBX7D_ORG_0010_battery') }} %"
+                secondary: '{{ states(''sensor.chambre_yoto_d_TBX7D_ORG_0010_battery'') }} %'
                 icon: mdi:battery
                 icon_color: >
                   {% set b = states('sensor.chambre_yoto_d_TBX7D_ORG_0010_battery') |
@@ -1480,7 +1480,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 👦🏻️ Chambre TBX7D_ORG_0010"
+        content: '# 👦🏻️ Chambre TBX7D_ORG_0010'
   - title: Salle de jeu
     path: salle-de-jeu
     icon: mdi:nintendo-game-boy
@@ -1551,8 +1551,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -1633,12 +1633,12 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - "off"
+              - 'off'
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_04_position
-            primary: "{{ states('sensor.trv_btr_04_position') | float(0) | round(0) }} %"
+            primary: '{{ states(''sensor.trv_btr_04_position'') | float(0) | round(0) }} %'
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
@@ -1766,7 +1766,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🎮️ Salle de jeu"
+        content: '# 🎮️ Salle de jeu'
   - title: Salon
     path: salon
     icon: mdi:sofa
@@ -1836,8 +1836,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -1918,12 +1918,12 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - "off"
+              - 'off'
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_06_position
-            primary: "{{ states('sensor.trv_btr_06_position') | float(0) | round(0) }} %"
+            primary: '{{ states(''sensor.trv_btr_06_position'') | float(0) | round(0) }} %'
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
@@ -2010,7 +2010,7 @@ views:
                 entity: sensor.slzb_06m_r_connection_mode
                 icon: mdi:router-wireless
                 primary: SLZB-06M
-                secondary: "{{ states('sensor.slzb_06m_r_connection_mode') }}"
+                secondary: '{{ states(''sensor.slzb_06m_r_connection_mode'') }}'
                 color: |-
                   {% if is_state('sensor.slzb_06m_r_connection_mode', 'eth') %}
                     green
@@ -2032,7 +2032,7 @@ views:
                     green
                   {% endif %}
                 primary: CPU
-                secondary: "{{ states('sensor.slzb_06m_r_core_chip_temp') }} °C"
+                secondary: '{{ states(''sensor.slzb_06m_r_core_chip_temp'') }} °C'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06m_r_ethernet
                 icon: mdi:ethernet
@@ -2064,7 +2064,7 @@ views:
                 icon: mdi:update
                 icon_color: blue
                 primary: Firmware
-                secondary: "{{ states('sensor.slzb_06m_r_firmware_channel') }}"
+                secondary: '{{ states(''sensor.slzb_06m_r_firmware_channel'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_r_zigbee_chip_temp
                 icon: mdi:zigbee
@@ -2127,7 +2127,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🛋️ Salon"
+        content: '# 🛋️ Salon'
   - title: Salle à manger
     path: salle-a-manger
     icon: mdi:table-chair
@@ -2198,8 +2198,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -2342,7 +2342,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🍽️ Salle à manger"
+        content: '# 🍽️ Salle à manger'
   - title: Cuisine
     path: cuisine
     icon: mdi:countertop-outline
@@ -2413,8 +2413,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -2508,7 +2508,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.s1pm42_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.s1pm42_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.s1pm42_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -2573,7 +2573,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -2636,7 +2636,7 @@ views:
                   {% set p = states('sensor.s1pm42_power') | float(0) %} {% if
                   not is_state('switch.s1pm42', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm42_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm42_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -2696,7 +2696,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -2734,7 +2734,7 @@ views:
                 entity: sensor.s1pm42_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm42_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm42_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -2757,37 +2757,37 @@ views:
                     amber
                   {% endif %}
                 primary: Machine à café
-                secondary: "{{ states('sensor.cuisine_jura_status') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_status'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_1_flat_white
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Flat White
-                secondary: "{{ states('sensor.cuisine_jura_brew_1_flat_white') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_1_flat_white'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_cappuccino
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Cappuccino
-                secondary: "{{ states('sensor.cuisine_jura_brew_cappuccino') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_cappuccino'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_coffee
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Café
-                secondary: "{{ states('sensor.cuisine_jura_brew_coffee') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_coffee'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_espresso
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Espresso
-                secondary: "{{ states('sensor.cuisine_jura_brew_espresso') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_espresso'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_espresso_macchiato
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Espresso Macchiato
-                secondary: "{{ states('sensor.cuisine_jura_brew_espresso_macchiato') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_espresso_macchiato'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_hotwater_portion_normal
                 icon: mdi:water
@@ -2801,24 +2801,24 @@ views:
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Latte Macchiato
-                secondary: "{{ states('sensor.cuisine_jura_brew_latte_macchiato') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_latte_macchiato'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_powderproduct
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Produit en poudre
-                secondary: "{{ states('sensor.cuisine_jura_brew_powderproduct') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_powderproduct'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_total
                 icon: mdi:counter
                 icon_color: brown
                 primary: Total cafés
-                secondary: "{{ states('sensor.cuisine_jura_brew_total') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_brew_total'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_cleaning_level
                 icon: mdi:spray-bottle
                 primary: Niveau nettoyage
-                secondary: "{{ states('sensor.cuisine_jura_cleaning_level') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_cleaning_level'') }}'
                 color: >-
                   {%if states('sensor.cuisine_jura_cleaning_level')|float >= 99
                   %}
@@ -2840,7 +2840,7 @@ views:
                 entity: sensor.cuisine_jura_descaling_level
                 icon: mdi:water-remove
                 primary: Niveau détartrage
-                secondary: "{{ states('sensor.cuisine_jura_descaling_level') }}"
+                secondary: '{{ states(''sensor.cuisine_jura_descaling_level'') }}'
                 color: >-
                   {%if states('sensor.cuisine_jura_descaling_level')|float >= 99
                   %}
@@ -2865,7 +2865,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_cleaning_alert
                 icon: mdi:spray-bottle
@@ -2873,13 +2873,13 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_close_powder_cover
                 icon: mdi:filter-check
                 primary: Couvercle poudre
-                secondary: "{% if is_state(entity, 'on') %}À fermer{% else %}OK{% endif %}"
-                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}À fermer{% else %}OK{% endif %}'
+                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_descale_alert
@@ -2888,20 +2888,20 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif
                   %}
-                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_empty_grounds
                 icon: mdi:delete
                 primary: Bac à marc
-                secondary: "{% if is_state(entity, 'on') %}À vider{% else %}OK{% endif %}"
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}À vider{% else %}OK{% endif %}'
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_empty_tray
                 icon: mdi:tray
                 primary: Bac d'égouttage
-                secondary: "{% if is_state(entity, 'on') %}À vider{% else %}OK{% endif %}"
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}À vider{% else %}OK{% endif %}'
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_error_status
                 icon: mdi:alert-circle
@@ -2909,7 +2909,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}Erreur détectée{% else %}OK{%
                   endif %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_fill_powder
                 icon: mdi:coffee
@@ -2917,7 +2917,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_fill_system
                 icon: mdi:water-pump
@@ -2925,7 +2925,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_fill_water
                 icon: mdi:water
@@ -2933,7 +2933,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_filter_alert
                 icon: mdi:filter
@@ -2941,7 +2941,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À remplacer{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_insert_coffee_bin
                 icon: mdi:coffee-maker
@@ -2949,7 +2949,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_insert_tray
                 icon: mdi:tray
@@ -2957,20 +2957,20 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_milk_alert
                 icon: mdi:water
                 primary: Lait
-                secondary: "{% if is_state(entity, 'on') %}Alerte{% else %}OK{% endif %}"
-                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}Alerte{% else %}OK{% endif %}'
+                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_milk_sensor_error
                 icon: mdi:water-boiler
                 primary: Capteur lait
-                secondary: "{% if is_state(entity, 'on') %}Erreur{% else %}OK{% endif %}"
-                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}Erreur{% else %}OK{% endif %}'
+                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_milk_sensor_no_signal
@@ -2979,7 +2979,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}Pas de signal{% else %}OK{%
                   endif %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_no_beans
                 icon: mdi:coffee
@@ -2987,13 +2987,13 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}Réservoir vide{% else %}OK{%
                   endif %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_no_milk_sensor
                 icon: mdi:water-boiler
                 primary: Capteur lait
-                secondary: "{% if is_state(entity, 'on') %}Absent{% else %}OK{% endif %}"
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}Absent{% else %}OK{% endif %}'
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_not_enough_powder
                 icon: mdi:coffee
@@ -3001,7 +3001,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}Pas assez de poudre{% else
                   %}OK{% endif %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_outlet_missing
                 icon: mdi:coffee-maker
@@ -3009,7 +3009,7 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}Manquante{% else %}OK{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_program_mode_status
                 icon: mdi:cog
@@ -3017,13 +3017,13 @@ views:
                 secondary: >-
                   {% if is_state(entity, 'on') %}Actif{% else %}Inactif{% endif
                   %}
-                icon_color: "{% if is_state(entity, 'on') %}amber{% else %}green{% endif %}"
+                icon_color: '{% if is_state(entity, ''on'') %}amber{% else %}green{% endif %}'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_rear_cover_missing
                 icon: mdi:arrow-collapse-vertical
                 primary: Capot arrière
-                secondary: "{% if is_state(entity, 'on') %}Manquant{% else %}OK{% endif %}"
-                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+                secondary: '{% if is_state(entity, ''on'') %}Manquant{% else %}OK{% endif %}'
+                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
       - type: grid
         column_span: 1
         cards:
@@ -3065,7 +3065,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🍳️ Cuisine"
+        content: '# 🍳️ Cuisine'
   - title: Toilettes 1er
     path: toilettes-1er
     icon: mdi:paper-roll-outline
@@ -3136,8 +3136,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -3280,7 +3280,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🧻 Toilettes 1er"
+        content: '# 🧻 Toilettes 1er'
   - title: Salle de bain 1er
     path: salle-de-bain-1er
     icon: mdi:shower
@@ -3351,8 +3351,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -3495,7 +3495,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🛁 Salle de bain 1er"
+        content: '# 🛁 Salle de bain 1er'
   - title: Couloir rez
     path: couloir-rez
     icon: mdi:home-export-outline
@@ -3561,8 +3561,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -3705,7 +3705,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 0️⃣ Rez"
+        content: '# 0️⃣ Rez'
   - title: Serveur
     path: serveur-bis
     icon: mdi:server-network
@@ -3776,8 +3776,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -3871,7 +3871,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.s1pm30_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.s1pm30_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.s1pm30_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -3936,7 +3936,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -3999,7 +3999,7 @@ views:
                 entity: sensor.slzb_06m_connection_mode
                 icon: mdi:router-wireless
                 primary: SLZB-06M
-                secondary: "{{ states('sensor.slzb_06m_connection_mode') }}"
+                secondary: '{{ states(''sensor.slzb_06m_connection_mode'') }}'
                 color: |-
                   {% if is_state('sensor.slzb_06m_connection_mode', 'eth') %}
                     green
@@ -4021,7 +4021,7 @@ views:
                     green
                   {% endif %}
                 primary: CPU
-                secondary: "{{ states('sensor.slzb_06m_core_chip_temp') }} °C"
+                secondary: '{{ states(''sensor.slzb_06m_core_chip_temp'') }} °C'
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06m_ethernet
                 icon: mdi:ethernet
@@ -4053,7 +4053,7 @@ views:
                 icon: mdi:update
                 icon_color: blue
                 primary: Firmware
-                secondary: "{{ states('sensor.slzb_06m_firmware_channel') }}"
+                secondary: '{{ states(''sensor.slzb_06m_firmware_channel'') }}'
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_zigbee_chip_temp
                 icon: mdi:zigbee
@@ -4114,7 +4114,7 @@ views:
                 entity: sensor.mikrotik_cpu_usage
                 icon: mdi:chip
                 primary: CPU
-                secondary: "{{ states('sensor.mikrotik_cpu_usage') }} %"
+                secondary: '{{ states(''sensor.mikrotik_cpu_usage'') }} %'
                 icon_color: >
                   {% set t = states('sensor.mikrotik_cpu_usage') | float(0) %}
                   {% if t >= 70 %}
@@ -4188,7 +4188,7 @@ views:
                   {% set p = states('sensor.s1pm30_power') | float(0) %} {% if
                   not is_state('switch.s1pm30', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm30_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm30_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -4248,7 +4248,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -4286,7 +4286,7 @@ views:
                 entity: sensor.s1pm30_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm30_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm30_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -4305,7 +4305,7 @@ views:
                   {% if is_state('binary_sensor.production_panneaux_solaire',
                   'on') %} mdi:solar-power{% else
                   %}mdi:solar-power-variant-outline{% endif %}
-                primary: "{{ states('sensor.onduleur_des_dous_inverter_state') }}"
+                primary: '{{ states(''sensor.onduleur_des_dous_inverter_state'') }}'
                 secondary: >-
                   Gestion d'énergie : {{
                   states('sensor.onduleur_des_dous_energy_manager_state') }}
@@ -4627,7 +4627,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 💽 Serveurs"
+        content: '# 💽 Serveurs'
   - title: Buanderie
     path: buanderie
     icon: mdi:washing-machine
@@ -4705,8 +4705,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -4800,7 +4800,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.buanderie_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.buanderie_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.buanderie_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -4865,7 +4865,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -5044,7 +5044,7 @@ views:
                   {% set p = states('sensor.s1pm43_power') | float(0) %} {% if
                   not is_state('switch.s1pm43', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm43_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm43_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -5104,7 +5104,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -5142,7 +5142,7 @@ views:
                 entity: sensor.s1pm43_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm43_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm43_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5162,7 +5162,7 @@ views:
                   {% set p = states('sensor.sp1pm70_power') | float(0) %} {% if
                   not is_state('switch.sp1pm70', 'on') %}Hors tension {% elif p
                   > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.sp1pm70_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.sp1pm70_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -5222,7 +5222,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -5282,7 +5282,7 @@ views:
                   {% set p = states('sensor.s1pm44_power') | float(0) %} {% if
                   not is_state('switch.s1pm44', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm44_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm44_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -5342,7 +5342,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -5380,7 +5380,7 @@ views:
                 entity: sensor.s1pm44_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm44_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm44_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5400,7 +5400,7 @@ views:
                   {% set p = states('sensor.s1pm59_power') | float(0) %} {% if
                   not is_state('switch.s1pm59', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm59_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm59_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -5460,7 +5460,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -5498,7 +5498,7 @@ views:
                 entity: sensor.s1pm59_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm59_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm59_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5547,7 +5547,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🪣️ Buanderie"
+        content: '# 🪣️ Buanderie'
   - title: Cave
     path: cave
     icon: mdi:bottle-wine
@@ -5618,8 +5618,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -5696,7 +5696,7 @@ views:
             template: section_title
             name: ⚡ Énergie
           - type: gauge
-            entity: sensor.sp1pm64_power
+            entity: sensor.cave_power
             name: Puissance pièce
             needle: true
             min: 0
@@ -5711,9 +5711,9 @@ views:
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-template-card
-                entity: sensor.sp1pm64_power
+                entity: sensor.cave_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.sp1pm64_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.sp1pm64_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -5721,7 +5721,7 @@ views:
                 features_position: bottom
                 vertical: true
               - type: custom:mushroom-template-card
-                entity: sensor.sp1pm64_energy_day
+                entity: sensor.cave_energy_day
                 icon: mdi:lightning-bolt
                 primary: >-
                   {{ states('sensor.sp1pm64_energy_day') | float(0) | round(2)
@@ -5778,12 +5778,12 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.sp1pm64_power
+              - entity: sensor.cave_power
                 name: Cave
                 color: var(--warning-color)
                 type: area
@@ -5805,7 +5805,126 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🍷 Cave
+                subtitle: 🍷 Cave à vin
+              - type: custom:mushroom-template-card
+                entity: switch.s1pm58
+                icon: mdi:pump
+                primary: >-
+                  {% set p = states('sensor.s1pm58_power') | float(0) %} {% if
+                  not is_state('switch.s1pm58', 'on') %}Hors tension {% elif p >
+                  5 %}En marche {% else %}En veille{% endif %}
+                secondary: '{{ states(''sensor.s1pm58_power'') | float(0) | round(0) }} W'
+                tap_action:
+                  action: toggle
+                color: >-
+                  {% set p = states('sensor.s1pm58_power') | float(0) %} {% if
+                  not is_state('switch.s1pm58', 'on') %}red {% elif p > 5
+                  %}orange {% else %}green{% endif %}
+                features_position: bottom
+              - type: gauge
+                entity: sensor.s1pm58_power
+                name: Puissance
+                needle: true
+                min: 50
+                max: 150
+                severity:
+                  green: 0
+                  yellow: 90
+                  red: 100
+              - type: custom:apexcharts-card
+                graph_span: 24h
+                update_interval: 5min
+                header:
+                  show: true
+                  title: Puissance · 24 h
+                  show_states: true
+                  colorize_states: true
+                apex_config:
+                  chart:
+                    height: 160
+                    animations:
+                      enabled: false
+                    toolbar:
+                      show: false
+                    zoom:
+                      enabled: false
+                  stroke:
+                    curve: smooth
+                    width: 2
+                  dataLabels:
+                    enabled: false
+                  markers:
+                    size: 0
+                  legend:
+                    show: false
+                  fill:
+                    type: gradient
+                    gradient:
+                      opacityFrom: 0.42
+                      opacityTo: 0.03
+                      stops:
+                        - 0
+                        - 85
+                        - 100
+                  xaxis:
+                    labels:
+                      datetimeUTC: false
+                      format: HH:mm
+                      style:
+                        fontSize: 10px
+                yaxis:
+                  - min: 0
+                    max: '|+10|'
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                series:
+                  - entity: sensor.s1pm58_power
+                    name: Maintenant
+                    color: var(--warning-color)
+                    type: area
+                    stroke_width: 2
+                    float_precision: 0
+                    group_by:
+                      func: avg
+                      duration: 10min
+                  - entity: sensor.s1pm58_power
+                    name: moy 24 h
+                    color: var(--info-color)
+                    float_precision: 0
+                    group_by:
+                      func: avg
+                      duration: 24h
+                    show:
+                      in_chart: false
+                      in_header: true
+                  - entity: sensor.s1pm58_power
+                    name: pic 24 h
+                    color: var(--error-color)
+                    float_precision: 0
+                    group_by:
+                      func: max
+                      duration: 24h
+                    show:
+                      in_chart: false
+                      in_header: true
+              - type: custom:mushroom-template-card
+                entity: sensor.s1pm58_energy
+                icon: mdi:lightning-bolt
+                icon_color: amber
+                primary: '{{ states(''sensor.s1pm58_energy'') | float(0) | round(2) }} kWh'
+                secondary: Consommation cumulée
+                tap_action:
+                  action: more-info
+            column_span: 2
+            grid_options:
+              rows: auto
+              columns: full
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-title-card
+                alignment: center
+                subtitle: ❄️ Congélateur
               - type: custom:mushroom-template-card
                 entity: switch.sp1pm64
                 icon: mdi:pump
@@ -5813,13 +5932,14 @@ views:
                   {% set p = states('sensor.sp1pm64_power') | float(0) %} {% if
                   not is_state('switch.sp1pm64', 'on') %}Hors tension {% elif p
                   > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.sp1pm64_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.sp1pm64_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
                   {% set p = states('sensor.sp1pm64_power') | float(0) %} {% if
                   not is_state('switch.sp1pm64', 'on') %}red {% elif p > 5
                   %}orange {% else %}green{% endif %}
+                features_position: bottom
               - type: gauge
                 entity: sensor.sp1pm64_power
                 name: Puissance
@@ -5873,7 +5993,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -5962,7 +6082,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🍷️ Cave"
+        content: '# 🍷️ Cave'
   - title: Bureau FV
     path: bureau
     icon: mdi:desktop-tower-monitor
@@ -6033,8 +6153,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -6115,12 +6235,12 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - "off"
+              - 'off'
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_01_position
-            primary: "{{ states('sensor.trv_btr_01_position') | float(0) | round(0) }} %"
+            primary: '{{ states(''sensor.trv_btr_01_position'') | float(0) | round(0) }} %'
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
@@ -6199,7 +6319,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.sp1pm63_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.sp1pm63_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.sp1pm63_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -6264,7 +6384,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -6339,7 +6459,7 @@ views:
                   {% set p = states('sensor.sp1pm63_power') | float(0) %} {% if
                   not is_state('switch.sp1pm63', 'on') %}Hors tension {% elif p
                   > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.sp1pm63_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.sp1pm63_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -6399,7 +6519,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -6488,7 +6608,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🖥️ Bureau FV"
+        content: '# 🖥️ Bureau FV'
   - title: Bureau CR
     path: bureau-cr
     icon: mdi:desk
@@ -6559,8 +6679,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -6703,7 +6823,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🗃️ Bureau CR"
+        content: '# 🗃️ Bureau CR'
   - title: Salle de bain rez
     path: salle-de-bain-rez
     icon: mdi:toilet
@@ -6774,8 +6894,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -6918,7 +7038,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🚽 Salle de bain rez"
+        content: '# 🚽 Salle de bain rez'
   - title: Galetas
     path: galetas
     icon: mdi:home-roof
@@ -6988,8 +7108,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -7132,7 +7252,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🛖 Galetas"
+        content: '# 🛖 Galetas'
   - title: Atelier
     path: atelier
     icon: mdi:hammer-wrench
@@ -7203,8 +7323,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -7298,7 +7418,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.atelier_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.atelier_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.atelier_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -7363,7 +7483,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -7430,7 +7550,7 @@ views:
                 entity: sensor.slzb_06mra_connection_mode
                 icon: mdi:router-wireless
                 primary: SLZB-06MRUA
-                secondary: "{{ states('sensor.slzb_06mra_connection_mode') }}"
+                secondary: '{{ states(''sensor.slzb_06mra_connection_mode'') }}'
                 color: |-
                   {% if is_state('binary_sensor.slzb_06mra_ethernet', 'eth') %}
                     green
@@ -7451,7 +7571,7 @@ views:
                     green
                   {% endif %}
                 primary: CPU
-                secondary: "{{ states('sensor.slzb_06mra_core_chip_temp') }} °C"
+                secondary: '{{ states(''sensor.slzb_06mra_core_chip_temp'') }} °C'
                 layout: horizontal
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06mra_ethernet
@@ -7486,7 +7606,7 @@ views:
                 icon: mdi:update
                 icon_color: blue
                 primary: Firmware
-                secondary: "{{ states('sensor.slzb_06mra_firmware_channel') }}"
+                secondary: '{{ states(''sensor.slzb_06mra_firmware_channel'') }}'
                 layout: horizontal
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06mra_zigbee_chip_temp
@@ -7584,7 +7704,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -7644,7 +7764,7 @@ views:
                   {% set p = states('sensor.s1pm40_power') | float(0) %} {% if
                   not is_state('switch.s1pm40', 'on') %}Hors tension {% elif p >
                   5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.s1pm40_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.s1pm40_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -7704,7 +7824,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -7742,7 +7862,7 @@ views:
                 entity: sensor.s1pm40_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: "{{ states('sensor.s1pm40_energy') | float(0) | round(2) }} kWh"
+                primary: '{{ states(''sensor.s1pm40_energy'') | float(0) | round(2) }} kWh'
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -7791,7 +7911,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🛠️ Atelier"
+        content: '# 🛠️ Atelier'
   - title: Garage
     path: garage
     icon: mdi:garage-variant
@@ -7861,8 +7981,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -8005,7 +8125,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🛞️ Garages"
+        content: '# 🛞️ Garages'
   - title: Jardin
     path: jardin
     icon: mdi:shovel
@@ -8076,8 +8196,8 @@ views:
                     fontSize: 10px
             yaxis:
               - decimals: 1
-                max: "|+0.5|"
-                min: "|-0.5|"
+                max: '|+0.5|'
+                min: '|-0.5|'
                 apex_config:
                   tickAmount: 3
             series:
@@ -8171,7 +8291,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.sp1pm61_power
                 icon: mdi:flash
-                primary: "{{ states('sensor.sp1pm61_power') | float(0) | round(0) }} W"
+                primary: '{{ states(''sensor.sp1pm61_power'') | float(0) | round(0) }} W'
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -8236,7 +8356,7 @@ views:
                     fontSize: 10px
             yaxis:
               - min: 0
-                max: "|+10|"
+                max: '|+10|'
                 decimals: 0
                 apex_config:
                   tickAmount: 4
@@ -8291,7 +8411,7 @@ views:
                   {% set p = states('sensor.sp1pm61_power') | float(0) %} {% if
                   not is_state('switch.sp1pm61', 'on') %}Hors tension {% elif p
                   > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: "{{ states('sensor.sp1pm61_power') | float(0) | round(0) }} W"
+                secondary: '{{ states(''sensor.sp1pm61_power'') | float(0) | round(0) }} W'
                 tap_action:
                   action: toggle
                 color: >-
@@ -8351,7 +8471,7 @@ views:
                         fontSize: 10px
                 yaxis:
                   - min: 0
-                    max: "|+10|"
+                    max: '|+10|'
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -8440,4 +8560,4 @@ views:
       card:
         type: markdown
         text_only: true
-        content: "# 🌾 Jardin"
+        content: '# 🌾 Jardin'

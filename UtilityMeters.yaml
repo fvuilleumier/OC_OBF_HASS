@@ -4,7 +4,7 @@ s1pm30_energy_day:
 
 s1pm31_energy_day:
   source: sensor.s1pm31_energy
-  cycle: daily
+  cycle: daily  
 
 s1pm40_energy_day:
   source: sensor.s1pm40_energy
@@ -12,7 +12,7 @@ s1pm40_energy_day:
 
 s1pm42_energy_day:
   source: sensor.s1pm42_energy
-  cycle: daily
+  cycle: daily  
 
 s1pm43_energy_day:
   source: sensor.s1pm43_energy
@@ -28,7 +28,7 @@ s1pm52_energy_day:
 
 s1pm58_energy_day:
   source: sensor.s1pm58_energy
-  cycle: daily
+  cycle: daily  
 
 s1pm59_energy_day:
   source: sensor.s1pm59_energy
@@ -36,7 +36,7 @@ s1pm59_energy_day:
 
 s1pm60_energy_day:
   source: sensor.s1pm60_energy
-  cycle: daily
+  cycle: daily  
 
 sp1pm61_energy_day:
   source: sensor.sp1pm61_energy
@@ -52,7 +52,7 @@ sp1pm63_energy_day:
 
 sp1pm64_energy_day:
   source: sensor.sp1pm64_energy
-  cycle: daily
+  cycle: daily  
 
 msws65_energy_day:
   source: sensor.msws65_energy
@@ -60,4 +60,8 @@ msws65_energy_day:
 
 sp1pm70_energy_day:
   source: sensor.sp1pm70_energy
+  cycle: daily  
+  
+electricity_meter_secondary_compteur_energy_day:
+  source: sensor.electricity_meter_secondary_compteur_energy_consumption_total
   cycle: daily

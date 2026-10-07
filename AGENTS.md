@@ -39,11 +39,11 @@ restaurées en clair dans le dépôt d'origine, puis relues avec git avant d'êt
 
 | Forme | Signifie | Occurrences |
 |---|---|---|
-| `TBX7D_ORG_0001` | une raison sociale, un nom de projet ou un terme interne | 252 |
-| `TBX7D_SECRET_0001` | un secret : mot de passe, clé d'API, jeton d'accès | 168 |
+| `TBX7D_SECRET_0001` | un secret : mot de passe, clé d'API, jeton d'accès | 166 |
+| `TBX7D_ORG_0001` | une raison sociale, un nom de projet ou un terme interne | 127 |
 | `900000001` | un identifiant d'enregistrement, la valeur d'une clé nommée ID ; un numéro reste un numéro | 55 |
-| `host0001.example.invalid` | un nom de machine pleinement qualifié | 14 |
 | `198.18.0.188` | une adresse IPv4, ou son début quand c'est le réseau qui est masqué ; une adresse privée reste une adresse privée de la même plage, une adresse publique devient une adresse de la plage d'essai 198.18.0.0/15, et l'appartenance au même sous-réseau comme la partie hôte sont préservées | 8 |
+| `host0001.example.invalid` | un nom de machine pleinement qualifié | 7 |
 | `41001` | un port d'écoute non standard ; les ports de service normalisés sont conservés | 4 |
 | `TBX7D_CRED_0001` | un identifiant de connexion nominatif | 3 |
 
@@ -71,19 +71,7 @@ restaurées en clair dans le dépôt d'origine, puis relues avec git avant d'êt
 | `Automations.yaml` | Secrets et mots de passe ×159, Identifiants (clés ID) ×55, Noms internes (société, projets) ×4 |
 | `Configurations.yaml` | Adresses IPv4 ×3, Secrets et mots de passe ×2 |
 | `Dashboards/L'Oree des dous - pieces.yaml` | Noms internes (société, projets) ×23 |
-| `Dashboards/L'Orée des dous.yaml` | Noms internes (société, projets) ×93, Machines (nom qualifié) ×6, Adresses IPv4 ×3, Secrets et mots de passe ×2, Comptes de connexion ×2 |
-| `Dashboards/Views/Pieces/Appareils.yaml` | aucun |
-| `Dashboards/Views/Pieces/AppareilsNotSetYet.yaml` | aucun |
-| `Dashboards/Views/Pieces/Chauffage.yaml` | Noms internes (société, projets) ×9 |
-| `Dashboards/Views/Pieces/Conditions.yaml` | aucun |
-| `Dashboards/Views/Pieces/Energie.yaml` | aucun |
-| `Dashboards/Views/Pieces/EnergieDoesntSetYet.yaml` | aucun |
-| `Dashboards/Views/Pieces/Interactions.yaml` | aucun |
-| `Dashboards/Views/Pieces/InteractionsNotSetYet.yaml` | aucun |
-| `Dashboards/Views/Pieces/Navigation.yaml` | aucun |
-| `Dashboards/Views/PlanInteractif.yaml` | Noms internes (société, projets) ×58, Machines (nom qualifié) ×4, Secrets et mots de passe ×2 |
-| `Dashboards/Views/PlanInteractif_plan.yaml` | Noms internes (société, projets) ×29, Machines (nom qualifié) ×3, Secrets et mots de passe ×2 |
-| `Dashboards/Views/PlanInteractif_tile.yaml` | Noms internes (société, projets) ×29 |
+| `Dashboards/L'Orée des dous.yaml` | Noms internes (société, projets) ×93, Machines (nom qualifié) ×6, Secrets et mots de passe ×4, Adresses IPv4 ×3, Comptes de connexion ×2 |
 | `Influxdb.yaml` | Ports non standard ×1 |
 | `Themes/DarkTheme.yaml` | aucun |
 | `Themes/oneDarkPro.yaml` | aucun |

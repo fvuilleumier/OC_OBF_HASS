@@ -1,4 +1,3 @@
-
 # Loads default set of integrations. Do not remove.
 default_config:
 
@@ -26,28 +25,40 @@ frontend:
 
 template:
   - binary_sensor:
-    - name: Production panneaux solaire
-      unique_id: production_panneaux_solaire
-      delay_on:
-        minutes: 5
-      delay_off:
-        minutes: 10
-      state: '{{ states(''sensor.onduleur_des_dous_grid_power'')|float(0) < -500 }}'
-      
+      - name: Production panneaux solaire
+        unique_id: production_panneaux_solaire
+        delay_on:
+          minutes: 5
+        delay_off:
+          minutes: 10
+        state: "{{ states('sensor.onduleur_des_dous_grid_power')|float(0) < -500 }}"
+
   - sensor:
-    - default_entity_id: sensor.moon_phase_image
-      picture: "{% set phase = states('sensor.moon_phase') %} {% if phase == 'new_moon'
-        %}\n  /local/images/MoonPhases/new_moon.png\n{% elif phase == 'waxing_crescent'
-        %}\n  /local/images/MoonPhases/waxing_crescent.png\n{% elif phase == 'first_quarter'
-        %}\n  /local/images/MoonPhases/first_quarter.png\n{% elif phase == 'waxing_gibbous'
-        %}\n  /local/images/MoonPhases/waxing_gibbous.png\n{% elif phase == 'full_moon'
-        %}\n  /local/images/MoonPhases/full_moon.png\n{% elif phase == 'waning_gibbous'
-        %}\n  /local/images/MoonPhases/waning_gibbous.png\n{% elif phase == 'last_quarter'
-        %}\n  /local/images/MoonPhases/last_quarter.png\n{% elif phase == 'waning_crescent'
-        %}\n  /local/images/MoonPhases/waning_crescent.png\n{% else %}\n  /local/images/MoonPhases/default.png\n{%
-        endif %}"
-      name: Moon Phase Image
-      state: '{{ states(''sensor.moon_phase'') }}'
+      - default_entity_id: sensor.moon_phase_image
+        picture: "{% set phase = states('sensor.moon_phase') %} {% if phase == 'new_moon'
+          %}\n  /local/images/MoonPhases/new_moon.png\n{% elif phase == 'waxing_crescent'
+          %}\n  /local/images/MoonPhases/waxing_crescent.png\n{% elif phase == 'first_quarter'
+          %}\n  /local/images/MoonPhases/first_quarter.png\n{% elif phase == 'waxing_gibbous'
+          %}\n  /local/images/MoonPhases/waxing_gibbous.png\n{% elif phase == 'full_moon'
+          %}\n  /local/images/MoonPhases/full_moon.png\n{% elif phase == 'waning_gibbous'
+          %}\n  /local/images/MoonPhases/waning_gibbous.png\n{% elif phase == 'last_quarter'
+          %}\n  /local/images/MoonPhases/last_quarter.png\n{% elif phase == 'waning_crescent'
+          %}\n  /local/images/MoonPhases/waning_crescent.png\n{% else %}\n  /local/images/MoonPhases/default.png\n{%
+          endif %}"
+        name: Moon Phase Image
+        state: "{{ states('sensor.moon_phase') }}"
+
+      - default_entity_id: sensor.electricity_meter_secondary_compteur_energy_consumption_total
+        name: Compteur secondaire — consommation
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        availability: >-
+          {{ has_value('sensor.electricity_meter_energy_consumption_tarif_1')
+             and has_value('sensor.electricity_meter_energy_consumption_tarif_2') }}
+        state: >-
+          {{ (states('sensor.electricity_meter_energy_consumption_tarif_1') | float(0)
+            + states('sensor.electricity_meter_energy_consumption_tarif_2') | float(0)) | round(3) }}
 
 #utility_meter:
 #

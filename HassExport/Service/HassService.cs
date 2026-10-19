@@ -104,17 +104,24 @@ public class HassService(HassSettings settings)
 
         foreach (var d in settings.Dashboards.Items)
         {
-            string? urlPath = d.UrlPath is "" or "lovelace" ? null : d.UrlPath;
-            string json;
-            try
+            // Seul le 1er segment compte : "mon-dashboard/0" ou "/mon-dashboard/vue" -> "mon-dashboard"
+            var segment = d.UrlPath.Trim('/').Split('/')[0];
+            string? urlPath = segment is "" or "lovelace" ? null : segment;
+
+            // callWS rejette avec un objet { code, message } : on le renvoie en texte au lieu de lever
+            var json = await page.EvaluateAsync<string>(
+                @"async p => {
+                    try {
+                        return JSON.stringify(await document.querySelector('home-assistant').hass
+                            .callWS({ type: 'lovelace/config', url_path: p }));
+                    } catch (e) {
+                        return 'ERREUR:' + (e?.message ?? JSON.stringify(e));
+                    }
+                }", urlPath);
+
+            if (json.StartsWith("ERREUR:"))
             {
-                json = await page.EvaluateAsync<string>(
-                    @"async p => JSON.stringify(await document.querySelector('home-assistant').hass
-                        .callWS({ type: 'lovelace/config', url_path: p }))", urlPath);
-            }
-            catch (PlaywrightException ex)
-            {
-                Console.WriteLine($"ERREUR  dashboard '{d.UrlPath}' : {ex.Message.Split('\n')[0]}");
+                Console.WriteLine($"ERREUR  dashboard '{segment}' : {json[7..]}");
                 continue;
             }
 

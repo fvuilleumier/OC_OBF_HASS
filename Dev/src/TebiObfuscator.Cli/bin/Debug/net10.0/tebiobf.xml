@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>tebiobf</name>
+    </assembly>
+    <members>
+        <member name="T:TebiObfuscator.Cli.View.Program">
+            <summary>
+            Point d'entrée de la View console. Les commandes Spectre.Console.Cli
+            (scan, review, obfuscate, deobfuscate, verify) sont câblées ici au lot 6 ;
+            pour l'instant l'exécutable se contente d'annoncer sa version.
+            </summary>
+        </member>
+        <member name="M:TebiObfuscator.Cli.View.Program.Main(System.String[])">
+            <summary>
+            Démarre l'application console.
+            </summary>
+            <param name="args">Arguments de ligne de commande transmis par l'OS</param>
+            <returns>Code de sortie du processus : 0 en cas de succès</returns>
+        </member>
+    </members>
+</doc>

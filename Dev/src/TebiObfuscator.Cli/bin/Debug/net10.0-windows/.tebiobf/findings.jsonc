@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-09-22T09:58:05.0278381+02:00",
+  "fileCount": 1,
+  "findings": [
+    {
+      "category": "Secret",
+      "value": "nJv\u2026!",
+      "occurrences": 1,
+      "files": [
+        "appsettings.json"
+      ],
+      "rule": "secret.keyValue"
+    },
+    {
+      "category": "Secret",
+      "value": "teb\u2026S",
+      "occurrences": 1,
+      "files": [
+        "appsettings.json"
+      ],
+      "rule": "secret.keyValue"
+    },
+    {
+      "category": "Credential",
+      "value": "teb\u2026S",
+      "occurrences": 1,
+      "files": [
+        "appsettings.json"
+      ],
+      "rule": "secret.credentialKeyValue"
+    },
+    {
+      "category": "Credential",
+      "value": "teb\u2026S",
+      "occurrences": 1,
+      "files": [
+        "appsettings.json"
+      ],
+      "rule": "secret.credentialKeyValue"
+    }
+  ],
+  "vocabularyCandidates": [
+    {
+      "term": "LogLevel",
+      "occurrences": 2,
+      "suggestedCategory": "Person"
+    },
+    {
+      "term": "Password",
+      "occurrences": 2,
+      "suggestedCategory": "Person"
+    },
+    {
+      "term": "Username",
+      "occurrences": 2,
+      "suggestedCategory": "Person"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    View graphique minimaliste. Elle ne contient aucune règle de détection :
+    elle affiche ce que les Presenters retournent et leur transmet les cases
+    cochées. C'est ce qui permet de la remplacer ou de la faire évoluer sans
+    toucher au moteur, déjà couvert par les tests.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>TebiObfuscator.Wpf</RootNamespace>
+    <AssemblyName>TebiObfuscator</AssemblyName>
+    <ApplicationDefaultFont>Segoe UI</ApplicationDefaultFont>
+    <!-- L'icône est embarquée dans l'exécutable ; Windows s'en sert aussi pour
+         la fenêtre et la barre des tâches, sans qu'il faille la déclarer une
+         seconde fois en ressource. -->
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <InvariantGlobalization>false</InvariantGlobalization>
+
+    <!-- CA1812 : les types de la View sont instanciés par le générateur XAML.
+         CA1515 : le générateur XAML produit des partielles publiques, la
+         visibilité n'est donc pas un choix que l'on puisse restreindre ici. -->
+    <NoWarn>$(NoWarn);CA1812;CA1515</NoWarn>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- L'inclusion par défaut range tous les XAML en Page ; il faut désigner
+         explicitement celui qui définit l'application, sinon le compilateur ne
+         trouve pas de point d'entrée. -->
+    <Page Remove="view\App.xaml" />
+    <ApplicationDefinition Include="view\App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TebiObfuscator.Core\TebiObfuscator.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Le numéro de version est celui du cœur, tenu dans TebiObfuscator.Core.csproj. -->
+  <Import Project="..\ProductVersion.targets" />
+
+</Project>

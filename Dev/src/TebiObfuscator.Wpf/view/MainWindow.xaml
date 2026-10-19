@@ -1,0 +1,1222 @@
+<Window x:Class="TebiObfuscator.Wpf.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TebiObfuscator.Wpf.View"
+        Title="TebiObfuscator" Height="860" Width="1440" MinHeight="620" MinWidth="1100"
+        Background="{StaticResource Background}" Foreground="{StaticResource TextPrimary}"
+        TextOptions.TextFormattingMode="Ideal"
+        AllowDrop="True"
+        PreviewDragEnter="OnWindowDragOver" PreviewDragOver="OnWindowDragOver"
+        PreviewDragLeave="OnWindowDragLeave" PreviewDrop="OnWindowDrop"
+        PreviewKeyDown="OnWindowPreviewKeyDown" PreviewMouseDown="OnWindowPreviewMouseDown"
+        PreviewTextInput="OnWindowPreviewTextInput" Closing="OnWindowClosing">
+
+    <Window.Resources>
+
+        <BooleanToVisibilityConverter x:Key="Visible" />
+
+        <!-- Filtre de l'aperçu : la légende des couleurs devient une rangée
+             de boutons dont un seul est enfoncé. Chacun garde la couleur de
+             ce qu'il désigne ; l'enfoncé est cerné de l'accent, les autres
+             un peu effacés. -->
+        <Style x:Key="FilterChip" TargetType="RadioButton">
+            <Setter Property="GroupName" Value="PreviewFilter" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Chip" Background="{TemplateBinding Background}" CornerRadius="3"
+                                BorderThickness="1" BorderBrush="Transparent" Padding="7,2" Opacity="0.72">
+                            <ContentPresenter VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chip" Property="Opacity" Value="1" />
+                                <Setter TargetName="Chip" Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Chip" Property="Opacity" Value="1" />
+                                <Setter TargetName="Chip" Property="BorderBrush" Value="{StaticResource Accent}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Logo : la feuille dont deux lignes sont remplacées par des blocs,
+             comme sur l'icône de l'application. -->
+        <DrawingImage x:Key="Logo">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="#FF1B212B">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF354152" Thickness="1.2" />
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0.6,0.6,62.8,62.8" RadiusX="13" RadiusY="13" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFE6EAF0">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="14,10,36,44" RadiusX="3" RadiusY="3" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF8A98AC">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="19,18.5,7,3.2" RadiusX="1.6" RadiusY="1.6" />
+                                <RectangleGeometry Rect="28,18.5,15,3.2" RadiusX="1.6" RadiusY="1.6" />
+                                <RectangleGeometry Rect="19,26,12,3.2" RadiusX="1.6" RadiusY="1.6" />
+                                <RectangleGeometry Rect="33,26,6,3.2" RadiusX="1.6" RadiusY="1.6" />
+                                <RectangleGeometry Rect="19,33.5,6,4" RadiusX="1.6" RadiusY="1.6" />
+                                <RectangleGeometry Rect="36,41.5,5,4" RadiusX="1.6" RadiusY="1.6" />
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4FC3A1">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="27,33.5,18,4" RadiusX="1.6" RadiusY="1.6" />
+                                <RectangleGeometry Rect="19,41.5,15,4" RadiusX="1.6" RadiusY="1.6" />
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <!-- Onglets de droite, avec deux emplacements de plus que le gabarit
+             ordinaire : un bandeau sous leur contenu, une couche par-dessus.
+             L'état de l'analyse s'y annonce une seule fois pour tous les
+             onglets. Le bandeau est en bas, au-dessus du pied de la fenêtre :
+             quand il paraît puis disparaît, le haut du contenu ne bouge pas. -->
+        <Style x:Key="DetailTabControl" TargetType="TabControl" BasedOn="{StaticResource {x:Type TabControl}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <DockPanel>
+                            <Border DockPanel.Dock="Top" BorderBrush="{StaticResource BorderBrushSoft}"
+                                    BorderThickness="0,0,0,1">
+                                <TabPanel IsItemsHost="True" Margin="0" />
+                            </Border>
+                            <ContentPresenter DockPanel.Dock="Bottom"
+                                              Content="{Binding Path=(local:DetailTabSlots.Banner), RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Grid>
+                                <ContentPresenter ContentSource="SelectedContent" Margin="0,10,0,0" />
+                                <ContentPresenter Content="{Binding Path=(local:DetailTabSlots.Overlay), RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Grid>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ligne de l'écran d'accueil pour un projet récent. -->
+        <Style x:Key="RecentProjectButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="Margin" Value="0,0,0,2" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Shell" Background="Transparent" CornerRadius="5" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Stretch" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Shell" Property="Background" Value="{StaticResource Hover}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Intervalle replié de l'aperçu : toute la ligne est cliquable. -->
+        <Style x:Key="GapButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Shell" Background="#FF171C24" BorderBrush="{StaticResource BorderBrushSoft}"
+                                BorderThickness="0,1" Margin="0,3" Padding="0,4">
+                            <ContentPresenter HorizontalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Shell" Property="Background" Value="{StaticResource Hover}" />
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimary}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Décision proposée sur une portion. Une valeur masquée : la garder
+             en clair ici seulement, ou partout. Une valeur signalée : la
+             masquer, ou la garder ici, ou partout. Une décision prise : une
+             pastille qui la rappelle, et de quoi l'annuler. -->
+        <DataTemplate x:Key="PreviewEntryTemplate" DataType="{x:Type local:PreviewEntryRow}">
+            <Grid Margin="0,0,4,2" ToolTip="{Binding Tooltip}" Background="Transparent">
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding ShowsMaskedActions, Converter={StaticResource Visible}}">
+                    <Border Style="{StaticResource Pill}" Background="{StaticResource MaskedBackground}">
+                        <TextBlock Text="{Binding Label}" FontSize="10.5" Foreground="{StaticResource MaskedForeground}" />
+                    </Border>
+                    <Button Content="Garder ici" Style="{StaticResource MiniButton}" Click="OnKeepHere"
+                            ToolTip="Laisse cette occurrence-ci en clair, dans ce fichier seulement : les autres occurrences de la valeur restent masquées." />
+                    <Button Content="Partout" Style="{StaticResource MiniButton}" Click="OnKeepEverywhere"
+                            ToolTip="Ajoute la valeur à la liste blanche du projet : elle restera en clair partout, dans tous les fichiers. On l'en retire depuis l'onglet « Liste blanche »." />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding ShowsProposal, Converter={StaticResource Visible}}">
+                    <Button Content="Masquer" Style="{StaticResource MiniAccentButton}" Click="OnMaskProposal"
+                            ToolTip="Ajoute cette valeur aux règles du projet : elle sera masquée partout." />
+                    <Button Content="Garder ici" Style="{StaticResource MiniButton}" Click="OnKeepHere"
+                            ToolTip="La laisse en clair à cet endroit seulement, sans plus la signaler ici ; ailleurs, elle reste signalée." />
+                    <Button Content="Partout" Style="{StaticResource MiniButton}" Click="OnKeepEverywhere"
+                            ToolTip="L'ajoute à la liste blanche du projet : en clair partout, elle ne sera plus signalée." />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding ShowsDecision, Converter={StaticResource Visible}}">
+                    <Border x:Name="DecisionPill" Style="{StaticResource Pill}" Background="{StaticResource Raised}">
+                        <TextBlock x:Name="DecisionText" Text="{Binding DecisionLabel}" FontSize="10.5"
+                                   Foreground="{StaticResource TextMuted}" />
+                    </Border>
+                    <Button Content="annuler" Style="{StaticResource LinkButton}" FontSize="10.5" Click="OnUndoDecision"
+                            ToolTip="Revient sur cette décision." />
+                </StackPanel>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsPendingMask}" Value="True">
+                    <Setter TargetName="DecisionPill" Property="Background" Value="{StaticResource PendingBackground}" />
+                    <Setter TargetName="DecisionText" Property="Foreground" Value="{StaticResource PendingForeground}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <!-- Une ligne de l'aperçu : numéro, texte d'origine, texte pseudonymisé,
+             puis les décisions possibles sur cette ligne. Les deux volets
+             partagent la même ligne, donc le même ascenseur. Les colonnes sont
+             fixes ou proportionnelles, jamais « partagées » : le partage de
+             taille entre lignes forcerait à mesurer tout le fichier et
+             empêcherait la virtualisation. Les volets portent leur nom en
+             étiquette, et un fond transparent qui les rend sensibles à la
+             souris sur toute leur largeur : c'est par eux que passe la
+             sélection de texte. -->
+        <DataTemplate x:Key="PreviewLineTemplate" DataType="{x:Type local:PreviewLineRow}">
+            <Grid Opacity="{Binding Emphasis}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="214" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding NumberText}" Width="{Binding GutterWidth}"
+                           Margin="6,1,10,1" TextAlignment="Right"
+                           Foreground="{StaticResource TextDisabled}" FontFamily="Cascadia Mono, Consolas" FontSize="12" />
+
+                <TextBlock Grid.Column="1" Margin="0,1,12,1" TextWrapping="Wrap" Tag="Original"
+                           Background="Transparent" Cursor="IBeam"
+                           FontFamily="Cascadia Mono, Consolas" FontSize="12.5"
+                           local:InlineBinder.Segments="{Binding Original}" />
+
+                <TextBlock Grid.Column="2" Margin="0,1,12,1" TextWrapping="Wrap" Tag="Masked"
+                           Background="Transparent" Cursor="IBeam"
+                           FontFamily="Cascadia Mono, Consolas" FontSize="12.5"
+                           local:InlineBinder.Segments="{Binding Masked}" />
+
+                <ItemsControl Grid.Column="3" ItemsSource="{Binding Entries}" Margin="0,1,6,1" Focusable="False"
+                              ItemTemplate="{StaticResource PreviewEntryTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </DataTemplate>
+
+        <!-- En-tête d'un onglet d'aperçu : le nom du fichier, ce qui y reste à
+             trancher, et la croix qui le ferme. Il passe par un gabarit pour
+             recevoir la couleur et la graisse que l'onglet donne à son titre. -->
+        <DataTemplate x:Key="PreviewTabHeaderTemplate" DataType="{x:Type local:PreviewTabHeader}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding CountText}" Foreground="{StaticResource SuspectForeground}"
+                           VerticalAlignment="Center" />
+                <Button Style="{StaticResource TabCloseButton}" Click="OnClosePreviewTab"
+                        ToolTip="Fermer cet aperçu (ou clic du milieu sur l'onglet) : le fichier reste dans le lot." />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PreviewGapTemplate" DataType="{x:Type local:PreviewGapRow}">
+            <Button Style="{StaticResource GapButton}" Click="OnExpandGap" Content="{Binding Label}" />
+        </DataTemplate>
+
+        <local:PreviewItemSelector x:Key="PreviewItemSelector"
+                                   LineTemplate="{StaticResource PreviewLineTemplate}"
+                                   GapTemplate="{StaticResource PreviewGapTemplate}" />
+
+    </Window.Resources>
+
+    <Grid>
+        <DockPanel>
+
+            <!-- ═══════════ Barre du haut : projet puis actions, à gauche ═══════════ -->
+            <Border DockPanel.Dock="Top" Background="{StaticResource Surface}"
+                    BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="0,0,0,1" Padding="12,8">
+                <DockPanel LastChildFill="False">
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="{StaticResource Logo}" Width="22" Height="22" Margin="0,0,9,0" />
+                        <TextBlock Text="TebiObfuscator" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="14,3" />
+
+                        <Button Name="ProjectMenuButton" Click="OnProjectMenu"
+                                ToolTip="Ouvrir, créer ou rouvrir un projet récent (Ctrl+O, Ctrl+N, Ctrl+1 à Ctrl+5).">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Projet" />
+                                <Path Data="M 0,0 L 4,4 L 8,0" Stroke="{StaticResource TextSecondary}" StrokeThickness="1.4"
+                                      Margin="9,1,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Le nom du projet est une étiquette, modifiable sur place :
+                             le dossier reste son identité réelle. -->
+                        <StackPanel Name="ProjectIdentity" Orientation="Horizontal" Visibility="Collapsed"
+                                    VerticalAlignment="Center">
+                            <TextBox Name="ProjectNameBox" Style="{StaticResource InlineEditBox}" MinWidth="90"
+                                     MaxWidth="280" VerticalAlignment="Center"
+                                     KeyDown="OnProjectNameKeyDown" LostKeyboardFocus="OnProjectNameLostFocus"
+                                     ToolTip="Nom du projet : cliquez pour le modifier, Entrée pour valider, Échap pour annuler. Par défaut le nom du dossier ; sans effet sur les fichiers." />
+                            <!-- Le crayon dit que le nom se modifie : un titre ne
+                                 laisse pas deviner qu'il est une zone de saisie. -->
+                            <Button Style="{StaticResource LinkButton}" Click="OnEditProjectName" Margin="0,0,6,0"
+                                    VerticalAlignment="Center" ToolTip="Renommer le projet">
+                                <Path Data="M 0,10 L 0,12 L 2,12 L 9,5 L 7,3 Z M 8,2 L 10,4 L 11,3 L 9,1 Z"
+                                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                      Width="12" Height="12" Stretch="Uniform" />
+                            </Button>
+                            <TextBlock Name="ProjectPathText" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                       VerticalAlignment="Center" Margin="2,0,0,0" MaxWidth="300"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+
+                        <StackPanel Name="ProjectActions" Orientation="Horizontal" Visibility="Collapsed"
+                                    VerticalAlignment="Center">
+                            <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="14,3,14,3" />
+                            <Button Name="ScanButton" Content="1 · Analyser" Click="OnScan" IsEnabled="False"
+                                    ToolTip="Repère ce qui serait masqué et compose l'aperçu, en arrière-plan. N'écrit aucun fichier. (F5)" />
+                            <Button Name="ObfuscateButton" Content="2 · Obfusquer" Click="OnObfuscate" IsEnabled="False"
+                                    Style="{StaticResource PrimaryButton}"
+                                    ToolTip="Obfusque la source et écrit la cible, après la liste exacte des fichiers à confirmer. (F6)" />
+                            <Button Name="ReturnButton" Content="3 · Rapatrier" Click="OnReturn" IsEnabled="False"
+                                    ToolTip="Ramène dans la source ce que l'IA a changé dans la cible : chaque fichier est restauré, fusionné avec le fichier en clair actuel et contrôlé, puis la liste à confirmer s'affiche. (F7)" />
+                            <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="6,3,14,3" />
+                            <TextBlock Text="Presse-papiers" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                       VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <Button Name="ObfuscateClipboardButton" Content="Pseudonymiser" Click="OnObfuscateClipboard"
+                                    ToolTip="Copiez du texte, puis cliquez : le presse-papiers contient sa version pseudonymisée, prête à coller dans l'IA. Les correspondances sont enregistrées au coffre du projet. (Ctrl+Maj+C)" />
+                            <Button Name="DeobfuscateButton" Content="Restaurer" Click="OnDeobfuscateClipboard"
+                                    ToolTip="Copiez la réponse de l'IA, puis cliquez : les pseudonymes redeviennent les vraies valeurs, mise en forme comprise. (Ctrl+Maj+V)" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock DockPanel.Dock="Right" Name="TokenBadge" VerticalAlignment="Center"
+                               FontSize="11" Foreground="{StaticResource TextMuted}" />
+                </DockPanel>
+            </Border>
+
+            <!-- ═══════════ Bandeau d'état : verdict à gauche, tâches à droite ═══════════ -->
+            <Border DockPanel.Dock="Bottom" Name="StatusBorder" Background="{StaticResource Surface}"
+                    BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="0,1,0,0" Padding="14,6">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center"
+                                Margin="18,0,0,0">
+                        <Control Name="TaskSpinner" Style="{StaticResource Spinner}" Visibility="Collapsed"
+                                 Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Name="TaskSummary" FontSize="11.5" Foreground="{StaticResource TextMuted}"
+                                   VerticalAlignment="Center" MaxWidth="420" TextTrimming="CharacterEllipsis"
+                                   Text="Aucune tâche en cours" />
+                        <ProgressBar Name="TaskProgress" Width="110" Margin="10,0,0,0" Visibility="Collapsed"
+                                     VerticalAlignment="Center" />
+                        <Button Name="TaskCancelButton" Content="Annuler" Style="{StaticResource LinkButton}"
+                                Margin="8,0,0,0" Visibility="Collapsed" Click="OnCancelAnalysis" FontSize="11.5"
+                                ToolTip="Annule l'analyse : l'aperçu garde son état précédent." />
+                        <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="12,2" />
+                        <Button Name="TasksButton" Content="Tâches" Click="OnShowTasks" Style="{StaticResource SubtleButton}"
+                                Margin="0" Padding="10,3"
+                                ToolTip="Affiche les tâches d'arrière-plan : en cours, prévues et passées." />
+
+                        <!-- Analyse automatique : active, chaque décision relance
+                             l'analyse en arrière-plan ; inactive, on enchaîne les
+                             « Masquer », « Garder ici » et « Partout » sans
+                             qu'aucune ne parte, et l'on analyse quand on veut. -->
+                        <StackPanel Name="AutoAnalysePanel" Orientation="Horizontal" VerticalAlignment="Center"
+                                    Visibility="Collapsed" Background="Transparent" ToolTipService.ShowDuration="30000">
+                            <StackPanel.ToolTip>
+                                <TextBlock MaxWidth="380" TextWrapping="Wrap"
+                                           Text="Active (par défaut) : chaque décision — Masquer, Garder ici, Partout, terme, catégorie — relance l'analyse en arrière-plan, après un court délai qui regroupe les clics rapprochés.&#10;&#10;Inactive : les décisions s'appliquent à l'aperçu sans lancer d'analyse ; on peut en enchaîner autant qu'on veut. L'aperçu signale quand une analyse est nécessaire, et « 1 · Analyser » (F5) la lance.&#10;&#10;Réactiver lance aussitôt l'analyse si l'aperçu est dépassé." />
+                            </StackPanel.ToolTip>
+                            <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="12,2" />
+                            <TextBlock Text="Analyse auto" FontSize="11.5" Foreground="{StaticResource TextMuted}"
+                                       VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <ToggleButton Name="AutoAnalyseSwitch" Style="{StaticResource Switch}"
+                                          Click="OnAutoAnalyseSwitchClick" VerticalAlignment="Center"
+                                          AutomationProperties.Name="Analyse automatique après chaque décision" />
+                            <TextBlock Name="AutoAnalyseText" FontSize="11.5" VerticalAlignment="Center"
+                                       Margin="7,0,0,0" MinWidth="44" />
+                        </StackPanel>
+
+                        <!-- Chiffrement du coffre du projet ouvert : la pastille se
+                             place du côté de l'état actif, et basculer rechiffre le
+                             coffre aussitôt. -->
+                        <StackPanel Name="VaultProtectionPanel" Orientation="Horizontal" VerticalAlignment="Center"
+                                    Visibility="Collapsed" Background="Transparent" ToolTipService.ShowDuration="30000">
+                            <StackPanel.ToolTip>
+                                <TextBlock MaxWidth="380" TextWrapping="Wrap"
+                                           Text="Chiffrement du coffre, le fichier qui garde les correspondances entre valeurs réelles et pseudonymes : c'est lui qui permet de restaurer les réponses de l'IA.&#10;&#10;Bas (par défaut) : l'application ouvre le coffre sur tout poste où elle est installée. On peut emporter le projet sur un autre poste, ou réinstaller le sien, sans rien perdre. Sans l'application, le fichier reste illisible ; avec elle, il s'ouvre.&#10;&#10;Élevé : seul votre compte Windows, sur ce poste, peut ouvrir le coffre, même avec l'application. S'il disparaît — poste réinstallé, compte supprimé —, les réponses de l'IA ne peuvent plus être restaurées.&#10;&#10;Basculer rechiffre le coffre aussitôt." />
+                            </StackPanel.ToolTip>
+                            <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="12,2" />
+                            <Path Data="M 3.5,6 V 4.2 A 2.5,2.5 0 0 1 8.5,4.2 V 6 M 2,6 H 10 V 12 H 2 Z"
+                                  Stroke="{StaticResource TextMuted}" StrokeThickness="1.2" StrokeLineJoin="Round"
+                                  Width="11" Height="12" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,7,0" />
+                            <TextBlock Text="Chiffrement" FontSize="11.5" Foreground="{StaticResource TextMuted}"
+                                       VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <TextBlock Name="VaultLowText" Text="bas" FontSize="11.5" VerticalAlignment="Center"
+                                       Margin="0,0,7,0" />
+                            <ToggleButton Name="VaultProtectionSwitch" Style="{StaticResource Switch}"
+                                          Click="OnVaultProtectionClick" VerticalAlignment="Center"
+                                          AutomationProperties.Name="Chiffrement élevé du coffre" />
+                            <TextBlock Name="VaultHighText" Text="élevé" FontSize="11.5" VerticalAlignment="Center"
+                                       Margin="7,0,0,0" />
+                        </StackPanel>
+
+                        <!-- Version du produit, lue dans le cœur : le numéro dit
+                             quelle livraison tourne. -->
+                        <Border Width="1" Background="{StaticResource BorderBrushSoft}" Margin="12,2" />
+                        <TextBlock Name="VersionText" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <TextBlock Name="StatusText" TextWrapping="Wrap" VerticalAlignment="Center"
+                               Foreground="{StaticResource TextSecondary}"
+                               Text="Ouvrez ou créez un projet, ou passez simplement le presse-papiers par un coffre." />
+                </DockPanel>
+            </Border>
+
+            <Grid>
+
+                <!-- ═══════════ Accueil : visible tant qu'aucun projet n'est ouvert ═══════════ -->
+                <ScrollViewer Name="WelcomePanel" VerticalScrollBarVisibility="Auto">
+                    <!-- La grille prend au moins la hauteur visible : c'est ce qui
+                         permet de centrer l'accueil dans une grande fenêtre tout en
+                         le laissant défiler dans une petite. -->
+                    <Grid MinHeight="{Binding ViewportHeight, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                    <StackPanel Width="1010" Margin="0,36,0,36" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="{StaticResource Logo}" Width="60" Height="60" />
+                        <TextBlock Text="TebiObfuscator" FontSize="26" FontWeight="SemiBold"
+                                   HorizontalAlignment="Center" Margin="0,14,0,0" />
+                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                                   Margin="0,6,0,24" Foreground="{StaticResource TextSecondary}"
+                                   Text="Pseudonymisez vos fichiers avant de les confier à une IA, puis restaurez ses réponses." />
+
+                        <!-- Deux chemins, côte à côte : travailler dans un projet, ou
+                             simplement passer le presse-papiers par un coffre. -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="390" />
+                            </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                        <Border Style="{StaticResource Card}" Padding="18,16">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="POUR COMMENCER, OUVREZ UN PROJET" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="Un projet est un simple dossier de travail. Il garde le coffre chiffré des correspondances, votre vocabulaire et vos décisions : tous les fichiers d'un même projet reçoivent les mêmes pseudonymes, d'une séance à l'autre. Les fichiers à traiter vivent dans son dossier « in », leurs versions obfusquées dans « out » ; l'onglet « Échanges » lie à la place un dossier en clair et le dossier où travaille l'IA." />
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <Button Content="Ouvrir un projet…" Click="OnOpenProject" Style="{StaticResource PrimaryButton}"
+                                            ToolTip="Choisir le dossier d'un projet existant (Ctrl+O)." />
+                                    <Button Content="Créer un projet…" Click="OnCreateProject"
+                                            ToolTip="Choisir le dossier du nouveau projet (Ctrl+N)." />
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource Hint}" Margin="0,12,0,0"
+                                           Text="Vous pouvez aussi glisser le dossier d'un projet sur cette fenêtre. Des fichiers déposés avant d'ouvrir un projet sont gardés en attente, puis copiés dans son dossier « in » dès qu'il est ouvert." />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Name="PendingFilesNotice" Visibility="Collapsed" Margin="0,12,0,0" CornerRadius="6"
+                                Padding="12,8" Background="{StaticResource WarningDim}">
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" Content="oublier" Style="{StaticResource LinkButton}"
+                                        Click="OnForgetPendingFiles" VerticalAlignment="Center" />
+                                <TextBlock Name="PendingFilesText" TextWrapping="Wrap" VerticalAlignment="Center"
+                                           Foreground="{StaticResource SuspectForeground}" />
+                            </DockPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}" Padding="18,16" Margin="0,14,0,0">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="PROJETS RÉCENTS" />
+                                <ItemsControl Name="RecentProjectsList" Focusable="False">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:RecentProjectItem}">
+                                            <Button Style="{StaticResource RecentProjectButton}" Click="OnOpenRecent"
+                                                    ToolTip="{Binding Path}">
+                                                <DockPanel>
+                                                    <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" Margin="12,0,0,0">
+                                                        <TextBlock Text="{Binding Shortcut}" FontSize="10.5"
+                                                                   Foreground="{StaticResource TextMuted}" />
+                                                    </Border>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                                        <TextBlock Text="{Binding Detail}" FontSize="11" Margin="0,2,0,0"
+                                                                   Foreground="{StaticResource TextMuted}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Name="NoRecentProjects" Style="{StaticResource Hint}" Margin="0,2,0,0"
+                                           Text="Aucun projet ouvert récemment. Les cinq derniers apparaîtront ici, et dans le menu « Projet »." />
+                            </StackPanel>
+                        </Border>
+                        </StackPanel>
+
+                        <!-- Presse-papiers sans ouvrir de projet : un coffre reste
+                             indispensable, c'est lui qui permettra de restaurer. -->
+                        <Border Grid.Column="2" Style="{StaticResource Card}" Padding="18,16" VerticalAlignment="Top">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="OU SIMPLEMENT LE PRESSE-PAPIERS" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="Copiez un texte, pseudonymisez-le, collez-le dans l'IA ; copiez sa réponse, restaurez-la. Les correspondances sont gardées dans le coffre choisi ci-dessous : c'est lui qui permettra de restaurer." />
+
+                                <TextBlock Text="Coffre utilisé" FontSize="11" Foreground="{StaticResource TextSecondary}"
+                                           Margin="0,4,0,5" />
+                                <ComboBox Name="ClipboardProjectBox" SelectionChanged="OnClipboardProjectChanged"
+                                          ToolTip="Le projet dont le coffre et les règles servent. Le projet « Presse-papiers » est créé au premier usage ; un projet récent apporte en plus son vocabulaire — les noms qu'aucune règle ne devine." />
+                                <TextBlock Name="ClipboardProjectHint" Style="{StaticResource Hint}" Margin="0,6,0,0" />
+                                <Button Content="ouvrir ce projet pour modifier ses règles" Style="{StaticResource LinkButton}"
+                                        Click="OnOpenClipboardProject" HorizontalAlignment="Left" Margin="0,4,0,0"
+                                        ToolTip="Ouvre le projet du coffre choisi : termes à masquer, catégories, exceptions." />
+
+                                <StackPanel Margin="0,14,0,0">
+                                    <Button Content="Pseudonymiser le presse-papiers" Click="OnObfuscateClipboard"
+                                            HorizontalContentAlignment="Center" Margin="0,0,0,8"
+                                            ToolTip="Le texte copié est remplacé par sa version pseudonymisée, prête à coller dans l'IA. (Ctrl+Maj+C)" />
+                                    <Button Content="Restaurer le presse-papiers" Click="OnDeobfuscateClipboard" Margin="0"
+                                            ToolTip="La réponse copiée retrouve ses vraies valeurs, mise en forme comprise. Le coffre d'où viennent les pseudonymes est reconnu de lui-même. (Ctrl+Maj+V)" />
+                                </StackPanel>
+
+                                <TextBlock Name="WelcomeClipboardResult" Margin="0,12,0,0" TextWrapping="Wrap"
+                                           FontSize="11.5" Visibility="Collapsed" />
+                                <TextBlock Style="{StaticResource Hint}" Margin="0,12,0,0"
+                                           Text="Raccourcis : Ctrl+Maj+C pour pseudonymiser, Ctrl+Maj+V pour restaurer." />
+                            </StackPanel>
+                        </Border>
+                        </Grid>
+                    </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+
+                <!-- ═══════════ Travail : visible une fois un projet ouvert ═══════════ -->
+                <Grid Name="WorkPanel" Margin="14" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="350" MinWidth="290" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" MinWidth="560" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- ═══════════ Colonne de gauche : entrées et règles ═══════════ -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Style="{StaticResource Card}" Margin="0,0,0,12" Name="FilesDropZone">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Name="FilesTitle" Style="{StaticResource SectionTitle}"
+                                           Text="FICHIERS À TRAITER" TextTrimming="CharacterEllipsis" />
+                                <TextBlock DockPanel.Dock="Top" Name="DropHint" Style="{StaticResource Hint}"
+                                           Text="Le contenu du dossier « in » du projet ; double-cliquez sur un fichier pour ouvrir son aperçu. Glissez-déposez des fichiers ou des dossiers ici, ou n'importe où sur la fenêtre : ils y sont copiés, vos originaux restent en place." />
+
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                                    <Button Name="AddFilesButton" Content="Ajouter…" Click="OnAddFiles"
+                                            Style="{StaticResource SubtleButton}"
+                                            ToolTip="Choisir des fichiers : ils sont copiés dans le dossier « in » du projet." />
+                                    <Button Name="OpenInputButton" Content="Ouvrir « in »" Click="OnOpenInputFolder"
+                                            Style="{StaticResource SubtleButton}"
+                                            ToolTip="Ouvre le dossier des fichiers à traiter dans l'explorateur : ce qu'on y dépose apparaît aussitôt ici." />
+                                    <Button Name="OpenOutputButton" Content="Ouvrir « out »" Click="OnOpenOutputFolder"
+                                            Style="{StaticResource SubtleButton}" Margin="0"
+                                            ToolTip="Ouvre le dossier des fichiers obfusqués (nom_obfusc) et de leurs légendes : ce sont eux qu'on joint à la conversation avec l'IA." />
+                                    <TextBlock Name="FilesCount" VerticalAlignment="Center" Margin="10,0,0,0"
+                                               FontSize="11" Foreground="{StaticResource TextMuted}" />
+                                </StackPanel>
+
+                                <ListBox Name="FilesList" Height="120" BorderThickness="1"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         MouseDoubleClick="OnFilesListDoubleClick" KeyDown="OnFilesListKeyDown"
+                                         PreviewMouseRightButtonUp="OnFilesListRightClick">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                            <Setter Property="Padding" Value="8,2,4,2" />
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:InputFileRow}">
+                                            <Grid ToolTip="{Binding FullPath}" Background="Transparent">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" VerticalAlignment="Center" FontSize="11.5"
+                                                           TextTrimming="CharacterEllipsis">
+                                                    <Run Text="{Binding Name, Mode=OneWay}" /><Run
+                                                         Text="{Binding FolderLabel, Mode=OneWay}"
+                                                         Foreground="{StaticResource TextMuted}" />
+                                                </TextBlock>
+                                                <!-- Poubelle : le fichier quitte « in » pour la corbeille,
+                                                     après confirmation. -->
+                                                <Button Grid.Column="1" Style="{StaticResource DangerIconButton}"
+                                                        Click="OnDeleteInputFile" Margin="6,0,0,0"
+                                                        Visibility="{Binding CanDelete, Converter={StaticResource Visible}}"
+                                                        ToolTip="Supprimer ce fichier du dossier « in » (il est placé dans la corbeille)">
+                                                    <Path Data="M 1,3 H 11 M 4.5,3 V 1.3 H 7.5 V 3 M 2.4,3 L 3.2,11.4 H 8.8 L 9.6,3 M 5,5.4 V 9.4 M 7,5.4 V 9.4"
+                                                          Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                                          StrokeThickness="1.15" StrokeLineJoin="Round"
+                                                          StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                          Width="11" Height="12" Stretch="Uniform" />
+                                                </Button>
+                                                <!-- Dossier en clair lié : l'application n'y supprime
+                                                     rien ; un fichier y est seulement tenu à l'écart. -->
+                                                <Button Grid.Column="1" Style="{StaticResource DangerIconButton}"
+                                                        Click="OnExcludeInputFile" Margin="6,0,0,0"
+                                                        Visibility="{Binding CanExclude, Converter={StaticResource Visible}}"
+                                                        ToolTip="Tenir ce fichier à l'écart des échanges : il reste dans le dossier en clair, mais ne part plus vers la cible. Clic droit pour écarter tout un dossier.">
+                                                    <Path Data="M 6,1 A 5,5 0 1 0 6.01,1 Z M 2.6,9.4 L 9.4,2.6"
+                                                          Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                                          StrokeThickness="1.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                          Width="11" Height="11" Stretch="Uniform" />
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </Border>
+
+                        <Border Grid.Row="1" Style="{StaticResource Card}">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Style="{StaticResource SectionTitle}"
+                                           Text="CE QUI SERA MASQUÉ" />
+                                <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}"
+                                           Text="Chaque ligne cochée disparaît des fichiers envoyés. « auto » = famille reconnue par le moteur ; « vous » = terme que vous avez retenu. Clic droit sur un terme pour changer sa nature." />
+
+                                <Border DockPanel.Dock="Bottom" Background="{StaticResource Background}"
+                                        BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1"
+                                        CornerRadius="5" Padding="9" Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="AJOUTER UN TERME" Style="{StaticResource SectionTitle}" Margin="0,0,0,6" />
+                                        <TextBox Name="NewTermBox" KeyDown="OnNewTermKeyDown"
+                                                 ToolTip="Le mot exact à masquer, par exemple une raison sociale ou un nom de client." />
+                                        <Grid Margin="0,6,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox Grid.Column="0" Name="NewTermCategory"
+                                                      ToolTip="La nature du terme : elle décide de la famille de pseudonyme qu'il recevra." />
+                                            <Button Grid.Column="1" Name="AddTermButton" Content="Ajouter" Click="OnAddTerm"
+                                                    Margin="8,0,0,0" MinWidth="0" Padding="12,5" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <DataGrid Name="MaskTargetsGrid" HeadersVisibility="None"
+                                          PreviewMouseRightButtonUp="OnMaskTargetRightClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="32">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              HorizontalAlignment="Center" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Margin="0,4" ToolTip="{Binding Tooltip}" Background="Transparent">
+                                                        <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock Text="{Binding Detail}" FontSize="10.5"
+                                                                   Foreground="{StaticResource TextMuted}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="46">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{StaticResource Raised}" CornerRadius="3" Padding="5,2">
+                                                        <TextBlock Text="{Binding KindLabel}" FontSize="9.5"
+                                                                   Foreground="{StaticResource TextMuted}"
+                                                                   HorizontalAlignment="Center" />
+                                                    </Border>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+
+                    <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"
+                                  Background="{StaticResource BorderBrushSoft}" />
+
+                    <!-- ═══════════ Colonne de droite : vérification ═══════════ -->
+                    <TabControl Grid.Column="2" Name="DetailTabs" Style="{StaticResource DetailTabControl}"
+                                SelectionChanged="OnDetailTabChanged">
+
+                        <local:DetailTabSlots.Banner>
+                            <Border Name="AnalysisBanner" Visibility="Collapsed" Margin="0,10,0,0" CornerRadius="6"
+                                    Padding="12,6" Background="{StaticResource WarningDim}"
+                                    BorderBrush="{StaticResource WarningBorder}" BorderThickness="1">
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Name="BannerButton" Style="{StaticResource MiniAccentButton}"
+                                            Click="OnBannerAction" Margin="10,0,0,0" VerticalAlignment="Center" />
+                                    <ProgressBar DockPanel.Dock="Right" Name="BannerProgress" Width="130" Margin="10,0,0,0"
+                                                 VerticalAlignment="Center" Visibility="Collapsed" />
+                                    <Control DockPanel.Dock="Left" Name="BannerSpinner" Style="{StaticResource Spinner}"
+                                             Margin="0,0,9,0" Visibility="Collapsed" VerticalAlignment="Center" />
+                                    <TextBlock Name="BannerText" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="11.5"
+                                               Foreground="{StaticResource SuspectForeground}" />
+                                </DockPanel>
+                            </Border>
+                        </local:DetailTabSlots.Banner>
+
+                        <local:DetailTabSlots.Overlay>
+                            <Grid Name="AnalysisOverlay" Visibility="Collapsed" Background="#D814181F" Margin="0,10,0,0">
+                                <Border Style="{StaticResource OverlayCard}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Control Name="OverlaySpinner" Style="{StaticResource Spinner}" Width="18" Height="18"
+                                                     Margin="0,0,11,0" VerticalAlignment="Center" />
+                                            <TextBlock Name="OverlayTitle" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <TextBlock Name="OverlayText" Margin="0,9,0,0" TextWrapping="Wrap" LineHeight="18"
+                                                   Foreground="{StaticResource TextSecondary}" />
+                                        <ProgressBar Name="OverlayProgress" Margin="0,14,0,0" Height="7" />
+                                        <TextBlock Name="OverlayDetail" Margin="0,6,0,0" FontSize="11"
+                                                   Foreground="{StaticResource TextMuted}" TextTrimming="CharacterEllipsis" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                                            <Button Name="OverlayPrimaryButton" Style="{StaticResource PrimaryButton}"
+                                                    Click="OnOverlayPrimary" />
+                                            <Button Name="OverlaySecondaryButton" Style="{StaticResource SubtleButton}"
+                                                    Click="OnOverlaySecondary" Margin="0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </local:DetailTabSlots.Overlay>
+
+                        <TabItem Header="Aperçu" Name="PreviewTab">
+                            <DockPanel>
+                                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                                    <CheckBox DockPanel.Dock="Right" Name="ShowAllLinesCheck" Content="Afficher toutes les lignes"
+                                              Click="OnToggleAllLines" VerticalAlignment="Center" Margin="12,0,0,0"
+                                              ToolTip="Décoché, l'aperçu ne montre que les lignes utiles — celles que le filtre met en avant —, avec deux lignes de contexte ; le reste est replié, et chaque repli se déplie d'un clic. Coché, toutes les lignes sont affichées ; sous un filtre, celles qui n'en portent rien sont estompées." />
+                                    <!-- Filtre : « Tout afficher » met en avant toutes les
+                                         portions repérées ; les trois autres, une seule
+                                         sorte. Lignes repliées, seules les lignes de cette
+                                         sorte restent, avec leur contexte ; toutes les
+                                         lignes affichées, les autres sont estompées. -->
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                        <RadioButton Name="FilterAllButton" Style="{StaticResource FilterChip}" Tag="All" IsChecked="True"
+                                                     Click="OnPreviewFilterClick" Background="{StaticResource Raised}"
+                                                     Foreground="{StaticResource TextPrimary}" Content="Tout afficher"
+                                                     ToolTip="Met en avant toutes les portions repérées : remplacées, signalées, retenues, gardées." />
+                                        <RadioButton Name="FilterMaskedButton" Style="{StaticResource FilterChip}" Tag="Masked"
+                                                     Click="OnPreviewFilterClick" Background="{StaticResource MaskedBackground}"
+                                                     Foreground="{StaticResource MaskedForeground}" Content="remplacé"
+                                                     ToolTip="Ne met en avant que les valeurs remplacées par leur pseudonyme." />
+                                        <RadioButton Name="FilterSuspectButton" Style="{StaticResource FilterChip}" Tag="Suspect"
+                                                     Click="OnPreviewFilterClick" Background="{StaticResource SuspectBackground}"
+                                                     Foreground="{StaticResource SuspectForeground}" Content="signalé, à trancher"
+                                                     ToolTip="Ne met en avant que les signalements qui restent à trancher : Masquer, Garder ici ou Partout." />
+                                        <RadioButton Name="FilterPendingButton" Style="{StaticResource FilterChip}" Tag="PendingMask"
+                                                     Click="OnPreviewFilterClick" Background="{StaticResource PendingBackground}"
+                                                     Foreground="{StaticResource PendingForeground}" Content="à masquer"
+                                                     ToolTip="Ne met en avant que les valeurs retenues pour être masquées : le pseudonyme apparaîtra à la prochaine analyse." />
+                                    </StackPanel>
+                                    <TextBlock FontSize="11" Margin="6,0,0,0" VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextMuted}" TextTrimming="CharacterEllipsis"
+                                               Text="barré = gardé ici · pointillé = liste blanche · sélection : Ctrl+C, clic droit"
+                                               ToolTip="Barré : gardé en clair ici. Pointillé : liste blanche, gardé partout.&#10;Sélectionnez du texte dans l'un des volets — double-clic : un mot, triple-clic : la ligne. Ctrl+C le copie ; un clic droit propose de le masquer sous une nature choisie, ou de le garder en clair partout." />
+                                </DockPanel>
+
+                                <!-- Un aperçu s'ouvre à la demande — double-clic sur un
+                                     fichier, ou dépôt — et reste ouvert jusqu'à ce qu'on
+                                     le ferme. -->
+                                <Grid>
+                                    <TabControl Name="PreviewTabs" SelectionChanged="OnPreviewTabSelected" />
+                                    <Border Name="PreviewEmptyHint" Visibility="Collapsed" Style="{StaticResource OverlayCard}"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="460">
+                                        <StackPanel>
+                                            <TextBlock Text="Aucun aperçu ouvert" FontSize="16" FontWeight="SemiBold" />
+                                            <TextBlock Margin="0,9,0,0" TextWrapping="Wrap" LineHeight="18"
+                                                       Foreground="{StaticResource TextSecondary}"
+                                                       Text="Double-cliquez sur un fichier de la liste « Fichiers à traiter » pour ouvrir son aperçu ici. Un fichier que vous déposez s'ouvre de lui-même ; un onglet reste ouvert jusqu'à ce que vous le fermiez." />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </DockPanel>
+                        </TabItem>
+
+                        <TabItem Header="Valeurs repérées" Name="FindingsTab">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}"
+                                           Text="Une ligne par valeur réelle trouvée. Cochée, elle sera remplacée partout ; décochée, elle rejoint la liste blanche et partira en clair partout. Pour ne la garder qu'à un endroit, utilisez « Garder ici » dans l'aperçu." />
+                                <DataGrid Name="FindingsGrid">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="32">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              HorizontalAlignment="Center" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Catégorie" Binding="{Binding CategoryLabel}" Width="180" />
+                                        <DataGridTextColumn Header="Valeur réelle" Binding="{Binding Value}" Width="*" />
+                                        <DataGridTextColumn Header="Occ." Binding="{Binding Occurrences}" Width="52" />
+                                        <DataGridTextColumn Header="Fichiers" Binding="{Binding Files}" Width="170" />
+                                        <DataGridTextColumn Header="Règle" Binding="{Binding RuleId}" Width="170" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </TabItem>
+
+                        <TabItem Header="Suggestions" Name="SuggestionsTab">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}"
+                                           Text="Ce que le moteur ne peut pas trancher seul. Deux réponses possibles : « Masquer » ajoute le terme aux règles du projet ; « Garder » l'ajoute à la liste blanche — il reste en clair partout, et ne sera plus proposé ni signalé. On revient sur une valeur gardée depuis l'onglet « Liste blanche »." />
+                                <DataGrid Name="SuggestionsGrid">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Masquer" Width="70">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox HorizontalAlignment="Center"
+                                                              IsChecked="{Binding IsAccepted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Garder" Width="66">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox HorizontalAlignment="Center"
+                                                              IsChecked="{Binding IsIgnored, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Terme" Binding="{Binding Term}" Width="220" />
+                                        <DataGridTextColumn Header="Pourquoi" Binding="{Binding OriginLabel}" Width="125" />
+                                        <DataGridTextColumn Header="Traité comme" Binding="{Binding CategoryLabel}" Width="165" />
+                                        <DataGridTextColumn Header="Où" Binding="{Binding Context}" Width="*" />
+                                    </DataGrid.Columns>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                                            <Setter Property="ToolTip" Value="{Binding Why}" />
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                </DataGrid>
+                            </DockPanel>
+                        </TabItem>
+
+                        <!-- Ce qui reste en clair par décision : partout (liste blanche
+                             du projet), ou à un endroit précis. -->
+                        <TabItem Header="Liste blanche" Name="WhitelistTab">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0">
+                                    <TextBlock Style="{StaticResource SectionTitle}" Text="TOUJOURS EN CLAIR — LISTE BLANCHE DU PROJET" />
+                                    <TextBlock Style="{StaticResource Hint}"
+                                               Text="Ces valeurs restent en clair dans toutes leurs occurrences, dans tous les fichiers du projet : elles ne sont ni masquées, ni signalées, ni proposées. On les ajoute depuis l'aperçu (« Partout », ou clic droit sur un texte sélectionné), depuis « Valeurs repérées » (case décochée), depuis « Suggestions » (« Garder »), ou ici." />
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Name="WhitelistBox" KeyDown="OnWhitelistBoxKeyDown"
+                                                 ToolTip="La valeur exacte à garder en clair partout ; la casse ne compte pas." />
+                                        <Button Grid.Column="1" Content="Ajouter" Click="OnAddWhitelistValue"
+                                                Margin="8,0,0,0" MinWidth="0" Padding="12,5" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <Grid Grid.Row="1">
+                                    <DataGrid Name="WhitelistGrid">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Valeur gardée en clair partout" Binding="{Binding Value}" Width="*" />
+                                            <DataGridTemplateColumn Width="90">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="retirer" Style="{StaticResource LinkButton}" Click="OnRemoveWhitelistValue"
+                                                                HorizontalAlignment="Center"
+                                                                ToolTip="Retire la valeur de la liste blanche : les règles décident de nouveau de son sort." />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock Name="WhitelistEmptyHint" Style="{StaticResource Hint}" Margin="10,36,10,0"
+                                               VerticalAlignment="Top" IsHitTestVisible="False"
+                                               Text="Aucune valeur pour l'instant." />
+                                </Grid>
+
+                                <StackPanel Grid.Row="2" Margin="0,14,0,0">
+                                    <TextBlock Style="{StaticResource SectionTitle}" Text="GARDÉS À UN ENDROIT PRÉCIS" />
+                                    <TextBlock Style="{StaticResource Hint}"
+                                               Text="Occurrences laissées en clair une à une (« Garder ici » dans l'aperçu) : cette valeur, à cette ligne de ce fichier. Les autres occurrences de la même valeur gardent leur sort. Modifier le fichier au-dessus de la ligne décale l'exception." />
+                                </StackPanel>
+
+                                <Grid Grid.Row="3">
+                                    <DataGrid Name="ExemptionsGrid">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Fichier" Binding="{Binding File}" Width="170" />
+                                            <DataGridTextColumn Header="Ligne" Binding="{Binding Place}" Width="130" />
+                                            <DataGridTextColumn Header="Valeur" Binding="{Binding Value}" Width="*" />
+                                            <DataGridTemplateColumn Width="90">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="annuler" Style="{StaticResource LinkButton}" Click="OnRestoreExemption"
+                                                                HorizontalAlignment="Center"
+                                                                ToolTip="Cette occurrence n'est plus gardée en clair : elle retrouve le sort que lui font les règles." />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock Name="ExemptionsEmptyHint" Style="{StaticResource Hint}" Margin="10,36,10,0"
+                                               VerticalAlignment="Top" IsHitTestVisible="False"
+                                               Text="Aucune occurrence pour l'instant." />
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+
+                        <!-- Les deux côtés de l'échange : d'où partent les fichiers en
+                             clair, et où l'IA reçoit leur version pseudonymisée. Les
+                             chemins ne vivent que dans le projet. -->
+                        <TabItem Header="Échanges" Name="ExchangeTab">
+                            <!-- La couleur du texte est posée ici : sans elle, les lignes
+                                 des listes prendraient celle, sombre, de l'onglet. Pas de
+                                 cadre de focus : il se dessinait sur la première lettre. -->
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                          TextElement.Foreground="{StaticResource TextPrimary}"
+                                          Focusable="False" FocusVisualStyle="{x:Null}">
+                                <StackPanel Margin="6,2,12,14">
+                                    <TextBlock Style="{StaticResource SectionTitle}" Text="DOSSIERS DE L'ÉCHANGE" />
+                                    <TextBlock Style="{StaticResource Hint}"
+                                               Text="« 2 · Obfusquer » lit la source et écrit sa version pseudonymisée dans la cible ; « 3 · Rapatrier » ramène dans la source, restauré et fusionné, ce que l'IA a changé dans la cible. Seul le projet connaît les deux chemins : rien, dans le dossier de l'IA, ne mène au dossier en clair. Vérifiez chaque côté avec git ; « Commit » et « Push », plus bas, commitent et poussent ensuite, comme dans la console." />
+
+                                    <Border Style="{StaticResource Card}" Padding="14,12" Margin="0,6,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="12" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                                                <TextBlock Text="Source" FontWeight="SemiBold" />
+                                                <TextBlock Text="les fichiers en clair" FontSize="11" Foreground="{StaticResource TextMuted}" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,12,0">
+                                                <TextBlock Name="SourceFolderText" FontFamily="Cascadia Mono, Consolas" FontSize="12"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Name="SourceFolderHint" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                                           TextWrapping="Wrap" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Button Name="LinkSourceButton" Content="Lier un dossier…" Click="OnLinkSource"
+                                                        Style="{StaticResource SubtleButton}"
+                                                        ToolTip="Choisir le dossier en clair d'où partent les fichiers — votre dépôt git, par exemple. L'application n'y copie rien et n'y supprime rien : elle y lit, et le rapatriement y écrit." />
+                                                <Button Name="UnlinkSourceButton" Content="Revenir à « in »" Click="OnUnlinkSource"
+                                                        Style="{StaticResource SubtleButton}"
+                                                        ToolTip="La source redevient le dossier « in » du projet. Le dossier en clair n'est pas touché." />
+                                                <Button Name="OpenSourceButton" Content="Ouvrir" Click="OnOpenSource"
+                                                        Style="{StaticResource SubtleButton}" Margin="0"
+                                                        ToolTip="Ouvre la source dans l'explorateur." />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">
+                                                <TextBlock Text="Cible" FontWeight="SemiBold" />
+                                                <TextBlock Text="les fichiers pour l'IA" FontSize="11" Foreground="{StaticResource TextMuted}" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,12,0">
+                                                <TextBlock Name="TargetFolderText" FontFamily="Cascadia Mono, Consolas" FontSize="12"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Name="TargetFolderHint" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                                           TextWrapping="Wrap" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Button Name="LinkTargetButton" Content="Lier un dossier…" Click="OnLinkTarget"
+                                                        Style="{StaticResource SubtleButton}"
+                                                        ToolTip="Choisir le dossier où travaille l'IA — un autre dépôt git, à part. Il doit être séparé du dossier en clair et du projet ; ses liens et ses renvois git sont contrôlés." />
+                                                <Button Name="UnlinkTargetButton" Content="Revenir à « out »" Click="OnUnlinkTarget"
+                                                        Style="{StaticResource SubtleButton}"
+                                                        ToolTip="La cible redevient le dossier « out » du projet. Le dossier de l'IA n'est pas touché." />
+                                                <Button Name="OpenTargetButton" Content="Ouvrir" Click="OnOpenTarget"
+                                                        Style="{StaticResource SubtleButton}" Margin="0"
+                                                        ToolTip="Ouvre la cible dans l'explorateur." />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <CheckBox Name="WriteClaudeMdCheck" Margin="0,10,0,0" Click="OnWriteClaudeMdClick"
+                                              Content="Écrire aussi CLAUDE.md dans le dossier de l'IA, qui renvoie à AGENTS.md"
+                                              ToolTip="Claude Code lit CLAUDE.md ; d'autres outils lisent AGENTS.md directement. Le fichier n'est créé que s'il manque : un CLAUDE.md à vous n'est jamais remplacé." />
+
+                                    <Border Name="IsolationPanel" Margin="0,10,0,0" CornerRadius="6" Padding="12,8"
+                                            Background="{StaticResource Raised}">
+                                        <TextBlock Name="IsolationText" TextWrapping="Wrap" LineHeight="18"
+                                                   Foreground="{StaticResource TextSecondary}" />
+                                    </Border>
+
+                                    <Border Name="OutWarningPanel" Margin="0,10,0,0" CornerRadius="6" Padding="12,8"
+                                            Background="{StaticResource WarningDim}" BorderBrush="{StaticResource WarningBorder}"
+                                            BorderThickness="1" Visibility="Collapsed">
+                                        <TextBlock TextWrapping="Wrap" LineHeight="18" Foreground="{StaticResource SuspectForeground}"
+                                                   Text="La cible est « out », dans le dossier du projet, à côté de « in » et du coffre : n'y faites jamais travailler une IA. Donnez-lui les fichiers de « out », puis remettez-y sa version sous le même nom : « 3 · Rapatrier » la ramène dans la source." />
+                                    </Border>
+
+                                    <!-- Commit et push des dossiers liés versionnés, comme dans
+                                         leur console : configuration git et compte ssh de
+                                         l'utilisateur, aucun identifiant géré ici. -->
+                                    <StackPanel Name="GitSection" Visibility="Collapsed">
+                                        <TextBlock Style="{StaticResource SectionTitle}" Text="GIT" Margin="0,18,0,0" />
+                                        <TextBlock Style="{StaticResource Hint}"
+                                                   Text="Comme dans la console du dossier : votre configuration git et votre compte ssh, sans identifiant à saisir. « Commit » ajoute tout ce qui a changé dans le dossier lié, puis commite avec le message ; « Push » pousse la branche courante. Vérifiez d'abord les changements avec git." />
+                                        <Border Style="{StaticResource Card}" Padding="14,12" Margin="0,6,0,0">
+                                            <StackPanel>
+                                                <Grid Name="SourceGitRow">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                        <TextBlock Text="Source" FontWeight="SemiBold" />
+                                                        <TextBlock Name="SourceGitText" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </StackPanel>
+                                                    <TextBox Grid.Column="1" Name="SourceCommitMessage" Text="Document updated"
+                                                             VerticalAlignment="Center" Margin="0,0,12,0"
+                                                             ToolTip="Message du commit ; vide, il vaut « Document updated »." />
+                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Button Name="CommitSourceButton" Content="Commit" Click="OnCommitSource"
+                                                                Style="{StaticResource SubtleButton}"
+                                                                ToolTip="git add -A puis git commit, dans le dossier en clair." />
+                                                        <Button Name="PushSourceButton" Content="Push" Click="OnPushSource"
+                                                                Style="{StaticResource SubtleButton}" Margin="0"
+                                                                ToolTip="git push, dans le dossier en clair, avec votre compte ssh." />
+                                                    </StackPanel>
+                                                                                                    <!-- État du dépôt et résultat du dernier geste, en couleur. -->
+                                                    <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,6,0,0">
+                                                        <Border Name="SourceBranchPill" Style="{StaticResource Pill}" Margin="0,0,6,0">
+                                                            <TextBlock Name="SourceBranchText" FontSize="11" />
+                                                        </Border>
+                                                        <Border Name="SourceResultPill" Style="{StaticResource Pill}" Visibility="Collapsed">
+                                                            <TextBlock Name="SourceResultText" FontSize="11" />
+                                                        </Border>
+                                                    </WrapPanel>
+                                                </Grid>
+                                                <Grid Name="TargetGitRow" Margin="0,12,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                        <TextBlock Text="Cible" FontWeight="SemiBold" />
+                                                        <TextBlock Name="TargetGitText" FontSize="11" Foreground="{StaticResource TextMuted}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </StackPanel>
+                                                    <TextBox Grid.Column="1" Name="TargetCommitMessage" Text="Document updated"
+                                                             VerticalAlignment="Center" Margin="0,0,12,0"
+                                                             ToolTip="Message du commit ; vide, il vaut « Document updated »." />
+                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Button Name="CommitTargetButton" Content="Commit" Click="OnCommitTarget"
+                                                                Style="{StaticResource SubtleButton}"
+                                                                ToolTip="git add -A puis git commit, dans le dossier de l'IA." />
+                                                        <Button Name="PushTargetButton" Content="Push" Click="OnPushTarget"
+                                                                Style="{StaticResource SubtleButton}" Margin="0"
+                                                                ToolTip="git push, dans le dossier de l'IA, avec votre compte ssh." />
+                                                    </StackPanel>
+                                                                                                    <!-- État du dépôt et résultat du dernier geste, en couleur. -->
+                                                    <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,6,0,0">
+                                                        <Border Name="TargetBranchPill" Style="{StaticResource Pill}" Margin="0,0,6,0">
+                                                            <TextBlock Name="TargetBranchText" FontSize="11" />
+                                                        </Border>
+                                                        <Border Name="TargetResultPill" Style="{StaticResource Pill}" Visibility="Collapsed">
+                                                            <TextBlock Name="TargetResultText" FontSize="11" />
+                                                        </Border>
+                                                    </WrapPanel>
+                                                </Grid>
+                                                <Border Name="GitOutputPanel" Margin="0,12,0,0" CornerRadius="5" Padding="10,7" Visibility="Collapsed">
+                                                    <TextBlock Name="GitOutputText" FontFamily="Cascadia Mono, Consolas" FontSize="11" TextWrapping="Wrap"
+                                                               Foreground="{StaticResource TextSecondary}" />
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <TextBlock Style="{StaticResource SectionTitle}" Text="ÉTAT" Margin="0,18,0,0" />
+                                    <TextBlock Name="ExchangeStateText" TextWrapping="Wrap" LineHeight="19"
+                                               Foreground="{StaticResource TextSecondary}" />
+
+                                    <StackPanel Name="ExcludedSection">
+                                        <TextBlock Style="{StaticResource SectionTitle}" Text="TENUS À L'ÉCART DE LA SOURCE" Margin="0,18,0,0" />
+                                        <TextBlock Style="{StaticResource Hint}"
+                                                   Text="Ces chemins restent dans le dossier en clair mais ne partent pas vers la cible. On les écarte depuis la liste « Fichiers à traiter » : le bouton d'une ligne, ou un clic droit pour tout un dossier." />
+                                        <ItemsControl Name="ExcludedList" Focusable="False">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type local:ExchangePathRow}">
+                                                    <DockPanel Margin="0,2">
+                                                        <Button DockPanel.Dock="Right" Content="remettre" Style="{StaticResource LinkButton}"
+                                                                Click="OnIncludeExcluded"
+                                                                ToolTip="Ce chemin part de nouveau vers la cible." />
+                                                        <TextBlock Text="{Binding Path}" FontFamily="Cascadia Mono, Consolas" FontSize="12"
+                                                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Name="ExcludedEmpty" Style="{StaticResource Hint}" Text="Aucun." />
+                                    </StackPanel>
+
+                                    <StackPanel Name="IgnoredSection">
+                                        <TextBlock Style="{StaticResource SectionTitle}" Text="IGNORÉS DANS LA CIBLE" Margin="0,18,0,0" />
+                                        <TextBlock Style="{StaticResource Hint}"
+                                                   Text="Fichiers à vous, que le rapatriement laisse de côté. On les ignore depuis la liste à confirmer d'un rapatriement. Les réglages des outils (.claude, .vscode…), AGENTS.md et CLAUDE.md sont toujours ignorés." />
+                                        <ItemsControl Name="IgnoredList" Focusable="False">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type local:ExchangePathRow}">
+                                                    <DockPanel Margin="0,2">
+                                                        <Button DockPanel.Dock="Right" Content="réexaminer" Style="{StaticResource LinkButton}"
+                                                                Click="OnUnignoreTarget"
+                                                                ToolTip="Le rapatriement examine de nouveau ce fichier." />
+                                                        <TextBlock Text="{Binding Path}" FontFamily="Cascadia Mono, Consolas" FontSize="12"
+                                                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Name="IgnoredEmpty" Style="{StaticResource Hint}" Text="Aucun." />
+                                    </StackPanel>
+
+                                    <TextBlock Style="{StaticResource SectionTitle}" Text="HISTORIQUE" Margin="0,18,0,0" />
+                                    <ItemsControl Name="ExchangeHistoryList" Focusable="False">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type local:ExchangeEventRow}">
+                                                <Grid Margin="0,2">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="128" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding When}" FontSize="11.5" Foreground="{StaticResource TextMuted}" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding What}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Grid.Column="2" Text="{Binding Counts}" FontSize="11.5" Foreground="{StaticResource TextMuted}"
+                                                               Margin="12,0,0,0" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <TextBlock Name="ExchangeHistoryEmpty" Style="{StaticResource Hint}" Text="Aucun échange pour l'instant." />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Rapport technique" Name="ReportTab">
+                            <FlowDocumentScrollViewer Name="ReportViewer" IsSelectionEnabled="True"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      HorizontalScrollBarVisibility="Auto"
+                                                      Background="{StaticResource Background}"
+                                                      BorderBrush="{StaticResource BorderBrushSoft}"
+                                                      BorderThickness="1" />
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+        </DockPanel>
+
+        <!-- ═══════════ Dépôt : couvre la fenêtre pendant le survol ═══════════ -->
+        <Grid Name="DropOverlay" Visibility="Collapsed" IsHitTestVisible="False" Background="#E814181F">
+            <Rectangle Margin="22" RadiusX="14" RadiusY="14" Stroke="{StaticResource Accent}" StrokeThickness="2"
+                       StrokeDashArray="6 4" />
+            <Border Style="{StaticResource OverlayCard}" MaxWidth="620" BorderBrush="{StaticResource AccentDim}">
+                <StackPanel>
+                    <TextBlock Name="DropTitle" FontSize="19" FontWeight="SemiBold" HorizontalAlignment="Center"
+                               TextAlignment="Center" TextWrapping="Wrap" />
+                    <TextBlock Name="DropDetail" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,8,0,0"
+                               Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- ═══════════ Obfuscation : l'écran attend sa fin ═══════════ -->
+        <Grid Name="BusyOverlay" Visibility="Collapsed" Background="#D0101418">
+            <Border Style="{StaticResource OverlayCard}" Width="440">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Control Style="{StaticResource Spinner}" Width="18" Height="18" Margin="0,0,11,0"
+                                 VerticalAlignment="Center" />
+                        <TextBlock Name="BusyTitle" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Name="BusyText" Margin="0,9,0,0" TextWrapping="Wrap" LineHeight="18"
+                               Foreground="{StaticResource TextSecondary}" />
+                    <ProgressBar Name="BusyProgress" Margin="0,14,0,0" Height="7" />
+                    <TextBlock Name="BusyDetail" Margin="0,6,0,0" FontSize="11" Foreground="{StaticResource TextMuted}"
+                               TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

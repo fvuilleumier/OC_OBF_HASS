@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- MHassnage : maison dont le toit forme un « M », cycle clair / pseudonymisé -->
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E2228"/>
+  <!-- Toit en M + murs -->
+  <path d="M40 120 L84 64 L128 112 L172 64 L216 120 L216 212 L40 212 Z"
+        fill="none" stroke="#41BDF5" stroke-width="16" stroke-linejoin="round"/>
+  <!-- Demi-cercle plein : données en clair -->
+  <path d="M96 172 A32 32 0 0 1 160 172" fill="none" stroke="#E6E9EE" stroke-width="12" stroke-linecap="round"/>
+  <polygon points="160,154 172,178 148,178" fill="#E6E9EE"/>
+  <!-- Demi-cercle pointillé : données pseudonymisées -->
+  <path d="M160 172 A32 32 0 0 1 96 172" fill="none" stroke="#41BDF5" stroke-width="12" stroke-dasharray="8 8"/>
+</svg>

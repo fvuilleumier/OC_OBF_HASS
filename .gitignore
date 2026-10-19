@@ -1,9 +1,8 @@
-# Build .NET
-**/bin/
 **/obj/
 
-# Profil Playwright (session HA)
+# Profil Playwright (session HA, contient des jetons) et autres token
 **/.playwright-profile/
+**/appsettings.local.json
 
 # Sorties d'export
 Export/
@@ -12,4 +11,5 @@ Export/
 *.lnk
 
 # IDE
-**/.vs
+.vs/
+.idea/

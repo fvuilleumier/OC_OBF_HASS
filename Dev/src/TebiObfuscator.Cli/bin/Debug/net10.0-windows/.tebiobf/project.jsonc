@@ -1,0 +1,21 @@
+// Réglages du projet TebiObfuscator.
+// Ce fichier est modifiable à la main : les commentaires sont conservés
+// à la lecture, mais réécrits par l'application lorsqu'elle enregistre.
+//
+//   profile            : network | appconfig | notes | custom
+//   privateIp          : Keep (défaut) | Pseudonymize
+//   disabledCategories : catégories à ne plus masquer
+//   allowKeep          : valeurs à ne jamais masquer, en plus de la liste livrée
+//   alwaysObfuscate    : valeurs à toujours masquer ; l'emporte sur allowKeep
+{
+  "profile": "network",
+  "tokenPrefix": "TBX",
+  "privateIp": "Keep",
+  "disabledCategories": [
+    "GlobalIdentifier"
+  ],
+  "allowKeep": [],
+  "alwaysObfuscate": [],
+  "emitLegend": true,
+  "emitResidualReport": true
+}

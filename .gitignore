@@ -1,0 +1,15 @@
+# Build .NET
+**/bin/
+**/obj/
+
+# Profil Playwright (session HA)
+**/.playwright-profile/
+
+# Sorties d'export
+Export/
+
+# Raccourcis Windows
+*.lnk
+
+# IDE
+**/.vs

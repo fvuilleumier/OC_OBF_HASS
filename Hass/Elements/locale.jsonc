@@ -1,0 +1,9 @@
+// document.querySelector('home-assistant').hass.locale
+{
+  "language": "en",
+  "number_format": "comma_decimal",
+  "time_format": "24",
+  "date_format": "DMY",
+  "time_zone": "server",
+  "first_weekday": "monday"
+}

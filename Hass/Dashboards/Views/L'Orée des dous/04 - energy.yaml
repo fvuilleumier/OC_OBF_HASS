@@ -1,0 +1,221 @@
+type: sections
+max_columns: 4
+title: Energy
+path: energy
+icon: mdi:home-lightning-bolt
+sections:
+  - type: grid
+    cards:
+      - type: energy-date-selection
+        vertical_opening_direction: auto
+        opening_direction: auto
+        grid_options:
+          rows: 1
+          columns: full
+    column_span: 4
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4A1 Distribution"
+        grid_options:
+          columns: full
+      - type: energy-distribution
+        title: Energy distribution
+        grid_options:
+          rows: auto
+          columns: 24
+        link_dashboard: true
+      - square: false
+        type: grid
+        cards:
+          - type: energy-grid-balance
+          - type: energy-grid-neutrality-gauge
+          - type: energy-solar-consumed-gauge
+          - type: energy-self-sufficiency-gauge
+        columns: 2
+        grid_options:
+          columns: 24
+          rows: auto
+    column_span: 4
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F50C Compteur secondaire"
+        grid_options:
+          columns: full
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-template-card
+            entity: sensor.electricity_meter_power_consumption
+            icon: mdi:flash
+            primary: "{{ states('sensor.electricity_meter_power_consumption') | float(0) | round(0) }} W"
+            secondary: Puissance actuelle
+            tap_action:
+              action: more-info
+            color: orange
+            features_position: bottom
+            vertical: true
+            multiline_secondary: false
+          - type: custom:mushroom-template-card
+            entity: sensor.electricity_meter_secondary_compteur_energy_day
+            icon: mdi:lightning-bolt
+            primary: "{{ states('sensor.electricity_meter_secondary_compteur_energy_day') | float(0) | round(2) }} kWh"
+            secondary: Énergie du jour (24 h)
+            tap_action:
+              action: more-info
+            color: amber
+            features_position: bottom
+            vertical: true
+          - type: gauge
+            entity: sensor.electricity_meter_power_consumption
+            max: 40
+            severity:
+              green: 0
+              yellow: 12
+              red: 20
+            needle: true
+            name: Consommation instantanée
+        grid_options:
+          rows: auto
+          columns: 12
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        stacked: true
+        header:
+          show: true
+          title: Consommation — 7 jours (kWh)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.electricity_meter_energy_consumption_tarif_1
+            name: Haut tarif (Tarif 1 - 7h à 12h-17h à 23h)
+            color: var(--info-color)
+            type: column
+            stack_group: conso
+            statistics:
+              type: change
+              period: day
+              align: start
+          - entity: sensor.electricity_meter_energy_consumption_tarif_2
+            name: Bas tarif (Tarif 2 -23h à 7h-12h à 17h)
+            color: var(--purple-color)
+            type: column
+            stack_group: conso
+            statistics:
+              type: change
+              period: day
+              align: start
+        grid_options:
+          columns: 35
+          rows: auto
+    column_span: 4
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4C8 Devices"
+        grid_options:
+          columns: full
+      - type: energy-solar-graph
+        grid_options:
+          columns: full
+        title: Solar production
+      - type: power-sources-graph
+        grid_options:
+          columns: full
+        title: Power sources
+    column_span: 4
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4CA Data"
+        grid_options:
+          columns: full
+      - type: energy-devices-detail-graph
+        title: Individual devices detail
+        grid_options:
+          columns: full
+      - type: energy-devices-graph
+        modes:
+          - bar
+          - pie
+        grid_options:
+          rows: auto
+          columns: full
+        title: Individual devices
+    column_span: 4
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F50C Flow"
+        grid_options:
+          columns: full
+      - type: power-sankey
+        layout: horizontal
+        group_by_floor: true
+        group_by_area: true
+        title: Current Power flow
+        grid_options:
+          columns: full
+      - type: energy-sankey
+        layout: horizontal
+        group_by_floor: true
+        group_by_area: true
+        title: Energy flow
+        grid_options:
+          columns: full
+    column_span: 4
+  - type: grid
+    cards:
+      - type: energy-date-selection
+        vertical_opening_direction: auto
+        opening_direction: auto
+        grid_options:
+          rows: 1
+          columns: full
+    column_span: 4
+header:
+  layout: center
+  badges_position: bottom
+  badges_wrap: wrap
+  card:
+    type: markdown
+    text_only: true
+    content: '# ⚡️ Energie'
+footer:
+  type: markdown
+  content: ''
+cards: []

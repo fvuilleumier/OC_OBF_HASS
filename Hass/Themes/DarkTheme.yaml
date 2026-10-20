@@ -265,31 +265,6 @@ DarkTheme:
   rgb-grey-color: "105, 115, 130"
   rgb-grey: "105, 115, 130"
 
-  # ------------------------------------------------------------
-  # Palette Mushroom alignée sur le thème
-  #
-  # Les cartes mushroom n'acceptent pas var(--purple-color) dans
-  # « color: » : elles attendent un NOM de couleur, qu'elles résolvent
-  # en var(--rgb-<nom>) — d'où un triplet R, G, B et non un hex.
-  # Sans ces lignes, mushroom applique sa palette Material d'origine
-  # (violet #9C27B0, orange #FF9800…), qui jure avec les couleurs du
-  # thème utilisées ailleurs, par exemple sur les pastilles du plan
-  # interactif.
-  #
-  # Chaque triplet est la conversion exacte de la variable du même nom
-  # définie plus haut. Ces lignes repeignent donc TOUTES les cartes
-  # mushroom des dashboards, ce qui est justement le but.
-  # ------------------------------------------------------------
-
-  rgb-red: "255, 100, 114"        # error-color   #FF6472
-  rgb-amber: "255, 200, 87"       # warning-color #FFC857
-  rgb-yellow: "255, 200, 87"      # warning-color #FFC857
-  rgb-green: "165, 214, 90"       # success-color #A5D65A
-  rgb-blue: "77, 166, 255"        # info-color    #4DA6FF
-  rgb-purple: "213, 107, 235"     # purple-color  #D56BEB
-  rgb-cyan: "77, 196, 214"        # cyan-color    #4DC4D6
-  rgb-orange: "229, 164, 92"      # orange-color  #E5A45C
-
   # « disabled » — entité indisponible / grisée
   disabled-color: "#4E5666"
   rgb-disabled-color: "78, 86, 102"
@@ -378,6 +353,9 @@ DarkTheme:
   switch-unchecked-color: "#596271"
   switch-unchecked-button-color: "#7C8695"
   switch-unchecked-track-color: "#3B424D"
+  
+  state-lock-locked-color: "#f44336"
+  state-lock-unlocked-color: "#4caf50"
 
   paper-toggle-button-checked-button-color: "#4DA6FF"
   paper-toggle-button-checked-bar-color: "#3378B8"

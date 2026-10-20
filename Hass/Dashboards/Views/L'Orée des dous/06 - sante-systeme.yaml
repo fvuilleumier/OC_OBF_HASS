@@ -1,0 +1,372 @@
+title: Santé système
+path: sante-systeme
+icon: mdi:heart-pulse
+badges:
+  - type: entity
+    entity: sensor.ups_status
+    name: UPS
+    show_name: true
+    show_state: true
+    show_icon: true
+  - type: entity
+    entity: sensor.ups_battery_charge
+    name: Batterie UPS
+    show_name: true
+    show_state: true
+    show_icon: true
+  - type: entity
+    entity: sensor.myip
+    name: IP publique
+    show_name: true
+    show_state: true
+    show_icon: true
+sections:
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F50B Alimentation de secours"
+      - type: entities
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.ups_status
+            name: État
+          - entity: sensor.ups_battery_charge
+            name: Batterie
+          - entity: sensor.ups_load
+            name: Charge
+      - type: gauge
+        entity: sensor.ups_battery_charge
+        name: Batterie UPS
+        min: 0
+        max: 100
+        needle: true
+        severity:
+          green: 50
+          yellow: 25
+          red: 0
+      - type: gauge
+        entity: sensor.ups_load
+        name: Charge UPS
+        min: 0
+        max: 100
+        needle: true
+        severity:
+          green: 0
+          yellow: 60
+          red: 80
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: UPS — dernières 24h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 200
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.ups_battery_charge
+            name: Batterie
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 10min
+          - entity: sensor.ups_load
+            name: Charge
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 10min
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F5A5️ Serveurs"
+      - color: state
+        type: entities
+        show_header_toggle: false
+        entities:
+          - entity: switch.s1pm30
+            name: Serveurs
+          - entity: sensor.s1pm30_power
+            name: Consommation instantanée
+          - entity: sensor.s1pm30_energy
+            name: Énergie aujourd'hui
+          - entity: sensor.mikrotik_uptime
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Consommation des serveurs
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm30_power
+            name: s1pm30 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: min
+              period: hour
+              align: middle
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Serveurs — dernières 24h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 200
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm30_power
+            name: Serveurs
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 10min
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F310 Réseau"
+      - type: entities
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.myip
+            name: IP publique
+      - type: entities
+        title: "\U0001F4E1 Zigbee"
+        show_header_toggle: false
+        entities:
+          - entity: sensor.slzb_06m_zigbee_type
+            name: Coordinator (SLZB-06)
+          - entity: sensor.slzb_06m_r_zigbee_type
+            name: Routeur haut (SLZB-06MR)
+          - entity: sensor.slzb_06mra_zigbee_type
+            name: Routeur atelier (SLZB-06MRUA)
+          - entity: binary_sensor.slzb_06m_internet
+            name: Coordinator Internet
+          - entity: binary_sensor.slzb_06m_r_internet
+            name: Routeur haut Internet
+          - entity: binary_sensor.slzb_06mra_internet
+            name: Routeur atelier Internet
+          - entity: sensor.slzb_06m_core_chip_temp
+            name: Coordinator Core chip
+          - entity: sensor.slzb_06m_r_core_chip_temp
+            name: Routeur haut Core chip
+          - entity: sensor.slzb_06mra_core_chip_temp
+            name: Routeur atelier Core chip
+          - entity: sensor.slzb_06m_zigbee_chip_temp
+            name: Coordinator Zigbee chip
+          - entity: sensor.slzb_06m_r_zigbee_chip_temp
+            name: Routeur haut Zigbee chip
+          - entity: sensor.slzb_06mra_zigbee_chip_temp
+            name: Routeur atelier Zigbee chip
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: ⚡ Infrastructure
+      - type: entities
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: switch.s1pm30
+            name: Alimentation serveurs
+          - entity: switch.sb15
+            name: HDD NAS
+          - entity: switch.sp1pm64
+            name: Cave
+          - entity: switch.s1pm59
+            name: Déshumidificateur
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F50BBatteries"
+      - type: entities
+        entities:
+          - entity: sensor.porte_1er_battery
+            name: Porte 1er
+          - entity: sensor.porte_rez_battery
+            name: Porte rez
+          - entity: sensor.snzb_01p_01_battery
+            name: Bouton porte 1er Bureau FV
+          - entity: sensor.zg_227z_07_battery
+            name: 1er
+          - entity: sensor.zg_227z_18_battery
+            name: Salon
+          - entity: sensor.trv_btr_06_rez_sud_est_salon_battery
+            name: Salon (vanne)
+          - entity: sensor.zg_227z_16_battery
+            name: Cuisine
+          - entity: sensor.zg_227z_01_battery
+            name: Salle de bain 1er
+          - entity: sensor.zg_227z_10_battery
+            name: Salle de jeu
+          - entity: sensor.trv_btr_04_chambre_rez_salle_de_jeu_battery
+            name: Salle de jeu (vanne)
+          - entity: sensor.zg_227z_06_battery
+            name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
+          - entity: sensor.trv_btr_03_battery
+            name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003 (vanne)
+          - entity: sensor.zg_227z_15_battery
+            name: Chambre TBX9F_ORG_0005
+          - entity: sensor.zg_227z_08_chambre_TBX9F_ORG_0002_battery
+            name: Chambre TBX9F_ORG_0002
+          - entity: sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_battery
+            name: Chambre TBX9F_ORG_0002 (vanne)
+          - entity: sensor.zg_227z_10_battery
+            name: Rez
+          - entity: sensor.trv_btr_05_battery
+            name: Salle à manger (vanne)
+          - entity: sensor.zg_227z_11_reduit_battery
+            name: Entrée
+          - entity: sensor.zg_227z_03_battery
+            name: Déshumidificateur / Buanderie
+          - entity: sensor.zg_227z_05_battery
+            name: Bureau TBX9F_ORG_0001
+          - entity: sensor.trv_btr_01_chambre_1er_sud_est_bureau_battery
+            name: Bureau TBX9F_ORG_0001 (vanne)
+          - entity: sensor.zg_227z_19_battery
+            name: Bureau TBX9F_ID_0056
+          - entity: sensor.zg_227z_02_battery
+            name: Salle de bain rez
+          - entity: sensor.zg_227z_12_battery
+            name: Cave
+          - entity: sensor.zg_227z_13_battery
+            name: Atelier
+          - entity: sensor.zg_227z_14_battery
+            name: Dehors
+          - entity: sensor.zg_227z_21_battery
+            name: Garages
+          - entity: sensor.zg_227z_22_battery
+            name: Buanderie
+          - entity: sensor.zg_227z_23_battery
+            name: Toilettes
+cards: []
+header:
+  card:
+    type: markdown
+    content: >
+      # 🧠 Santé du système
+    text_only: true
+type: sections
+max_columns: 5

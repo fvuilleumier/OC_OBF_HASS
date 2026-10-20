@@ -1,0 +1,89 @@
+theme: Backend-selected
+title: Natel de TBX9F_ORG_0001
+path: natel-de-TBX9F_ORG_0001
+icon: mdi:cellphone
+visible:
+  - user: TBX9F_CRED_0001
+  - user: TBX9F_CRED_0002
+badges: []
+type: sections
+max_columns: 1
+sections:
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.TBX9F_ORG_0008_battery_level
+        min: 1
+        max: 100
+        severity:
+          green: 20
+          yellow: 5
+          red: 0
+        needle: true
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Niveau de la batterie
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 200
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.TBX9F_ORG_0008_battery_level
+            name: Niveau de la batterie
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 10min
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 📱 Natel de TBX9F_ORG_0001
+footer:
+  type: markdown
+  content: ''

@@ -1,0 +1,22 @@
+theme: Backend-selected
+title: TV des Dous
+path: tv-des-dous
+icon: mdi:youtube-tv
+badges:
+  - entity: media_player.tv_des_dous
+type: sections
+max_columns: 1
+sections:
+  - type: grid
+    cards:
+      - type: media-control
+        entity: media_player.tv_des_dous
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 🖥️ TV des Dous
+footer:
+  type: markdown
+  content: ''

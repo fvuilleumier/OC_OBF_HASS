@@ -1,0 +1,162 @@
+title: Tests
+path: tests
+icon: mdi:router-network
+type: custom:grid-layout
+layout:
+  grid-template-columns: 1fr 1fr 1fr
+  grid-template-rows: auto auto auto
+  grid-template-areas: |
+    "wan devices adguard"
+    "router router router"
+    "ap1 ap1 ap2"
+cards:
+  - type: entities
+    title: WAN
+    entities:
+      - type: section
+      - entity: sensor.mikrotik_cpu_usage
+        name: UPC
+        icon: mdi:web
+      - entity: sensor.mikrotik_disk_usage
+        name: VPN
+        icon: mdi:shield-check
+      - entity: sensor.mikrotik_memory_usage
+        name: LTE
+        icon: mdi:signal-cellular-outline
+    view_layout:
+      grid-area: wan
+  - type: entities
+    title: DEVICES
+    view_layout:
+      grid-area: devices
+    entities:
+      - entity: sensor.mikrotik_cpu_usage
+        name: WIRED
+        icon: mdi:desktop-classic
+      - entity: sensor.mikrotik_disk_usage
+        name: WIFI
+        icon: mdi:wifi
+      - entity: sensor.mikrotik_memory_usage
+        name: GUESTS
+        icon: mdi:account-question
+  - type: entities
+    title: ADGUARD
+    entities:
+      - entity: sensor.cuisine_jura_status
+        name: Filtering
+        icon: mdi:shield-check
+      - entity: binary_sensor.cuisine_jura_active_rf_filter
+        name: Parental
+        icon: mdi:shield-account
+      - entity: binary_sensor.cuisine_jura_active_rf_filter
+        name: Protection
+        icon: mdi:shield-bug
+      - entity: binary_sensor.cuisine_jura_active_rf_filter
+        name: Browsing
+        icon: mdi:star-circle
+      - entity: binary_sensor.cuisine_jura_active_rf_filter
+        name: Searching
+        icon: mdi:magnify
+    view_layout:
+      grid-area: adguard
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: router
+    cards:
+      - type: markdown
+        content: |
+
+          # ROUTER
+
+          **Model:** Vigor2927L
+
+          **FW Version:** {{ states('sensor.mikrotik_disk_usage') }}
+
+          **Uptime:** {{ states('sensor.mikrotik_uptime') }}
+      - type: horizontal-stack
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: WAN Throughput
+            graph_span: 1h
+            series:
+              - entity: sensor.mikrotik_cpu_usage
+                name: IN
+                color: "#78d84b"
+              - entity: sensor.mikrotik_memory_usage
+                name: OUT
+                color: "#335f2a"
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: VPN Throughput
+            graph_span: 1h
+            series:
+              - entity: sensor.mikrotik_cpu_usage
+                name: IN
+                color: "#e0a11a"
+              - entity: sensor.mikrotik_memory_usage
+                name: OUT
+                color: "#8d6510"
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: WAN Latency
+            graph_span: 1h
+            series:
+              - entity: sensor.mikrotik_cpu_usage
+                name: LATENCY
+                color: "#ff3d3d"
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: ap1
+    cards:
+      - type: markdown
+        content: |
+
+          # AP-FLOOR
+
+          **Mesh Root:** VigorAP903
+
+          **FW Version:** {{ states('sensor.mikrotik_cpu_usage') }}
+
+          **Uptime:** {{ states('sensor.mikrotik_uptime') }}
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: WI-FI Throughput
+        graph_span: 1h
+        series:
+          - entity: sensor.mikrotik_cpu_usage
+            name: IN
+            color: "#2f6cff"
+          - entity: sensor.mikrotik_memory_usage
+            name: OUT
+            color: "#123d9f"
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: ap2
+    cards:
+      - type: markdown
+        content: |
+
+          # AP-GROUND
+
+          **Mesh Node:** VigorAP903
+
+          **FW Version:** {{ states('sensor.mikrotik_cpu_usage') }}
+
+          **Uptime:** {{ states('sensor.mikrotik_uptime') }}
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: WI-FI Throughput
+        graph_span: 1h
+        series:
+          - entity: sensor.mikrotik_cpu_usage
+            name: IN
+            color: "#9346ff"
+          - entity: sensor.mikrotik_memory_usage
+            name: OUT
+            color: "#6010d0"

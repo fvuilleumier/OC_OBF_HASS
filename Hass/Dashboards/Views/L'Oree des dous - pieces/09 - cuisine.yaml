@@ -1,0 +1,682 @@
+title: Cuisine
+path: cuisine
+icon: mdi:countertop-outline
+type: sections
+max_columns: 3
+sections:
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F518 Interactions"
+      - type: custom:mushroom-template-card
+        primary: Aucune interaction configurée
+        secondary: Zone réservée aux commandes de la pièce
+        icon: mdi:gesture-tap
+        features_position: bottom
+        vertical: true
+        multiline_secondary: false
+        grid_options:
+          columns: full
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F321️ Conditions"
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Température · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 120
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            max: '|+0.5|'
+            min: '|-0.5|'
+            apex_config:
+              tickAmount: 3
+        series:
+          - entity: sensor.zg_227z_16_temperature
+            name: Température
+            color: var(--success-color)
+            type: area
+            stroke_width: 2
+            float_precision: 1
+            group_by:
+              func: avg
+              duration: 10min
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Humidité · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 120
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            max: 100
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_16_humidity
+            name: Humidité
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: ⚡ Énergie
+      - type: gauge
+        entity: sensor.s1pm42_power
+        name: Puissance pièce
+        needle: true
+        min: 0
+        max: 2500
+        severity:
+          green: 0
+          yellow: 1500
+          red: 2125
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-template-card
+            entity: sensor.s1pm42_power
+            icon: mdi:flash
+            primary: "{{ states('sensor.s1pm42_power') | float(0) | round(0) }} W"
+            secondary: Puissance actuelle
+            tap_action:
+              action: more-info
+            color: orange
+            features_position: bottom
+            vertical: true
+          - type: custom:mushroom-template-card
+            entity: sensor.s1pm42_energy_day
+            icon: mdi:lightning-bolt
+            primary: "{{ states('sensor.s1pm42_energy_day') | float(0) | round(2) }} kWh"
+            secondary: Énergie du jour (24 h)
+            tap_action:
+              action: more-info
+            color: amber
+            features_position: bottom
+            vertical: true
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Puissance · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 180
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            max: '|+10|'
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm42_power
+            name: Cuisine
+            color: var(--warning-color)
+            type: area
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+        grid_options:
+          columns: full
+          rows: auto
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4DF Appareils"
+      - type: custom:mushroom-template-card
+        entity: switch.s1pm42
+        primary: Éponge
+        secondary: >
+          {% if states('sensor.s1pm42_power')|float(0) > 5 %}
+            En fonctionnement
+          {% else %}
+            Arrêtée
+          {% endif %}
+        icon: mdi:dishwasher
+        tap_action:
+          action: toggle
+        features_position: bottom
+        color: >-
+          {% if states('sensor.s1pm42_power')|float(0) > 5 %}
+
+          orange
+
+          {% else %}
+
+          green
+
+          {% endif %}
+        vertical: true
+      - type: tile
+        entity: button.cuisine_jura_brew
+        name: Make a coffe !
+        hide_state: true
+        vertical: false
+        features:
+          - type: button
+        features_position: bottom
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            alignment: center
+            subtitle: "\U0001F9FD Eponge"
+          - type: custom:mushroom-template-card
+            entity: switch.s1pm42
+            icon: mdi:pump
+            primary: "{% set p = states('sensor.s1pm42_power') | float(0) %} {% if not is_state('switch.s1pm42', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+            secondary: "{{ states('sensor.s1pm42_power') | float(0) | round(0) }} W"
+            tap_action:
+              action: toggle
+            color: "{% set p = states('sensor.s1pm42_power') | float(0) %} {% if not is_state('switch.s1pm42', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+          - type: gauge
+            entity: sensor.s1pm42_power
+            name: Puissance
+            needle: true
+            min: 0
+            max: 100
+            severity:
+              green: 0
+              yellow: 35
+              red: 60
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Puissance · 24 h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 160
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - min: 0
+                max: '|+10|'
+                decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm42_power
+                name: Maintenant
+                color: var(--warning-color)
+                type: area
+                stroke_width: 2
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 10min
+              - entity: sensor.s1pm42_power
+                name: moy 24 h
+                color: var(--info-color)
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+              - entity: sensor.s1pm42_power
+                name: pic 24 h
+                color: var(--error-color)
+                float_precision: 0
+                group_by:
+                  func: max
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+          - type: custom:mushroom-template-card
+            entity: sensor.s1pm42_energy
+            icon: mdi:lightning-bolt
+            icon_color: amber
+            primary: "{{ states('sensor.s1pm42_energy') | float(0) | round(2) }} kWh"
+            secondary: Consommation cumulée
+            tap_action:
+              action: more-info
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: full
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            subtitle: ☕ Jura
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_status
+            icon: mdi:coffee-maker
+            icon_color: >-
+              {% if is_state('sensor.cuisine_jura_status', 'coffee_ready') %}
+                green
+              {% else %}
+                amber
+              {% endif %}
+            primary: Machine à café
+            secondary: "{{ states('sensor.cuisine_jura_status') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_1_flat_white
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Flat White
+            secondary: "{{ states('sensor.cuisine_jura_brew_1_flat_white') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_cappuccino
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Cappuccino
+            secondary: "{{ states('sensor.cuisine_jura_brew_cappuccino') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_coffee
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Café
+            secondary: "{{ states('sensor.cuisine_jura_brew_coffee') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_espresso
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Espresso
+            secondary: "{{ states('sensor.cuisine_jura_brew_espresso') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_espresso_macchiato
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Espresso Macchiato
+            secondary: "{{ states('sensor.cuisine_jura_brew_espresso_macchiato') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_hotwater_portion_normal
+            icon: mdi:water
+            icon_color: blue
+            primary: Eau chaude
+            secondary: "{{ states('sensor.cuisine_jura_brew_hotwater_portion_normal') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_latte_macchiato
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Latte Macchiato
+            secondary: "{{ states('sensor.cuisine_jura_brew_latte_macchiato') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_powderproduct
+            icon: mdi:coffee
+            icon_color: brown
+            primary: Produit en poudre
+            secondary: "{{ states('sensor.cuisine_jura_brew_powderproduct') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_brew_total
+            icon: mdi:counter
+            icon_color: brown
+            primary: Total cafés
+            secondary: "{{ states('sensor.cuisine_jura_brew_total') }}"
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_cleaning_level
+            icon: mdi:spray-bottle
+            primary: Niveau nettoyage
+            secondary: "{{ states('sensor.cuisine_jura_cleaning_level') }}"
+            color: >-
+              {%if states('sensor.cuisine_jura_cleaning_level')|float >= 99 %}
+
+              red
+
+              {%elif states('sensor.cuisine_jura_cleaning_level')|float >= 80 %}
+
+              amber
+
+              {%else%}
+
+              blue
+
+              {%endif%}
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: sensor.cuisine_jura_descaling_level
+            icon: mdi:water-remove
+            primary: Niveau détartrage
+            secondary: "{{ states('sensor.cuisine_jura_descaling_level') }}"
+            color: >-
+              {%if states('sensor.cuisine_jura_descaling_level')|float >= 99 %}
+
+              red
+
+              {%elif states('sensor.cuisine_jura_descaling_level')|float >= 80 %}
+
+              amber
+
+              {%else%}
+
+              blue
+
+              {%endif%}
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_cappu_rinse_alert
+            icon: mdi:cup-water
+            primary: Rinçage Cappuccino
+            secondary: "{% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_cleaning_alert
+            icon: mdi:spray-bottle
+            primary: Nettoyage
+            secondary: "{% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_close_powder_cover
+            icon: mdi:filter-check
+            primary: Couvercle poudre
+            secondary: "{% if is_state(entity, 'on') %}À fermer{% else %}OK{% endif %}"
+            color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_descale_alert
+            icon: mdi:water-remove
+            primary: Détartrage
+            secondary: "{% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif %}"
+            color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_empty_grounds
+            icon: mdi:delete
+            primary: Bac à marc
+            secondary: "{% if is_state(entity, 'on') %}À vider{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_empty_tray
+            icon: mdi:tray
+            primary: Bac d'égouttage
+            secondary: "{% if is_state(entity, 'on') %}À vider{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_error_status
+            icon: mdi:alert-circle
+            primary: Erreur machine
+            secondary: "{% if is_state(entity, 'on') %}Erreur détectée{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_fill_powder
+            icon: mdi:coffee
+            primary: Poudre
+            secondary: "{% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_fill_system
+            icon: mdi:water-pump
+            primary: Système d'eau
+            secondary: "{% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_fill_water
+            icon: mdi:water
+            primary: Réservoir d'eau
+            secondary: "{% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_filter_alert
+            icon: mdi:filter
+            primary: Filtre
+            secondary: "{% if is_state(entity, 'on') %}À remplacer{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_insert_coffee_bin
+            icon: mdi:coffee-maker
+            primary: Bac à café
+            secondary: "{% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_insert_tray
+            icon: mdi:tray
+            primary: Bac d'égouttage
+            secondary: "{% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_milk_alert
+            icon: mdi:water
+            primary: Lait
+            secondary: "{% if is_state(entity, 'on') %}Alerte{% else %}OK{% endif %}"
+            color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_milk_sensor_error
+            icon: mdi:water-boiler
+            primary: Capteur lait
+            secondary: "{% if is_state(entity, 'on') %}Erreur{% else %}OK{% endif %}"
+            color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_milk_sensor_no_signal
+            icon: mdi:signal-off
+            primary: Signal capteur lait
+            secondary: "{% if is_state(entity, 'on') %}Pas de signal{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_no_beans
+            icon: mdi:coffee
+            primary: Grains de café
+            secondary: "{% if is_state(entity, 'on') %}Réservoir vide{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_no_milk_sensor
+            icon: mdi:water-boiler
+            primary: Capteur lait
+            secondary: "{% if is_state(entity, 'on') %}Absent{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_not_enough_powder
+            icon: mdi:coffee
+            primary: Poudre
+            secondary: "{% if is_state(entity, 'on') %}Pas assez de poudre{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_outlet_missing
+            icon: mdi:coffee-maker
+            primary: Sortie café
+            secondary: "{% if is_state(entity, 'on') %}Manquante{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_program_mode_status
+            icon: mdi:cog
+            primary: Mode programmation
+            secondary: "{% if is_state(entity, 'on') %}Actif{% else %}Inactif{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}amber{% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.cuisine_jura_rear_cover_missing
+            icon: mdi:arrow-collapse-vertical
+            primary: Capot arrière
+            secondary: "{% if is_state(entity, 'on') %}Manquant{% else %}OK{% endif %}"
+            icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F9ED Navigation"
+      - type: grid
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Toutes les pièces
+            icon: mdi:home
+            color: blue
+            vertical: true
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/maison
+          - type: custom:mushroom-template-card
+            primary: Surveillance
+            icon: mdi:alert-remove
+            color: purple
+            vertical: true
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/appareils-oublies
+          - type: custom:mushroom-template-card
+            primary: Santé système
+            icon: mdi:heart-pulse
+            color: red
+            vertical: true
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/sante-systeme
+cards: []
+badges: []
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: "# \U0001F373️ Cuisine"

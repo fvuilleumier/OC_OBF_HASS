@@ -1,0 +1,209 @@
+Oree des Dous Dark:
+
+  # ============================================================
+  # 🎨 COULEURS PRINCIPALES
+  # ============================================================
+
+  primary-color: "#A9ACFF"
+  accent-color: "#A9ACFF"
+
+  dark-primary-color: "#8589D6"
+  darker-primary-color: "#686CA8"
+  light-primary-color: "#C3C5FF"
+
+  # ============================================================
+  # 🏠 BACKGROUND
+  # ============================================================
+
+  primary-background-color: "#2D2F3F"
+  secondary-background-color: "#2D2F3F"
+
+  card-background-color: "#2D2F3F"
+  ha-card-background: "#2D2F3F"
+
+  lovelace-background: "#2D2F3F"
+
+  # ============================================================
+  # 🃏 BORDURES / SÉPARATEURS
+  # ============================================================
+
+  divider-color: "#4A4D60"
+  outline-color: "#4A4D60"
+  outline-hover-color: "#62667D"
+
+  ha-card-border-color: "#4A4D60"
+
+  # ============================================================
+  # ✍️ TEXTES
+  # ============================================================
+
+  primary-text-color: "#E8E8ED"
+  secondary-text-color: "#B5B6C0"
+  disabled-text-color: "#777A88"
+
+  text-primary-color: "#E8E8ED"
+  text-light-primary-color: "#E8E8ED"
+
+  # Nouveaux tokens HA
+  ha-color-text-primary: "#E8E8ED"
+  ha-color-text-secondary: "#B5B6C0"
+  ha-color-text-disabled: "#777A88"
+
+  # ============================================================
+  # 🧱 PALETTE NEUTRE HA
+  # ============================================================
+
+  ha-color-neutral-05: "#333544"
+  ha-color-neutral-10: "#383A4A"
+  ha-color-neutral-20: "#424456"
+  ha-color-neutral-30: "#4A4D60"
+  ha-color-neutral-40: "#55586B"
+  ha-color-neutral-50: "#696C7D"
+  ha-color-neutral-60: "#808392"
+  ha-color-neutral-70: "#9699A7"
+  ha-color-neutral-80: "#AEB0BC"
+  ha-color-neutral-90: "#C7C8D0"
+  ha-color-neutral-95: "#D9DAE0"
+
+  # ============================================================
+  # 🖱️ HOVER / FOCUS
+  # ============================================================
+
+  ha-color-focus: "#A9ACFF"
+
+  ha-color-fill-neutral-quiet-resting: "#333544"
+  ha-color-fill-neutral-quiet-hover: "#383A4A"
+  ha-color-fill-neutral-quiet-active: "#333544"
+
+  ha-color-fill-neutral-normal-resting: "#383A4A"
+  ha-color-fill-neutral-normal-hover: "#424456"
+  ha-color-fill-neutral-normal-active: "#383A4A"
+
+  ha-color-fill-neutral-loud-resting: "#55586B"
+  ha-color-fill-neutral-loud-hover: "#62667D"
+  ha-color-fill-neutral-loud-active: "#55586B"
+
+  # ============================================================
+  # 🔵 PRIMARY / BOUTONS
+  # ============================================================
+
+  ha-color-primary-40: "#A9ACFF"
+  ha-color-primary-50: "#8589D6"
+  ha-color-primary-60: "#686CA8"
+  ha-color-primary-70: "#55598C"
+  ha-color-primary-80: "#45486F"
+  ha-color-primary-90: "#383B5A"
+  ha-color-primary-95: "#333544"
+
+  ha-color-fill-primary-quiet-resting: "#333544"
+  ha-color-fill-primary-quiet-hover: "#383B5A"
+  ha-color-fill-primary-quiet-active: "#333544"
+
+  ha-color-fill-primary-normal-resting: "#383B5A"
+  ha-color-fill-primary-normal-hover: "#45486F"
+  ha-color-fill-primary-normal-active: "#383B5A"
+
+  ha-color-fill-primary-loud-resting: "#A9ACFF"
+  ha-color-fill-primary-loud-hover: "#C3C5FF"
+  ha-color-fill-primary-loud-active: "#A9ACFF"
+
+  # ============================================================
+  # 🔘 TEXTE SUR LES BOUTONS
+  # ============================================================
+
+  ha-color-on-primary-quiet: "#8589D6"
+  ha-color-on-primary-normal: "#A9ACFF"
+  ha-color-on-primary-loud: "#2D2F3F"
+
+  ha-color-on-neutral-quiet: "#9699A7"
+  ha-color-on-neutral-normal: "#B5B6C0"
+  ha-color-on-neutral-loud: "#E8E8ED"
+
+  # ============================================================
+  # 🧾 FORMULAIRES / INPUT / COMBOBOX / SELECT
+  # ============================================================
+
+  ha-color-form-background: "#252735"
+  ha-color-form-background-hover: "#2A2C3B"
+  ha-color-form-background-disabled: "#303241"
+
+  # Surface utilisée par les menus déroulants
+  ha-color-surface-default: "#252735"
+  ha-color-on-surface-default: "#E8E8ED"
+
+  # ============================================================
+  # 📋 LISTES / COMBOBOX
+  # ============================================================
+
+  paper-listbox-background-color: "#252735"
+  paper-listbox-color: "#E8E8ED"
+
+  material-background-color: "#252735"
+  material-secondary-background-color: "#20222F"
+
+  # ============================================================
+  # 📑 SÉLECTION DANS LES LISTES
+  # ============================================================
+
+  paper-item-selected_-_background-color: "#20222F"
+  paper-item-selected_-_color: "#E8E8ED"
+
+  # Nouveau comportement de sélection
+  ha-color-fill-primary-normal-hover: "#45486F"
+
+  # ============================================================
+  # 🧮 INPUTS NUMÉRIQUES
+  # ============================================================
+
+  input-background-color: "#252735"
+
+  # ============================================================
+  # 🧭 BARRE SUPÉRIEURE
+  # ============================================================
+
+  app-header-background-color: "#242633"
+  app-header-text-color: "#E8E8ED"
+
+  # ============================================================
+  # 📂 SIDEBAR
+  # ============================================================
+
+  sidebar-background-color: "#242633"
+  sidebar-text-color: "#D7D8E0"
+  sidebar-icon-color: "#AEB0BD"
+
+  sidebar-selected-background-color: "#343747"
+  sidebar-selected-icon-color: "#A9ACFF"
+  sidebar-selected-text-color: "#FFFFFF"
+
+  # ============================================================
+  # 🌡️ ÉTATS
+  # ============================================================
+
+  state-icon-color: "#B5B6C0"
+  state-icon-active-color: "#A9ACFF"
+
+  state-sensor-temperature-color: "#FF5252"
+  state-sensor-humidity-color: "#4CAF50"
+
+  # ============================================================
+  # 🎚️ SLIDERS
+  # ============================================================
+
+  paper-slider-knob-color: "#A9ACFF"
+  paper-slider-active-color: "#A9ACFF"
+  paper-slider-secondary-color: "#686CA8"
+
+  # ============================================================
+  # 🔘 SWITCHES
+  # ============================================================
+
+  paper-toggle-button-checked-button-color: "#A9ACFF"
+  paper-toggle-button-checked-bar-color: "#686CA8"
+
+  # ============================================================
+  # 📜 SCROLLBAR
+  # ============================================================
+
+  scrollbar-thumb-color: "#55586B"
+  scrollbar-track-color: "#242633"

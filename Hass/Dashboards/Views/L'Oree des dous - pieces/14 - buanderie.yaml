@@ -1,0 +1,848 @@
+title: Buanderie
+path: buanderie
+icon: mdi:washing-machine
+type: sections
+max_columns: 3
+sections:
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F518 Interactions"
+      - type: tile
+        entity: switch.s1pm44
+        name: Pompe eau chaude
+        color: blue
+        vertical: true
+        features:
+          - type: toggle
+        features_position: bottom
+      - type: tile
+        entity: switch.s1pm59
+        name: Déshumidificateur
+        color: pink
+        vertical: true
+        features:
+          - type: toggle
+        features_position: bottom
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F321️ Conditions"
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Température · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 120
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            max: '|+0.5|'
+            min: '|-0.5|'
+            apex_config:
+              tickAmount: 3
+        series:
+          - entity: sensor.zg_227z_22_temperature
+            name: Température
+            color: var(--success-color)
+            type: area
+            stroke_width: 2
+            float_precision: 1
+            group_by:
+              func: avg
+              duration: 10min
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Humidité · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 120
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            max: 100
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_22_humidity
+            name: Humidité
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: ⚡ Énergie
+      - type: gauge
+        entity: sensor.buanderie_power
+        name: Puissance pièce
+        needle: true
+        min: 0
+        max: 3000
+        severity:
+          green: 0
+          yellow: 1800
+          red: 2550
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-template-card
+            entity: sensor.buanderie_power
+            icon: mdi:flash
+            primary: "{{ states('sensor.buanderie_power') | float(0) | round(0) }} W"
+            secondary: Puissance actuelle
+            tap_action:
+              action: more-info
+            color: orange
+            features_position: bottom
+            vertical: true
+          - type: custom:mushroom-template-card
+            entity: sensor.buanderie_energy_day
+            icon: mdi:lightning-bolt
+            primary: "{{ states('sensor.buanderie_energy_day') | float(0) | round(2) }} kWh"
+            secondary: Énergie du jour (24 h)
+            tap_action:
+              action: more-info
+            color: amber
+            features_position: bottom
+            vertical: true
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Puissance · 24 h
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 180
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - min: 0
+            max: '|+10|'
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.buanderie_power
+            name: Buanderie
+            color: var(--warning-color)
+            type: area
+            stroke_width: 2
+            float_precision: 0
+            group_by:
+              func: avg
+              duration: 10min
+        grid_options:
+          columns: full
+          rows: auto
+      - type: custom:mushroom-template-card
+        entity: sensor.sp1pm62_power
+        primary: "{{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W · {{ states('sensor.sp1pm62_energy_day') | float(0) | round(2) }} kWh"
+        secondary: Lavette
+        icon: mdi:washing-machine
+        vertical: true
+        features_position: bottom
+        tap_action:
+          action: more-info
+        color: "{% if states('sensor.sp1pm62_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: custom:mushroom-template-card
+        entity: sensor.s1pm59_power
+        primary: "{{ states('sensor.s1pm59_power') | float(0) | round(0) }} W · {{ states('sensor.s1pm59_energy_day') | float(0) | round(2) }} kWh"
+        secondary: Déshumidificateur
+        icon: mdi:air-humidifier
+        vertical: true
+        features_position: bottom
+        tap_action:
+          action: more-info
+        color: "{% if states('sensor.s1pm59_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
+        grid_options:
+          columns: 6
+          rows: auto
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4DF Appareils"
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            alignment: center
+            subtitle: "\U0001F9FA Lavette"
+          - type: custom:mushroom-template-card
+            entity: sensor.lavette_operation_state
+            icon: mdi:washing-machine
+            primary: >-
+              {% set s = states('sensor.lavette_operation_state') %} {% set m = {'run': 'En marche', 'ready': 'Prête',
+                          'inactive': 'Éteinte', 'pause': 'En pause',
+                          'delayedstart': 'Départ différé',
+                          'actionrequired': 'Action requise',
+                          'finished': 'Terminée', 'aborting': 'Arrêt en cours',
+                          'error': 'Erreur'} %}
+              {{ m.get(s, s | replace('_', ' ') | capitalize) }}
+            secondary: >-
+              {% set p = states('select.lavette_active_program') %} {% if p in ['unknown', 'unavailable', 'none', ''] %}
+                {% set p = states('select.lavette_selected_program') %}
+              {% endif %} {% if p in ['unknown', 'unavailable', 'none', ''] %}Aucun programme {% else %}{{ p.split('.')[-1] | replace('_', ' ') | capitalize }} {% endif %}
+            color: "{% set s = states('sensor.lavette_operation_state') %} {% if s == 'run' %}blue {% elif s == 'finished' %}green {% elif s in ['error', 'actionrequired'] %}red {% elif s in ['pause', 'delayedstart'] %}amber {% else %}grey{% endif %}"
+            multiline_secondary: false
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: sensor.lavette_program_progress
+            icon: mdi:timelapse
+            primary: "{{ states('sensor.lavette_program_progress') | float(0) | round(0) }} %"
+            secondary: "{% set ts = as_timestamp(states('sensor.lavette_program_finish_time'), 0) %} {% if ts > 0 %}Fin prévue à {{ ts | timestamp_custom('%H:%M') }} {% else %}Aucun programme en cours{% endif %}"
+            color: "{% if is_state('sensor.lavette_operation_state', 'run') %}blue {% else %}grey{% endif %}"
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.lavette_door
+            icon: "{% if is_state('binary_sensor.lavette_door', 'on') %}mdi:door-open {% else %}mdi:door-closed{% endif %}"
+            primary: "{% if is_state('binary_sensor.lavette_door', 'on') %}Ouverte {% else %}Fermée{% endif %}"
+            secondary: Hublot
+            color: "{% if is_state('binary_sensor.lavette_door', 'on') %}amber {% else %}green{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.lavette_remote_start
+            icon: mdi:cellphone-wireless
+            primary: "{% if is_state('binary_sensor.lavette_remote_start', 'on') %}Autorisé {% else %}Verrouillé{% endif %}"
+            secondary: Départ à distance
+            color: "{% if is_state('binary_sensor.lavette_remote_start', 'on') %}green {% else %}grey{% endif %}"
+          - type: custom:mushroom-template-card
+            entity: switch.lavette_child_lock
+            icon: "{% if is_state('switch.lavette_child_lock', 'on') %}mdi:lock {% else %}mdi:lock-open-variant{% endif %}"
+            primary: "{% if is_state('switch.lavette_child_lock', 'on') %}Activée {% else %}Désactivée{% endif %}"
+            secondary: Sécurité enfant
+            tap_action:
+              action: toggle
+            color: "{% if is_state('switch.lavette_child_lock', 'on') %}blue {% else %}grey{% endif %}"
+          - type: gauge
+            entity: sensor.sp1pm62_power
+            name: Puissance
+            needle: true
+            min: 0
+            max: 2500
+            severity:
+              green: 0
+              yellow: 1500
+              red: 2100
+          - type: custom:mushroom-template-card
+            entity: sensor.sp1pm62_energy
+            icon: mdi:lightning-bolt
+            icon_color: amber
+            primary: "{{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W · {{ states('sensor.sp1pm62_energy') | float(0) | round(2) }} kWh"
+            secondary: Consommation cumulée
+            tap_action:
+              action: more-info
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: full
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            alignment: center
+            subtitle: ♨️ Chaudière
+          - type: custom:mushroom-template-card
+            entity: switch.sp1pm71
+            icon: mdi:pump
+            primary: "{% set p = states('sensor.sp1pm71_power') | float(0) %} {% if not is_state('switch.sp1pm71', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+            secondary: "{{ states('sensor.sp1pm71_power') | float(0) | round(0) }} W"
+            tap_action:
+              action: toggle
+            color: "{% set p = states('sensor.sp1pm71_power') | float(0) %} {% if not is_state('switch.sp1pm71', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+          - type: gauge
+            entity: sensor.sp1pm71_power
+            name: Puissance
+            needle: true
+            min: 0
+            max: 100
+            severity:
+              green: 0
+              yellow: 35
+              red: 60
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Puissance · 24 h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 160
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - min: 0
+                max: '|+10|'
+                decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm71_power
+                name: Maintenant
+                color: var(--warning-color)
+                type: area
+                stroke_width: 2
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 10min
+              - entity: sensor.sp1pm71_power
+                name: moy 24 h
+                color: var(--info-color)
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+              - entity: sensor.sp1pm71_power
+                name: pic 24 h
+                color: var(--error-color)
+                float_precision: 0
+                group_by:
+                  func: max
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+          - type: custom:mushroom-template-card
+            entity: sensor.sp1pm71_energy
+            icon: mdi:lightning-bolt
+            icon_color: amber
+            primary: "{{ states('sensor.sp1pm71_energy') | float(0) | round(2) }} kWh"
+            secondary: Consommation cumulée
+            tap_action:
+              action: more-info
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: full
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            alignment: center
+            subtitle: "\U0001FAA3 Pompe dilatation chaudière"
+          - type: custom:mushroom-template-card
+            entity: switch.sp1pm
+            icon: mdi:pump
+            primary: "{% set p = states('sensor.sp1pm70_power') | float(0) %} {% if not is_state('switch.sp1pm70', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+            secondary: "{{ states('sensor.sp1pm70_power') | float(0) | round(0) }} W"
+            tap_action:
+              action: toggle
+            color: "{% set p = states('sensor.sp1pm70_power') | float(0) %} {% if not is_state('switch.sp1pm70', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+          - type: gauge
+            entity: sensor.sp1pm70_power
+            name: Puissance
+            needle: true
+            min: 0
+            max: 100
+            severity:
+              green: 0
+              yellow: 35
+              red: 60
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Puissance · 24 h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 160
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - min: 0
+                max: '|+10|'
+                decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.sp1pm70_power
+                name: Maintenant
+                color: var(--warning-color)
+                type: area
+                stroke_width: 2
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 10min
+              - entity: sensor.sp1pm70_power
+                name: moy 24 h
+                color: var(--info-color)
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+              - entity: sensor.sp1pm70_power
+                name: pic 24 h
+                color: var(--error-color)
+                float_precision: 0
+                group_by:
+                  func: max
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+          - type: custom:mushroom-template-card
+            entity: sensor.sp1pm70_energy
+            icon: mdi:lightning-bolt
+            icon_color: amber
+            primary: "{{ states('sensor.sp1pm70_energy') | float(0) | round(2) }} kWh"
+            secondary: Consommation cumulée
+            tap_action:
+              action: more-info
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: full
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            alignment: center
+            subtitle: "\U0001F6B0 Pompe eau chaude"
+          - type: custom:mushroom-template-card
+            entity: switch.s1pm44
+            icon: mdi:pump
+            primary: "{% set p = states('sensor.s1pm44_power') | float(0) %} {% if not is_state('switch.s1pm44', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+            secondary: "{{ states('sensor.s1pm44_power') | float(0) | round(0) }} W"
+            tap_action:
+              action: toggle
+            color: "{% set p = states('sensor.s1pm44_power') | float(0) %} {% if not is_state('switch.s1pm44', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+          - type: gauge
+            entity: sensor.s1pm44_power
+            name: Puissance
+            needle: true
+            min: 0
+            max: 100
+            severity:
+              green: 0
+              yellow: 35
+              red: 60
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Puissance · 24 h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 160
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - min: 0
+                max: '|+10|'
+                decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm44_power
+                name: Maintenant
+                color: var(--warning-color)
+                type: area
+                stroke_width: 2
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 10min
+              - entity: sensor.s1pm44_power
+                name: moy 24 h
+                color: var(--info-color)
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+              - entity: sensor.s1pm44_power
+                name: pic 24 h
+                color: var(--error-color)
+                float_precision: 0
+                group_by:
+                  func: max
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+          - type: custom:mushroom-template-card
+            entity: sensor.s1pm44_energy
+            icon: mdi:lightning-bolt
+            icon_color: amber
+            primary: "{{ states('sensor.s1pm44_energy') | float(0) | round(2) }} kWh"
+            secondary: Consommation cumulée
+            tap_action:
+              action: more-info
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: full
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            alignment: center
+            subtitle: ⚗️ Déshumidificateur
+          - type: custom:mushroom-template-card
+            entity: switch.s1pm59
+            icon: mdi:pump
+            primary: "{% set p = states('sensor.s1pm59_power') | float(0) %} {% if not is_state('switch.s1pm59', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+            secondary: "{{ states('sensor.s1pm59_power') | float(0) | round(0) }} W"
+            tap_action:
+              action: toggle
+            color: "{% set p = states('sensor.s1pm59_power') | float(0) %} {% if not is_state('switch.s1pm59', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+          - type: gauge
+            entity: sensor.s1pm59_power
+            name: Puissance
+            needle: true
+            min: 0
+            max: 100
+            severity:
+              green: 0
+              yellow: 35
+              red: 60
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            update_interval: 5min
+            header:
+              show: true
+              title: Puissance · 24 h
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 160
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: false
+              fill:
+                type: gradient
+                gradient:
+                  opacityFrom: 0.42
+                  opacityTo: 0.03
+                  stops:
+                    - 0
+                    - 85
+                    - 100
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - min: 0
+                max: '|+10|'
+                decimals: 0
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.s1pm59_power
+                name: Maintenant
+                color: var(--warning-color)
+                type: area
+                stroke_width: 2
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 10min
+              - entity: sensor.s1pm59_power
+                name: moy 24 h
+                color: var(--info-color)
+                float_precision: 0
+                group_by:
+                  func: avg
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+              - entity: sensor.s1pm59_power
+                name: pic 24 h
+                color: var(--error-color)
+                float_precision: 0
+                group_by:
+                  func: max
+                  duration: 24h
+                show:
+                  in_chart: false
+                  in_header: true
+          - type: custom:mushroom-template-card
+            entity: sensor.s1pm59_energy
+            icon: mdi:lightning-bolt
+            icon_color: amber
+            primary: "{{ states('sensor.s1pm59_energy') | float(0) | round(2) }} kWh"
+            secondary: Consommation cumulée
+            tap_action:
+              action: more-info
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: full
+  - type: grid
+    column_span: 1
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F9ED Navigation"
+      - type: grid
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Toutes les pièces
+            icon: mdi:home
+            color: blue
+            vertical: true
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/maison
+          - type: custom:mushroom-template-card
+            primary: Surveillance
+            icon: mdi:alert-remove
+            color: purple
+            vertical: true
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/appareils-oublies
+          - type: custom:mushroom-template-card
+            primary: Santé système
+            icon: mdi:heart-pulse
+            color: red
+            vertical: true
+            features_position: bottom
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/sante-systeme
+cards: []
+badges: []
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: "# \U0001FAA3️ Buanderie"

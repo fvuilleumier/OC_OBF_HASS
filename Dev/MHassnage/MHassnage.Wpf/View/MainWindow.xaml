@@ -1,6 +1,8 @@
 <Window x:Class="MHassnage.Wpf.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:MHassnage.Wpf.View"
+        xmlns:vc="clr-namespace:MHassnage.Wpf.ViewController"
         Title="MHassnage" Height="720" Width="1180"
         Icon="/Resources/mhassnage.ico"
         Style="{StaticResource MainWindowStyle}"
@@ -35,48 +37,24 @@
             </ItemsControl>
         </DockPanel>
 
-        <!-- Panel de l'opération (branché aux étapes suivantes) -->
+        <!-- Panel de l'opération : la vue est choisie selon le type de ViewController -->
         <Border Grid.Column="1" Margin="0,14,14,14" Background="{StaticResource PanelBrush}" CornerRadius="6" Padding="18">
-            <StackPanel>
-                <TextBlock Text="{Binding Selected.Title}" FontSize="20" FontWeight="SemiBold" />
-                <TextBlock Text="{Binding Selected.Description}" Foreground="{StaticResource MutedTextBrush}" Margin="0,4,0,18" />
-
-                <TextBlock Text="Réglages à compléter" FontWeight="SemiBold" Margin="0,0,0,6">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SettingsProblems.Count}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <ItemsControl ItemsSource="{Binding SettingsProblems}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding StringFormat='• {0}'}" Foreground="#F5A623" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <!-- Marche à suivre pour (re)créer le jeton HA -->
-                <Border Margin="0,16,0,0" Padding="12" CornerRadius="4" BorderThickness="1"
-                        BorderBrush="#F5A623" Background="{StaticResource BackgroundBrush}">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding TokenHelp}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <TextBox Text="{Binding TokenHelp, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
-                             Background="Transparent" BorderThickness="0" FontFamily="Consolas"
-                             Foreground="{StaticResource TextBrush}" />
-                </Border>
-            </StackPanel>
+            <ContentControl Content="{Binding CurrentPanel}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type vc:StatusViewController}">
+                        <v:StatusView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vc:BackupViewController}">
+                        <v:BackupView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vc:PlaceholderViewController}">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding Description}" Foreground="{StaticResource MutedTextBrush}" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
         </Border>
     </Grid>
 </Window>

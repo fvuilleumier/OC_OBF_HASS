@@ -9,7 +9,7 @@ button_card_templates:
         - height: 34px
         - padding: 0 12px
         - background: transparent
-        - background-color: null
+        - background-color: 
         - border: none
         - border-radius: 0
         - box-shadow: none
@@ -24,8 +24,9 @@ button_card_templates:
         - color: var(--section-title-color, var(--primary-text-color))
         - font-size: 14px
         - font-weight: 400
-    extra_styles: |
+    extra_styles: >
       #name::before,
+
       #name::after {
         content: "";
         height: 1px;
@@ -85,11 +86,9 @@ views:
             cards:
               - type: custom:mushroom-template-card
                 primary: La vie est belle pour ceux qui la regardent avec le cœur
-                secondary: >-
-                  {{ states('sensor.moon_phase') | replace('_',' ') | capitalize
-                  }}
+                secondary: "{{ states('sensor.moon_phase') | replace('_',' ') | capitalize }}"
                 icon: mdi:home
-                picture: '{{ state_attr(''sensor.moon_phase_image'',''entity_picture'') }}'
+                picture: "{{ state_attr('sensor.moon_phase_image','entity_picture') }}"
                 tap_action:
                   action: none
                 hold_action:
@@ -97,7 +96,7 @@ views:
                 double_tap_action:
                   action: none
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       background-size: cover;
                       background-blend-mode: overlay;
@@ -106,6 +105,7 @@ views:
                       background-size: cover;
                       padding: 5px;
                     }
+
                     :host {
                       --mush-icon-size: 60px;
                       --primary-text-color: #fff;
@@ -115,7 +115,7 @@ views:
               - type: custom:mushroom-chips-card
                 chips:
                   - type: entity
-                    entity: sensor.astroweather_la_TBX7D_ORG_0003_moon_next_rising
+                    entity: sensor.astroweather_la_maison_des_dous_moon_next_rising
                     tap_action:
                       action: none
                     hold_action:
@@ -123,12 +123,12 @@ views:
                     double_tap_action:
                       action: none
                     card_mod:
-                      style: |
+                      style: >
                         ha-card {
                           border: 0px outset black !important;
                         }
                   - type: entity
-                    entity: sensor.astroweather_la_TBX7D_ORG_0003_moon_next_setting
+                    entity: sensor.astroweather_la_maison_des_dous_moon_next_setting
                     tap_action:
                       action: none
                     hold_action:
@@ -136,7 +136,7 @@ views:
                     double_tap_action:
                       action: none
                     card_mod:
-                      style: |
+                      style: >
                         ha-card {
                           border: 0px outset black !important;
                         }
@@ -144,24 +144,21 @@ views:
         cards:
           - type: custom:mushroom-template-card
             primary: >-
-              {% if is_state('binary_sensor.production_panneaux_solaire','on')
-              %}
+              {% if is_state('binary_sensor.production_panneaux_solaire','on') %}
                 ☀️ Production active
               {% else %}
                 🌙 Pas de production
               {% endif %}
-            secondary: |
+            secondary: >
               {{ states('sensor.onduleur_des_dous_solar_power') }} W
             icon: >
-              {% if is_state('binary_sensor.production_panneaux_solaire','on')
-              %}
+              {% if is_state('binary_sensor.production_panneaux_solaire','on') %}
                 mdi:solar-power
               {% else %}
                 mdi:sun-angle-outline
               {% endif %}
             color: >
-              {% if is_state('binary_sensor.production_panneaux_solaire','on')
-              %}
+              {% if is_state('binary_sensor.production_panneaux_solaire','on') %}
                 deep-orange
               {% else %}
                 blue
@@ -214,21 +211,21 @@ views:
                 show_state: true
             title: La maison des Dous
             image:
-              media_content_id: media-source://host0013.example.invalid/6c2db3f99378d8a9e7786befb240e128
+              media_content_id: media-source://image_upload/65e5ae1b0b0440fba7fcfc522d7ec8c1
               media_content_type: image/jpeg
               metadata:
                 title: famille_hass_2.jpeg
-                thumbnail: TBX7D_SECRET_0212
+                thumbnail: /api/image/serve/65e5ae1b0b0440fba7fcfc522d7ec8c1/256x256
                 media_class: image
                 navigateIds:
                   - {}
                   - media_content_type: app
-                    media_content_id: media-source://host0013.example.invalid
+                    media_content_id: media-source://image_upload
       - type: grid
         cards:
           - type: custom:mushroom-template-card
             primary: IP publique
-            secondary: '{{ states(''sensor.myip'') }}'
+            secondary: "{{ states('sensor.myip') }}"
             icon: mdi:ip-network
             entity: sensor.myip
             icon_color: ''
@@ -239,7 +236,7 @@ views:
           - show_current: true
             show_forecast: true
             type: weather-forecast
-            entity: weather.TBX7D_SECRET_0213
+            entity: weather.rue_de_l_TBX9F_ORG_0006_TBX9F_ORG_0007
             forecast_type: daily
             name: La maison des dous
             secondary_info_attribute: humidity
@@ -248,7 +245,7 @@ views:
         cards:
           - type: custom:horizon-card
             card_mod:
-              style: |
+              style: >
                 ha-card {
                   border: 0px outset black !important;
                   background: url('/local/images/wp/sea_wp_2.png');
@@ -266,8 +263,9 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |-
+        content: >-
           # 🏠 L'Orée des Dous
+
           ✨ Sois toi même, tous les autres sont déjà pris ✨
     footer:
       type: markdown
@@ -284,26 +282,26 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🛏️ 1er étage
+            name: "\U0001F6CF️ 1er étage"
           - type: picture-elements
             image:
-              media_content_id: media-source://host0013.example.invalid/b8dc186b9d90d7338c80b496ba213299
+              media_content_id: media-source://image_upload/851875fbeeef43a4bca8a4cc661e9266
               media_content_type: image/jpeg
               metadata:
                 title: 1er.jpg
-                thumbnail: TBX7D_SECRET_0208
+                thumbnail: /api/image/serve/851875fbeeef43a4bca8a4cc661e9266/256x256
                 media_class: image
                 navigateIds:
                   - {}
                   - media_content_type: app
-                    media_content_id: media-source://host0013.example.invalid
+                    media_content_id: media-source://image_upload
             elements:
               - type: icon
                 icon: mdi:table-chair
                 title: Salle à manger
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/salle-a-manger
+                  navigation_path: /l-oree-des-dous-new/salle-a-manger
                 style:
                   top: 22%
                   left: 15%
@@ -321,7 +319,7 @@ views:
                 title: Salon
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/salon
+                  navigation_path: /l-oree-des-dous-new/salon
                 style:
                   top: 62%
                   left: 15%
@@ -339,7 +337,7 @@ views:
                 title: Cuisine
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/cuisine
+                  navigation_path: /l-oree-des-dous-new/cuisine
                 style:
                   top: 21%
                   left: 36%
@@ -357,7 +355,7 @@ views:
                 title: Couloir 1er
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/couloir-premier
+                  navigation_path: /l-oree-des-dous-new/couloir-premier
                 style:
                   top: 41%
                   left: 40%
@@ -375,7 +373,7 @@ views:
                 title: Toilettes 1er
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/toilettes-1er
+                  navigation_path: /l-oree-des-dous-new/toilettes-1er
                 style:
                   top: 27%
                   left: 56%
@@ -393,7 +391,7 @@ views:
                 title: Salle de bain 1er
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+                  navigation_path: /l-oree-des-dous-new/salle-de-bain-1er
                 style:
                   top: 28%
                   left: 66%
@@ -411,7 +409,7 @@ views:
                 title: Salle de jeu
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/salle-de-jeu
+                  navigation_path: /l-oree-des-dous-new/salle-de-jeu
                 style:
                   top: 32%
                   left: 85%
@@ -426,10 +424,10 @@ views:
                   --mdc-icon-size: 20px
               - type: icon
                 icon: mdi:human-male-female
-                title: Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008
+                title: Chambre TBX9F_ORG_0003 & TBX9F_ORG_0004
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0009-TBX7D_ORG_0008
+                  navigation_path: /l-oree-des-dous-new/chambre-TBX9F_ORG_0003-TBX9F_ORG_0004
                 style:
                   top: 66%
                   left: 81%
@@ -444,10 +442,10 @@ views:
                   --mdc-icon-size: 20px
               - type: icon
                 icon: mdi:human-child
-                title: Chambre TBX7D_ORG_0010
+                title: Chambre TBX9F_ORG_0005
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0010
+                  navigation_path: /l-oree-des-dous-new/chambre-TBX9F_ORG_0005
                 style:
                   top: 66%
                   left: 60%
@@ -465,7 +463,7 @@ views:
                 title: Galetas
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/galetas
+                  navigation_path: /l-oree-des-dous-new/galetas
                 style:
                   top: 16%
                   left: 50%
@@ -480,10 +478,10 @@ views:
                   --mdc-icon-size: 20px
               - type: icon
                 icon: mdi:bed-king-outline
-                title: Chambre TBX7D_ORG_0007
+                title: Chambre TBX9F_ORG_0002
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0007
+                  navigation_path: /l-oree-des-dous-new/chambre-TBX9F_ORG_0002
                 style:
                   top: 66%
                   left: 39%
@@ -504,26 +502,26 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🛋️ Rez-de-chaussée
+            name: "\U0001F6CB️ Rez-de-chaussée"
           - type: picture-elements
             image:
-              media_content_id: media-source://host0013.example.invalid/11871cf0be30c77a26a00a170c8d4893
+              media_content_id: media-source://image_upload/0b9126294b954d688f4fbda41768c3f3
               media_content_type: image/jpeg
               metadata:
                 title: rez.jpg
-                thumbnail: TBX7D_SECRET_0209
+                thumbnail: /api/image/serve/0b9126294b954d688f4fbda41768c3f3/256x256
                 media_class: image
                 navigateIds:
                   - {}
                   - media_content_type: app
-                    media_content_id: media-source://host0013.example.invalid
+                    media_content_id: media-source://image_upload
             elements:
               - type: icon
                 icon: mdi:toilet
                 title: Salle de bain rez
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-rez
+                  navigation_path: /l-oree-des-dous-new/salle-de-bain-rez
                 style:
                   top: 22%
                   left: 43%
@@ -541,7 +539,7 @@ views:
                 title: Cave
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/cave
+                  navigation_path: /l-oree-des-dous-new/cave
                 style:
                   top: 22%
                   left: 50%
@@ -559,7 +557,7 @@ views:
                 title: Serveurs
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/serveur-bis
+                  navigation_path: /l-oree-des-dous-new/serveur-bis
                 style:
                   top: 21%
                   left: 65%
@@ -577,7 +575,7 @@ views:
                 title: Couloir rez
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/couloir-rez
+                  navigation_path: /l-oree-des-dous-new/couloir-rez
                 style:
                   top: 37%
                   left: 60%
@@ -595,7 +593,7 @@ views:
                 title: Bureau FV
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/bureau
+                  navigation_path: /l-oree-des-dous-new/bureau
                 style:
                   top: 56%
                   left: 35%
@@ -613,7 +611,7 @@ views:
                 title: Bureau CR
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/bureau-cr
+                  navigation_path: /l-oree-des-dous-new/bureau-cr
                 style:
                   top: 56%
                   left: 50%
@@ -631,7 +629,7 @@ views:
                 title: Buanderie
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/buanderie
+                  navigation_path: /l-oree-des-dous-new/buanderie
                 style:
                   top: 56%
                   left: 65%
@@ -649,7 +647,7 @@ views:
                 title: Garage
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/garage
+                  navigation_path: /l-oree-des-dous-new/garage
                 style:
                   top: 20%
                   left: 88%
@@ -667,7 +665,7 @@ views:
                 title: Atelier
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/atelier
+                  navigation_path: /l-oree-des-dous-new/atelier
                 style:
                   top: 62%
                   left: 90%
@@ -685,7 +683,7 @@ views:
                 title: Jardin
                 tap_action:
                   action: navigate
-                  navigation_path: /TBX7D_ORG_0011-new/jardin
+                  navigation_path: /l-oree-des-dous-new/jardin
                 style:
                   top: 86%
                   left: 46%
@@ -705,84 +703,77 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🏠 La maison
+            name: "\U0001F3E0 La maison"
           - type: custom:mushroom-template-card
             primary: Maison des dous
             color: blue
             secondary: >
-              {{ states('sensor.zg_227z_07_temperature') }} °C · {{
-              states('sensor.zg_227z_07_humidity') }} %
+              {{ states('sensor.zg_227z_07_temperature') }} °C · {{ states('sensor.zg_227z_07_humidity') }} %
             icon: mdi:home-heart
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/galetas
+              navigation_path: /l-oree-des-dous-new/galetas
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Galetas
             color: amber
             secondary: >
-              {{ states('sensor.zg_227z_17_galetas_temperature') }} °C · {{
-              states('sensor.zg_227z_17_galetas_humidity') }} %
+              {{ states('sensor.zg_227z_17_galetas_temperature') }} °C · {{ states('sensor.zg_227z_17_galetas_humidity') }} %
             icon: mdi:home-roof
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/galetas
+              navigation_path: /l-oree-des-dous-new/galetas
             features_position: bottom
       - type: grid
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🛏️ Étage
+            name: "\U0001F6CF️ Étage"
           - type: custom:mushroom-template-card
             secondary: >
-              {{ states('sensor.zg_227z_07_temperature') }} °C · {{
-              states('sensor.zg_227z_07_humidity') }} %
+              {{ states('sensor.zg_227z_07_temperature') }} °C · {{ states('sensor.zg_227z_07_humidity') }} %
             icon: mdi:home-import-outline
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/couloir-premier
+              navigation_path: /l-oree-des-dous-new/couloir-premier
             features_position: bottom
             primary: 1er
             color: grey
           - type: custom:mushroom-template-card
-            primary: Chambre TBX7D_ORG_0007
+            primary: Chambre TBX9F_ORG_0002
             color: purple
             secondary: >
-              {{ states('sensor.zg_227z_08_temperature') }} °C · {{
-              states('sensor.zg_227z_08_humidity') }} %
+              {{ states('sensor.zg_227z_08_temperature') }} °C · {{ states('sensor.zg_227z_08_humidity') }} %
             icon: mdi:bed-king-outline
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0007
+              navigation_path: /l-oree-des-dous-new/chambre-TBX9F_ORG_0002
             features_position: bottom
           - type: custom:mushroom-template-card
-            primary: Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008
+            primary: Chambre TBX9F_ORG_0003 & TBX9F_ORG_0004
             color: purple
             secondary: >
-              {{ states('sensor.zg_227z_06_temperature') }} °C · {{
-              states('sensor.zg_227z_06_humidity') }} %
+              {{ states('sensor.zg_227z_06_temperature') }} °C · {{ states('sensor.zg_227z_06_humidity') }} %
             icon: mdi:human-male-female
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0009-TBX7D_ORG_0008
+              navigation_path: /l-oree-des-dous-new/chambre-TBX9F_ORG_0003-TBX9F_ORG_0004
             features_position: bottom
           - type: custom:mushroom-template-card
-            primary: Chambre TBX7D_ORG_0010
+            primary: Chambre TBX9F_ORG_0005
             color: purple
             secondary: >
-              {{ states('sensor.zg_227z_15_temperature') }} °C · {{
-              states('sensor.zg_227z_15_humidity') }} %
+              {{ states('sensor.zg_227z_15_temperature') }} °C · {{ states('sensor.zg_227z_15_humidity') }} %
             icon: mdi:human-child
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/chambre-TBX7D_ORG_0010
+              navigation_path: /l-oree-des-dous-new/chambre-TBX9F_ORG_0005
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Salle de jeu
             color: purple
             secondary: >
-              {{ states('sensor.zg_227z_09_temperature') }} °C · {{
-              states('sensor.zg_227z_09_humidity') }} %
+              {{ states('sensor.zg_227z_09_temperature') }} °C · {{ states('sensor.zg_227z_09_humidity') }} %
             icon: mdi:nintendo-game-boy
             tap_action:
               action: navigate
@@ -791,12 +782,11 @@ views:
             primary: Salon
             color: orange
             secondary: >
-              {{ states('sensor.zg_227z_18_temperature') }} °C · {{
-              states('sensor.zg_227z_18_humidity') }} %
+              {{ states('sensor.zg_227z_18_temperature') }} °C · {{ states('sensor.zg_227z_18_humidity') }} %
             icon: mdi:sofa
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/salon
+              navigation_path: /l-oree-des-dous-new/salon
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Salle à manger
@@ -805,138 +795,127 @@ views:
             icon: mdi:table-chair
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/salle-a-manger
+              navigation_path: /l-oree-des-dous-new/salle-a-manger
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Cuisine
             color: orange
             secondary: >
-              {{ states('sensor.zg_227z_16_temperature') }} °C · {{
-              states('sensor.zg_227z_16_humidity') }} %
+              {{ states('sensor.zg_227z_16_temperature') }} °C · {{ states('sensor.zg_227z_16_humidity') }} %
             icon: mdi:countertop-outline
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/cuisine
+              navigation_path: /l-oree-des-dous-new/cuisine
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Toilettes
             color: cyan
             secondary: >
-              {{ states('sensor.zg_227z_23_temperature') }} °C · {{
-              states('sensor.zg_227z_23_humidity') }} %
+              {{ states('sensor.zg_227z_23_temperature') }} °C · {{ states('sensor.zg_227z_23_humidity') }} %
             icon: mdi:paper-roll-outline
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+              navigation_path: /l-oree-des-dous-new/salle-de-bain-1er
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Salle de bain
             color: cyan
             secondary: >
-              {{ states('sensor.zg_227z_01_temperature') }} °C · {{
-              states('sensor.zg_227z_01_humidity') }} %
+              {{ states('sensor.zg_227z_01_temperature') }} °C · {{ states('sensor.zg_227z_01_humidity') }} %
             icon: mdi:shower
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-1er
+              navigation_path: /l-oree-des-dous-new/salle-de-bain-1er
             features_position: bottom
       - type: grid
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🛋️ Rez-de-chaussée
+            name: "\U0001F6CB️ Rez-de-chaussée"
           - type: custom:mushroom-template-card
             primary: Rez
             color: grey
             secondary: >
-              {{ states('sensor.zg_227z_09_temperature') }} °C · {{
-              states('sensor.zg_227z_09_humidity') }} %
+              {{ states('sensor.zg_227z_09_temperature') }} °C · {{ states('sensor.zg_227z_09_humidity') }} %
             icon: mdi:home-export-outline
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/couloir-rez
+              navigation_path: /l-oree-des-dous-new/couloir-rez
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Serveurs
             color: amber
             secondary: >
-              {{ states('sensor.zg_227z_11_temperature') }} °C · {{
-              states('sensor.s1pm30_power') }} W
+              {{ states('sensor.zg_227z_11_temperature') }} °C · {{ states('sensor.s1pm30_power') }} W
             icon: mdi:server
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/serveur
+              navigation_path: /l-oree-des-dous-new/serveur
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Buanderie
             color: amber
             secondary: >
-              {{ states('sensor.zg_227z_22_temperature') }} °C · {{
-              states('sensor.zg_227z_22_humidity') }} %
+              {{ states('sensor.zg_227z_22_temperature') }} °C · {{ states('sensor.zg_227z_22_humidity') }} %
             icon: mdi:washing-machine
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/buanderie
+              navigation_path: /l-oree-des-dous-new/buanderie
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Cave
             color: red
             secondary: >
-              {{ states('sensor.zg_227z_12_temperature') }} °C · {{
-              states('sensor.zg_227z_12_humidity') }} %
+              {{ states('sensor.zg_227z_12_temperature') }} °C · {{ states('sensor.zg_227z_12_humidity') }} %
             icon: mdi:bottle-wine
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/cave
+              navigation_path: /l-oree-des-dous-new/cave
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Bureau FV
             color: blue
             secondary: >
-              {{ states('sensor.zg_227z_05_temperature') }} °C · {{
-              states('sensor.zg_227z_05_humidity') }} %
+              {{ states('sensor.zg_227z_05_temperature') }} °C · {{ states('sensor.zg_227z_05_humidity') }} %
             icon: mdi:desktop-tower-monitor
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/bureau
+              navigation_path: /l-oree-des-dous-new/bureau
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Bureau CR
             color: blue
             secondary: >
-              {{ states('sensor.zg_227z_19_temperature') }} °C · {{
-              states('sensor.zg_227z_19_humidity') }} %
+              {{ states('sensor.zg_227z_19_temperature') }} °C · {{ states('sensor.zg_227z_19_humidity') }} %
             icon: mdi:desk
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/bureau-cr
+              navigation_path: /l-oree-des-dous-new/bureau-cr
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Salle de bain
             color: cyan
             secondary: >
-              {{ states('sensor.zg_227z_02_temperature') }} °C · {{
-              states('sensor.zg_227z_02_humidity') }} %
+              {{ states('sensor.zg_227z_02_temperature') }} °C · {{ states('sensor.zg_227z_02_humidity') }} %
             icon: mdi:toilet
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/salle-de-bain-rez
+              navigation_path: /l-oree-des-dous-new/salle-de-bain-rez
             features_position: bottom
       - type: grid
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🛠️ Annexes
+            name: "\U0001F6E0️ Annexes"
           - type: custom:mushroom-template-card
             primary: Atelier
             color: amber
             secondary: >
-              {{ states('sensor.zg_227z_13_temperature') }} °C · {{
-              states('sensor.zg_227z_13_humidity') }} %
+              {{ states('sensor.zg_227z_13_temperature') }} °C · {{ states('sensor.zg_227z_13_humidity') }} %
             icon: mdi:hammer-wrench
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/atelier
+              navigation_path: /l-oree-des-dous-new/atelier
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Jardin
@@ -945,7 +924,7 @@ views:
             icon: mdi:tree
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/jardin
+              navigation_path: /l-oree-des-dous-new/jardin
             features_position: bottom
           - type: custom:mushroom-template-card
             primary: Garage
@@ -954,7 +933,7 @@ views:
             icon: mdi:garage-variant
             tap_action:
               action: navigate
-              navigation_path: /TBX7D_ORG_0011-new/garage
+              navigation_path: /l-oree-des-dous-new/garage
             features_position: bottom
       - type: grid
         cards:
@@ -993,8 +972,9 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |-
+        content: >-
           # 🏡 Plan interactif
+
           Détails, intéractions, confort, chauffage et énergie
     badges:
       - type: entity
@@ -1024,8 +1004,60 @@ views:
     sections:
       - type: grid
         cards:
+          - type: custom:apexcharts-card
+            graph_span: 1d
+            update_interval: 5min
+            header:
+              show: true
+              title: Température salon
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 220
+                animations:
+                  enabled: false
+                toolbar:
+                  show: false
+                zoom:
+                  enabled: false
+              stroke:
+                curve: smooth
+                width: 2
+              dataLabels:
+                enabled: false
+              markers:
+                size: 0
+              legend:
+                show: true
+                position: bottom
+                fontSize: 10px
+              xaxis:
+                labels:
+                  datetimeUTC: false
+                  format: HH:mm
+                  style:
+                    fontSize: 10px
+            yaxis:
+              - decimals: 1
+                apex_config:
+                  tickAmount: 4
+            series:
+              - entity: sensor.zg_227z_18_temperature
+                name: Rez
+                color: var(--info-color)
+                type: line
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 10min
+            grid_options:
+              columns: full
+        column_span: 2
+      - type: grid
+        cards:
           - type: gauge
-            name: Rez
+            name: Bas
             unit: °C
             max: 35
             severity:
@@ -1038,7 +1070,7 @@ views:
       - type: grid
         cards:
           - type: gauge
-            name: 1er
+            name: Haut
             unit: °C
             max: 35
             severity:
@@ -1266,7 +1298,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Températures
+            name: "\U0001F321️ Températures"
           - type: entities
             entities:
               - entity: sensor.zg_227z_07_temperature
@@ -1280,11 +1312,11 @@ views:
               - entity: sensor.zg_227z_10_temperature
                 name: Salle de jeu
               - entity: sensor.zg_227z_06_temperature
-                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+                name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
               - entity: sensor.zg_227z_08_temperature
-                name: Chambre TBX7D_ORG_0010
+                name: Chambre TBX9F_ORG_0005
               - entity: sensor.zg_227z_15_temperature
-                name: Chambre TBX7D_ORG_0007
+                name: Chambre TBX9F_ORG_0002
               - entity: sensor.zg_227z_10_temperature
                 name: Rez
               - entity: sensor.zg_227z_11_temperature
@@ -1294,9 +1326,9 @@ views:
               - entity: sensor.zg_227z_03_temperature
                 name: Déshumidificateur
               - entity: sensor.zg_227z_05_temperature
-                name: Bureau TBX7D_ORG_0001
+                name: Bureau TBX9F_ORG_0001
               - entity: sensor.zg_227z_19_temperature
-                name: Bureau TBX7D_ORG_0002
+                name: Bureau TBX9F_ID_0056
               - entity: sensor.zg_227z_02_temperature
                 name: Salle de bain rez
               - entity: sensor.zg_227z_12_temperature
@@ -1309,7 +1341,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 💧 Humidité
+            name: "\U0001F4A7 Humidité"
           - type: entities
             entities:
               - entity: sensor.zg_227z_07_humidity
@@ -1323,11 +1355,11 @@ views:
               - entity: sensor.zg_227z_10_humidity
                 name: Salle de jeu
               - entity: sensor.zg_227z_06_humidity
-                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+                name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
               - entity: sensor.zg_227z_08_humidity
-                name: Chambre TBX7D_ORG_0010
+                name: Chambre TBX9F_ORG_0005
               - entity: sensor.zg_227z_15_humidity
-                name: Chambre TBX7D_ORG_0007
+                name: Chambre TBX9F_ORG_0002
               - entity: sensor.zg_227z_10_humidity
                 name: Rez
               - entity: sensor.zg_227z_11_humidity
@@ -1337,9 +1369,9 @@ views:
               - entity: sensor.zg_227z_03_humidity
                 name: Déshumidificateur
               - entity: sensor.zg_227z_05_humidity
-                name: Bureau TBX7D_ORG_0001
+                name: Bureau TBX9F_ORG_0001
               - entity: sensor.zg_227z_19_humidity
-                name: Bureau TBX7D_ORG_0002
+                name: Bureau TBX9F_ID_0056
               - entity: sensor.zg_227z_02_humidity
                 name: Salle de bain rez
               - entity: sensor.zg_227z_12_humidity
@@ -1355,7 +1387,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🌡️ Température - 💧 Humidité'
+        content: "# \U0001F321️ Température - \U0001F4A7 Humidité"
     footer:
       type: markdown
       content: ''
@@ -1379,7 +1411,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 💡 Distribution
+            name: "\U0001F4A1 Distribution"
             grid_options:
               columns: full
           - type: energy-distribution
@@ -1404,7 +1436,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔌 Compteur secondaire
+            name: "\U0001F50C Compteur secondaire"
             grid_options:
               columns: full
           - type: custom:vertical-stack-in-card
@@ -1412,9 +1444,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.electricity_meter_power_consumption
                 icon: mdi:flash
-                primary: >-
-                  {{ states('sensor.electricity_meter_power_consumption') |
-                  float(0) | round(0) }} W
+                primary: "{{ states('sensor.electricity_meter_power_consumption') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -1425,10 +1455,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.electricity_meter_secondary_compteur_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{
-                  states('sensor.electricity_meter_secondary_compteur_energy_day')
-                  | float(0) | round(2) }} kWh
+                primary: "{{ states('sensor.electricity_meter_secondary_compteur_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -1511,7 +1538,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📈 Devices
+            name: "\U0001F4C8 Devices"
             grid_options:
               columns: full
           - type: energy-solar-graph
@@ -1527,7 +1554,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📊 Data
+            name: "\U0001F4CA Data"
             grid_options:
               columns: full
           - type: energy-devices-detail-graph
@@ -1547,7 +1574,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔌 Flow
+            name: "\U0001F50C Flow"
             grid_options:
               columns: full
           - type: power-sankey
@@ -1663,7 +1690,7 @@ views:
       - type: grid
         cards:
           - type: gauge
-            entity: sensor.s1pm43_power
+            entity: sensor.sp1pm71_power
             name: Chaudière
             needle: true
             severity:
@@ -2468,8 +2495,8 @@ views:
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.s1pm43_power
-                name: s1pm43 power
+              - entity: sensor.sp1pm71_power
+                name: sp1pm71 power
                 color: var(--info-color)
                 type: area
                 stroke_width: 2
@@ -2931,8 +2958,8 @@ views:
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.s1pm43_energy
-                name: s1pm43 energy
+              - entity: sensor.sp1pm71_energy
+                name: sp1pm71 energy
                 color: var(--info-color)
                 type: area
                 stroke_width: 2
@@ -3121,7 +3148,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 📈 Métriques
     footer:
       type: markdown
@@ -3154,7 +3181,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔋 Alimentation de secours
+            name: "\U0001F50B Alimentation de secours"
           - type: entities
             show_header_toggle: false
             state_color: true
@@ -3244,7 +3271,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🖥️ Serveurs
+            name: "\U0001F5A5️ Serveurs"
           - color: state
             type: entities
             show_header_toggle: false
@@ -3373,7 +3400,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌐 Réseau
+            name: "\U0001F310 Réseau"
           - type: entities
             show_header_toggle: false
             state_color: true
@@ -3381,7 +3408,7 @@ views:
               - entity: sensor.myip
                 name: IP publique
           - type: entities
-            title: 📡 Zigbee
+            title: "\U0001F4E1 Zigbee"
             show_header_toggle: false
             entities:
               - entity: sensor.slzb_06m_zigbee_type
@@ -3429,7 +3456,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔋Batteries
+            name: "\U0001F50BBatteries"
           - type: entities
             entities:
               - entity: sensor.porte_1er_battery
@@ -3453,15 +3480,15 @@ views:
               - entity: sensor.trv_btr_04_chambre_rez_salle_de_jeu_battery
                 name: Salle de jeu (vanne)
               - entity: sensor.zg_227z_06_battery
-                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009
+                name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
               - entity: sensor.trv_btr_03_battery
-                name: Chambre TBX7D_ORG_0008 et TBX7D_ORG_0009 (vanne)
+                name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003 (vanne)
               - entity: sensor.zg_227z_15_battery
-                name: Chambre TBX7D_ORG_0010
-              - entity: sensor.zg_227z_08_chambre_TBX7D_ORG_0007_battery
-                name: Chambre TBX7D_ORG_0007
-              - entity: sensor.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_battery
-                name: Chambre TBX7D_ORG_0007 (vanne)
+                name: Chambre TBX9F_ORG_0005
+              - entity: sensor.zg_227z_08_chambre_TBX9F_ORG_0002_battery
+                name: Chambre TBX9F_ORG_0002
+              - entity: sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_battery
+                name: Chambre TBX9F_ORG_0002 (vanne)
               - entity: sensor.zg_227z_10_battery
                 name: Rez
               - entity: sensor.trv_btr_05_battery
@@ -3471,11 +3498,11 @@ views:
               - entity: sensor.zg_227z_03_battery
                 name: Déshumidificateur / Buanderie
               - entity: sensor.zg_227z_05_battery
-                name: Bureau TBX7D_ORG_0001
+                name: Bureau TBX9F_ORG_0001
               - entity: sensor.trv_btr_01_chambre_1er_sud_est_bureau_battery
-                name: Bureau TBX7D_ORG_0001 (vanne)
+                name: Bureau TBX9F_ORG_0001 (vanne)
               - entity: sensor.zg_227z_19_battery
-                name: Bureau TBX7D_ORG_0002
+                name: Bureau TBX9F_ID_0056
               - entity: sensor.zg_227z_02_battery
                 name: Salle de bain rez
               - entity: sensor.zg_227z_12_battery
@@ -3494,7 +3521,7 @@ views:
     header:
       card:
         type: markdown
-        content: |
+        content: >
           # 🧠 Santé du système
         text_only: true
     type: sections
@@ -3509,11 +3536,11 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📜 Résumé
+            name: "\U0001F4DC Résumé"
             grid_options:
               columns: full
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% set appareils = [
                 states('sensor.s1pm42_power'),
                 states('sensor.s1pm58_power'),
@@ -3534,11 +3561,9 @@ views:
                 🟠 {{ actifs }} appareil(s) actif(s)
               {% endif %}
             secondary: >
-              Surveillance des appareils à consommation variable et des seuils
-              de fonctionnement (12 h / 2 j)
+              Surveillance des appareils à consommation variable et des seuils de fonctionnement (12 h / 2 j)
             icon: >
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% set d =
-              states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
+              {% set e = states.get('sensor.sp1pm70_energy') %} {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
                 states('sensor.s1pm42_power')|float(0) > 8 or
                 states('sensor.s1pm44_power')|float(0) > 8 or
                 states('sensor.s1pm58_power')|float(0) > 8 or
@@ -3558,8 +3583,7 @@ views:
             grid_options:
               columns: full
             color: >
-              {% set e = states.get('sensor.sp1pm70_energy') %} {% set d =
-              states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
+              {% set e = states.get('sensor.sp1pm70_energy') %} {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %} {% if
                 states('sensor.s1pm42_power')|float(0) > 8 or
                 states('sensor.s1pm44_power')|float(0) > 8 or
                 states('sensor.s1pm58_power')|float(0) > 8 or
@@ -3584,13 +3608,12 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🚨 Alertes
+            name: "\U0001F6A8 Alertes"
             grid_options:
               columns: full
           - type: custom:mushroom-template-card
             primary: >
-              {% set bloq = has_value('sensor.sp1pm70_energy') and
-              (as_timestamp(now())
+              {% set bloq = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
                 - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
                 and states('sensor.sp1pm70_power') | float(0) < 1 %}
               {% if bloq %}
@@ -3598,7 +3621,7 @@ views:
               {% else %}
                 ✅ Pompe de dilatation ON
               {% endif %}
-            secondary: |
+            secondary: >
               {% if not has_value('sensor.sp1pm70_energy') %}
                 Compteur sp1pm70 introuvable
               {% else %}
@@ -3610,8 +3633,7 @@ views:
                 {% endif %}
               {% endif %}
             icon: >
-              {% set bloq = has_value('sensor.sp1pm70_energy') and
-              (as_timestamp(now())
+              {% set bloq = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
                 - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
                 and states('sensor.sp1pm70_power') | float(0) < 1 %}
               {% if bloq %}
@@ -3620,8 +3642,7 @@ views:
                 mdi:shield-check
               {% endif %}
             color: >
-              {% set bloq = has_value('sensor.sp1pm70_energy') and
-              (as_timestamp(now())
+              {% set bloq = has_value('sensor.sp1pm70_energy') and (as_timestamp(now())
                 - as_timestamp(states.sensor.sp1pm70_energy.last_changed)) > 43200
                 and states('sensor.sp1pm70_power') | float(0) < 1 %}
               {% if bloq %}
@@ -3636,21 +3657,17 @@ views:
             entity: switch.sp1pm70
           - type: custom:mushroom-template-card
             primary: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage')
-              %}  {% set connu = d not in ['unknown', 'unavailable', 'none'] %} 
-              {% set s = states('switch.s1pm58') %} {% if s == 'on' %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}  {% set connu = d not in ['unknown', 'unavailable', 'none'] %}  {% set s = states('switch.s1pm58') %} {% if s == 'on' %}
                 🍷 Cave à vin allumée
               {% elif s in ['unavailable', 'unknown'] %}
                   ⚠️ Switch cave à vin indisponible
-              {% elif not connu or (as_timestamp(now()) - as_timestamp(d)) >
-              172800 %}
+              {% elif not connu or (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
                 🚨 Cave à vin pas aérée depuis 2 jours
               {% else %}
                 ✅ Cave à vin aérée récemment
               {% endif %}
             secondary: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage')
-              %}  {% if states('switch.s1pm58') == 'on' %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}  {% if states('switch.s1pm58') == 'on' %}
                 Switch de la cave à vin allumé
               {% elif states('switch.s1pm58') in ['unavailable', 'unknown'] %}
                     Switch indisponible (dernière valeur connue : {% if d in ['unknown', 'unavailable', 'none'] %}inconnue{% else %}{{ ((as_timestamp(now()) - as_timestamp(d)) / 3600) | round(0) | int }} h{% endif %})
@@ -3661,19 +3678,15 @@ views:
                 Dernier allumage il y a {{ h }} h · seuil 48 h
               {% endif %}
             icon: >
-              {% set d = states('input_datetime.cave_a_vin_dernier_allumage')
-              %}  {% set s = states('switch.s1pm58') %} {% if s == 'on' %}
+              {% set d = states('input_datetime.cave_a_vin_dernier_allumage') %}  {% set s = states('switch.s1pm58') %} {% if s == 'on' %}
                 mdi:glass-wine
-              {% elif d in ['unknown', 'unavailable', 'none'] or
-              (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
+              {% elif d in ['unknown', 'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800 %}
                 mdi:alert-circle
               {% else %}
                 mdi:glass-wine
               {% endif %}
             color: >
-              {% set s = states('switch.s1pm58') %} {% if s in ['off',
-              'unavailable', 'unknown'] and (d in ['unknown', 'unavailable',
-              'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
+              {% set s = states('switch.s1pm58') %} {% if s in ['off', 'unavailable', 'unknown'] and (d in ['unknown', 'unavailable', 'none'] or (as_timestamp(now()) - as_timestamp(d)) > 172800) %}
                 orange
               {% else %}
                 green
@@ -3687,17 +3700,17 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
             grid_options:
               columns: full
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.s1pm42_power')|float(0) > 5 %}
                 🧽 Eponge active
               {% else %}
                 🧽 Eponge éteinte
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.s1pm42_power')|float(0) > 5
               %}
@@ -3706,7 +3719,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.s1pm42_power')|float(0) > 5
               %}
@@ -3715,13 +3728,13 @@ views:
                 green
               {% endif %}
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.sp1pm62_power')|float(0) > 5 %}
                 🍽️ Lavette active
               {% else %}
                 🍽️ Lavette éteinte
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.sp1pm62_power')|float(0) > 5
               %}
@@ -3730,7 +3743,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.sp1pm62_power')|float(0) > 5
               %}
@@ -3739,13 +3752,13 @@ views:
                 green
               {% endif %}
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.s1pm40_power')|float(0) > 5 %}
                 💨 Compresseur actif
               {% else %}
                 💨 Compresseur éteint
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.s1pm40_power')|float(0) > 5
               %}
@@ -3754,7 +3767,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.s1pm40_power')|float(0) > 5
               %}
@@ -3764,13 +3777,13 @@ views:
               {% endif %}
             entity: switch.s1pm40
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.sp1pm63_power')|float(0) > 8 %}
                 🖥️ Bureau FV actif
               {% else %}
                 🖥️ Bureau FV éteint
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.sp1pm63_power')|float(0) > 8
               %}
@@ -3779,7 +3792,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.sp1pm63_power')|float(0) > 8
               %}
@@ -3789,13 +3802,13 @@ views:
               {% endif %}
             entity: switch.sp1pm63
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.sp1pm61_power')|float(0) > 5 %}
                 🚜 Wall-e actif
               {% else %}
                 🚜 Wall-e éteint
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.sp1pm61_power')|float(0) > 5
               %}
@@ -3804,7 +3817,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.sp1pm61_power')|float(0) > 5
               %}
@@ -3814,13 +3827,13 @@ views:
               {% endif %}
             entity: switch.sp1pm61
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.s1pm58_power')|float(0) > 8 %}
                 🍷 Cave à vin active
               {% else %}
                 🍷 Cave à vin éteinte
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.s1pm58_power')|float(0) > 8
               %}
@@ -3829,7 +3842,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.s1pm58_power')|float(0) > 8
               %}
@@ -3839,13 +3852,13 @@ views:
               {% endif %}
             entity: switch.s1pm58
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if states('sensor.s1pm44_power')|float(0) > 8 %}
                 🚰 Pompe eau chaude active
               {% else %}
                 🚰 Pompe eau chaude éteinte
               {% endif %}
-            icon: |
+            icon: >
               {% if
                 states('sensor.s1pm44_power')|float(0) > 8
               %}
@@ -3854,7 +3867,7 @@ views:
                 mdi:shield-check
               {% endif %}
             features_position: bottom
-            color: |
+            color: >
               {% if
                 states('sensor.s1pm44_power')|float(0) > 8
               %}
@@ -3873,10 +3886,10 @@ views:
               columns: full
           - type: custom:mushroom-template-card
             primary: Éponge
-            secondary: |
+            secondary: >
               {{ states('sensor.s1pm42_power') }} W
             icon: mdi:power-cycle
-            icon_color: |
+            icon_color: >
               {% if states('sensor.s1pm42_power')|float(0) > 5 %}
                 orange
               {% else %}
@@ -3887,10 +3900,10 @@ views:
               entity: sensor.s1pm42_power
           - type: custom:mushroom-template-card
             primary: Lavette
-            secondary: |
+            secondary: >
               {{ states('sensor.sp1pm62_power') }} W
             icon: mdi:washing-machine
-            icon_color: |
+            icon_color: >
               {% if states('sensor.sp1pm62_power')|float(0) > 5 %}
                 orange
               {% else %}
@@ -3918,10 +3931,10 @@ views:
               columns: full
           - type: custom:mushroom-template-card
             primary: Compresseur
-            secondary: |
+            secondary: >
               {{ states('sensor.s1pm40_power') }} W
             icon: mdi:air-compressor
-            icon_color: |
+            icon_color: >
               {% if states('sensor.s1pm40_power')|float(0) > 5 %}
                 orange
               {% else %}
@@ -3932,10 +3945,10 @@ views:
               entity: sensor.s1pm40_power
           - type: custom:mushroom-template-card
             primary: Déshumidifacteur
-            secondary: |
+            secondary: >
               {{ states('sensor.s1pm59_power') }} W
             icon: mdi:power-cycle
-            color: |
+            color: >
               {% if states('sensor.s1pm59_power')|float(0) > 5 %}
                 orange
               {% else %}
@@ -3946,15 +3959,15 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 💻 Informatique
+            name: "\U0001F4BB Informatique"
             grid_options:
               columns: full
           - type: custom:mushroom-template-card
             primary: PC Game
-            secondary: |
+            secondary: >
               {{ states('sensor.sm25_power') }} W
             icon: mdi:desktop-classic
-            icon_color: |
+            icon_color: >
               {% if states('sensor.sm25_power')|float(0) > 10 %}
                 green
               {% else %}
@@ -3965,10 +3978,10 @@ views:
               entity: switch.sm25
           - type: custom:mushroom-template-card
             primary: Bureau / écrans
-            secondary: |
+            secondary: >
               {{ states('sensor.sm26_power') }} W
             icon: mdi:monitor-multiple
-            icon_color: |
+            icon_color: >
               {% if states('sensor.sm26_power')|float(0) > 10 %}
                 amber
               {% else %}
@@ -3979,10 +3992,10 @@ views:
               entity: switch.sm26
           - type: custom:mushroom-template-card
             primary: Prise bureau
-            secondary: |
+            secondary: >
               {{ states('sensor.sp1pm63_power') }} W
             icon: mdi:power-socket-fr
-            icon_color: |
+            icon_color: >
               {% if states('sensor.sp1pm63_power')|float(0) > 10 %}
                 orange
               {% else %}
@@ -3993,7 +4006,7 @@ views:
               entity: switch.sp1pm63
           - type: custom:mushroom-template-card
             primary: Serveurs
-            secondary: |
+            secondary: >
               {{ states('sensor.s1pm30_power') }} W
             icon: mdi:server
             icon_color: green
@@ -4004,7 +4017,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔌 Appareils permanents
+            name: "\U0001F50C Appareils permanents"
             grid_options:
               columns: full
           - type: entities
@@ -4013,22 +4026,24 @@ views:
             state_color: true
             entities:
               - entity: sensor.s1pm30_power
-                name: 🖥️ Serveurs
+                name: "\U0001F5A5️ Serveurs"
+              - entity: sensor.s1pm58_power
+                name: "\U0001F377 Cave"
               - entity: sensor.sp1pm64_power
-                name: 🍷 Cave
+                name: ❄️ Congélateur
               - entity: sensor.s1pm59_power
-                name: 💧 Déshumidificateur
-              - entity: sensor.s1pm43_power
-                name: 🔥 Chauffage
+                name: "\U0001F4A7 Déshumidificateur"
+              - entity: sensor.sp1pm71_power
+                name: "\U0001F525 Chaudière"
               - entity: sensor.s1pm44_power
-                name: 🚿 Boiler
+                name: "\U0001F6BF Pompe eau chaude"
               - entity: sensor.s1pm60_power
-                name: 💦 Culligan
+                name: "\U0001F4A6 Culligan"
       - type: grid
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📊 Historique
+            name: "\U0001F4CA Historique"
             grid_options:
               columns: full
           - type: custom:apexcharts-card
@@ -4249,7 +4264,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🔍 Surveillance'
+        content: "# \U0001F50D Surveillance"
   - type: sections
     title: Journal des automatisations
     path: automatisations
@@ -4260,7 +4275,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🤖 Automatisations
+            name: "\U0001F916 Automatisations"
             grid_options:
               columns: full
           - type: tile
@@ -4305,7 +4320,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 💾 Sauvegardes NAS
+            name: "\U0001F4BE Sauvegardes NAS"
             grid_options:
               columns: full
           - type: tile
@@ -4336,7 +4351,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔋 UPS
+            name: "\U0001F50B UPS"
             grid_options:
               columns: full
           - type: tile
@@ -4366,7 +4381,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 💡 Éclairage automatique
+            name: "\U0001F4A1 Éclairage automatique"
             grid_options:
               columns: full
           - type: tile
@@ -4393,7 +4408,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔥 Chauffage
+            name: "\U0001F525 Chauffage"
             grid_options:
               columns: full
           - type: tile
@@ -4408,8 +4423,8 @@ views:
             entities:
               - entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
                 name: Bureau
-              - entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
-                name: Chambre TBX7D_ORG_0007
+              - entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
+                name: Chambre TBX9F_ORG_0002
               - entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
                 name: Chambre enfants
               - entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
@@ -4422,7 +4437,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
             grid_options:
               columns: full
           - type: entities
@@ -4451,7 +4466,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📜 Historique
+            name: "\U0001F4DC Historique"
             grid_options:
               columns: full
           - type: logbook
@@ -4495,7 +4510,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🏝️ Vacances
+            name: "\U0001F3DD️ Vacances"
             grid_options:
               columns: full
           - type: tile
@@ -4548,7 +4563,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 📰 Journalisation des automations
   - title: Boutons
     path: boutons
@@ -4562,7 +4577,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🚪 Portes
+            name: "\U0001F6AA Portes"
           - type: tile
             entity: lock.porte_1er
             features:
@@ -4575,7 +4590,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 💡 Lumières
+            name: "\U0001F4A1 Lumières"
           - type: tile
             entity: switch.s1pm31
             icon: mdi:lamps-outline
@@ -4600,7 +4615,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🚗 Garages
+            name: "\U0001F697 Garages"
           - type: tile
             entity: switch.s146
             name: Garage gauche
@@ -4618,7 +4633,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🎛️ Divers
+            name: "\U0001F39B️ Divers"
           - color: lime
             type: tile
             show_entity_picture: false
@@ -4635,7 +4650,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧺 Buanderie
+            name: "\U0001F9FA Buanderie"
           - color: pink
             type: tile
             entity: switch.s1pm59
@@ -4654,7 +4669,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🖥️ Bureau FV
+            name: "\U0001F5A5️ Bureau FV"
           - type: tile
             entity: switch.sm26
             name: Bureau Ecrans
@@ -4682,7 +4697,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🛠️ Atelier
+            name: "\U0001F6E0️ Atelier"
           - type: tile
             entity: switch.msws65_atelier
             icon: ''
@@ -4758,7 +4773,7 @@ views:
               action: more-info
             features_position: bottom
           - type: tile
-            entity: sensor.s1pm58_power
+            entity: switch.s1pm58
             name: Cave à vin
             icon: mdi:glass-wine
             color: red
@@ -4771,7 +4786,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🎄 Noël
+            name: "\U0001F384 Noël"
           - type: tile
             entity: switch.sb18
             name: 'Lumières et Noël '
@@ -4793,7 +4808,7 @@ views:
             vertical: false
             features_position: bottom
           - type: tile
-            entity: switch.s1pm43
+            entity: switch.sp1pm71
             name: Chaudière
             color: light-blue
             show_entity_picture: false
@@ -4805,14 +4820,14 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔌 Tasmorallonges
-          - color: cyan
-            type: tile
-            show_entity_picture: false
+            name: "\U0001F50C Tasmorallonges"
+          - type: tile
+            entity: switch.sb24
             name: Tasmorallonge
-            features_position: bottom
+            color: cyan
+            show_entity_picture: false
             vertical: false
-            entity: switch.sb24_sb24_tasmorallonge
+            features_position: bottom
           - color: light-green
             type: tile
             show_entity_picture: false
@@ -4822,7 +4837,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 🔘 Toutes les intéractions
     footer:
       type: markdown
@@ -4838,7 +4853,7 @@ views:
       - type: grid
         cards:
           - type: custom:mushroom-template-card
-            primary: |
+            primary: >
               {% if is_state('input_boolean.holiday_mode','on') %}
                 🌴 Mode vacances
               {% else %}
@@ -4851,7 +4866,7 @@ views:
               action: toggle
             grid_options:
               columns: full
-            color: |
+            color: >
               {% if is_state('input_boolean.holiday_mode','on') %}
                 blue
               {% else %}
@@ -4876,7 +4891,7 @@ views:
           - type: thermostat
             name: Chambre à coucher
             show_current_as_primary: true
-            entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+            entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
       - type: grid
         cards:
           - type: thermostat
@@ -5076,7 +5091,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 🧼 Lavette
     footer:
       type: markdown
@@ -5111,18 +5126,18 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # ⛀ Lucien
     footer:
       type: markdown
       content: ''
   - theme: Backend-selected
-    title: Natel de TBX7D_ORG_0001
-    path: natel-de-TBX7D_ORG_0001
+    title: Natel de TBX9F_ORG_0001
+    path: natel-de-TBX9F_ORG_0001
     icon: mdi:cellphone
     visible:
-      - user: TBX7D_CRED_0002
-      - user: TBX7D_CRED_0001
+      - user: TBX9F_CRED_0001
+      - user: TBX9F_CRED_0002
     badges: []
     type: sections
     max_columns: 1
@@ -5130,7 +5145,7 @@ views:
       - type: grid
         cards:
           - type: gauge
-            entity: sensor.TBX7D_ORG_0005_battery_level
+            entity: sensor.TBX9F_ORG_0008_battery_level
             min: 1
             max: 100
             severity:
@@ -5188,7 +5203,7 @@ views:
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.TBX7D_ORG_0005_battery_level
+              - entity: sensor.TBX9F_ORG_0008_battery_level
                 name: Niveau de la batterie
                 color: var(--info-color)
                 type: area
@@ -5200,8 +5215,8 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
-          # 📱 Natel de TBX7D_ORG_0001
+        content: >
+          # 📱 Natel de TBX9F_ORG_0001
     footer:
       type: markdown
       content: ''
@@ -5222,7 +5237,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 🖥️ TV des Dous
     footer:
       type: markdown
@@ -5237,14 +5252,14 @@ views:
         show_name: true
         show_state: true
         show_icon: true
-        entity: media_player.chambre_yoto_d_TBX7D_ORG_0010
+        entity: media_player.chambre_yoto_d_TBX9F_ORG_0005
         color: deep-orange
     max_columns: 1
     header:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 🎧 Yoto
     footer:
       type: markdown
@@ -5280,7 +5295,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: |
+        content: >
           # 🔋 UPS
     footer:
       type: markdown
@@ -5295,37 +5310,42 @@ views:
       grid-gap: 8px
       grid-template-columns: repeat(12, minmax(0, 1fr))
       grid-template-areas: >
-        "wan wan wan wan devices devices devices devices adguard adguard adguard
-        adguard"
+        "wan wan wan wan devices devices devices devices adguard adguard adguard adguard"
 
-        "router router router router router router router router router router
-        router router"
+        "router router router router router router router router router router router router"
 
-        "floor floor floor floor floor floor ground ground ground ground ground
-        ground"
+        "floor floor floor floor floor floor ground ground ground ground ground ground"
       mediaquery:
         '(max-width: 1100px)':
           grid-template-columns: repeat(2, minmax(0, 1fr))
-          grid-template-areas: |
+          grid-template-areas: >
             "wan devices"
+
             "adguard adguard"
+
             "router router"
+
             "floor ground"
         '(max-width: 700px)':
           grid-template-columns: 1fr
-          grid-template-areas: |
+          grid-template-areas: >
             "wan"
+
             "devices"
+
             "adguard"
+
             "router"
+
             "floor"
+
             "ground"
     cards:
       - type: custom:stack-in-card
         view_layout:
           grid-area: wan
         card_mod:
-          style: |
+          style: >
             ha-card {
               height: 214px;
               overflow: hidden;
@@ -5353,11 +5373,11 @@ views:
                 show_icon: true
                 show_state: true
                 show_label: true
-                label: |
+                label: >
                   [[[
-                    return entity?.attributes?.ip_address || "198.18.1.16";
+                    return entity?.attributes?.ip_address || "198.18.0.16";
                   ]]]
-                state_display: |
+                state_display: >
                   [[[
                     const value = parseFloat(entity?.state);
                     return Number.isFinite(value) ? value.toFixed(1) + "%" : "N/C";
@@ -5397,11 +5417,11 @@ views:
                 show_icon: true
                 show_state: true
                 show_label: true
-                label: |
+                label: >
                   [[[
-                    return entity?.attributes?.remote_ip || "198.18.2.78";
+                    return entity?.attributes?.remote_ip || "198.18.1.78";
                   ]]]
-                state_display: |
+                state_display: >
                   [[[
                     const value = parseFloat(entity?.state);
                     return Number.isFinite(value) ? value.toFixed(1) + "%" : "N/C";
@@ -5440,11 +5460,11 @@ views:
                 show_icon: true
                 show_state: true
                 show_label: true
-                label: |
+                label: >
                   [[[
                     return entity?.state === "on" ? "UP" : "DOWN";
                   ]]]
-                state_display: |
+                state_display: >
                   [[[
                     return entity?.state === "on" ? "OK" : "N/C";
                   ]]]
@@ -5479,7 +5499,7 @@ views:
         view_layout:
           grid-area: devices
         card_mod:
-          style: |
+          style: >
             ha-card {
               height: 214px;
               overflow: hidden;
@@ -5507,7 +5527,7 @@ views:
                 show_icon: true
                 show_state: true
                 show_label: true
-                label: |
+                label: >
                   [[[
                     const total = entity?.attributes?.maximum || 42;
                     return String(total);
@@ -5545,7 +5565,7 @@ views:
                 show_icon: true
                 show_state: true
                 show_label: true
-                label: |
+                label: >
                   [[[
                     const total = entity?.attributes?.maximum || 28;
                     return String(total);
@@ -5583,7 +5603,7 @@ views:
                 show_icon: true
                 show_state: true
                 show_label: true
-                label: |
+                label: >
                   [[[
                     const total = entity?.attributes?.maximum || 11;
                     return String(total);
@@ -5618,7 +5638,7 @@ views:
         view_layout:
           grid-area: adguard
         card_mod:
-          style: |
+          style: >
             ha-card {
               height: 214px;
               overflow: hidden;
@@ -5658,7 +5678,7 @@ views:
                     - grid-template-rows: 33px 22px
                   icon:
                     - width: 31px
-                    - color: |
+                    - color: >
                         [[[
                           return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
                         ]]]
@@ -5683,7 +5703,7 @@ views:
                     - grid-template-rows: 33px 22px
                   icon:
                     - width: 31px
-                    - color: |
+                    - color: >
                         [[[
                           return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
                         ]]]
@@ -5708,7 +5728,7 @@ views:
                     - grid-template-rows: 33px 22px
                   icon:
                     - width: 31px
-                    - color: |
+                    - color: >
                         [[[
                           return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
                         ]]]
@@ -5733,7 +5753,7 @@ views:
                     - grid-template-rows: 33px 22px
                   icon:
                     - width: 31px
-                    - color: |
+                    - color: >
                         [[[
                           return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
                         ]]]
@@ -5758,7 +5778,7 @@ views:
                     - grid-template-rows: 33px 22px
                   icon:
                     - width: 31px
-                    - color: |
+                    - color: >
                         [[[
                           return entity?.state === "on" ? "var(--warning-color)" : "var(--secondary-text-color)";
                         ]]]
@@ -5805,7 +5825,7 @@ views:
                     show:
                       legend_value: false
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       height: 119px;
                       padding: 0 2px !important;
@@ -5813,14 +5833,17 @@ views:
                       border: none;
                       box-shadow: none;
                     }
+
                     .header {
                       min-height: 27px !important;
                       padding: 0 8px !important;
                     }
+
                     .state__value {
                       font-size: 15px !important;
                       color: var(--secondary-text-color) !important;
                     }
+
                     .state__name {
                       font-size: 8px !important;
                       color: var(--disabled-text-color) !important;
@@ -5857,7 +5880,7 @@ views:
                     show:
                       legend_value: false
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       height: 119px;
                       padding: 0 2px !important;
@@ -5865,14 +5888,17 @@ views:
                       border: none;
                       box-shadow: none;
                     }
+
                     .header {
                       min-height: 27px !important;
                       padding: 0 8px !important;
                     }
+
                     .state__value {
                       font-size: 15px !important;
                       color: var(--secondary-text-color) !important;
                     }
+
                     .state__name {
                       font-size: 8px !important;
                       color: var(--disabled-text-color) !important;
@@ -5909,7 +5935,7 @@ views:
                     show:
                       legend_value: false
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       height: 119px;
                       padding: 0 2px !important;
@@ -5917,14 +5943,17 @@ views:
                       border: none;
                       box-shadow: none;
                     }
+
                     .header {
                       min-height: 27px !important;
                       padding: 0 8px !important;
                     }
+
                     .state__value {
                       font-size: 15px !important;
                       color: var(--secondary-text-color) !important;
                     }
+
                     .state__name {
                       font-size: 8px !important;
                       color: var(--disabled-text-color) !important;
@@ -5933,7 +5962,7 @@ views:
         view_layout:
           grid-area: router
         card_mod:
-          style: |
+          style: >
             ha-card {
               background: var(--card-background-color);
               border: 0 !important;
@@ -5956,7 +5985,7 @@ views:
               - type: custom:button-card
                 entity: sensor.router_model
                 icon: mdi:information-variant
-                name: |
+                name: >
                   [[[
                     return "Model: " + (entity?.state || "Vigor2927L");
                   ]]]
@@ -5981,9 +6010,9 @@ views:
               - type: custom:button-card
                 entity: sensor.router_firmware
                 icon: mdi:alert-outline
-                name: |
+                name: >
                   [[[
-                    return "FW Ver: " + (entity?.state || "198.18.3.3");
+                    return "FW Ver: " + (entity?.state || "198.18.2.3");
                   ]]]
                 show_state: false
                 styles:
@@ -6006,7 +6035,7 @@ views:
               - type: custom:button-card
                 entity: sensor.router_uptime
                 icon: mdi:clock-alert-outline
-                name: |
+                name: >
                   [[[
                     return "Uptime: " + (entity?.state || "13d 17h 57m");
                   ]]]
@@ -6110,7 +6139,7 @@ views:
                     color: var(--success-color)
                     type: area
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       height: 316px;
                       padding: 0 7px !important;
@@ -6119,10 +6148,12 @@ views:
                       border-radius: 0;
                       box-shadow: none;
                     }
+
                     .header {
                       min-height: 38px !important;
                       padding: 0 !important;
                     }
+
                     .header__title {
                       display: flex;
                       align-items: center;
@@ -6132,7 +6163,9 @@ views:
                       font-size: 13px !important;
                       font-weight: 400 !important;
                     }
+
                     .header__title::before,
+
                     .header__title::after {
                       content: "";
                       height: 1px;
@@ -6210,7 +6243,7 @@ views:
                     color: var(--orange-color)
                     type: area
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       height: 316px;
                       padding: 0 7px !important;
@@ -6219,10 +6252,12 @@ views:
                       border-radius: 0;
                       box-shadow: none;
                     }
+
                     .header {
                       min-height: 38px !important;
                       padding: 0 !important;
                     }
+
                     .header__title {
                       display: flex;
                       align-items: center;
@@ -6232,7 +6267,9 @@ views:
                       font-size: 13px !important;
                       font-weight: 400 !important;
                     }
+
                     .header__title::before,
+
                     .header__title::after {
                       content: "";
                       height: 1px;
@@ -6304,7 +6341,7 @@ views:
                       func: avg
                       duration: 1min
                 card_mod:
-                  style: |
+                  style: >
                     ha-card {
                       height: 316px;
                       padding: 0 7px !important;
@@ -6313,10 +6350,12 @@ views:
                       border-radius: 0;
                       box-shadow: none;
                     }
+
                     .header {
                       min-height: 38px !important;
                       padding: 0 !important;
                     }
+
                     .header__title {
                       display: flex;
                       align-items: center;
@@ -6326,7 +6365,9 @@ views:
                       font-size: 13px !important;
                       font-weight: 400 !important;
                     }
+
                     .header__title::before,
+
                     .header__title::after {
                       content: "";
                       height: 1px;
@@ -6337,7 +6378,7 @@ views:
         view_layout:
           grid-area: floor
         card_mod:
-          style: |
+          style: >
             ha-card {
               background: var(--card-background-color);
               border: 0 !important;
@@ -6355,7 +6396,7 @@ views:
             show_state: false
             show_name: false
             custom_fields:
-              information: |
+              information: >
                 [[[
                   const firmware =
                     states["sensor.ap_floor_firmware"]?.state || "1.4.9";
@@ -6389,13 +6430,14 @@ views:
                   - width: 100%
                   - color: var(--secondary-text-color)
                   - font-size: 12px
-            extra_styles: |
+            extra_styles: >
               .info-line {
                 display: flex;
                 align-items: center;
                 gap: 7px;
                 height: 27px;
               }
+
               .info-line ha-icon {
                 width: 20px;
                 color: var(--secondary-text-color);
@@ -6468,7 +6510,7 @@ views:
                 color: var(--info-color)
                 type: area
             card_mod:
-              style: |
+              style: >
                 ha-card {
                   height: 311px;
                   padding: 0 9px !important;
@@ -6477,10 +6519,12 @@ views:
                   border-radius: 0;
                   box-shadow: none;
                 }
+
                 .header {
                   min-height: 38px !important;
                   padding: 0 !important;
                 }
+
                 .header__title {
                   display: flex;
                   align-items: center;
@@ -6490,7 +6534,9 @@ views:
                   font-size: 13px !important;
                   font-weight: 400 !important;
                 }
+
                 .header__title::before,
+
                 .header__title::after {
                   content: "";
                   height: 1px;
@@ -6501,7 +6547,7 @@ views:
         view_layout:
           grid-area: ground
         card_mod:
-          style: |
+          style: >
             ha-card {
               background: var(--card-background-color);
               border: 0 !important;
@@ -6519,7 +6565,7 @@ views:
             show_state: false
             show_name: false
             custom_fields:
-              information: |
+              information: >
                 [[[
                   const firmware =
                     states["sensor.ap_ground_firmware"]?.state || "1.4.9";
@@ -6553,13 +6599,14 @@ views:
                   - width: 100%
                   - color: var(--secondary-text-color)
                   - font-size: 12px
-            extra_styles: |
+            extra_styles: >
               .info-line {
                 display: flex;
                 align-items: center;
                 gap: 7px;
                 height: 27px;
               }
+
               .info-line ha-icon {
                 width: 20px;
                 color: var(--secondary-text-color);
@@ -6632,7 +6679,7 @@ views:
                 color: var(--purple-color)
                 type: area
             card_mod:
-              style: |
+              style: >
                 ha-card {
                   height: 311px;
                   padding: 0 9px !important;
@@ -6641,10 +6688,12 @@ views:
                   border-radius: 0;
                   box-shadow: none;
                 }
+
                 .header {
                   min-height: 38px !important;
                   padding: 0 !important;
                 }
+
                 .header__title {
                   display: flex;
                   align-items: center;
@@ -6654,7 +6703,9 @@ views:
                   font-size: 13px !important;
                   font-weight: 400 !important;
                 }
+
                 .header__title::before,
+
                 .header__title::after {
                   content: "";
                   height: 1px;

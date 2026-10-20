@@ -1,0 +1,48 @@
+// WebSocket : config/floor_registry/list
+{
+  "atelier": {
+    "aliases": [],
+    "created_at": 1786105236.281164,
+    "floor_id": "atelier",
+    "icon": "mdi:circular-saw",
+    "level": 0,
+    "name": "Atelier",
+    "modified_at": 1786105236.281167
+  },
+  "downstairs": {
+    "aliases": [],
+    "created_at": 0.0,
+    "floor_id": "downstairs",
+    "icon": null,
+    "level": 0,
+    "name": "Downstairs",
+    "modified_at": 0.0
+  },
+  "first_floor": {
+    "aliases": [],
+    "created_at": 0.0,
+    "floor_id": "first_floor",
+    "icon": null,
+    "level": 1,
+    "name": "First floor",
+    "modified_at": 0.0
+  },
+  "outside": {
+    "aliases": [],
+    "created_at": 0.0,
+    "floor_id": "outside",
+    "icon": "mdi:sun-thermometer-outline",
+    "level": null,
+    "name": "Outside",
+    "modified_at": 0.0
+  },
+  "roof": {
+    "aliases": [],
+    "created_at": 1787565766.276887,
+    "floor_id": "roof",
+    "icon": "mdi:home-roof",
+    "level": 2,
+    "name": "Roof",
+    "modified_at": 1787565766.27689
+  }
+}

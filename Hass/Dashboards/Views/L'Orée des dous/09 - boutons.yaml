@@ -1,0 +1,278 @@
+title: Boutons
+path: boutons
+icon: mdi:toggle-switch-off
+subview: false
+badges: []
+type: sections
+max_columns: 1
+sections:
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F6AA Portes"
+      - type: tile
+        entity: lock.porte_1er
+        features:
+          - type: lock-commands
+      - type: tile
+        entity: lock.porte_rez
+        features:
+          - type: lock-commands
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4A1 Lumières"
+      - type: tile
+        entity: switch.s1pm31
+        icon: mdi:lamps-outline
+        color: orange
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: switch.sm27_lumiere_bureau
+        name: Lumière bureau
+        icon: mdi:office-building
+        color: amber
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
+      - color: blue-grey
+        type: tile
+        show_entity_picture: false
+        entity: switch.sm35
+        name: Lumière réduit
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F697 Garages"
+      - type: tile
+        entity: switch.s146
+        name: Garage gauche
+        icon: mdi:garage
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: switch.s168
+        name: Garage droite
+        icon: ''
+        color: purple
+        vertical: false
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F39B️ Divers"
+      - color: lime
+        type: tile
+        show_entity_picture: false
+        entity: switch.sb50
+        name: TV des Dous
+      - color: black
+        type: tile
+        show_entity_picture: false
+        entity: switch.sb15
+        name: HDD NAS des Dous
+        features_position: bottom
+        vertical: false
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F9FA Buanderie"
+      - color: pink
+        type: tile
+        entity: switch.s1pm59
+        show_entity_picture: false
+        name: 'Deshumidificateur '
+      - type: tile
+        entity: switch.s1pm44
+        name: Pompe eau chaude
+        color: blue
+        show_entity_picture: false
+        vertical: false
+        tap_action:
+          action: toggle
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F5A5️ Bureau FV"
+      - type: tile
+        entity: switch.sm26
+        name: Bureau Ecrans
+        color: purple
+        show_entity_picture: false
+        vertical: false
+        tap_action:
+          action: toggle
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+      - type: tile
+        entity: switch.sm25
+        name: PC Game
+        color: green
+        show_entity_picture: false
+        vertical: false
+        tap_action:
+          action: toggle
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+    column_span: 1
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F6E0️ Atelier"
+      - type: tile
+        entity: switch.msws65_atelier
+        icon: ''
+        color: light-blue
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: switch.s1pm40
+        icon: ''
+        color: green
+        show_entity_picture: false
+        vertical: false
+        tap_action:
+          action: toggle
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: ⚡ Mesures
+      - color: cyan
+        type: tile
+        show_entity_picture: false
+        entity: switch.s1pm42
+        name: Eponge
+      - color: teal
+        type: tile
+        show_entity_picture: false
+        entity: switch.sp1pm62
+        features_position: bottom
+        vertical: false
+      - type: tile
+        entity: switch.sp1pm61
+        icon: ''
+        color: cyan
+        show_entity_picture: false
+        vertical: false
+        tap_action:
+          action: toggle
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+      - type: tile
+        entity: switch.s1pm30
+        name: Serveurs
+        icon: mdi:server-network
+        color: green
+        show_entity_picture: false
+        vertical: false
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+      - type: tile
+        entity: switch.sp1pm63
+        name: Prise bureau
+        color: deep-orange
+        show_entity_picture: false
+        vertical: false
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+      - type: tile
+        entity: switch.sp1pm64
+        name: Congélateur
+        icon: mdi:snowflake
+        color: red
+        show_entity_picture: false
+        vertical: false
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+      - type: tile
+        entity: switch.s1pm58
+        name: Cave à vin
+        icon: mdi:glass-wine
+        color: red
+        show_entity_picture: false
+        vertical: false
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F384 Noël"
+      - type: tile
+        entity: switch.sb18
+        name: 'Lumières et Noël '
+        icon: mdi:string-lights
+        color: yellow
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: ♨️ Chauffage
+      - type: tile
+        entity: switch.sp1pm70
+        name: Pompe dilatation chaudière
+        color: teal
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: switch.sp1pm71
+        name: Chaudière
+        color: light-blue
+        show_entity_picture: false
+        vertical: false
+        icon_tap_action:
+          action: more-info
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F50C Tasmorallonges"
+      - type: tile
+        entity: switch.sb24
+        name: Tasmorallonge
+        color: cyan
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
+      - color: light-green
+        type: tile
+        show_entity_picture: false
+        entity: switch.sb20
+        name: Tasmorallonge vacances
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 🔘 Toutes les intéractions
+footer:
+  type: markdown
+  content: ''
+cards: []

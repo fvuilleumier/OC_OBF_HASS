@@ -3,7 +3,7 @@
   description: 'Lance la ventilation des toilettes lorsque la lumière s''éteint '
   triggers:
   - type: turned_off
-    device_id: TBX7D_SECRET_0166
+    device_id: 666304389bac4f6e90d0c160ad98c6b6
     entity_id: switch.sm25
     domain: switch
     for:
@@ -25,12 +25,12 @@
     - sat
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0167
+    device_id: a8fa80bf566d4a2292ea7dc8a110dace
     entity_id: switch.sm26
     domain: switch
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0166
+    device_id: 666304389bac4f6e90d0c160ad98c6b6
     entity_id: switch.sm25
     domain: switch
   - condition: state
@@ -38,7 +38,7 @@
     state: 'on'
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0167
+    device_id: a8fa80bf566d4a2292ea7dc8a110dace
     entity_id: switch.sm26
     domain: switch
   - data: {}
@@ -51,7 +51,7 @@
   description: 'Arrête la ventilation des toilettes '
   triggers:
   - type: turned_on
-    device_id: TBX7D_SECRET_0167
+    device_id: a8fa80bf566d4a2292ea7dc8a110dace
     entity_id: switch.sm26
     domain: switch
     for:
@@ -62,7 +62,7 @@
   conditions: []
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0167
+    device_id: a8fa80bf566d4a2292ea7dc8a110dace
     entity_id: switch.sm26
     domain: switch
   - data: {}
@@ -87,8 +87,8 @@
       data:
         ttl: 0
         priority: high
-    action: notify.TBX7D_SECRET_0192
-  - action: notify.TBX7D_SECRET_0191
+    action: notify.TBX9F_SECRET_0001
+  - action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
     data:
       title: ⚠️⚠️⚠️Lavette à terminé son programme⚠️⚠️⚠️
       message: Lavette à terminé son programme, vous pouvez aller pendre le linge
@@ -96,11 +96,11 @@
         ttl: 0
         priority: high
   mode: single
-- id: '900000004'
+- id: '900000005'
   alias: Lucien - end task correctly
   description: ''
   triggers:
-  - device_id: TBX7D_SECRET_0168
+  - device_id: 665318fbffe74b4db09ed0dd837908a6
     domain: vacuum
     entity_id: vacuum.ducon
     type: docked
@@ -110,13 +110,13 @@
   - data:
       message: Ducon a terminé sa tâche avec succès
       title: Ducon a terminé sa tâche avec succès
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   - data:
       message: Ducon a terminé sa tâche avec succès
       title: Ducon a terminé sa tâche avec succès
-    action: notify.TBX7D_SECRET_0191
+    action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
   mode: single
-- id: '900000005'
+- id: '900000006'
   alias: Lucien - end task with error
   description: ''
   triggers:
@@ -129,31 +129,31 @@
   - data:
       message: Ducon a terminé sa tâche mais est conincé
       title: Ducon a terminé sa tâche mais est conincé
-    action: notify.mobile_app_pixel_de_TBX7D_ORG_0001
+    action: notify.mobile_app_pixel_de_TBX9F_ORG_0001
   mode: single
-- id: '900000006'
+- id: '900000007'
   alias: Lucien - Bin full
   description: ''
   triggers:
   - type: turned_on
-    device_id: TBX7D_SECRET_0168
+    device_id: 665318fbffe74b4db09ed0dd837908a6
     entity_id: binary_sensor.ducon_bin_full
     domain: binary_sensor
     trigger: device
   conditions: []
   actions:
   - data: {}
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   - data:
       message: Ducon est plein et doit être vidé
       title: Ducon est plein et doit être vidé
-    action: notify.TBX7D_SECRET_0191
+    action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
   mode: single
-- id: '900000007'
+- id: '900000008'
   alias: Lucien - Task started
   description: ''
   triggers:
-  - device_id: TBX7D_SECRET_0168
+  - device_id: 665318fbffe74b4db09ed0dd837908a6
     domain: vacuum
     entity_id: vacuum.ducon
     type: cleaning
@@ -173,19 +173,19 @@
   - data:
       message: Ducon commence sa tâche
       title: Ducon commence sa tâche
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   - data:
       message: Ducon commence sa tâche
       title: Ducon commence sa tâche
-    action: notify.TBX7D_SECRET_0191
+    action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
   mode: single
-- id: '900000008'
+- id: '900000009'
   alias: Lumière toilettes rez was on
   description: After 1min, toggle lumière rez
   trigger:
   - platform: device
     type: turned_on
-    device_id: TBX7D_SECRET_0166
+    device_id: 666304389bac4f6e90d0c160ad98c6b6
     entity_id: switch.sm25
     domain: switch
     for:
@@ -195,7 +195,7 @@
   condition:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0166
+    device_id: 666304389bac4f6e90d0c160ad98c6b6
     entity_id: switch.sm25
     domain: switch
     for:
@@ -208,7 +208,7 @@
     target:
       entity_id: input_boolean.lumiere_toilettes_rez_was_on
   mode: single
-- id: '900000009'
+- id: '900000010'
   alias: Sapin de Noël On
   description: ''
   triggers:
@@ -219,16 +219,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0172
-    entity_id: TBX7D_SECRET_0195
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
+    entity_id: e43f626068fc430097cf501bb3e8ad85
     domain: switch
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0172
-    entity_id: TBX7D_SECRET_0195
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
+    entity_id: e43f626068fc430097cf501bb3e8ad85
     domain: switch
   mode: single
-- id: '900000010'
+- id: '900000011'
   alias: Sapin de Noël Off
   description: ''
   triggers:
@@ -239,16 +239,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0172
-    entity_id: TBX7D_SECRET_0195
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
+    entity_id: e43f626068fc430097cf501bb3e8ad85
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0172
-    entity_id: TBX7D_SECRET_0195
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
+    entity_id: e43f626068fc430097cf501bb3e8ad85
     domain: switch
   mode: single
-- id: '900000011'
+- id: '900000012'
   alias: Vacances lampe salon ON
   description: 'Lampe salon
 
@@ -299,16 +299,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0169
+    device_id: d5b9e010225648128f85fc2628612bd4
     entity_id: switch.s1pm31
     domain: switch
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0169
+    device_id: d5b9e010225648128f85fc2628612bd4
     entity_id: switch.s1pm31
     domain: switch
   mode: single
-- id: '900000012'
+- id: '900000013'
   alias: Vacances lampe salon OFF
   description: 'Lampe salon
 
@@ -359,17 +359,17 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0169
+    device_id: d5b9e010225648128f85fc2628612bd4
     entity_id: switch.s1pm31
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0169
+    device_id: d5b9e010225648128f85fc2628612bd4
     entity_id: switch.s1pm31
     domain: switch
   mode: single
-- id: '900000013'
-  alias: Vacances enfants ON
+- id: '900000014'
+  alias: Vacances lampe enfants (SdJ Tasmorallonge) ON
   description: 'Lampe salon
 
     7h00-8h00
@@ -417,19 +417,21 @@
   - at: '19:30:00'
     trigger: time
   conditions:
-  - condition: device
-    type: is_off
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - condition: switch.is_off
+    target:
+      entity_id: switch.sb24
+    options:
+      behavior: any
+      for: 00:00:00
   actions:
-  - type: turn_on
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      device_id: 09850ae4b1214b1aa7accc6ead57dca8
+    data: {}
   mode: single
-- id: '900000014'
-  alias: Vacances enfants OFF
+- id: '900000015'
+  alias: Vacances lampe enfants (SdJ Tasmorallonge) OFF
   description: 'Lampe salon
 
     7h00-8h00
@@ -477,18 +479,20 @@
   - at: '20:00:00'
     trigger: time
   conditions:
-  - condition: device
-    type: is_on
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - condition: switch.is_on
+    target:
+      entity_id: switch.sb24
+    options:
+      behavior: any
+      for: 00:00:00
   actions:
-  - type: turn_off
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id: switch.sb24
+    data: {}
   mode: single
-- id: '900000015'
+- id: '900000016'
   alias: Vacances chambre ON
   description: 'Lampe salon
 
@@ -537,16 +541,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0172
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
     entity_id: switch.sb20
     domain: switch
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0172
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
     entity_id: switch.sb20
     domain: switch
   mode: single
-- id: '900000016'
+- id: '900000017'
   alias: Vacances chambre OFF
   description: 'Lampe salon
 
@@ -595,21 +599,21 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0172
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
     entity_id: switch.sb20
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0172
+    device_id: 09850ae4b1214b1aa7accc6ead57dca8
     entity_id: switch.sb20
     domain: switch
   mode: single
-- id: '900000017'
+- id: '900000018'
   alias: Toilettes 1er after 45min OFF
   description: ''
   triggers:
   - type: turned_on
-    device_id: TBX7D_SECRET_0189
+    device_id: 54515092751946669a416e167ef9a12f
     entity_id: light.sb41
     domain: light
     for:
@@ -620,21 +624,21 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0189
+    device_id: 54515092751946669a416e167ef9a12f
     entity_id: light.sb41
     domain: light
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0189
+    device_id: 54515092751946669a416e167ef9a12f
     entity_id: light.sb41
     domain: light
   mode: single
-- id: '900000018'
+- id: '900000019'
   alias: Lumières exterieur after 2h OFF
   description: ''
   triggers:
   - type: turned_on
-    device_id: TBX7D_SECRET_0173
+    device_id: 62553bf15bb24c329d9b242a066e63e6
     entity_id: switch.sm28_lumieres_exterieur
     domain: switch
     for:
@@ -645,22 +649,22 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0173
+    device_id: 62553bf15bb24c329d9b242a066e63e6
     entity_id: switch.sm28_lumieres_exterieur
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0173
+    device_id: 62553bf15bb24c329d9b242a066e63e6
     entity_id: switch.sm28_lumieres_exterieur
     domain: switch
   mode: single
-- id: '900000019'
+- id: '900000020'
   alias: Eponge started
   description: ''
   trigger:
   - type: power
     platform: device
-    device_id: TBX7D_SECRET_0175
+    device_id: ea22f59edf204f22af953a2c7b495617
     entity_id: sensor.s1pm42_power
     domain: sensor
     above: 20
@@ -674,12 +678,12 @@
     target:
       entity_id: input_boolean.eponge_started
   mode: single
-- id: '900000020'
+- id: '900000021'
   alias: Eponge finished
   description: ''
   triggers:
   - type: power
-    device_id: TBX7D_SECRET_0175
+    device_id: ea22f59edf204f22af953a2c7b495617
     entity_id: sensor.s1pm42_power
     domain: sensor
     for:
@@ -694,7 +698,7 @@
     state: 'on'
   - type: is_power
     condition: device
-    device_id: TBX7D_SECRET_0175
+    device_id: ea22f59edf204f22af953a2c7b495617
     entity_id: sensor.s1pm42_power
     domain: sensor
     below: 7
@@ -717,7 +721,7 @@
       data:
         ttl: 0
         priority: high
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   - data:
       message: Eponge a bien fini son travail, on peut aller vider le lave vaiselle
         !
@@ -725,14 +729,14 @@
       data:
         ttl: 0
         priority: high
-    action: notify.TBX7D_SECRET_0191
+    action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
     enabled: false
   - data: {}
     target:
       entity_id: input_boolean.eponge_started
     action: input_boolean.turn_off
   mode: single
-- id: '900000021'
+- id: '900000022'
   alias: 'Ordi allumé '
   description: ''
   triggers:
@@ -741,28 +745,28 @@
   conditions:
   - type: is_power
     condition: device
-    device_id: TBX7D_SECRET_0184
-    entity_id: TBX7D_SECRET_0206
+    device_id: 23c4c0cd2ae64944842f25fc979cb8bd
+    entity_id: ea1b3f686dc441e59b09cc8a99735812
     domain: sensor
-    above: 10
+    above: 30
   actions:
   - data:
-      message: "Salut TBX7D_ORG_0001, as-tu bien éteint ton ordi ? Désolé si tu es encore
+      message: "Salut TBX9F_ORG_0001, as-tu bien éteint ton ordi ? Désolé si tu es encore
         en train de travailler \U0001F605 bon courage, sinon va éteindre ton ordi
         \U0001F609"
       title: Ordinateur allumé
       data:
         ttl: 0
         priority: high
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   mode: single
-- id: '900000022'
+- id: '900000023'
   alias: Lumières reduit after 15 min off
   description: ''
   triggers:
   - type: turned_on
-    device_id: TBX7D_SECRET_0178
-    entity_id: TBX7D_SECRET_0198
+    device_id: 8b9dae6d917a4e09991d7b2bba837845
+    entity_id: a32cddcf7a2147738df6278bbc35e233
     domain: switch
     for:
       hours: 0
@@ -772,16 +776,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0178
-    entity_id: TBX7D_SECRET_0198
+    device_id: 8b9dae6d917a4e09991d7b2bba837845
+    entity_id: a32cddcf7a2147738df6278bbc35e233
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0178
-    entity_id: TBX7D_SECRET_0198
+    device_id: 8b9dae6d917a4e09991d7b2bba837845
+    entity_id: a32cddcf7a2147738df6278bbc35e233
     domain: switch
   mode: single
-- id: '900000023'
+- id: '900000024'
   alias: HDD NAS daily ON
   description: For daily backup
   triggers:
@@ -790,16 +794,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   mode: single
-- id: '900000024'
+- id: '900000025'
   alias: HDD NAS daily OFF
   description: ''
   triggers:
@@ -808,16 +812,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   mode: single
-- id: '900000025'
+- id: '900000026'
   alias: HDD NAS weekly OFF
   description: Check consistency of backup
   triggers:
@@ -826,19 +830,19 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   - condition: time
     weekday:
     - mon
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   mode: single
-- id: '900000026'
+- id: '900000027'
   alias: HDD NAS weekly ON
   description: For backup integrity
   triggers:
@@ -847,35 +851,35 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   - condition: time
     weekday:
     - mon
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0207
-    entity_id: TBX7D_SECRET_0204
+    device_id: 19478f67a9014ac59d537f6dcca10d56
+    entity_id: 21b786baf30d4461ab0d90d938c3c2e0
     domain: switch
   mode: single
-- id: '900000027'
+- id: '900000028'
   alias: Bouton porte garage
   description: ''
   trigger:
   - platform: device
-    device_id: TBX7D_SECRET_0190
+    device_id: 71534a2e04564b91b519736fdc8625e5
     domain: shelly
     type: single
     subtype: button
   condition: []
   action:
   - type: turn_on
-    device_id: TBX7D_SECRET_0176
-    entity_id: TBX7D_SECRET_0197
+    device_id: 68042bac986b45ae98a81753ccc8d19f
+    entity_id: ed6caa829d594a7e9d9db8a960cbd91b
     domain: switch
   mode: single
-- id: '900000028'
+- id: '900000029'
   alias: Luigi - End task
   description: ''
   triggers:
@@ -889,13 +893,13 @@
   - data:
       message: Luigi a terminé sa tâche avec succès
       title: Luigi a terminé sa tâche avec succès
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   - data:
       message: Luigi a terminé sa tâche avec succès
       title: Luigi a terminé sa tâche avec succès
-    action: notify.TBX7D_SECRET_0191
+    action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
   mode: single
-- id: '900000029'
+- id: '900000030'
   alias: Luigi - start task
   description: ''
   triggers:
@@ -909,85 +913,89 @@
   - data:
       message: Luigi commence sa tâche
       title: Luigi commence sa tâche
-    action: notify.TBX7D_SECRET_0192
+    action: notify.TBX9F_SECRET_0001
   - data:
       message: Luigi commence sa tâche
       title: Luigi commence sa tâche
-    action: notify.TBX7D_SECRET_0191
+    action: notify.mobile_app_pixel_9_pro_xl_de_TBX9F_ID_0004
   mode: single
-- id: '900000030'
+- id: '900000031'
   alias: Lampe lecture enfants ON
   description: ''
   triggers:
   - trigger: time
     at: '19:30:00'
   conditions:
-  - condition: device
-    type: is_off
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - condition: switch.is_off
+    target:
+      entity_id: switch.sb24
+    options:
+      behavior: any
+      for: 00:00:00
   actions:
-  - type: turn_on
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      entity_id: switch.sb24
+    data: {}
   mode: single
-- id: '900000031'
+- id: '900000032'
   alias: Lampe lecture enfants OFF
   description: ''
   triggers:
   - trigger: time
     at: '20:20:00'
   conditions:
-  - condition: device
-    type: is_on
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - condition: switch.is_on
+    target:
+      entity_id: switch.sb24
+    options:
+      behavior: any
+      for: 00:00:00
   actions:
-  - type: turn_off
-    device_id: TBX7D_SECRET_0183
-    entity_id: TBX7D_SECRET_0205
-    domain: switch
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id: switch.sb24
+    data: {}
   mode: single
-- id: '900000032'
+- id: '900000033'
   alias: Deshumidificateur off
   description: ''
   triggers:
   - type: humidity
-    device_id: TBX7D_SECRET_0180
-    entity_id: TBX7D_SECRET_0201
+    device_id: 4946f1f8ceac46d7b23ff5666ef97d9a
+    entity_id: 46664d0674b6464db0b11c2e6c480046
     domain: sensor
     trigger: device
     below: 49
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0179
-    entity_id: TBX7D_SECRET_0200
+    device_id: 5566c8205dea4ceea57e04627be16078
+    entity_id: e9fe470bf49d470598a531f61ac42414
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0179
-    entity_id: TBX7D_SECRET_0200
+    device_id: 5566c8205dea4ceea57e04627be16078
+    entity_id: e9fe470bf49d470598a531f61ac42414
     domain: switch
   mode: single
-- id: '900000033'
+- id: '900000034'
   alias: Deshumidificateur ON
   description: ''
   triggers:
   - type: humidity
-    device_id: TBX7D_SECRET_0180
-    entity_id: TBX7D_SECRET_0201
+    device_id: 4946f1f8ceac46d7b23ff5666ef97d9a
+    entity_id: 46664d0674b6464db0b11c2e6c480046
     domain: sensor
     trigger: device
     above: 65
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0179
-    entity_id: TBX7D_SECRET_0200
+    device_id: 5566c8205dea4ceea57e04627be16078
+    entity_id: e9fe470bf49d470598a531f61ac42414
     domain: switch
   - condition: time
     after: 09:00:00
@@ -1002,8 +1010,8 @@
     - sun
   - type: is_humidity
     condition: device
-    device_id: TBX7D_SECRET_0181
-    entity_id: TBX7D_SECRET_0202
+    device_id: b1b0c095b74b428385f2959d324273a6
+    entity_id: 216d4f6fb64e43e9a3952fbb54e1e4b1
     domain: sensor
     below: 65
   - condition: state
@@ -1012,11 +1020,11 @@
     - 'on'
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0179
-    entity_id: TBX7D_SECRET_0200
+    device_id: 5566c8205dea4ceea57e04627be16078
+    entity_id: e9fe470bf49d470598a531f61ac42414
     domain: switch
   mode: single
-- id: '900000034'
+- id: '900000035'
   alias: Vacances bureau on
   description: 'Lampe salon
 
@@ -1067,16 +1075,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0174
-    entity_id: TBX7D_SECRET_0196
+    device_id: 6719f3e007dc450a9ea034ba0208ce1c
+    entity_id: 2e3598c327ee4ce58a2db70026b8e554
     domain: switch
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0174
-    entity_id: TBX7D_SECRET_0196
+    device_id: 6719f3e007dc450a9ea034ba0208ce1c
+    entity_id: 2e3598c327ee4ce58a2db70026b8e554
     domain: switch
   mode: single
-- id: '900000035'
+- id: '900000036'
   alias: Vacances bureau off
   description: 'Lampe salon
 
@@ -1127,16 +1135,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0174
-    entity_id: TBX7D_SECRET_0196
+    device_id: 6719f3e007dc450a9ea034ba0208ce1c
+    entity_id: 2e3598c327ee4ce58a2db70026b8e554
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0174
-    entity_id: TBX7D_SECRET_0196
+    device_id: 6719f3e007dc450a9ea034ba0208ce1c
+    entity_id: 2e3598c327ee4ce58a2db70026b8e554
     domain: switch
   mode: single
-- id: '900000036'
+- id: '900000037'
   alias: Vacances SDB on
   description: 'Lampe salon
 
@@ -1185,16 +1193,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0189
-    entity_id: TBX7D_SECRET_0199
+    device_id: 54515092751946669a416e167ef9a12f
+    entity_id: 5993d36b91fe4e30bcaceecd0a66194d
     domain: light
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0189
-    entity_id: TBX7D_SECRET_0199
+    device_id: 54515092751946669a416e167ef9a12f
+    entity_id: 5993d36b91fe4e30bcaceecd0a66194d
     domain: light
   mode: single
-- id: '900000037'
+- id: '900000038'
   alias: Vacances SDB off
   description: 'Lampe salon
 
@@ -1243,16 +1251,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0189
-    entity_id: TBX7D_SECRET_0199
+    device_id: 54515092751946669a416e167ef9a12f
+    entity_id: 5993d36b91fe4e30bcaceecd0a66194d
     domain: light
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0189
-    entity_id: TBX7D_SECRET_0199
+    device_id: 54515092751946669a416e167ef9a12f
+    entity_id: 5993d36b91fe4e30bcaceecd0a66194d
     domain: light
   mode: single
-- id: '900000038'
+- id: '900000039'
   alias: Compresseur Off at 20h30
   description: ''
   triggers:
@@ -1261,16 +1269,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0171
-    entity_id: TBX7D_SECRET_0194
+    device_id: d7ebeb6b884846d99c123c9fbdb440a2
+    entity_id: fd3c7a89dd3541a7bb5ecee0f12b08f3
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0171
-    entity_id: TBX7D_SECRET_0194
+    device_id: d7ebeb6b884846d99c123c9fbdb440a2
+    entity_id: fd3c7a89dd3541a7bb5ecee0f12b08f3
     domain: switch
   mode: single
-- id: '900000039'
+- id: '900000040'
   alias: Piscine (prise jardin) ON
   description: ''
   triggers:
@@ -1283,16 +1291,16 @@
   conditions:
   - condition: device
     type: is_off
-    device_id: TBX7D_SECRET_0182
-    entity_id: TBX7D_SECRET_0203
+    device_id: 3bac8fdf5d2c453cad5fe2d0fe0dd082
+    entity_id: b9f165919da243579ab8e44d0ad3e87a
     domain: switch
   actions:
   - type: turn_on
-    device_id: TBX7D_SECRET_0182
-    entity_id: TBX7D_SECRET_0203
+    device_id: 3bac8fdf5d2c453cad5fe2d0fe0dd082
+    entity_id: b9f165919da243579ab8e44d0ad3e87a
     domain: switch
   mode: single
-- id: '900000040'
+- id: '900000041'
   alias: Piscine (prise jardin) OFF
   description: ''
   triggers:
@@ -1305,16 +1313,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0182
-    entity_id: TBX7D_SECRET_0203
+    device_id: 3bac8fdf5d2c453cad5fe2d0fe0dd082
+    entity_id: b9f165919da243579ab8e44d0ad3e87a
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0182
-    entity_id: TBX7D_SECRET_0203
+    device_id: 3bac8fdf5d2c453cad5fe2d0fe0dd082
+    entity_id: b9f165919da243579ab8e44d0ad3e87a
     domain: switch
   mode: single
-- id: '900000041'
+- id: '900000042'
   alias: Chauffage mode vacances
   description: ''
   triggers:
@@ -1330,7 +1338,7 @@
       - target:
           entity_id:
           - climate.trv_btr_01_chambre_1er_sud_est_bureau
-          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
           - climate.trv_btr_03_chambre_1er_sud_est_enfants
           - climate.trv_btr_04_chambre_rez_salle_de_jeu
           - climate.trv_btr_05_rez_sud_ouest_salle_a_manger
@@ -1346,7 +1354,7 @@
       - target:
           entity_id:
           - climate.trv_btr_01_chambre_1er_sud_est_bureau
-          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
           - climate.trv_btr_03_chambre_1er_sud_est_enfants
           - climate.trv_btr_04_chambre_rez_salle_de_jeu
           - climate.trv_btr_05_rez_sud_ouest_salle_a_manger
@@ -1355,7 +1363,7 @@
           preset_mode: programming
         action: climate.set_preset_mode
   mode: single
-- id: '900000042'
+- id: '900000043'
   alias: UPS is on battery
   triggers:
   - trigger: state
@@ -1369,7 +1377,7 @@
       seconds: 0
   conditions: []
   actions:
-  - action: notify.TBX7D_SECRET_0192
+  - action: notify.TBX9F_SECRET_0001
     metadata: {}
     data:
       message: L'UPS des serveurs fonctionne actuellement sur batterie.
@@ -1378,7 +1386,7 @@
         ttl: 0
         priority: high
   mode: single
-- id: '900000043'
+- id: '900000044'
   alias: UPS battery low
   description: ''
   triggers:
@@ -1392,7 +1400,7 @@
       seconds: 0
   conditions: []
   actions:
-  - action: notify.TBX7D_SECRET_0192
+  - action: notify.TBX9F_SECRET_0001
     metadata: {}
     data:
       message: La batterie de l'UPS des serveurs est basse (<25%).
@@ -1400,7 +1408,7 @@
       data:
         ttl: 0
         priority: high
-- id: '900000044'
+- id: '900000045'
   alias: Lumieres ext noel off at 23h
   description: ''
   triggers:
@@ -1417,16 +1425,16 @@
   conditions:
   - condition: device
     type: is_on
-    device_id: TBX7D_SECRET_0170
-    entity_id: TBX7D_SECRET_0193
+    device_id: ec1f150224ea4f3d9dece07731973e51
+    entity_id: 6dd65dd27f2b4286bd66f38137fe18ae
     domain: switch
   actions:
   - type: turn_off
-    device_id: TBX7D_SECRET_0170
-    entity_id: TBX7D_SECRET_0193
+    device_id: ec1f150224ea4f3d9dece07731973e51
+    entity_id: 6dd65dd27f2b4286bd66f38137fe18ae
     domain: switch
   mode: single
-- id: '900000045'
+- id: '900000046'
   alias: Atelier switch off chargeur
   description: ''
   triggers:
@@ -1463,7 +1471,7 @@
       entity_id: input_boolean.atelier_chargeur_started
     data: {}
   mode: single
-- id: '900000046'
+- id: '900000047'
   alias: Atelier chargeur is charging
   description: ''
   triggers:
@@ -1491,7 +1499,7 @@
       entity_id: input_boolean.atelier_chargeur_started
     data: {}
   mode: single
-- id: '900000047'
+- id: '900000048'
   alias: Cave à vin - gestion optimisée
   description: 'Cave à vin : on garde le vin entre 16 et 20 °C en minimisant le recours
     au réseau. Jamais en dessous de 16 °C (cible atteinte) ; au dessus de 20 °C on
@@ -1543,7 +1551,7 @@
           e is not none and e.state in [''unknown'', ''unavailable''] and (as_timestamp(now())
           - as_timestamp(e.last_changed)) < 600 -}}'
       sequence:
-      - action: notify.TBX7D_SECRET_0192
+      - action: notify.TBX9F_SECRET_0001
         data:
           title: ⚠️ Capteur cave à vin perdu
           message: 'Le capteur de température de la cave (zg_227z_20) est indisponible
@@ -1552,12 +1560,12 @@
             ttl: 0
             priority: high
   mode: restart
-- id: '900000048'
+- id: '900000049'
   alias: Porte haut Toggle from bureau FV button
   description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
   triggers:
   - trigger: device
-    device_id: TBX7D_SECRET_0187
+    device_id: ee57bc1849ab470eb1edc0c25cad1ecb
     domain: mqtt
     type: action
     subtype: single
@@ -1571,8 +1579,8 @@
       sequence:
       - action: lock.unlock
         target:
-          device_id: TBX7D_SECRET_0185
-      - action: notify.TBX7D_SECRET_0192
+          device_id: c6952e02b641491c9779399c2d8c8676
+      - action: notify.TBX9F_SECRET_0001
         metadata: {}
         data:
           message: La Porte haut s'ouvre !
@@ -1586,10 +1594,10 @@
       sequence:
       - action: lock.lock
         target:
-          device_id: TBX7D_SECRET_0185
+          device_id: c6952e02b641491c9779399c2d8c8676
         data: {}
   mode: single
-- id: '900000049'
+- id: '900000050'
   alias: Nuki locked
   description: ''
   triggers:
@@ -1602,13 +1610,13 @@
       for: 00:00:00
   - trigger: lock.locked
     target:
-      device_id: TBX7D_SECRET_0186
+      device_id: 6e66bc44008e42399e9c349ff2141723
     id: porte_rez
     options:
       behavior: each
   conditions: []
   actions:
-  - action: notify.TBX7D_SECRET_0192
+  - action: notify.TBX9F_SECRET_0001
     metadata: {}
     data:
       message: 'La {% if trigger.id == ''porte_1er'' %}Porte haut{% elif trigger.id
@@ -1619,12 +1627,12 @@
         ttl: 0
         priority: high
   mode: single
-- id: '900000050'
+- id: '900000051'
   alias: Porte bas Toggle from entree 1er button
   description: Verrouille si la porte est ouverte, déverrouille si elle est fermée
   triggers:
   - trigger: device
-    device_id: TBX7D_SECRET_0188
+    device_id: d553a33c823040a49bd12e7ee27f0544
     domain: mqtt
     type: action
     subtype: single
@@ -1638,8 +1646,8 @@
       sequence:
       - action: lock.unlock
         target:
-          device_id: TBX7D_SECRET_0186
-      - action: notify.TBX7D_SECRET_0192
+          device_id: 6e66bc44008e42399e9c349ff2141723
+      - action: notify.TBX9F_SECRET_0001
         metadata: {}
         data:
           message: La Porte bas s'ouvre !
@@ -1650,9 +1658,9 @@
       sequence:
       - action: lock.lock
         target:
-          device_id: TBX7D_SECRET_0186
+          device_id: 6e66bc44008e42399e9c349ff2141723
   mode: single
-- id: '900000051'
+- id: '900000052'
   alias: Pompe eau chaude start
   description: ''
   triggers:
@@ -1689,7 +1697,7 @@
   conditions:
   - condition: switch.is_off
     target:
-      device_id: TBX7D_SECRET_0177
+      device_id: c7ebc8eb82b54593bd14a283b9a87ff2
     options:
       behavior: any
       for: 00:00:00
@@ -1697,10 +1705,10 @@
   - action: switch.turn_on
     metadata: {}
     target:
-      device_id: TBX7D_SECRET_0177
+      device_id: c7ebc8eb82b54593bd14a283b9a87ff2
     data: {}
   mode: single
-- id: '900000052'
+- id: '900000053'
   alias: Pompe eau chaude stop
   description: ''
   triggers:
@@ -1737,7 +1745,7 @@
   conditions:
   - condition: switch.is_on
     target:
-      device_id: TBX7D_SECRET_0177
+      device_id: c7ebc8eb82b54593bd14a283b9a87ff2
     options:
       behavior: any
       for: 00:00:00
@@ -1745,10 +1753,10 @@
   - action: switch.turn_off
     metadata: {}
     target:
-      device_id: TBX7D_SECRET_0177
+      device_id: c7ebc8eb82b54593bd14a283b9a87ff2
     data: {}
   mode: single
-- id: TBX7D_ID_0053
+- id: chaudiere_in_wrong_state
   alias: Chaudière in wrong state
   description: 'Alerte si la pompe de dilatation (sp1pm70) n''a rien consommé depuis
     plus de 12 h : la chaudière ne cycle plus. L''ancienneté de la consommation est
@@ -1767,7 +1775,7 @@
     value_template: '{{ this.attributes.last_triggered is none or (as_timestamp(now())
       - as_timestamp(this.attributes.last_triggered)) > 43200 }}'
   actions:
-  - action: notify.TBX7D_SECRET_0192
+  - action: notify.TBX9F_SECRET_0001
     data:
       title: ⚠️ Chaudière en mauvais état
       message: La pompe de dilatation (sp1pm70) n'a rien consommé depuis {{ ((as_timestamp(now())
@@ -1778,7 +1786,7 @@
         ttl: 0
         priority: high
   mode: single
-- id: TBX7D_ID_0054
+- id: TBX9F_ID_0054
   alias: Cave à vin - mémorise le dernier allumage
   description: Consigne l'instant du dernier passage à « on » du switch switch.s1pm58
     dans le helper input_datetime.cave_a_vin_dernier_allumage, source des alertes
@@ -1796,7 +1804,7 @@
     data:
       datetime: '{{ now().isoformat() }}'
   mode: single
-- id: TBX7D_ID_0055
+- id: cave_a_vin_pas_allumee_depuis_2_jours
   alias: Cave à vin - pas allumée depuis 2 jours
   description: Alerte si le switch de la cave à vin est éteint et n'a pas été rallumé
     depuis plus de 48 h. Un switch allumé n'est jamais signalé, et le helper encore
@@ -1815,7 +1823,7 @@
     value_template: '{{ this.attributes.last_triggered is none or (as_timestamp(now())
       - as_timestamp(this.attributes.last_triggered)) > 86400 }}'
   actions:
-  - action: notify.TBX7D_SECRET_0192
+  - action: notify.TBX9F_SECRET_0001
     data:
       title: ⚠️ Cave à vin pas aérée
       message: Le switch de la cave à vin est éteint et n'a pas été rallumé depuis

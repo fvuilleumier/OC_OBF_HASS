@@ -1,20 +1,22 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MHassnage.Core.Model;
-using MHassnage.Core.Service;
 using MHassnage.Wpf.Controller;
 
 namespace MHassnage.Wpf.ViewController;
 
-/// <summary>Fenêtre principale : liste des opérations et panel courant.</summary>
+/// <summary>Fenêtre principale : liste des opérations et panel de l'opération choisie.</summary>
 public sealed partial class MainViewController : ObservableObject
 {
     private readonly NavigationController _navigation;
+    private readonly AppSettings _settings;
+
+    /// <summary>Un panel par opération, créé à la première ouverture puis conservé.</summary>
+    private readonly Dictionary<Operation, object> _panels = [];
 
     public MainViewController(AppSettings settings, NavigationController navigation)
     {
         _navigation = navigation;
-        Settings = settings;
+        _settings = settings;
 
         Operations =
         [
@@ -25,27 +27,42 @@ public sealed partial class MainViewController : ObservableObject
             new(Operation.ApplyToHass, "Appliquer dans HA", "Diff, validation, écriture"),
         ];
 
-        foreach (var problem in SettingsService.Validate(settings))
-            SettingsProblems.Add(problem);
-
-        if (SettingsProblems.Any(p => p.StartsWith("Hass:Token", StringComparison.Ordinal)))
-            TokenHelp = HassTokenHelp.Text(settings.Hass.Url, SettingsService.SettingsPath);
-
         _selected = Operations[0];
+        _currentPanel = PanelFor(_selected);
     }
 
-    public AppSettings Settings { get; }
     public IReadOnlyList<OperationItem> Operations { get; }
-    public ObservableCollection<string> SettingsProblems { get; } = [];
-
-    /// <summary>Marche à suivre pour recréer le jeton HA ; null si le jeton est présent.</summary>
-    [ObservableProperty]
-    private string? _tokenHelp;
 
     [ObservableProperty]
     private OperationItem _selected;
 
-    partial void OnSelectedChanged(OperationItem value) => _navigation.Current = value.Operation;
+    /// <summary>ViewController du panel affiché ; la vue est choisie par DataTemplate.</summary>
+    [ObservableProperty]
+    private object _currentPanel;
+
+    partial void OnSelectedChanged(OperationItem value)
+    {
+        _navigation.Current = value.Operation;
+        bool firstOpening = !_panels.ContainsKey(value.Operation);
+        CurrentPanel = PanelFor(value);
+
+        if (firstOpening && CurrentPanel is IRepositoryPanel repository)
+            _ = repository.RefreshAsync();
+    }
+
+    private object PanelFor(OperationItem item)
+    {
+        if (_panels.TryGetValue(item.Operation, out var panel)) return panel;
+
+        panel = item.Operation switch
+        {
+            Operation.Status => new StatusViewController(_settings),
+            Operation.BackupHass => new BackupViewController(_settings),
+            _ => new PlaceholderViewController(item.Title, "Prévu dans une prochaine étape."),
+        };
+        _panels[item.Operation] = panel;
+        return panel;
+    }
 }
 
 public sealed record OperationItem(Operation Operation, string Title, string Description);

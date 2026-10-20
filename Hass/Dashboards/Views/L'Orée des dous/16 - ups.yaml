@@ -1,0 +1,36 @@
+type: sections
+max_columns: 1
+title: UPS
+path: ups
+icon: mdi:fuel-cell
+sections:
+  - type: grid
+    cards:
+      - type: tile
+        entity: sensor.ups_battery_charge
+        features:
+          - type: trend-graph
+        grid_options:
+          columns: 12
+          rows: 3
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.ups_load
+        severity:
+          green: 0
+          yellow: 60
+          red: 80
+        needle: true
+badges:
+  - type: entity
+    entity: sensor.ups_status
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 🔋 UPS
+footer:
+  type: markdown
+  content: ''

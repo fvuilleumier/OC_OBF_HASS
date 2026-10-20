@@ -1,0 +1,79 @@
+title: Chauffage
+path: chauffage
+icon: mdi:sun-thermometer-outline
+badges: []
+type: sections
+max_columns: 2
+sections:
+  - type: grid
+    cards:
+      - type: custom:mushroom-template-card
+        primary: >
+          {% if is_state('input_boolean.holiday_mode','on') %}
+            🌴 Mode vacances
+          {% else %}
+            🏠 Mode normal
+          {% endif %}
+        secondary: Chauffage
+        icon: mdi:radiator
+        entity: input_boolean.holiday_mode
+        tap_action:
+          action: toggle
+        grid_options:
+          columns: full
+        color: >
+          {% if is_state('input_boolean.holiday_mode','on') %}
+            blue
+          {% else %}
+            deep-orange
+          {% endif %}
+        features_position: bottom
+        multiline_secondary: false
+    column_span: 2
+  - type: grid
+    cards:
+      - type: thermostat
+        entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+        name: Bureau
+        show_current_as_primary: true
+      - type: thermostat
+        name: Salon
+        show_current_as_primary: true
+        entity: climate.trv_btr_06_rez_sud_est_salon
+    column_span: 2
+  - type: grid
+    cards:
+      - type: thermostat
+        name: Chambre à coucher
+        show_current_as_primary: true
+        entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
+  - type: grid
+    cards:
+      - type: thermostat
+        name: Chambre des enfants
+        show_current_as_primary: true
+        entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
+  - type: grid
+    cards:
+      - type: thermostat
+        name: Salle de jeu
+        show_current_as_primary: true
+        entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
+  - type: grid
+    cards:
+      - type: thermostat
+        name: Salle à manger
+        show_current_as_primary: true
+        entity: climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+header:
+  layout: center
+  badges_position: bottom
+  badges_wrap: wrap
+  card:
+    type: heading
+    heading: Chauffage
+    icon: mdi:sun-thermometer-outline
+footer:
+  type: markdown
+  content: ''
+cards: []

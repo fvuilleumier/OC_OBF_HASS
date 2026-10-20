@@ -1,0 +1,45 @@
+<UserControl x:Class="MHassnage.Wpf.View.StatusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- DataContext : StatusViewController -->
+    <StackPanel>
+        <TextBlock Text="État" FontSize="20" FontWeight="SemiBold" />
+        <TextBlock Text="Dépôts, jeton HA, dernier export" Foreground="{StaticResource MutedTextBrush}" Margin="0,4,0,18" />
+
+        <TextBlock Text="Réglages à compléter" FontWeight="SemiBold" Margin="0,0,0,6">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SettingsProblems.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <ItemsControl ItemsSource="{Binding SettingsProblems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding StringFormat='• {0}'}" Foreground="#F5A623" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- Marche à suivre pour (re)créer le jeton HA -->
+        <Border Margin="0,16,0,0" Padding="12" CornerRadius="4" BorderThickness="1"
+                BorderBrush="#F5A623" Background="{StaticResource BackgroundBrush}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TokenHelp}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <TextBox Text="{Binding TokenHelp, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
+                     Background="Transparent" BorderThickness="0" FontFamily="Consolas"
+                     Foreground="{StaticResource TextBrush}" />
+        </Border>
+    </StackPanel>
+</UserControl>

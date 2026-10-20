@@ -1,0 +1,35 @@
+theme: Backend-selected
+title: Ducon
+path: ducon
+icon: mdi:vacuum
+badges:
+  - entity: vacuum.ducon
+  - entity: sensor.ducon_battery_level
+  - entity: binary_sensor.ducon_bin_full
+type: sections
+max_columns: 1
+sections:
+  - type: grid
+    cards:
+      - type: entities
+        entities:
+          - entity: vacuum.ducon
+            name: Lucien
+            color: green
+  - type: grid
+    cards:
+      - color: state
+        type: entities
+        entities:
+          - entity: binary_sensor.ducon_bin_full
+            name: Vider Lucien ?
+            color: red
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # ⛀ Lucien
+footer:
+  type: markdown
+  content: ''

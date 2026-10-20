@@ -1,0 +1,32 @@
+<UserControl x:Class="MHassnage.Wpf.View.LogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vc="clr-namespace:MHassnage.Wpf.ViewController">
+    <!-- DataContext : LogViewController. Couleurs identiques à la console. -->
+    <ListBox x:Name="List" ItemsSource="{Binding Lines}" FontFamily="Consolas" FontSize="12"
+             Background="{StaticResource BackgroundBrush}" BorderThickness="0"
+             ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Text}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Level}" Value="{x:Static vc:LogLevel.Ok}">
+                                    <Setter Property="Foreground" Value="#6CC17A" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Level}" Value="{x:Static vc:LogLevel.Warning}">
+                                    <Setter Property="Foreground" Value="#F5A623" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Level}" Value="{x:Static vc:LogLevel.Error}">
+                                    <Setter Property="Foreground" Value="#E06C75" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

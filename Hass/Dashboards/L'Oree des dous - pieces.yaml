@@ -9,7 +9,7 @@ button_card_templates:
         - height: 34px
         - padding: 0 12px
         - background: transparent
-        - background-color: null
+        - background-color: 
         - border: none
         - border-radius: 0
         - box-shadow: none
@@ -24,8 +24,9 @@ button_card_templates:
         - color: var(--section-title-color, var(--primary-text-color))
         - font-size: 14px
         - font-weight: 400
-    extra_styles: |
+    extra_styles: >
       #name::before,
+
       #name::after {
         content: "";
         height: 1px;
@@ -50,7 +51,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: lock.porte_1er
             features:
@@ -72,7 +73,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -211,7 +212,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -226,7 +227,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -262,7 +263,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🏠 L''Orée des Dous'
+        content: "# \U0001F3E0 L'Orée des Dous"
     background:
       opacity: 33
       alignment: center
@@ -280,7 +281,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: lock.porte_1er
             features:
@@ -290,7 +291,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -413,9 +414,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -427,7 +426,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -442,7 +441,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -479,8 +478,8 @@ views:
         type: markdown
         text_only: true
         content: '# 1️⃣ 1er'
-  - title: Chambre TBX7D_ORG_0007
-    path: chambre-TBX7D_ORG_0007
+  - title: Chambre TBX9F_ORG_0002
+    path: chambre-TBX9F_ORG_0002
     icon: mdi:bed-king-outline
     type: sections
     max_columns: 3
@@ -490,7 +489,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -505,7 +504,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -627,28 +626,27 @@ views:
             template: section_title
             name: ♨️ Chauffage
           - type: custom:mushroom-climate-card
-            entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007
+            entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
             name: Radiateur
             hvac_modes:
               - heat
-              - 'off'
+              - off
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_02_position
-            primary: '{{ states(''sensor.trv_btr_02_position'') | float(0) | round(0) }} %'
+            primary: "{{ states('sensor.trv_btr_02_position') | float(0) | round(0) }} %"
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% set v = states('sensor.trv_btr_02_position') | float(0) %} {%
-              if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}
+            color: "{% set v = states('sensor.trv_btr_02_position') | float(0) %} {% if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}"
             card_mod:
-              style: |
+              style: >
                 {% set v = states('sensor.trv_btr_02_position') | float(0) %}
+
                 mushroom-state-info$ .primary {
                   {% if v > 70 %}color: var(--error-color) !important;
                   {% elif v > 20 %}color: var(--orange-color) !important;
@@ -656,41 +654,25 @@ views:
                   {% endif %}
                 }
           - type: custom:mushroom-template-card
-            entity: binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_window
-            primary: >-
-              {% if
-              is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_window',
-              'on') %}Ouverte{% else %}Fermée{% endif %}
+            entity: binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window
+            primary: "{% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: >-
-              {% if
-              is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_window',
-              'on') %}mdi:window-open-variant{% else
-              %}mdi:window-closed-variant{% endif %}
+            icon: "{% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if
-              is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_window',
-              'on') %}red{% else %}green{% endif %}
+            color: "{% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
-            entity: switch.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_boost_heating
-            primary: >-
-              {% if
-              is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_boost_heating',
-              'on') %}Actif{% else %}Désactivé{% endif %}
+            entity: switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating
+            primary: "{% if is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: >-
-              {% if
-              is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX7D_ORG_0007_boost_heating',
-              'on') %}orange{% else %}grey{% endif %}
+            color: "{% if is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
       - type: grid
         column_span: 1
         cards:
@@ -716,7 +698,7 @@ views:
                 entity: sensor.s1pm31_power
                 icon: mdi:flash
                 icon_color: orange
-                primary: '{{ states(''sensor.s1pm31_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.s1pm31_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -725,9 +707,7 @@ views:
                 entity: sensor.s1pm31_energy_day
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.s1pm31_energy_day') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.s1pm31_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -800,26 +780,20 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 💡 Lampe salon
+                subtitle: "\U0001F4A1 Lampe salon"
               - type: custom:mushroom-template-card
                 entity: switch.s1pm31
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm31_power') | float(0) %} {% if
-                  not is_state('switch.s1pm31', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm31_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm31_power') | float(0) %} {% if not is_state('switch.s1pm31', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm31_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm31_power') | float(0) %} {% if
-                  not is_state('switch.s1pm31', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm31_power') | float(0) %} {% if not is_state('switch.s1pm31', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.s1pm31_power
                 name: Puissance
@@ -911,7 +885,7 @@ views:
                 entity: sensor.s1pm31_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm31_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm31_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -924,7 +898,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -960,9 +934,9 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🛏️ Chambre TBX7D_ORG_0007'
-  - title: Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008
-    path: chambre-TBX7D_ORG_0009-TBX7D_ORG_0008
+        content: "# \U0001F6CF️ Chambre TBX9F_ORG_0002"
+  - title: Chambre TBX9F_ORG_0003 & TBX9F_ORG_0004
+    path: chambre-TBX9F_ORG_0003-TBX9F_ORG_0004
     icon: mdi:human-male-female
     type: sections
     max_columns: 3
@@ -972,7 +946,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -987,7 +961,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -1113,24 +1087,23 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - 'off'
+              - off
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_03_position
-            primary: '{{ states(''sensor.trv_btr_03_position'') | float(0) | round(0) }} %'
+            primary: "{{ states('sensor.trv_btr_03_position') | float(0) | round(0) }} %"
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% set v = states('sensor.trv_btr_03_position') | float(0) %} {%
-              if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}
+            color: "{% set v = states('sensor.trv_btr_03_position') | float(0) %} {% if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}"
             card_mod:
-              style: |
+              style: >
                 {% set v = states('sensor.trv_btr_03_position') | float(0) %}
+
                 mushroom-state-info$ .primary {
                   {% if v > 70 %}color: var(--error-color) !important;
                   {% elif v > 20 %}color: var(--orange-color) !important;
@@ -1139,40 +1112,24 @@ views:
                 }
           - type: custom:mushroom-template-card
             entity: binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window
-            primary: >-
-              {% if
-              is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window',
-              'on') %}Ouverte{% else %}Fermée{% endif %}
+            primary: "{% if is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: >-
-              {% if
-              is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window',
-              'on') %}mdi:window-open-variant{% else
-              %}mdi:window-closed-variant{% endif %}
+            icon: "{% if is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if
-              is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window',
-              'on') %}red{% else %}green{% endif %}
+            color: "{% if is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
             entity: switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating
-            primary: >-
-              {% if
-              is_state('switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating',
-              'on') %}Actif{% else %}Désactivé{% endif %}
+            primary: "{% if is_state('switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: >-
-              {% if
-              is_state('switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating',
-              'on') %}orange{% else %}grey{% endif %}
+            color: "{% if is_state('switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
       - type: grid
         column_span: 1
         cards:
@@ -1181,9 +1138,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -1195,7 +1150,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -1210,7 +1165,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -1246,9 +1201,9 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 👭 Chambre TBX7D_ORG_0009 & TBX7D_ORG_0008'
-  - title: Chambre TBX7D_ORG_0010
-    path: chambre-TBX7D_ORG_0010
+        content: "# \U0001F46D Chambre TBX9F_ORG_0003 & TBX9F_ORG_0004"
+  - title: Chambre TBX9F_ORG_0005
+    path: chambre-TBX9F_ORG_0005
     icon: mdi:human-child
     type: sections
     max_columns: 3
@@ -1258,7 +1213,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -1273,7 +1228,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -1396,9 +1351,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -1410,11 +1363,11 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-media-player-card
-                entity: media_player.chambre_yoto_d_TBX7D_ORG_0010
+                entity: media_player.chambre_yoto_d_TBX9F_ORG_0005
                 volume_controls:
                   - volume_mute
                   - volume_set
@@ -1429,13 +1382,11 @@ views:
                 fill_container: false
               - type: custom:mushroom-template-card
                 primary: Batterie
-                secondary: '{{ states(''sensor.chambre_yoto_d_TBX7D_ORG_0010_battery'') }} %'
+                secondary: "{{ states('sensor.chambre_yoto_d_TBX9F_ORG_0005_battery') }} %"
                 icon: mdi:battery
                 icon_color: >
-                  {% set b = states('sensor.chambre_yoto_d_TBX7D_ORG_0010_battery') |
-                  float(0) %} {% if b < 20 %}red {% elif b < 50 %}orange {% else
-                  %}green {% endif %}
-            title: 🎚️ Yoto
+                  {% set b = states('sensor.chambre_yoto_d_TBX9F_ORG_0005_battery') | float(0) %} {% if b < 20 %}red {% elif b < 50 %}orange {% else %}green {% endif %}
+            title: "\U0001F39A️ Yoto"
             grid_options:
               rows: auto
               columns: 6
@@ -1444,7 +1395,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -1480,7 +1431,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 👦🏻️ Chambre TBX7D_ORG_0010'
+        content: "# \U0001F466\U0001F3FB️ Chambre TBX9F_ORG_0005"
   - title: Salle de jeu
     path: salle-de-jeu
     icon: mdi:nintendo-game-boy
@@ -1492,7 +1443,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -1507,7 +1458,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -1633,24 +1584,23 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - 'off'
+              - off
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_04_position
-            primary: '{{ states(''sensor.trv_btr_04_position'') | float(0) | round(0) }} %'
+            primary: "{{ states('sensor.trv_btr_04_position') | float(0) | round(0) }} %"
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% set v = states('sensor.trv_btr_04_position') | float(0) %} {%
-              if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}
+            color: "{% set v = states('sensor.trv_btr_04_position') | float(0) %} {% if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}"
             card_mod:
-              style: |
+              style: >
                 {% set v = states('sensor.trv_btr_04_position') | float(0) %}
+
                 mushroom-state-info$ .primary {
                   {% if v > 70 %}color: var(--error-color) !important;
                   {% elif v > 20 %}color: var(--orange-color) !important;
@@ -1659,40 +1609,24 @@ views:
                 }
           - type: custom:mushroom-template-card
             entity: binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window
-            primary: >-
-              {% if
-              is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window',
-              'on') %}Ouverte{% else %}Fermée{% endif %}
+            primary: "{% if is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: >-
-              {% if
-              is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window',
-              'on') %}mdi:window-open-variant{% else
-              %}mdi:window-closed-variant{% endif %}
+            icon: "{% if is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if
-              is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window',
-              'on') %}red{% else %}green{% endif %}
+            color: "{% if is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
             entity: switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating
-            primary: >-
-              {% if
-              is_state('switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating',
-              'on') %}Actif{% else %}Désactivé{% endif %}
+            primary: "{% if is_state('switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: >-
-              {% if
-              is_state('switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating',
-              'on') %}orange{% else %}grey{% endif %}
+            color: "{% if is_state('switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
       - type: grid
         column_span: 1
         cards:
@@ -1701,9 +1635,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -1715,7 +1647,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -1730,7 +1662,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -1766,7 +1698,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🎮️ Salle de jeu'
+        content: "# \U0001F3AE️ Salle de jeu"
   - title: Salon
     path: salon
     icon: mdi:sofa
@@ -1778,9 +1710,18 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: switch.s1pm31
+            color: accent
+            hide_state: true
+            vertical: false
+            features:
+              - type: toggle
+            features_position: bottom
+          - type: tile
+            entity: switch.sb50
+            name: TV des Dous
             color: accent
             hide_state: true
             vertical: false
@@ -1792,7 +1733,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -1841,7 +1782,7 @@ views:
                 apex_config:
                   tickAmount: 3
             series:
-              - entity: sensor.zg_227z_11_temperature
+              - entity: sensor.zg_227z_18_temperature
                 name: Température
                 color: var(--success-color)
                 type: area
@@ -1898,7 +1839,7 @@ views:
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.zg_227z_11_humidity
+              - entity: sensor.zg_227z_18_humidity
                 name: Humidité
                 color: var(--info-color)
                 type: area
@@ -1918,24 +1859,23 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - 'off'
+              - off
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_06_position
-            primary: '{{ states(''sensor.trv_btr_06_position'') | float(0) | round(0) }} %'
+            primary: "{{ states('sensor.trv_btr_06_position') | float(0) | round(0) }} %"
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% set v = states('sensor.trv_btr_06_position') | float(0) %} {%
-              if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}
+            color: "{% set v = states('sensor.trv_btr_06_position') | float(0) %} {% if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}"
             card_mod:
-              style: |
+              style: >
                 {% set v = states('sensor.trv_btr_06_position') | float(0) %}
+
                 mushroom-state-info$ .primary {
                   {% if v > 70 %}color: var(--error-color) !important;
                   {% elif v > 20 %}color: var(--orange-color) !important;
@@ -1944,40 +1884,24 @@ views:
                 }
           - type: custom:mushroom-template-card
             entity: binary_sensor.trv_btr_06_rez_sud_est_salon_window
-            primary: >-
-              {% if
-              is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window',
-              'on') %}Ouverte{% else %}Fermée{% endif %}
+            primary: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: >-
-              {% if
-              is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window',
-              'on') %}mdi:window-open-variant{% else
-              %}mdi:window-closed-variant{% endif %}
+            icon: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if
-              is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window',
-              'on') %}red{% else %}green{% endif %}
+            color: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
             entity: switch.trv_btr_06_rez_sud_est_salon_boost_heating
-            primary: >-
-              {% if
-              is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating',
-              'on') %}Actif{% else %}Désactivé{% endif %}
+            primary: "{% if is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: >-
-              {% if
-              is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating',
-              'on') %}orange{% else %}grey{% endif %}
+            color: "{% if is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
       - type: grid
         column_span: 1
         cards:
@@ -1986,9 +1910,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -2000,18 +1922,18 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 📡 SLZB-06M
+                subtitle: "\U0001F4E1 SLZB-06M"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_r_connection_mode
                 icon: mdi:router-wireless
                 primary: SLZB-06M
-                secondary: '{{ states(''sensor.slzb_06m_r_connection_mode'') }}'
-                color: |-
+                secondary: "{{ states('sensor.slzb_06m_r_connection_mode') }}"
+                color: >-
                   {% if is_state('sensor.slzb_06m_r_connection_mode', 'eth') %}
                     green
                   {% else %}
@@ -2023,8 +1945,7 @@ views:
                 entity: sensor.slzb_06m_r_core_chip_temp
                 icon: mdi:chip
                 icon_color: >-
-                  {% set t = states('sensor.slzb_06m_r_core_chip_temp') |
-                  float(0) %} {% if t >= 70 %}
+                  {% set t = states('sensor.slzb_06m_r_core_chip_temp') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -2032,49 +1953,42 @@ views:
                     green
                   {% endif %}
                 primary: CPU
-                secondary: '{{ states(''sensor.slzb_06m_r_core_chip_temp'') }} °C'
+                secondary: "{{ states('sensor.slzb_06m_r_core_chip_temp') }} °C"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06m_r_ethernet
                 icon: mdi:ethernet
-                icon_color: |-
+                icon_color: >-
                   {% if is_state(entity, 'on') %}
                     green
                   {% else %}
                     red
                   {% endif %}
                 primary: Ethernet
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{%
-                  endif %}
+                secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06m_r_internet
                 icon: mdi:web
-                icon_color: |-
+                icon_color: >-
                   {% if is_state(entity, 'on') %}
                     green
                   {% else %}
                     red
                   {% endif %}
                 primary: Internet
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{%
-                  endif %}
+                secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{% endif %}"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_r_firmware_channel
                 icon: mdi:update
                 icon_color: blue
                 primary: Firmware
-                secondary: '{{ states(''sensor.slzb_06m_r_firmware_channel'') }}'
+                secondary: "{{ states('sensor.slzb_06m_r_firmware_channel') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_r_zigbee_chip_temp
                 icon: mdi:zigbee
                 primary: Zigbee
-                secondary: >-
-                  {{ states('sensor.slzb_06m_r_zigbee_chip_temp') }} °C · {{
-                  states('sensor.slzb_06m_r_zigbee_type') }}
+                secondary: "{{ states('sensor.slzb_06m_r_zigbee_chip_temp') }} °C · {{ states('sensor.slzb_06m_r_zigbee_type') }}"
                 color: >-
-                  {% set t = states('sensor.slzb_06m_r_zigbee_chip_temp') |
-                  float(0) %} {% if t >= 70 %}
+                  {% set t = states('sensor.slzb_06m_r_zigbee_chip_temp') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -2091,7 +2005,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -2127,7 +2041,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🛋️ Salon'
+        content: "# \U0001F6CB️ Salon"
   - title: Salle à manger
     path: salle-a-manger
     icon: mdi:table-chair
@@ -2139,7 +2053,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -2154,7 +2068,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -2277,9 +2191,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -2291,7 +2203,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -2306,7 +2218,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -2342,7 +2254,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🍽️ Salle à manger'
+        content: "# \U0001F37D️ Salle à manger"
   - title: Cuisine
     path: cuisine
     icon: mdi:countertop-outline
@@ -2354,7 +2266,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -2369,7 +2281,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -2508,7 +2420,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.s1pm42_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.s1pm42_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.s1pm42_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -2518,9 +2430,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.s1pm42_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.s1pm42_energy_day') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.s1pm42_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -2595,11 +2505,11 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             entity: switch.s1pm42
             primary: Éponge
-            secondary: |
+            secondary: >
               {% if states('sensor.s1pm42_power')|float(0) > 5 %}
                 En fonctionnement
               {% else %}
@@ -2609,11 +2519,15 @@ views:
             tap_action:
               action: toggle
             features_position: bottom
-            color: |-
+            color: >-
               {% if states('sensor.s1pm42_power')|float(0) > 5 %}
+
               orange
+
               {% else %}
+
               green
+
               {% endif %}
             vertical: true
           - type: tile
@@ -2628,21 +2542,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🧽 Eponge
+                subtitle: "\U0001F9FD Eponge"
               - type: custom:mushroom-template-card
                 entity: switch.s1pm42
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm42_power') | float(0) %} {% if
-                  not is_state('switch.s1pm42', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm42_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm42_power') | float(0) %} {% if not is_state('switch.s1pm42', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm42_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm42_power') | float(0) %} {% if
-                  not is_state('switch.s1pm42', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm42_power') | float(0) %} {% if not is_state('switch.s1pm42', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.s1pm42_power
                 name: Puissance
@@ -2734,7 +2642,7 @@ views:
                 entity: sensor.s1pm42_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm42_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm42_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -2750,83 +2658,78 @@ views:
                 entity: sensor.cuisine_jura_status
                 icon: mdi:coffee-maker
                 icon_color: >-
-                  {% if is_state('sensor.cuisine_jura_status', 'coffee_ready')
-                  %}
+                  {% if is_state('sensor.cuisine_jura_status', 'coffee_ready') %}
                     green
                   {% else %}
                     amber
                   {% endif %}
                 primary: Machine à café
-                secondary: '{{ states(''sensor.cuisine_jura_status'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_status') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_1_flat_white
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Flat White
-                secondary: '{{ states(''sensor.cuisine_jura_brew_1_flat_white'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_1_flat_white') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_cappuccino
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Cappuccino
-                secondary: '{{ states(''sensor.cuisine_jura_brew_cappuccino'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_cappuccino') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_coffee
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Café
-                secondary: '{{ states(''sensor.cuisine_jura_brew_coffee'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_coffee') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_espresso
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Espresso
-                secondary: '{{ states(''sensor.cuisine_jura_brew_espresso'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_espresso') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_espresso_macchiato
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Espresso Macchiato
-                secondary: '{{ states(''sensor.cuisine_jura_brew_espresso_macchiato'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_espresso_macchiato') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_hotwater_portion_normal
                 icon: mdi:water
                 icon_color: blue
                 primary: Eau chaude
-                secondary: >-
-                  {{ states('sensor.cuisine_jura_brew_hotwater_portion_normal')
-                  }}
+                secondary: "{{ states('sensor.cuisine_jura_brew_hotwater_portion_normal') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_latte_macchiato
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Latte Macchiato
-                secondary: '{{ states(''sensor.cuisine_jura_brew_latte_macchiato'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_latte_macchiato') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_powderproduct
                 icon: mdi:coffee
                 icon_color: brown
                 primary: Produit en poudre
-                secondary: '{{ states(''sensor.cuisine_jura_brew_powderproduct'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_powderproduct') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_brew_total
                 icon: mdi:counter
                 icon_color: brown
                 primary: Total cafés
-                secondary: '{{ states(''sensor.cuisine_jura_brew_total'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_brew_total') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.cuisine_jura_cleaning_level
                 icon: mdi:spray-bottle
                 primary: Niveau nettoyage
-                secondary: '{{ states(''sensor.cuisine_jura_cleaning_level'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_cleaning_level') }}"
                 color: >-
-                  {%if states('sensor.cuisine_jura_cleaning_level')|float >= 99
-                  %}
+                  {%if states('sensor.cuisine_jura_cleaning_level')|float >= 99 %}
 
                   red
 
-                  {%elif states('sensor.cuisine_jura_cleaning_level')|float >=
-                  80 %}
+                  {%elif states('sensor.cuisine_jura_cleaning_level')|float >= 80 %}
 
                   amber
 
@@ -2840,15 +2743,13 @@ views:
                 entity: sensor.cuisine_jura_descaling_level
                 icon: mdi:water-remove
                 primary: Niveau détartrage
-                secondary: '{{ states(''sensor.cuisine_jura_descaling_level'') }}'
+                secondary: "{{ states('sensor.cuisine_jura_descaling_level') }}"
                 color: >-
-                  {%if states('sensor.cuisine_jura_descaling_level')|float >= 99
-                  %}
+                  {%if states('sensor.cuisine_jura_descaling_level')|float >= 99 %}
 
                   red
 
-                  {%elif states('sensor.cuisine_jura_descaling_level')|float >=
-                  80 %}
+                  {%elif states('sensor.cuisine_jura_descaling_level')|float >= 80 %}
 
                   amber
 
@@ -2862,174 +2763,144 @@ views:
                 entity: binary_sensor.cuisine_jura_cappu_rinse_alert
                 icon: mdi:cup-water
                 primary: Rinçage Cappuccino
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_cleaning_alert
                 icon: mdi:spray-bottle
                 primary: Nettoyage
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_close_powder_cover
                 icon: mdi:filter-check
                 primary: Couvercle poudre
-                secondary: '{% if is_state(entity, ''on'') %}À fermer{% else %}OK{% endif %}'
-                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À fermer{% else %}OK{% endif %}"
+                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_descale_alert
                 icon: mdi:water-remove
                 primary: Détartrage
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif
-                  %}
-                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À effectuer{% else %}OK{% endif %}"
+                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_empty_grounds
                 icon: mdi:delete
                 primary: Bac à marc
-                secondary: '{% if is_state(entity, ''on'') %}À vider{% else %}OK{% endif %}'
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À vider{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_empty_tray
                 icon: mdi:tray
                 primary: Bac d'égouttage
-                secondary: '{% if is_state(entity, ''on'') %}À vider{% else %}OK{% endif %}'
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À vider{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_error_status
                 icon: mdi:alert-circle
                 primary: Erreur machine
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Erreur détectée{% else %}OK{%
-                  endif %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Erreur détectée{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_fill_powder
                 icon: mdi:coffee
                 primary: Poudre
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_fill_system
                 icon: mdi:water-pump
                 primary: Système d'eau
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_fill_water
                 icon: mdi:water
                 primary: Réservoir d'eau
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À remplir{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_filter_alert
                 icon: mdi:filter
                 primary: Filtre
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À remplacer{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À remplacer{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_insert_coffee_bin
                 icon: mdi:coffee-maker
                 primary: Bac à café
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_insert_tray
                 icon: mdi:tray
                 primary: Bac d'égouttage
-                secondary: >-
-                  {% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}À insérer{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_milk_alert
                 icon: mdi:water
                 primary: Lait
-                secondary: '{% if is_state(entity, ''on'') %}Alerte{% else %}OK{% endif %}'
-                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Alerte{% else %}OK{% endif %}"
+                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_milk_sensor_error
                 icon: mdi:water-boiler
                 primary: Capteur lait
-                secondary: '{% if is_state(entity, ''on'') %}Erreur{% else %}OK{% endif %}'
-                color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Erreur{% else %}OK{% endif %}"
+                color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
                 features_position: bottom
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_milk_sensor_no_signal
                 icon: mdi:signal-off
                 primary: Signal capteur lait
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Pas de signal{% else %}OK{%
-                  endif %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Pas de signal{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_no_beans
                 icon: mdi:coffee
                 primary: Grains de café
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Réservoir vide{% else %}OK{%
-                  endif %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Réservoir vide{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_no_milk_sensor
                 icon: mdi:water-boiler
                 primary: Capteur lait
-                secondary: '{% if is_state(entity, ''on'') %}Absent{% else %}OK{% endif %}'
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Absent{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_not_enough_powder
                 icon: mdi:coffee
                 primary: Poudre
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Pas assez de poudre{% else
-                  %}OK{% endif %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Pas assez de poudre{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_outlet_missing
                 icon: mdi:coffee-maker
                 primary: Sortie café
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Manquante{% else %}OK{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Manquante{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_program_mode_status
                 icon: mdi:cog
                 primary: Mode programmation
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Actif{% else %}Inactif{% endif
-                  %}
-                icon_color: '{% if is_state(entity, ''on'') %}amber{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Actif{% else %}Inactif{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}amber{% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.cuisine_jura_rear_cover_missing
                 icon: mdi:arrow-collapse-vertical
                 primary: Capot arrière
-                secondary: '{% if is_state(entity, ''on'') %}Manquant{% else %}OK{% endif %}'
-                icon_color: '{% if is_state(entity, ''on'') %}red{% else %}green{% endif %}'
+                secondary: "{% if is_state(entity, 'on') %}Manquant{% else %}OK{% endif %}"
+                icon_color: "{% if is_state(entity, 'on') %}red{% else %}green{% endif %}"
       - type: grid
         column_span: 1
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -3065,7 +2936,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🍳️ Cuisine'
+        content: "# \U0001F373️ Cuisine"
   - title: Toilettes 1er
     path: toilettes-1er
     icon: mdi:paper-roll-outline
@@ -3077,7 +2948,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -3092,7 +2963,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -3215,9 +3086,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -3229,7 +3098,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -3244,7 +3113,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -3280,7 +3149,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🧻 Toilettes 1er'
+        content: "# \U0001F9FB Toilettes 1er"
   - title: Salle de bain 1er
     path: salle-de-bain-1er
     icon: mdi:shower
@@ -3292,7 +3161,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -3307,7 +3176,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -3430,9 +3299,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -3444,7 +3311,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -3459,7 +3326,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -3495,7 +3362,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🛁 Salle de bain 1er'
+        content: "# \U0001F6C1 Salle de bain 1er"
   - title: Couloir rez
     path: couloir-rez
     icon: mdi:home-export-outline
@@ -3507,7 +3374,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: lock.porte_rez
             features:
@@ -3517,7 +3384,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -3640,9 +3507,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -3654,7 +3519,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -3669,7 +3534,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -3717,7 +3582,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: switch.sb15
             name: HDD Nas des Dous
@@ -3732,7 +3597,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -3871,7 +3736,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.s1pm30_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.s1pm30_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.s1pm30_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -3881,9 +3746,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.s1pm30_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.s1pm30_energy_day') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.s1pm30_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -3958,11 +3821,11 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             entity: switch.s1pm30
             primary: Alimentation serveurs
-            secondary: |
+            secondary: >
               {% if is_state('switch.s1pm30', 'on') %}
                 Sous tension
               {% else %}
@@ -3972,7 +3835,7 @@ views:
             tap_action:
               action: toggle
             features_position: bottom
-            color: |
+            color: >
               {% if is_state('switch.s1pm30', 'on') %}
                 green
               {% else %}
@@ -3994,13 +3857,13 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 📡 SLZB-06M
+                subtitle: "\U0001F4E1 SLZB-06M"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_connection_mode
                 icon: mdi:router-wireless
                 primary: SLZB-06M
-                secondary: '{{ states(''sensor.slzb_06m_connection_mode'') }}'
-                color: |-
+                secondary: "{{ states('sensor.slzb_06m_connection_mode') }}"
+                color: >-
                   {% if is_state('sensor.slzb_06m_connection_mode', 'eth') %}
                     green
                   {% else %}
@@ -4012,8 +3875,7 @@ views:
                 entity: sensor.slzb_06m_core_chip_temp
                 icon: mdi:chip
                 icon_color: >-
-                  {% set t = states('sensor.slzb_06m_core_chip_temp') | float(0)
-                  %} {% if t >= 70 %}
+                  {% set t = states('sensor.slzb_06m_core_chip_temp') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -4021,45 +3883,40 @@ views:
                     green
                   {% endif %}
                 primary: CPU
-                secondary: '{{ states(''sensor.slzb_06m_core_chip_temp'') }} °C'
+                secondary: "{{ states('sensor.slzb_06m_core_chip_temp') }} °C"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06m_ethernet
                 icon: mdi:ethernet
-                icon_color: |-
+                icon_color: >-
                   {% if is_state(entity, 'on') %}
                     green
                   {% else %}
                     red
                   {% endif %}
                 primary: Ethernet
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{%
-                  endif %}
+                secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06m_internet
                 icon: mdi:web
-                icon_color: |-
+                icon_color: >-
                   {% if is_state(entity, 'on') %}
                     green
                   {% else %}
                     red
                   {% endif %}
                 primary: Internet
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{%
-                  endif %}
+                secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{% endif %}"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_firmware_channel
                 icon: mdi:update
                 icon_color: blue
                 primary: Firmware
-                secondary: '{{ states(''sensor.slzb_06m_firmware_channel'') }}'
+                secondary: "{{ states('sensor.slzb_06m_firmware_channel') }}"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_zigbee_chip_temp
                 icon: mdi:zigbee
                 icon_color: >-
-                  {% set t = states('sensor.slzb_06m_zigbee_chip_temp') |
-                  float(0) %} {% if t >= 70 %}
+                  {% set t = states('sensor.slzb_06m_zigbee_chip_temp') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -4067,9 +3924,7 @@ views:
                     green
                   {% endif %}
                 primary: Zigbee
-                secondary: >-
-                  {{ states('sensor.slzb_06m_zigbee_chip_temp') }} °C · {{
-                  states('sensor.slzb_06m_zigbee_type') }}
+                secondary: "{{ states('sensor.slzb_06m_zigbee_chip_temp') }} °C · {{ states('sensor.slzb_06m_zigbee_type') }}"
             column_span: 2
             grid_options:
               rows: auto
@@ -4078,14 +3933,13 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🛜 Mikrotik
+                subtitle: "\U0001F6DC Mikrotik"
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06m_connection_mode
                 icon: mdi:clock-check-outline
                 primary: SLZB-06M
                 secondary: >
-                  {% set s = states('sensor.mikrotik_uptime') | int(0) %} {% set
-                  d = (s / 86400) | int %}
+                  {% set s = states('sensor.mikrotik_uptime') | int(0) %} {% set d = (s / 86400) | int %}
 
                   {% if d < 1 %}
                     {{ (s / 3600) | int }} heure{% if (s / 3600) | int > 1 %}s{% endif %}
@@ -4102,8 +3956,7 @@ views:
                     {{ y }} an{% if y > 1 %}s{% endif %}
                   {% endif %}
                 icon_color: >
-                  {% set uptime = states('sensor.mikrotik_uptime') | int(0) %}
-                  {% if uptime < 1209600 %}
+                  {% set uptime = states('sensor.mikrotik_uptime') | int(0) %} {% if uptime < 1209600 %}
                     green
                   {% elif uptime < 2592000 %}
                     amber
@@ -4114,10 +3967,9 @@ views:
                 entity: sensor.mikrotik_cpu_usage
                 icon: mdi:chip
                 primary: CPU
-                secondary: '{{ states(''sensor.mikrotik_cpu_usage'') }} %'
+                secondary: "{{ states('sensor.mikrotik_cpu_usage') }} %"
                 icon_color: >
-                  {% set t = states('sensor.mikrotik_cpu_usage') | float(0) %}
-                  {% if t >= 70 %}
+                  {% set t = states('sensor.mikrotik_cpu_usage') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -4128,12 +3980,9 @@ views:
                 entity: sensor.mikrotik_memory_usage
                 icon: mdi:memory
                 primary: RAM
-                secondary: >-
-                  {{ states('sensor.mikrotik_memory_usage') | float |round(2) }}
-                  %
+                secondary: "{{ states('sensor.mikrotik_memory_usage') | float |round(2) }} %"
                 icon_color: >
-                  {% set t = states('sensor.mikrotik_memory_usage') | float(0)
-                  %} {% if t >= 70 %}
+                  {% set t = states('sensor.mikrotik_memory_usage') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -4144,12 +3993,9 @@ views:
                 entity: sensor.mikrotik_disk_usage
                 icon: mdi:harddisk
                 primary: Disk
-                secondary: >-
-                  {{ states('sensor.mikrotik_disk_usage') | float | round(2)}} 
-                  %
+                secondary: "{{ states('sensor.mikrotik_disk_usage') | float | round(2)}}  %"
                 icon_color: >
-                  {% set t = states('sensor.mikrotik_disk_usage') | float(0) %}
-                  {% if t >= 90 %}
+                  {% set t = states('sensor.mikrotik_disk_usage') | float(0) %} {% if t >= 90 %}
                     red
                   {% elif t >= 80 %}
                     amber
@@ -4160,13 +4006,13 @@ views:
                 entity: update.mikrotik_routerboard
                 icon: mdi:update
                 primary: Firmware
-                secondary: |
+                secondary: >
                   {% if is_state('update.mikrotik_routerboard', 'off') %}
                     À jour
                   {% else %}
                     Update dispo
                   {% endif %}
-                icon_color: |
+                icon_color: >
                   {% if is_state('update.mikrotik_routerboard', 'off') %}
                     green
                   {% else %}
@@ -4180,21 +4026,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🗄️ Serveurs
+                subtitle: "\U0001F5C4️ Serveurs"
               - type: custom:mushroom-template-card
                 entity: switch.s1pm30
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm30_power') | float(0) %} {% if
-                  not is_state('switch.s1pm30', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm30_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm30_power') | float(0) %} {% if not is_state('switch.s1pm30', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm30_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm30_power') | float(0) %} {% if
-                  not is_state('switch.s1pm30', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm30_power') | float(0) %} {% if not is_state('switch.s1pm30', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.s1pm30_power
                 name: Puissance
@@ -4286,7 +4126,7 @@ views:
                 entity: sensor.s1pm30_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm30_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm30_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -4298,20 +4138,13 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🔆 Onduleur Kostal
+                subtitle: "\U0001F506 Onduleur Kostal"
               - type: custom:mushroom-template-card
                 entity: sensor.onduleur_des_dous_inverter_state
-                icon: >-
-                  {% if is_state('binary_sensor.production_panneaux_solaire',
-                  'on') %} mdi:solar-power{% else
-                  %}mdi:solar-power-variant-outline{% endif %}
-                primary: '{{ states(''sensor.onduleur_des_dous_inverter_state'') }}'
-                secondary: >-
-                  Gestion d'énergie : {{
-                  states('sensor.onduleur_des_dous_energy_manager_state') }}
-                color: >-
-                  {% if is_state('binary_sensor.production_panneaux_solaire',
-                  'on') %} amber{% else %}grey{% endif %}
+                icon: "{% if is_state('binary_sensor.production_panneaux_solaire', 'on') %} mdi:solar-power{% else %}mdi:solar-power-variant-outline{% endif %}"
+                primary: "{{ states('sensor.onduleur_des_dous_inverter_state') }}"
+                secondary: "Gestion d'énergie : {{ states('sensor.onduleur_des_dous_energy_manager_state') }}"
+                color: "{% if is_state('binary_sensor.production_panneaux_solaire', 'on') %} amber{% else %}grey{% endif %}"
                 multiline_secondary: false
                 tap_action:
                   action: more-info
@@ -4323,9 +4156,7 @@ views:
                     entity: sensor.onduleur_des_dous_solar_power
                     icon: mdi:white-balance-sunny
                     icon_color: amber
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_solar_power') |
-                      float(0) | round(0) }} W
+                    primary: "{{ states('sensor.onduleur_des_dous_solar_power') | float(0) | round(0) }} W"
                     secondary: Production
                     vertical: true
                     tap_action:
@@ -4334,9 +4165,7 @@ views:
                     entity: sensor.onduleur_des_dous_home_power
                     icon: mdi:home-lightning-bolt
                     icon_color: blue
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_home_power') |
-                      float(0) | round(0) }} W
+                    primary: "{{ states('sensor.onduleur_des_dous_home_power') | float(0) | round(0) }} W"
                     secondary: Maison
                     vertical: true
                     tap_action:
@@ -4344,32 +4173,21 @@ views:
                   - type: custom:mushroom-template-card
                     entity: sensor.onduleur_des_dous_home_power_from_grid
                     icon: mdi:transmission-tower
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_home_power_from_grid')
-                      | float(0) | round(0) }} W
+                    primary: "{{ states('sensor.onduleur_des_dous_home_power_from_grid') | float(0) | round(0) }} W"
                     secondary: Soutirage réseau
                     vertical: true
                     tap_action:
                       action: more-info
-                    color: >-
-                      {% set v =
-                      states('sensor.onduleur_des_dous_home_power_from_grid') |
-                      float(0) %} {% if v > 1000 %}red{% elif v > 100 %}orange{%
-                      else %}green{% endif %}
+                    color: "{% set v = states('sensor.onduleur_des_dous_home_power_from_grid') | float(0) %} {% if v > 1000 %}red{% elif v > 100 %}orange{% else %}green{% endif %}"
                   - type: custom:mushroom-template-card
                     entity: sensor.onduleur_des_dous_autarky_day
                     icon: mdi:leaf
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_autarky_day') |
-                      float(0) | round(0) }} %
+                    primary: "{{ states('sensor.onduleur_des_dous_autarky_day') | float(0) | round(0) }} %"
                     secondary: Autonomie du jour
                     vertical: true
                     tap_action:
                       action: more-info
-                    color: >-
-                      {% set v = states('sensor.onduleur_des_dous_autarky_day')
-                      | float(0) %} {% if v >= 70 %}green{% elif v >= 40
-                      %}amber{% else %}red{% endif %}
+                    color: "{% set v = states('sensor.onduleur_des_dous_autarky_day') | float(0) %} {% if v >= 70 %}green{% elif v >= 40 %}amber{% else %}red{% endif %}"
               - type: grid
                 columns: 4
                 square: false
@@ -4378,9 +4196,7 @@ views:
                     entity: sensor.onduleur_des_dous_energy_yield_day
                     icon: mdi:solar-panel
                     icon_color: amber
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_energy_yield_day') |
-                      float(0) | round(1) }} kWh
+                    primary: "{{ states('sensor.onduleur_des_dous_energy_yield_day') | float(0) | round(1) }} kWh"
                     secondary: Produit
                     vertical: true
                     tap_action:
@@ -4389,9 +4205,7 @@ views:
                     entity: sensor.onduleur_des_dous_home_consumption_day
                     icon: mdi:home-import-outline
                     icon_color: blue
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_home_consumption_day')
-                      | float(0) | round(1) }} kWh
+                    primary: "{{ states('sensor.onduleur_des_dous_home_consumption_day') | float(0) | round(1) }} kWh"
                     secondary: Consommé
                     vertical: true
                     tap_action:
@@ -4400,9 +4214,7 @@ views:
                     entity: sensor.onduleur_des_dous_energy_to_grid_day
                     icon: mdi:transmission-tower-export
                     icon_color: green
-                    primary: >-
-                      {{ states('sensor.onduleur_des_dous_energy_to_grid_day') |
-                      float(0) | round(1) }} kWh
+                    primary: "{{ states('sensor.onduleur_des_dous_energy_to_grid_day') | float(0) | round(1) }} kWh"
                     secondary: Injecté
                     vertical: true
                     tap_action:
@@ -4411,42 +4223,17 @@ views:
                     entity: sensor.onduleur_des_dous_own_consumption_rate_day
                     icon: mdi:recycle
                     icon_color: purple
-                    primary: >-
-                      {{
-                      states('sensor.onduleur_des_dous_own_consumption_rate_day')
-                      | float(0) | round(0) }} %
+                    primary: "{{ states('sensor.onduleur_des_dous_own_consumption_rate_day') | float(0) | round(0) }} %"
                     secondary: Autoconsommation
                     vertical: true
                     tap_action:
                       action: more-info
               - type: custom:mushroom-template-card
                 entity: sensor.onduleur_des_dous_pv_to_battery_power
-                icon: >-
-                  {% set c =
-                  states('sensor.onduleur_des_dous_pv_to_battery_power') |
-                  float(0) %} {% set d =
-                  states('sensor.onduleur_des_dous_home_power_from_battery') |
-                  float(0) %} {% if c > 10 %}mdi:battery-charging {% elif d > 10
-                  %}mdi:battery-arrow-down {% else %}mdi:battery{% endif %}
-                primary: >-
-                  {% set c =
-                  states('sensor.onduleur_des_dous_pv_to_battery_power') |
-                  float(0) %} {% set d =
-                  states('sensor.onduleur_des_dous_home_power_from_battery') |
-                  float(0) %} {% if c > 10 %}Charge · {{ c | round(0) }} W {%
-                  elif d > 10 %}Décharge · {{ d | round(0) }} W {% else %}Au
-                  repos{% endif %}
-                secondary: >-
-                  Batterie · {{
-                  states('sensor.onduleur_des_dous_battery_charge_from_pv_day')
-                  | float(0) | round(1) }} kWh chargés aujourd'hui
-                color: >-
-                  {% set c =
-                  states('sensor.onduleur_des_dous_pv_to_battery_power') |
-                  float(0) %} {% set d =
-                  states('sensor.onduleur_des_dous_home_power_from_battery') |
-                  float(0) %} {% if c > 10 %}green{% elif d > 10 %}orange{% else
-                  %}grey{% endif %}
+                icon: "{% set c = states('sensor.onduleur_des_dous_pv_to_battery_power') | float(0) %} {% set d = states('sensor.onduleur_des_dous_home_power_from_battery') | float(0) %} {% if c > 10 %}mdi:battery-charging {% elif d > 10 %}mdi:battery-arrow-down {% else %}mdi:battery{% endif %}"
+                primary: "{% set c = states('sensor.onduleur_des_dous_pv_to_battery_power') | float(0) %} {% set d = states('sensor.onduleur_des_dous_home_power_from_battery') | float(0) %} {% if c > 10 %}Charge · {{ c | round(0) }} W {% elif d > 10 %}Décharge · {{ d | round(0) }} W {% else %}Au repos{% endif %}"
+                secondary: Batterie · {{ states('sensor.onduleur_des_dous_battery_charge_from_pv_day') | float(0) | round(1) }} kWh chargés aujourd'hui
+                color: "{% set c = states('sensor.onduleur_des_dous_pv_to_battery_power') | float(0) %} {% set d = states('sensor.onduleur_des_dous_home_power_from_battery') | float(0) %} {% if c > 10 %}green{% elif d > 10 %}orange{% else %}grey{% endif %}"
                 multiline_secondary: false
                 tap_action:
                   action: more-info
@@ -4591,7 +4378,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -4627,7 +4414,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 💽 Serveurs'
+        content: "# \U0001F4BD Serveurs"
   - title: Buanderie
     path: buanderie
     icon: mdi:washing-machine
@@ -4639,7 +4426,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: switch.s1pm44
             name: Pompe eau chaude
@@ -4661,7 +4448,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -4800,7 +4587,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.buanderie_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.buanderie_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.buanderie_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -4810,9 +4597,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.buanderie_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.buanderie_energy_day') | float(0) | round(2)
-                  }} kWh
+                primary: "{{ states('sensor.buanderie_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -4884,35 +4669,27 @@ views:
               rows: auto
           - type: custom:mushroom-template-card
             entity: sensor.sp1pm62_power
-            primary: >-
-              {{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W · {{
-              states('sensor.sp1pm62_energy_day') | float(0) | round(2) }} kWh
+            primary: "{{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W · {{ states('sensor.sp1pm62_energy_day') | float(0) | round(2) }} kWh"
             secondary: Lavette
             icon: mdi:washing-machine
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if states('sensor.sp1pm62_power') | float(0) > 5 %}orange{%
-              else %}grey{% endif %}
+            color: "{% if states('sensor.sp1pm62_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
             grid_options:
               columns: 6
               rows: auto
           - type: custom:mushroom-template-card
             entity: sensor.s1pm59_power
-            primary: >-
-              {{ states('sensor.s1pm59_power') | float(0) | round(0) }} W · {{
-              states('sensor.s1pm59_energy_day') | float(0) | round(2) }} kWh
+            primary: "{{ states('sensor.s1pm59_power') | float(0) | round(0) }} W · {{ states('sensor.s1pm59_energy_day') | float(0) | round(2) }} kWh"
             secondary: Déshumidificateur
             icon: mdi:air-humidifier
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if states('sensor.s1pm59_power') | float(0) > 5 %}orange{% else
-              %}grey{% endif %}
+            color: "{% if states('sensor.s1pm59_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
             grid_options:
               columns: 6
               rows: auto
@@ -4921,18 +4698,17 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🧺 Lavette
+                subtitle: "\U0001F9FA Lavette"
               - type: custom:mushroom-template-card
                 entity: sensor.lavette_operation_state
                 icon: mdi:washing-machine
                 primary: >-
-                  {% set s = states('sensor.lavette_operation_state') %} {% set
-                  m = {'run': 'En marche', 'ready': 'Prête',
+                  {% set s = states('sensor.lavette_operation_state') %} {% set m = {'run': 'En marche', 'ready': 'Prête',
                               'inactive': 'Éteinte', 'pause': 'En pause',
                               'delayedstart': 'Départ différé',
                               'actionrequired': 'Action requise',
@@ -4940,73 +4716,41 @@ views:
                               'error': 'Erreur'} %}
                   {{ m.get(s, s | replace('_', ' ') | capitalize) }}
                 secondary: >-
-                  {% set p = states('select.lavette_active_program') %} {% if p
-                  in ['unknown', 'unavailable', 'none', ''] %}
+                  {% set p = states('select.lavette_active_program') %} {% if p in ['unknown', 'unavailable', 'none', ''] %}
                     {% set p = states('select.lavette_selected_program') %}
-                  {% endif %} {% if p in ['unknown', 'unavailable', 'none', '']
-                  %}Aucun programme {% else %}{{ p.split('.')[-1] | replace('_',
-                  ' ') | capitalize }} {% endif %}
-                color: >-
-                  {% set s = states('sensor.lavette_operation_state') %} {% if s
-                  == 'run' %}blue {% elif s == 'finished' %}green {% elif s in
-                  ['error', 'actionrequired'] %}red {% elif s in ['pause',
-                  'delayedstart'] %}amber {% else %}grey{% endif %}
+                  {% endif %} {% if p in ['unknown', 'unavailable', 'none', ''] %}Aucun programme {% else %}{{ p.split('.')[-1] | replace('_', ' ') | capitalize }} {% endif %}
+                color: "{% set s = states('sensor.lavette_operation_state') %} {% if s == 'run' %}blue {% elif s == 'finished' %}green {% elif s in ['error', 'actionrequired'] %}red {% elif s in ['pause', 'delayedstart'] %}amber {% else %}grey{% endif %}"
                 multiline_secondary: false
                 tap_action:
                   action: more-info
               - type: custom:mushroom-template-card
                 entity: sensor.lavette_program_progress
                 icon: mdi:timelapse
-                primary: >-
-                  {{ states('sensor.lavette_program_progress') | float(0) |
-                  round(0) }} %
-                secondary: >-
-                  {% set ts =
-                  as_timestamp(states('sensor.lavette_program_finish_time'), 0)
-                  %} {% if ts > 0 %}Fin prévue à {{ ts |
-                  timestamp_custom('%H:%M') }} {% else %}Aucun programme en
-                  cours{% endif %}
-                color: >-
-                  {% if is_state('sensor.lavette_operation_state', 'run') %}blue
-                  {% else %}grey{% endif %}
+                primary: "{{ states('sensor.lavette_program_progress') | float(0) | round(0) }} %"
+                secondary: "{% set ts = as_timestamp(states('sensor.lavette_program_finish_time'), 0) %} {% if ts > 0 %}Fin prévue à {{ ts | timestamp_custom('%H:%M') }} {% else %}Aucun programme en cours{% endif %}"
+                color: "{% if is_state('sensor.lavette_operation_state', 'run') %}blue {% else %}grey{% endif %}"
                 tap_action:
                   action: more-info
               - type: custom:mushroom-template-card
                 entity: binary_sensor.lavette_door
-                icon: >-
-                  {% if is_state('binary_sensor.lavette_door', 'on')
-                  %}mdi:door-open {% else %}mdi:door-closed{% endif %}
-                primary: >-
-                  {% if is_state('binary_sensor.lavette_door', 'on') %}Ouverte
-                  {% else %}Fermée{% endif %}
+                icon: "{% if is_state('binary_sensor.lavette_door', 'on') %}mdi:door-open {% else %}mdi:door-closed{% endif %}"
+                primary: "{% if is_state('binary_sensor.lavette_door', 'on') %}Ouverte {% else %}Fermée{% endif %}"
                 secondary: Hublot
-                color: >-
-                  {% if is_state('binary_sensor.lavette_door', 'on') %}amber {%
-                  else %}green{% endif %}
+                color: "{% if is_state('binary_sensor.lavette_door', 'on') %}amber {% else %}green{% endif %}"
               - type: custom:mushroom-template-card
                 entity: binary_sensor.lavette_remote_start
                 icon: mdi:cellphone-wireless
-                primary: >-
-                  {% if is_state('binary_sensor.lavette_remote_start', 'on')
-                  %}Autorisé {% else %}Verrouillé{% endif %}
+                primary: "{% if is_state('binary_sensor.lavette_remote_start', 'on') %}Autorisé {% else %}Verrouillé{% endif %}"
                 secondary: Départ à distance
-                color: >-
-                  {% if is_state('binary_sensor.lavette_remote_start', 'on')
-                  %}green {% else %}grey{% endif %}
+                color: "{% if is_state('binary_sensor.lavette_remote_start', 'on') %}green {% else %}grey{% endif %}"
               - type: custom:mushroom-template-card
                 entity: switch.lavette_child_lock
-                icon: >-
-                  {% if is_state('switch.lavette_child_lock', 'on') %}mdi:lock
-                  {% else %}mdi:lock-open-variant{% endif %}
-                primary: >-
-                  {% if is_state('switch.lavette_child_lock', 'on') %}Activée {%
-                  else %}Désactivée{% endif %}
+                icon: "{% if is_state('switch.lavette_child_lock', 'on') %}mdi:lock {% else %}mdi:lock-open-variant{% endif %}"
+                primary: "{% if is_state('switch.lavette_child_lock', 'on') %}Activée {% else %}Désactivée{% endif %}"
                 secondary: Sécurité enfant
                 tap_action:
                   action: toggle
-                color: >-
-                  {% if is_state('switch.lavette_child_lock', 'on') %}blue {%
-                  else %}grey{% endif %}
+                color: "{% if is_state('switch.lavette_child_lock', 'on') %}blue {% else %}grey{% endif %}"
               - type: gauge
                 entity: sensor.sp1pm62_power
                 name: Puissance
@@ -5021,10 +4765,7 @@ views:
                 entity: sensor.sp1pm62_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W ·
-                  {{ states('sensor.sp1pm62_energy') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.sp1pm62_power') | float(0) | round(0) }} W · {{ states('sensor.sp1pm62_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5038,21 +4779,15 @@ views:
                 alignment: center
                 subtitle: ♨️ Chaudière
               - type: custom:mushroom-template-card
-                entity: switch.s1pm43
+                entity: switch.sp1pm71
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm43_power') | float(0) %} {% if
-                  not is_state('switch.s1pm43', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm43_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.sp1pm71_power') | float(0) %} {% if not is_state('switch.sp1pm71', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.sp1pm71_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm43_power') | float(0) %} {% if
-                  not is_state('switch.s1pm43', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.sp1pm71_power') | float(0) %} {% if not is_state('switch.sp1pm71', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
-                entity: sensor.s1pm43_power
+                entity: sensor.sp1pm71_power
                 name: Puissance
                 needle: true
                 min: 0
@@ -5109,7 +4844,7 @@ views:
                     apex_config:
                       tickAmount: 4
                 series:
-                  - entity: sensor.s1pm43_power
+                  - entity: sensor.sp1pm71_power
                     name: Maintenant
                     color: var(--warning-color)
                     type: area
@@ -5118,7 +4853,7 @@ views:
                     group_by:
                       func: avg
                       duration: 10min
-                  - entity: sensor.s1pm43_power
+                  - entity: sensor.sp1pm71_power
                     name: moy 24 h
                     color: var(--info-color)
                     float_precision: 0
@@ -5128,7 +4863,7 @@ views:
                     show:
                       in_chart: false
                       in_header: true
-                  - entity: sensor.s1pm43_power
+                  - entity: sensor.sp1pm71_power
                     name: pic 24 h
                     color: var(--error-color)
                     float_precision: 0
@@ -5139,10 +4874,10 @@ views:
                       in_chart: false
                       in_header: true
               - type: custom:mushroom-template-card
-                entity: sensor.s1pm43_energy
+                entity: sensor.sp1pm71_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm43_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.sp1pm71_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5154,21 +4889,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🪣 Pompe dilatation chaudière
+                subtitle: "\U0001FAA3 Pompe dilatation chaudière"
               - type: custom:mushroom-template-card
                 entity: switch.sp1pm
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.sp1pm70_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm70', 'on') %}Hors tension {% elif p
-                  > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.sp1pm70_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.sp1pm70_power') | float(0) %} {% if not is_state('switch.sp1pm70', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.sp1pm70_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.sp1pm70_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm70', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.sp1pm70_power') | float(0) %} {% if not is_state('switch.sp1pm70', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.sp1pm70_power
                 name: Puissance
@@ -5260,9 +4989,7 @@ views:
                 entity: sensor.sp1pm70_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.sp1pm70_energy') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.sp1pm70_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5274,21 +5001,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🚰 Pompe eau chaude
+                subtitle: "\U0001F6B0 Pompe eau chaude"
               - type: custom:mushroom-template-card
                 entity: switch.s1pm44
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm44_power') | float(0) %} {% if
-                  not is_state('switch.s1pm44', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm44_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm44_power') | float(0) %} {% if not is_state('switch.s1pm44', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm44_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm44_power') | float(0) %} {% if
-                  not is_state('switch.s1pm44', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm44_power') | float(0) %} {% if not is_state('switch.s1pm44', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.s1pm44_power
                 name: Puissance
@@ -5380,7 +5101,7 @@ views:
                 entity: sensor.s1pm44_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm44_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm44_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5396,17 +5117,11 @@ views:
               - type: custom:mushroom-template-card
                 entity: switch.s1pm59
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm59_power') | float(0) %} {% if
-                  not is_state('switch.s1pm59', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm59_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm59_power') | float(0) %} {% if not is_state('switch.s1pm59', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm59_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm59_power') | float(0) %} {% if
-                  not is_state('switch.s1pm59', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm59_power') | float(0) %} {% if not is_state('switch.s1pm59', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.s1pm59_power
                 name: Puissance
@@ -5498,7 +5213,7 @@ views:
                 entity: sensor.s1pm59_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm59_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm59_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5511,7 +5226,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -5547,7 +5262,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🪣️ Buanderie'
+        content: "# \U0001FAA3️ Buanderie"
   - title: Cave
     path: cave
     icon: mdi:bottle-wine
@@ -5559,7 +5274,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -5574,7 +5289,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -5713,7 +5428,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.cave_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.sp1pm64_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.sp1pm64_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -5723,9 +5438,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.cave_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.sp1pm64_energy_day') | float(0) | round(2)
-                  }} kWh
+                primary: "{{ states('sensor.sp1pm64_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -5800,26 +5513,20 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🍷 Cave à vin
+                subtitle: "\U0001F377 Cave à vin"
               - type: custom:mushroom-template-card
                 entity: switch.s1pm58
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm58_power') | float(0) %} {% if
-                  not is_state('switch.s1pm58', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm58_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm58_power') | float(0) %} {% if not is_state('switch.s1pm58', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm58_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm58_power') | float(0) %} {% if
-                  not is_state('switch.s1pm58', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm58_power') | float(0) %} {% if not is_state('switch.s1pm58', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
                 features_position: bottom
               - type: gauge
                 entity: sensor.s1pm58_power
@@ -5912,7 +5619,7 @@ views:
                 entity: sensor.s1pm58_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm58_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm58_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -5928,17 +5635,11 @@ views:
               - type: custom:mushroom-template-card
                 entity: switch.sp1pm64
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.sp1pm64_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm64', 'on') %}Hors tension {% elif p
-                  > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.sp1pm64_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.sp1pm64_power') | float(0) %} {% if not is_state('switch.sp1pm64', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.sp1pm64_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.sp1pm64_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm64', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.sp1pm64_power') | float(0) %} {% if not is_state('switch.sp1pm64', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
                 features_position: bottom
               - type: gauge
                 entity: sensor.sp1pm64_power
@@ -6031,9 +5732,7 @@ views:
                 entity: sensor.sp1pm64_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.sp1pm64_energy') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.sp1pm64_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -6046,7 +5745,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -6082,7 +5781,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🍷️ Cave'
+        content: "# \U0001F377️ Cave"
   - title: Bureau FV
     path: bureau
     icon: mdi:desktop-tower-monitor
@@ -6094,7 +5793,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -6109,7 +5808,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -6235,24 +5934,23 @@ views:
             name: Radiateur
             hvac_modes:
               - heat
-              - 'off'
+              - off
             show_temperature_control: true
             collapsible_controls: false
           - type: custom:mushroom-template-card
             entity: sensor.trv_btr_01_position
-            primary: '{{ states(''sensor.trv_btr_01_position'') | float(0) | round(0) }} %'
+            primary: "{{ states('sensor.trv_btr_01_position') | float(0) | round(0) }} %"
             secondary: État de la vanne
             icon: mdi:radiator
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% set v = states('sensor.trv_btr_01_position') | float(0) %} {%
-              if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}
+            color: "{% set v = states('sensor.trv_btr_01_position') | float(0) %} {% if v > 70 %}red{% elif v > 20 %}orange{% else %}green{% endif %}"
             card_mod:
-              style: |
+              style: >
                 {% set v = states('sensor.trv_btr_01_position') | float(0) %}
+
                 mushroom-state-info$ .primary {
                   {% if v > 70 %}color: var(--error-color) !important;
                   {% elif v > 20 %}color: var(--orange-color) !important;
@@ -6261,40 +5959,24 @@ views:
                 }
           - type: custom:mushroom-template-card
             entity: binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window
-            primary: >-
-              {% if
-              is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window',
-              'on') %}Ouverte{% else %}Fermée{% endif %}
+            primary: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: >-
-              {% if
-              is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window',
-              'on') %}mdi:window-open-variant{% else
-              %}mdi:window-closed-variant{% endif %}
+            icon: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if
-              is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window',
-              'on') %}red{% else %}green{% endif %}
+            color: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
             entity: switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating
-            primary: >-
-              {% if
-              is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating',
-              'on') %}Actif{% else %}Désactivé{% endif %}
+            primary: "{% if is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: >-
-              {% if
-              is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating',
-              'on') %}orange{% else %}grey{% endif %}
+            color: "{% if is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
       - type: grid
         column_span: 1
         cards:
@@ -6319,7 +6001,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.sp1pm63_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.sp1pm63_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.sp1pm63_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -6329,9 +6011,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.sp1pm63_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.sp1pm63_energy_day') | float(0) | round(2)
-                  }} kWh
+                primary: "{{ states('sensor.sp1pm63_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -6406,11 +6086,11 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             entity: switch.sm25
             primary: PC Game
-            secondary: |
+            secondary: >
               {% if is_state('switch.sm25', 'on') %}
                 Allumé
               {% else %}
@@ -6419,7 +6099,7 @@ views:
             icon: mdi:desktop-classic
             tap_action:
               action: toggle
-            color: |
+            color: >
               {% if is_state('switch.sm25', 'on') %}
                 green
               {% else %}
@@ -6430,7 +6110,7 @@ views:
           - type: custom:mushroom-template-card
             entity: switch.sm27_lumiere_bureau
             primary: Ecrans
-            secondary: |
+            secondary: >
               {% if is_state('switch.sm26', 'on') %}
                 Allumée
               {% else %}
@@ -6439,7 +6119,7 @@ views:
             icon: mdi:remote-desktop
             tap_action:
               action: toggle
-            color: |
+            color: >
               {% if is_state('switch.sm26', 'on') %}
                 amber
               {% else %}
@@ -6451,21 +6131,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🔌 Bureau
+                subtitle: "\U0001F50C Bureau"
               - type: custom:mushroom-template-card
                 entity: switch.sp1pm63
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.sp1pm63_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm63', 'on') %}Hors tension {% elif p
-                  > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.sp1pm63_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.sp1pm63_power') | float(0) %} {% if not is_state('switch.sp1pm63', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.sp1pm63_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.sp1pm63_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm63', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.sp1pm63_power') | float(0) %} {% if not is_state('switch.sp1pm63', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.sp1pm63_power
                 name: Puissance
@@ -6557,9 +6231,7 @@ views:
                 entity: sensor.sp1pm63_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.sp1pm63_energy') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.sp1pm63_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -6572,7 +6244,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -6608,7 +6280,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🖥️ Bureau FV'
+        content: "# \U0001F5A5️ Bureau FV"
   - title: Bureau CR
     path: bureau-cr
     icon: mdi:desk
@@ -6620,7 +6292,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -6635,7 +6307,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -6758,9 +6430,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -6772,7 +6442,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -6787,7 +6457,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -6823,7 +6493,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🗃️ Bureau CR'
+        content: "# \U0001F5C3️ Bureau CR"
   - title: Salle de bain rez
     path: salle-de-bain-rez
     icon: mdi:toilet
@@ -6835,7 +6505,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -6850,7 +6520,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -6973,9 +6643,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -6987,7 +6655,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -7002,7 +6670,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -7038,7 +6706,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🚽 Salle de bain rez'
+        content: "# \U0001F6BD Salle de bain rez"
   - title: Galetas
     path: galetas
     icon: mdi:home-roof
@@ -7050,7 +6718,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: switch.sb18
             name: Lumières exterieur Noël
@@ -7064,7 +6732,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -7187,9 +6855,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -7201,7 +6867,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -7216,7 +6882,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -7252,7 +6918,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🛖 Galetas'
+        content: "# \U0001F6D6 Galetas"
   - title: Atelier
     path: atelier
     icon: mdi:hammer-wrench
@@ -7264,7 +6930,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -7279,7 +6945,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -7418,7 +7084,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.atelier_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.atelier_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.atelier_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -7428,9 +7094,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.atelier_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.atelier_energy_day') | float(0) | round(2)
-                  }} kWh
+                primary: "{{ states('sensor.atelier_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -7502,36 +7166,27 @@ views:
               rows: auto
           - type: custom:mushroom-template-card
             entity: sensor.s1pm40_power
-            primary: >-
-              {{ states('sensor.s1pm40_power') | float(0) | round(0) }} W · {{
-              states('sensor.s1pm40_energy_day') | float(0) | round(2) }} kWh
+            primary: "{{ states('sensor.s1pm40_power') | float(0) | round(0) }} W · {{ states('sensor.s1pm40_energy_day') | float(0) | round(2) }} kWh"
             secondary: Compresseur
             icon: mdi:air-compressor
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if states('sensor.s1pm40_power') | float(0) > 5 %}orange{% else
-              %}grey{% endif %}
+            color: "{% if states('sensor.s1pm40_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
             grid_options:
               columns: 6
               rows: auto
           - type: custom:mushroom-template-card
             entity: sensor.msws65_atelier_power
-            primary: >-
-              {{ states('sensor.msws65_atelier_power') | float(0) | round(0) }}
-              W · {{ states('sensor.msws65_atelier_energy_day') | float(0) |
-              round(2) }} kWh
+            primary: "{{ states('sensor.msws65_atelier_power') | float(0) | round(0) }} W · {{ states('sensor.msws65_atelier_energy_day') | float(0) | round(2) }} kWh"
             secondary: Chargeurs
             icon: mdi:battery-charging-medium
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: >-
-              {% if states('sensor.msws65_atelier_power') | float(0) > 5
-              %}orange{% else %}grey{% endif %}
+            color: "{% if states('sensor.msws65_atelier_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
             grid_options:
               columns: 6
               rows: auto
@@ -7540,18 +7195,18 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
-                subtitle: 📡 SLZB-06MRUA
+                subtitle: "\U0001F4E1 SLZB-06MRUA"
                 alignment: center
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06mra_connection_mode
                 icon: mdi:router-wireless
                 primary: SLZB-06MRUA
-                secondary: '{{ states(''sensor.slzb_06mra_connection_mode'') }}'
-                color: |-
+                secondary: "{{ states('sensor.slzb_06mra_connection_mode') }}"
+                color: >-
                   {% if is_state('binary_sensor.slzb_06mra_ethernet', 'eth') %}
                     green
                   {% else %}
@@ -7562,8 +7217,7 @@ views:
                 entity: sensor.slzb_06mra_r_core_chip_temp
                 icon: mdi:chip
                 icon_color: >-
-                  {% set t = states('sensor.slzb_06mra_r_core_chip_temp') |
-                  float(0) %} {% if t >= 70 %}
+                  {% set t = states('sensor.slzb_06mra_r_core_chip_temp') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -7571,49 +7225,44 @@ views:
                     green
                   {% endif %}
                 primary: CPU
-                secondary: '{{ states(''sensor.slzb_06mra_core_chip_temp'') }} °C'
+                secondary: "{{ states('sensor.slzb_06mra_core_chip_temp') }} °C"
                 layout: horizontal
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06mra_ethernet
                 icon: mdi:ethernet
-                icon_color: |-
+                icon_color: >-
                   {% if is_state(entity, 'on') %}
                     green
                   {% else %}
                     red
                   {% endif %}
                 primary: Ethernet
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{%
-                  endif %}
+                secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{% endif %}"
                 layout: horizontal
               - type: custom:mushroom-template-card
                 entity: binary_sensor.slzb_06mra_internet
                 icon: mdi:web
-                icon_color: |-
+                icon_color: >-
                   {% if is_state(entity, 'on') %}
                     green
                   {% else %}
                     red
                   {% endif %}
                 primary: Internet
-                secondary: >-
-                  {% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{%
-                  endif %}
+                secondary: "{% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{% endif %}"
                 layout: horizontal
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06mra_firmware_channel
                 icon: mdi:update
                 icon_color: blue
                 primary: Firmware
-                secondary: '{{ states(''sensor.slzb_06mra_firmware_channel'') }}'
+                secondary: "{{ states('sensor.slzb_06mra_firmware_channel') }}"
                 layout: horizontal
               - type: custom:mushroom-template-card
                 entity: sensor.slzb_06mra_zigbee_chip_temp
                 icon: mdi:zigbee
                 icon_color: >-
-                  {% set t = states('sensor.slzb_06mra_zigbee_chip_temp') |
-                  float(0) %} {% if t >= 70 %}
+                  {% set t = states('sensor.slzb_06mra_zigbee_chip_temp') | float(0) %} {% if t >= 70 %}
                     red
                   {% elif t >= 55 %}
                     amber
@@ -7621,9 +7270,7 @@ views:
                     green
                   {% endif %}
                 primary: Zigbee
-                secondary: >-
-                  {{ states('sensor.slzb_06mra_zigbee_chip_temp') }} °C · {{
-                  states('sensor.slzb_06mra_zigbee_type') }}
+                secondary: "{{ states('sensor.slzb_06mra_zigbee_chip_temp') }} °C · {{ states('sensor.slzb_06mra_zigbee_type') }}"
                 layout: horizontal
             column_span: 2
             grid_options:
@@ -7633,24 +7280,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🪫 Chargeurs
+                subtitle: "\U0001FAAB Chargeurs"
               - type: custom:mushroom-template-card
                 entity: switch.msws65_atelier
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.msws65_atelier_power') | float(0) %}
-                  {% if not is_state('switch.msws65_atelier', 'on') %}Hors
-                  tension {% elif p > 5 %}En marche {% else %}En veille{% endif
-                  %}
-                secondary: >-
-                  {{ states('sensor.msws65_atelier_power') | float(0) | round(0)
-                  }} W
+                primary: "{% set p = states('sensor.msws65_atelier_power') | float(0) %} {% if not is_state('switch.msws65_atelier', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.msws65_atelier_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.msws65_atelier_power') | float(0) %}
-                  {% if not is_state('switch.msws65_atelier', 'on') %}red {%
-                  elif p > 5 %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.msws65_atelier_power') | float(0) %} {% if not is_state('switch.msws65_atelier', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.msws65_atelier_power
                 name: Puissance
@@ -7742,9 +7380,7 @@ views:
                 entity: sensor.msws65_atelier_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.msws65_atelier_energy') | float(0) |
-                  round(2) }} kWh
+                primary: "{{ states('sensor.msws65_atelier_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -7760,17 +7396,11 @@ views:
               - type: custom:mushroom-template-card
                 entity: switch.s1pm40
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.s1pm40_power') | float(0) %} {% if
-                  not is_state('switch.s1pm40', 'on') %}Hors tension {% elif p >
-                  5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.s1pm40_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.s1pm40_power') | float(0) %} {% if not is_state('switch.s1pm40', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.s1pm40_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.s1pm40_power') | float(0) %} {% if
-                  not is_state('switch.s1pm40', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.s1pm40_power') | float(0) %} {% if not is_state('switch.s1pm40', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.s1pm40_power
                 name: Puissance
@@ -7862,7 +7492,7 @@ views:
                 entity: sensor.s1pm40_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: '{{ states(''sensor.s1pm40_energy'') | float(0) | round(2) }} kWh'
+                primary: "{{ states('sensor.s1pm40_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -7875,7 +7505,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -7911,7 +7541,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🛠️ Atelier'
+        content: "# \U0001F6E0️ Atelier"
   - title: Garage
     path: garage
     icon: mdi:garage-variant
@@ -7923,7 +7553,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: tile
             entity: switch.s146
             features:
@@ -7937,7 +7567,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -8060,9 +7690,7 @@ views:
             name: ⚡ Énergie
           - type: custom:mushroom-template-card
             primary: Pas encore mesurée
-            secondary: >-
-              Aucun compteur électrique dédié à cette pièce n'est actuellement
-              disponible.
+            secondary: Aucun compteur électrique dédié à cette pièce n'est actuellement disponible.
             icon: mdi:power-plug-off
             features_position: bottom
             vertical: true
@@ -8074,7 +7702,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             primary: Aucun appareil dans cette pièce
             secondary: Zone réservée aux appareils de la pièce
@@ -8089,7 +7717,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -8125,7 +7753,7 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🛞️ Garages'
+        content: "# \U0001F6DE️ Garages"
   - title: Jardin
     path: jardin
     icon: mdi:shovel
@@ -8137,7 +7765,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🔘 Interactions
+            name: "\U0001F518 Interactions"
           - type: custom:mushroom-template-card
             primary: Aucune interaction configurée
             secondary: Zone réservée aux commandes de la pièce
@@ -8152,7 +7780,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🌡️ Conditions
+            name: "\U0001F321️ Conditions"
           - type: custom:apexcharts-card
             graph_span: 24h
             update_interval: 5min
@@ -8291,7 +7919,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.sp1pm61_power
                 icon: mdi:flash
-                primary: '{{ states(''sensor.sp1pm61_power'') | float(0) | round(0) }} W'
+                primary: "{{ states('sensor.sp1pm61_power') | float(0) | round(0) }} W"
                 secondary: Puissance actuelle
                 tap_action:
                   action: more-info
@@ -8301,9 +7929,7 @@ views:
               - type: custom:mushroom-template-card
                 entity: sensor.sp1pm61_energy_day
                 icon: mdi:lightning-bolt
-                primary: >-
-                  {{ states('sensor.sp1pm61_energy_day') | float(0) | round(2)
-                  }} kWh
+                primary: "{{ states('sensor.sp1pm61_energy_day') | float(0) | round(2) }} kWh"
                 secondary: Énergie du jour (24 h)
                 tap_action:
                   action: more-info
@@ -8378,11 +8004,11 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 📟 Appareils
+            name: "\U0001F4DF Appareils"
           - type: custom:mushroom-template-card
             entity: switch.sp1pm61
             primary: Alimentation Wall-e
-            secondary: |
+            secondary: >
               {% if is_state('switch.sp1pm61', 'on') %}
                 Sous tension
               {% else %}
@@ -8392,7 +8018,7 @@ views:
             tap_action:
               action: toggle
             features_position: bottom
-            color: |
+            color: >
               {% if is_state('switch.sp1pm61', 'on') %}
                 green
               {% else %}
@@ -8403,21 +8029,15 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 alignment: center
-                subtitle: 🚜 Wall-E
+                subtitle: "\U0001F69C Wall-E"
               - type: custom:mushroom-template-card
                 entity: switch.sp1pm61
                 icon: mdi:pump
-                primary: >-
-                  {% set p = states('sensor.sp1pm61_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm61', 'on') %}Hors tension {% elif p
-                  > 5 %}En marche {% else %}En veille{% endif %}
-                secondary: '{{ states(''sensor.sp1pm61_power'') | float(0) | round(0) }} W'
+                primary: "{% set p = states('sensor.sp1pm61_power') | float(0) %} {% if not is_state('switch.sp1pm61', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.sp1pm61_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: >-
-                  {% set p = states('sensor.sp1pm61_power') | float(0) %} {% if
-                  not is_state('switch.sp1pm61', 'on') %}red {% elif p > 5
-                  %}orange {% else %}green{% endif %}
+                color: "{% set p = states('sensor.sp1pm61_power') | float(0) %} {% if not is_state('switch.sp1pm61', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
               - type: gauge
                 entity: sensor.sp1pm61_power
                 name: Puissance
@@ -8509,9 +8129,7 @@ views:
                 entity: sensor.sp1pm61_energy
                 icon: mdi:lightning-bolt
                 icon_color: amber
-                primary: >-
-                  {{ states('sensor.sp1pm61_energy') | float(0) | round(2) }}
-                  kWh
+                primary: "{{ states('sensor.sp1pm61_energy') | float(0) | round(2) }} kWh"
                 secondary: Consommation cumulée
                 tap_action:
                   action: more-info
@@ -8524,7 +8142,7 @@ views:
         cards:
           - type: custom:button-card
             template: section_title
-            name: 🧭 Navigation
+            name: "\U0001F9ED Navigation"
           - type: grid
             cards:
               - type: custom:mushroom-template-card
@@ -8560,4 +8178,4 @@ views:
       card:
         type: markdown
         text_only: true
-        content: '# 🌾 Jardin'
+        content: "# \U0001F33E Jardin"

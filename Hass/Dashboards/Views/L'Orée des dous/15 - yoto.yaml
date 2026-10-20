@@ -1,0 +1,22 @@
+type: sections
+title: Yoto
+path: yoto
+icon: mdi:ipod
+sections: []
+badges:
+  - type: entity
+    show_name: true
+    show_state: true
+    show_icon: true
+    entity: media_player.chambre_yoto_d_TBX9F_ORG_0005
+    color: deep-orange
+max_columns: 1
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 🎧 Yoto
+footer:
+  type: markdown
+  content: ''

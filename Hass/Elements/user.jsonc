@@ -1,0 +1,20 @@
+// WebSocket : auth/current_user
+{
+  "id": "93e221eaee924b9096c49548977fd847",
+  "name": "TBX9F_ID_0677",
+  "is_owner": true,
+  "is_admin": true,
+  "credentials": [
+    {
+      "auth_provider_type": "homeassistant",
+      "auth_provider_id": null
+    }
+  ],
+  "mfa_modules": [
+    {
+      "id": "TBX9F_ID_3331",
+      "name": "Authenticator app",
+      "enabled": true
+    }
+  ]
+}

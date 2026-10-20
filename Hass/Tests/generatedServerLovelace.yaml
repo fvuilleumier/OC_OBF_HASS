@@ -1,0 +1,1384 @@
+title: Serveur
+path: serveur
+icon: mdi:server
+type: custom:grid-layout
+
+layout:
+  margin: 0
+  padding: 0
+  grid-gap: 8px
+  grid-template-columns: repeat(12, minmax(0, 1fr))
+  grid-template-areas: |
+    "conditions conditions conditions conditions energy energy energy energy devices devices devices devices"
+    "interactions interactions interactions interactions devices devices devices devices devices devices devices devices"
+    "navigation navigation navigation navigation navigation navigation navigation navigation navigation navigation navigation navigation"
+
+  mediaquery:
+    "(max-width: 1100px)":
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+      grid-template-areas: |
+        "conditions energy"
+        "devices devices"
+        "interactions navigation"
+
+    "(max-width: 700px)":
+      grid-template-columns: 1fr
+      grid-template-areas: |
+        "conditions"
+        "energy"
+        "devices"
+        "interactions"
+        "navigation"
+
+badges:
+  - type: entity
+    entity: sensor.zg_227z_11_temperature
+
+  - type: entity
+    entity: sensor.zg_227z_11_humidity
+
+cards:
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: conditions
+    card_mod:
+      style: |
+        ha-card {
+          height: 495px;
+          overflow: hidden;
+          background: #282a3a;
+          border: 0 !important;
+          border-radius: 6px;
+          box-shadow: none !important;
+        }
+    cards:
+
+      - type: custom:button-card
+        name: CONDITIONS
+        show_icon: false
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 38px
+            - padding: 0 12px
+            - background: transparent
+            - border: none
+            - border-radius: 0
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"n"'
+          name:
+            - display: flex
+            - align-items: center
+            - justify-content: center
+            - gap: 10px
+            - width: 100%
+            - color: "#f3f3f6"
+            - font-size: 14px
+            - font-weight: 400
+        extra_styles: |
+          #name::before,
+          #name::after {
+            content: "";
+            height: 1px;
+            background: #8d8f9c;
+            flex: 1;
+          }
+
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          margin: 0
+          padding: 2px 10px 5px
+          grid-gap: 0
+          grid-template-columns: repeat(2, minmax(0, 1fr))
+        cards:
+
+          - type: custom:button-card
+            entity: sensor.zg_227z_11_temperature
+            name: TEMPÉRATURE
+            icon: mdi:thermometer
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Serveur
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(1) + " °C"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 135px
+                - padding: 5px 3px 8px
+                - background: transparent
+                - border: none
+                - border-radius: 0
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "s" "l" "n"'
+                - grid-template-rows: 42px 35px 22px 22px
+              icon:
+                - width: 38px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value < 18) return "#398cff";
+                      if (value < 21) return "#82df2f";
+                      if (value < 24) return "#efa928";
+                      return "#e84b52";
+                    ]]]
+              state:
+                - font-size: 27px
+                - font-weight: 400
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value < 18) return "#398cff";
+                      if (value < 21) return "#82df2f";
+                      if (value < 24) return "#efa928";
+                      return "#e84b52";
+                    ]]]
+              label:
+                - font-size: 12px
+                - color: "#aeb0bd"
+              name:
+                - align-self: end
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: sensor.zg_227z_11_humidity
+            name: HUMIDITÉ
+            icon: mdi:water-percent
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Serveur
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(1) + " %"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 135px
+                - padding: 5px 3px 8px
+                - background: transparent
+                - border: none
+                - border-radius: 0
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "s" "l" "n"'
+                - grid-template-rows: 42px 35px 22px 22px
+              icon:
+                - width: 38px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value < 40) return "#efa928";
+                      if (value <= 60) return "#82df2f";
+                      return "#398cff";
+                    ]]]
+              state:
+                - font-size: 27px
+                - font-weight: 400
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value < 40) return "#efa928";
+                      if (value <= 60) return "#82df2f";
+                      return "#398cff";
+                    ]]]
+              label:
+                - font-size: 12px
+                - color: "#aeb0bd"
+              name:
+                - align-self: end
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Évolution 24 h
+          show_states: false
+        yaxis:
+          - id: temperature
+            decimals: 1
+            apex_config:
+              tickAmount: 4
+          - id: humidity
+            opposite: true
+            min: 0
+            max: 100
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        apex_config:
+          chart:
+            height: 255px
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          grid:
+            borderColor: "#444654"
+            strokeDashArray: 0
+            padding:
+              left: 4
+              right: 4
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          fill:
+            type: gradient
+            gradient:
+              shadeIntensity: 0.25
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+            labels:
+              colors: "#aeb0bd"
+            markers:
+              width: 9
+              height: 9
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                colors: "#aeb0bd"
+                fontSize: 9px
+          tooltip:
+            theme: dark
+        series:
+          - entity: sensor.zg_227z_11_temperature
+            name: Température
+            yaxis_id: temperature
+            color: "#efa928"
+            type: area
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 15min
+
+          - entity: sensor.zg_227z_11_humidity
+            name: Humidité
+            yaxis_id: humidity
+            color: "#398cff"
+            type: area
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 15min
+        card_mod:
+          style: |
+            ha-card {
+              height: 315px;
+              padding: 0 9px !important;
+              background: transparent;
+              border: none;
+              border-radius: 0;
+              box-shadow: none;
+            }
+            .header {
+              min-height: 38px !important;
+              padding: 0 !important;
+            }
+            .header__title {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              width: 100%;
+              color: #f2f2f5 !important;
+              font-size: 13px !important;
+              font-weight: 400 !important;
+            }
+            .header__title::before,
+            .header__title::after {
+              content: "";
+              height: 1px;
+              background: #8d8f9c;
+              flex: 1;
+            }
+
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: energy
+    card_mod:
+      style: |
+        ha-card {
+          height: 495px;
+          overflow: hidden;
+          background: #282a3a;
+          border: 0 !important;
+          border-radius: 6px;
+          box-shadow: none !important;
+        }
+    cards:
+
+      - type: custom:button-card
+        name: ÉNERGIE
+        show_icon: false
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 38px
+            - padding: 0 12px
+            - background: transparent
+            - border: none
+            - border-radius: 0
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"n"'
+          name:
+            - display: flex
+            - align-items: center
+            - justify-content: center
+            - gap: 10px
+            - width: 100%
+            - color: "#f3f3f6"
+            - font-size: 14px
+            - font-weight: 400
+        extra_styles: |
+          #name::before,
+          #name::after {
+            content: "";
+            height: 1px;
+            background: #8d8f9c;
+            flex: 1;
+          }
+
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          margin: 0
+          padding: 2px 10px 5px
+          grid-gap: 0
+          grid-template-columns: repeat(2, minmax(0, 1fr))
+        cards:
+
+          - type: custom:button-card
+            entity: sensor.s1pm30_power
+            name: PUISSANCE SERVEURS
+            icon: mdi:flash
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Instantanée
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(1) + " W"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 135px
+                - padding: 5px 3px 8px
+                - background: transparent
+                - border: none
+                - border-radius: 0
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "s" "l" "n"'
+                - grid-template-rows: 42px 35px 22px 22px
+              icon:
+                - width: 38px
+                - color: "#efa928"
+              state:
+                - font-size: 27px
+                - font-weight: 400
+                - color: "#efa928"
+              label:
+                - font-size: 12px
+                - color: "#aeb0bd"
+              name:
+                - align-self: end
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: sensor.s1pm30_energy
+            name: ÉNERGIE CUMULÉE
+            icon: mdi:lightning-bolt
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Total
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(2) + " kWh"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 135px
+                - padding: 5px 3px 8px
+                - background: transparent
+                - border: none
+                - border-radius: 0
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "s" "l" "n"'
+                - grid-template-rows: 42px 35px 22px 22px
+              icon:
+                - width: 38px
+                - color: "#ffd34d"
+              state:
+                - font-size: 27px
+                - font-weight: 400
+                - color: "#ffd34d"
+              label:
+                - font-size: 12px
+                - color: "#aeb0bd"
+              name:
+                - align-self: end
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Puissance 24 h
+          show_states: false
+        yaxis:
+          - min: 0
+            decimals: 0
+            apex_config:
+              tickAmount: 4
+        apex_config:
+          chart:
+            height: 255px
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          grid:
+            borderColor: "#444654"
+            strokeDashArray: 0
+            padding:
+              left: 4
+              right: 4
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          fill:
+            type: gradient
+            gradient:
+              shadeIntensity: 0.3
+              opacityFrom: 0.48
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+            labels:
+              colors: "#aeb0bd"
+            markers:
+              width: 9
+              height: 9
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                colors: "#aeb0bd"
+                fontSize: 9px
+          tooltip:
+            theme: dark
+        series:
+          - entity: sensor.s1pm30_power
+            name: Serveurs
+            color: "#efa928"
+            type: area
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 15min
+        card_mod:
+          style: |
+            ha-card {
+              height: 315px;
+              padding: 0 9px !important;
+              background: transparent;
+              border: none;
+              border-radius: 0;
+              box-shadow: none;
+            }
+            .header {
+              min-height: 38px !important;
+              padding: 0 !important;
+            }
+            .header__title {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              width: 100%;
+              color: #f2f2f5 !important;
+              font-size: 13px !important;
+              font-weight: 400 !important;
+            }
+            .header__title::before,
+            .header__title::after {
+              content: "";
+              height: 1px;
+              background: #8d8f9c;
+              flex: 1;
+            }
+
+
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: devices
+    card_mod:
+      style: |
+        ha-card {
+          background: #282a3a;
+          border: 0 !important;
+          border-radius: 6px;
+          box-shadow: none !important;
+          overflow: hidden;
+        }
+    cards:
+
+      - type: custom:button-card
+        name: APPAREILS
+        show_icon: false
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 38px
+            - padding: 0 12px
+            - background: transparent
+            - border: none
+            - border-radius: 0
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"n"'
+          name:
+            - display: flex
+            - align-items: center
+            - justify-content: center
+            - gap: 10px
+            - width: 100%
+            - color: "#f3f3f6"
+            - font-size: 14px
+            - font-weight: 400
+        extra_styles: |
+          #name::before,
+          #name::after {
+            content: "";
+            height: 1px;
+            background: #8d8f9c;
+            flex: 1;
+          }
+
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          margin: 0
+          padding: 4px 10px 10px
+          grid-gap: 8px
+          grid-template-columns: repeat(2, minmax(0, 1fr))
+        cards:
+
+          - type: custom:button-card
+            entity: switch.s1pm30
+            name: ALIMENTATION SERVEURS
+            icon: mdi:server-network
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: |
+              [[[
+                return entity?.state === "on"
+                  ? "Sous tension"
+                  : "Hors tension";
+              ]]]
+            state_display: |
+              [[[
+                return entity?.state === "on" ? "ON" : "OFF";
+              ]]]
+            tap_action:
+              action: toggle
+            styles:
+              card:
+                - height: 165px
+                - padding: 10px 6px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "s" "l" "n"'
+                - grid-template-rows: 52px 35px 30px 28px
+              icon:
+                - width: 43px
+                - color: |
+                    [[[
+                      return entity?.state === "on"
+                        ? "#82df2f"
+                        : "#e84b52";
+                    ]]]
+              state:
+                - font-size: 27px
+                - font-weight: 400
+                - color: |
+                    [[[
+                      return entity?.state === "on"
+                        ? "#82df2f"
+                        : "#e84b52";
+                    ]]]
+              label:
+                - font-size: 13px
+                - color: "#aeb0bd"
+              name:
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: sensor.ups_battery_charge
+            name: BATTERIE UPS
+            icon: mdi:battery-high
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Charge disponible
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(0) + " %"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 165px
+                - padding: 10px 6px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "s" "bar" "l" "n"'
+                - grid-template-rows: 42px 31px 13px 26px 27px
+              icon:
+                - width: 40px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value <= 20) return "#e84b52";
+                      if (value <= 50) return "#efa928";
+                      return "#82df2f";
+                    ]]]
+              state:
+                - font-size: 27px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value <= 20) return "#e84b52";
+                      if (value <= 50) return "#efa928";
+                      return "#82df2f";
+                    ]]]
+              custom_fields:
+                bar:
+                  - width: 78%
+                  - height: 6px
+                  - border-radius: 5px
+                  - overflow: hidden
+                  - background: rgba(255,255,255,0.1)
+                  - justify-self: center
+              label:
+                - font-size: 13px
+                - color: "#aeb0bd"
+              name:
+                - font-size: 11px
+                - color: "#aeb0bd"
+            custom_fields:
+              bar: |
+                [[[
+                  const value = Math.max(
+                    0,
+                    Math.min(100, parseFloat(entity?.state) || 0)
+                  );
+
+                  let color = "#82df2f";
+                  if (value <= 20) color = "#e84b52";
+                  else if (value <= 50) color = "#efa928";
+
+                  return `
+                    <div style="
+                      width:${value}%;
+                      height:100%;
+                      border-radius:5px;
+                      background:${color};
+                    "></div>
+                  `;
+                ]]]
+
+      - type: custom:button-card
+        name: SLZB-06M
+        icon: mdi:access-point-network
+        show_icon: true
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 38px
+            - padding: 0 14px
+            - background: transparent
+            - border: none
+            - border-radius: 0
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"before i n after"'
+            - grid-template-columns: 1fr 25px auto 1fr
+            - column-gap: 8px
+          icon:
+            - width: 19px
+            - color: "#aeb0bd"
+          name:
+            - font-size: 13px
+            - font-weight: 400
+            - color: "#f2f2f5"
+          custom_fields:
+            before:
+              - height: 1px
+              - width: 100%
+              - background: "#8d8f9c"
+            after:
+              - height: 1px
+              - width: 100%
+              - background: "#8d8f9c"
+        custom_fields:
+          before: ""
+          after: ""
+
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          margin: 0
+          padding: 4px 10px 12px
+          grid-gap: 6px
+          grid-template-columns: repeat(2, minmax(0, 1fr))
+          mediaquery:
+            "(max-width: 700px)":
+              grid-template-columns: 1fr
+        cards:
+
+          - type: custom:button-card
+            entity: sensor.slzb_06m_connection_mode
+            name: SLZB-06M
+            icon: mdi:router-wireless
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Mode de connexion
+            state_display: |
+              [[[
+                return entity?.state || "Indisponible";
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 100px
+                - padding: 8px 12px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i s" "i l" "i n"'
+                - grid-template-columns: 52px 1fr
+                - grid-template-rows: 32px 24px 24px
+              icon:
+                - width: 35px
+                - color: |
+                    [[[
+                      return entity?.state === "eth"
+                        ? "#82df2f"
+                        : "#efa928";
+                    ]]]
+              state:
+                - justify-self: start
+                - font-size: 20px
+                - color: |
+                    [[[
+                      return entity?.state === "eth"
+                        ? "#82df2f"
+                        : "#efa928";
+                    ]]]
+              label:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+              name:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: sensor.slzb_06m_core_chip_temp
+            name: CPU
+            icon: mdi:chip
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Température cœur
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(1) + " °C"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 100px
+                - padding: 8px 12px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i s" "i l" "i n"'
+                - grid-template-columns: 52px 1fr
+                - grid-template-rows: 32px 24px 24px
+              icon:
+                - width: 35px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value >= 70) return "#e84b52";
+                      if (value >= 55) return "#efa928";
+                      return "#82df2f";
+                    ]]]
+              state:
+                - justify-self: start
+                - font-size: 20px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value >= 70) return "#e84b52";
+                      if (value >= 55) return "#efa928";
+                      return "#82df2f";
+                    ]]]
+              label:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+              name:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: binary_sensor.slzb_06m_ethernet
+            name: ETHERNET
+            icon: mdi:ethernet
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: |
+              [[[
+                return entity?.state === "on"
+                  ? "Connecté"
+                  : "Déconnecté";
+              ]]]
+            state_display: |
+              [[[
+                return entity?.state === "on" ? "ONLINE" : "OFFLINE";
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 100px
+                - padding: 8px 12px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i s" "i l" "i n"'
+                - grid-template-columns: 52px 1fr
+                - grid-template-rows: 32px 24px 24px
+              icon:
+                - width: 35px
+                - color: |
+                    [[[
+                      return entity?.state === "on"
+                        ? "#82df2f"
+                        : "#e84b52";
+                    ]]]
+              state:
+                - justify-self: start
+                - font-size: 18px
+                - color: |
+                    [[[
+                      return entity?.state === "on"
+                        ? "#82df2f"
+                        : "#e84b52";
+                    ]]]
+              label:
+                - justify-self: start
+                - font-size: 12px
+                - color: "#aeb0bd"
+              name:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: binary_sensor.slzb_06m_internet
+            name: INTERNET
+            icon: mdi:web
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: |
+              [[[
+                return entity?.state === "on"
+                  ? "Connecté"
+                  : "Hors ligne";
+              ]]]
+            state_display: |
+              [[[
+                return entity?.state === "on" ? "ONLINE" : "OFFLINE";
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 100px
+                - padding: 8px 12px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i s" "i l" "i n"'
+                - grid-template-columns: 52px 1fr
+                - grid-template-rows: 32px 24px 24px
+              icon:
+                - width: 35px
+                - color: |
+                    [[[
+                      return entity?.state === "on"
+                        ? "#82df2f"
+                        : "#e84b52";
+                    ]]]
+              state:
+                - justify-self: start
+                - font-size: 18px
+                - color: |
+                    [[[
+                      return entity?.state === "on"
+                        ? "#82df2f"
+                        : "#e84b52";
+                    ]]]
+              label:
+                - justify-self: start
+                - font-size: 12px
+                - color: "#aeb0bd"
+              name:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: sensor.slzb_06m_firmware_channel
+            name: FIRMWARE
+            icon: mdi:update
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: Canal de mise à jour
+            state_display: |
+              [[[
+                return entity?.state || "Indisponible";
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 100px
+                - padding: 8px 12px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i s" "i l" "i n"'
+                - grid-template-columns: 52px 1fr
+                - grid-template-rows: 32px 24px 24px
+              icon:
+                - width: 35px
+                - color: "#398cff"
+              state:
+                - justify-self: start
+                - font-size: 20px
+                - color: "#398cff"
+              label:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+              name:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            entity: sensor.slzb_06m_zigbee_chip_temp
+            name: ZIGBEE
+            icon: mdi:zigbee
+            show_icon: true
+            show_state: true
+            show_label: true
+            label: |
+              [[[
+                const type =
+                  states["sensor.slzb_06m_zigbee_type"]?.state ||
+                  "Indisponible";
+                return type;
+              ]]]
+            state_display: |
+              [[[
+                const value = parseFloat(entity?.state);
+                return Number.isFinite(value)
+                  ? value.toFixed(1) + " °C"
+                  : entity?.state;
+              ]]]
+            tap_action:
+              action: more-info
+            styles:
+              card:
+                - height: 100px
+                - padding: 8px 12px
+                - background: rgba(255,255,255,0.025)
+                - border: 1px solid rgba(255,255,255,0.04)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i s" "i l" "i n"'
+                - grid-template-columns: 52px 1fr
+                - grid-template-rows: 32px 24px 24px
+              icon:
+                - width: 35px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value >= 70) return "#e84b52";
+                      if (value >= 55) return "#efa928";
+                      return "#82df2f";
+                    ]]]
+              state:
+                - justify-self: start
+                - font-size: 20px
+                - color: |
+                    [[[
+                      const value = parseFloat(entity?.state);
+                      if (!Number.isFinite(value)) return "#aeb0bd";
+                      if (value >= 70) return "#e84b52";
+                      if (value >= 55) return "#efa928";
+                      return "#82df2f";
+                    ]]]
+              label:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+              name:
+                - justify-self: start
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: interactions
+    card_mod:
+      style: |
+        ha-card {
+          background: #282a3a;
+          border: 0 !important;
+          border-radius: 6px;
+          box-shadow: none !important;
+          overflow: hidden;
+        }
+    cards:
+
+      - type: custom:button-card
+        name: INTERACTIONS
+        show_icon: false
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 38px
+            - padding: 0 12px
+            - background: transparent
+            - border: none
+            - border-radius: 0
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"n"'
+          name:
+            - display: flex
+            - align-items: center
+            - justify-content: center
+            - gap: 10px
+            - width: 100%
+            - color: "#f3f3f6"
+            - font-size: 14px
+            - font-weight: 400
+        extra_styles: |
+          #name::before,
+          #name::after {
+            content: "";
+            height: 1px;
+            background: #8d8f9c;
+            flex: 1;
+          }
+
+      - type: custom:button-card
+        name: Aucune interaction configurée
+        icon: mdi:gesture-tap
+        show_icon: true
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 108px
+            - padding: 12px
+            - background: transparent
+            - border: none
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"i" "n"'
+            - grid-template-rows: 51px 30px
+          icon:
+            - width: 38px
+            - color: "#777987"
+          name:
+            - font-size: 12px
+            - font-weight: 400
+            - color: "#777987"
+
+  - type: custom:stack-in-card
+    view_layout:
+      grid-area: navigation
+    card_mod:
+      style: |
+        ha-card {
+          background: #282a3a;
+          border: 0 !important;
+          border-radius: 6px;
+          box-shadow: none !important;
+          overflow: hidden;
+        }
+    cards:
+
+      - type: custom:button-card
+        name: NAVIGATION
+        show_icon: false
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+            - height: 38px
+            - padding: 0 12px
+            - background: transparent
+            - border: none
+            - border-radius: 0
+            - box-shadow: none
+          grid:
+            - grid-template-areas: '"n"'
+          name:
+            - display: flex
+            - align-items: center
+            - justify-content: center
+            - gap: 10px
+            - width: 100%
+            - color: "#f3f3f6"
+            - font-size: 14px
+            - font-weight: 400
+        extra_styles: |
+          #name::before,
+          #name::after {
+            content: "";
+            height: 1px;
+            background: #8d8f9c;
+            flex: 1;
+          }
+
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          margin: 0
+          padding: 8px 10px 12px
+          grid-gap: 8px
+          grid-template-columns: repeat(3, minmax(0, 1fr))
+          mediaquery:
+            "(max-width: 700px)":
+              grid-template-columns: 1fr
+        cards:
+
+          - type: custom:button-card
+            name: TOUTES LES PIECES
+            icon: mdi:home
+            show_icon: true
+            show_state: false
+            show_label: true
+            label: Accéder à la maison
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/maison
+            styles:
+              card:
+                - height: 108px
+                - padding: 10px
+                - background: rgba(57,140,255,0.08)
+                - border: 1px solid rgba(57,140,255,0.18)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "n" "l"'
+                - grid-template-rows: 46px 25px 20px
+              icon:
+                - width: 36px
+                - color: "#398cff"
+              name:
+                - font-size: 11px
+                - color: "#f2f2f5"
+              label:
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            name: JOURNAL DES AUTOMATISATIONS
+            icon: mdi:history
+            show_icon: true
+            show_state: false
+            show_label: true
+            label: Consulter l’historique
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/automatisations
+            styles:
+              card:
+                - height: 108px
+                - padding: 10px
+                - background: rgba(154,77,255,0.08)
+                - border: 1px solid rgba(154,77,255,0.18)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "n" "l"'
+                - grid-template-rows: 46px 25px 20px
+              icon:
+                - width: 36px
+                - color: "#9a4dff"
+              name:
+                - font-size: 11px
+                - color: "#f2f2f5"
+              label:
+                - font-size: 11px
+                - color: "#aeb0bd"
+
+          - type: custom:button-card
+            name: SANTÉ SYSTÈME
+            icon: mdi:heart-pulse
+            show_icon: true
+            show_state: false
+            show_label: true
+            label: Vérifier les services
+            tap_action:
+              action: navigate
+              navigation_path: /la-maison-des-dous/sante-systeme
+            styles:
+              card:
+                - height: 108px
+                - padding: 10px
+                - background: rgba(232,75,82,0.08)
+                - border: 1px solid rgba(232,75,82,0.18)
+                - border-radius: 5px
+                - box-shadow: none
+              grid:
+                - grid-template-areas: '"i" "n" "l"'
+                - grid-template-rows: 46px 25px 20px
+              icon:
+                - width: 36px
+                - color: "#e84b52"
+              name:
+                - font-size: 11px
+                - color: "#f2f2f5"
+              label:
+                - font-size: 11px
+                - color: "#aeb0bd"

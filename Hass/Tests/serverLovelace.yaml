@@ -1,0 +1,228 @@
+title: Serveur
+path: serveur
+icon: mdi:server
+type: sections
+max_columns: 3
+sections:
+  - type: grid
+    cards:
+      - type: custom:mushroom-title-card
+        title: 🔘 Interactions
+        alignment: start
+  - type: grid
+    cards:
+      - type: custom:mushroom-title-card
+        title: 🌡️ Conditions
+        alignment: start
+      - type: custom:mushroom-template-card
+        primary: Température
+        secondary: "{{ states('sensor.zg_227z_11_temperature') }} °C"
+        icon: mdi:thermometer
+        features_position: bottom
+        color: >
+          {% set t = states('sensor.zg_227z_11_temperature') | float(0) %} {% if
+          t < 18 %}blue {% elif t < 21 %}green {% elif t < 24 %}orange {% else
+          %}red {% endif %}
+      - type: custom:mushroom-template-card
+        primary: Humidité
+        secondary: "{{ states('sensor.zg_227z_11_humidity') }} %"
+        icon: mdi:water-percent
+        features_position: bottom
+        color: >
+          {% set h = states('sensor.zg_227z_11_humidity') | float(0) %} {% if h
+          < 40 %}orange {% elif h <= 60 %}green {% else %}blue {% endif %}
+      - type: history-graph
+        title: Évolution 24 h
+        hours_to_show: 24
+        show_names: false
+        grid_options:
+          rows: 6
+          columns: 12
+        entities:
+          - entity: sensor.zg_227z_11_temperature
+            name: Température
+          - entity: sensor.zg_227z_11_humidity
+            name: Humidité
+  - type: grid
+    cards:
+      - type: custom:mushroom-title-card
+        title: ⚡ Énergie
+        alignment: start
+      - type: custom:mushroom-template-card
+        primary: Puissance serveurs
+        secondary: "{{ states('sensor.s1pm30_power') }} W"
+        icon: mdi:flash
+        icon_color: orange
+      - type: custom:mushroom-template-card
+        primary: Énergie cumulée
+        secondary: "{{ states('sensor.s1pm30_energy') }} kWh"
+        icon: mdi:lightning-bolt
+        icon_color: amber
+      - type: history-graph
+        entities:
+          - entity: sensor.s1pm30_power
+            name: Serveurs
+        title: Puissance 24 h
+        hours_to_show: 24
+        show_names: false
+        grid_options:
+          rows: 6
+          columns: 12
+  - type: grid
+    cards:
+      - type: custom:mushroom-title-card
+        title: 📟 Appareils
+        alignment: start
+      - type: custom:mushroom-template-card
+        entity: switch.s1pm30
+        primary: Alimentation serveurs
+        secondary: |
+          {% if is_state('switch.s1pm30', 'on') %}
+            Sous tension
+          {% else %}
+            Hors tension
+          {% endif %}
+        icon: mdi:server-network
+        tap_action:
+          action: toggle
+        features_position: bottom
+        color: |
+          {% if is_state('switch.s1pm30', 'on') %}
+            green
+          {% else %}
+            red
+          {% endif %}
+        grid_options:
+          columns: 6
+          rows: 2
+      - type: tile
+        entity: sensor.ups_battery_charge
+        features:
+          - type: trend-graph
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            title: 📡 SLZB-06M
+          - type: custom:mushroom-template-card
+            entity: sensor.slzb_06m_connection_mode
+            icon: mdi:router-wireless
+            primary: SLZB-06M
+            secondary: "{{ states('sensor.slzb_06m_connection_mode') }}"
+            color: |-
+              {% if is_state('sensor.slzb_06m_connection_mode', 'eth') %}
+                green
+              {% else %}
+                amber
+              {% endif %}
+            features_position: bottom
+          - type: custom:mushroom-template-card
+            entity: sensor.slzb_06m_core_chip_temp
+            icon: mdi:chip
+            icon_color: >-
+              {% set t = states('sensor.slzb_06m_core_chip_temp') | float(0) %}
+              {% if t >= 70 %}
+                red
+              {% elif t >= 55 %}
+                amber
+              {% else %}
+                green
+              {% endif %}
+            primary: CPU
+            secondary: "{{ states('sensor.slzb_06m_core_chip_temp') }} °C"
+            layout: horizontal
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.slzb_06m_ethernet
+            icon: mdi:ethernet
+            icon_color: |-
+              {% if is_state(entity, 'on') %}
+                green
+              {% else %}
+                red
+              {% endif %}
+            primary: Ethernet
+            secondary: >-
+              {% if is_state(entity, 'on') %}Connecté{% else %}Déconnecté{%
+              endif %}
+            layout: horizontal
+          - type: custom:mushroom-template-card
+            entity: binary_sensor.slzb_06m_internet
+            icon: mdi:web
+            icon_color: |-
+              {% if is_state(entity, 'on') %}
+                green
+              {% else %}
+                red
+              {% endif %}
+            primary: Internet
+            secondary: >-
+              {% if is_state(entity, 'on') %}Connecté{% else %}Hors ligne{%
+              endif %}
+            layout: horizontal
+          - type: custom:mushroom-template-card
+            entity: sensor.slzb_06m_firmware_channel
+            icon: mdi:update
+            icon_color: blue
+            primary: Firmware
+            secondary: "{{ states('sensor.slzb_06m_firmware_channel') }}"
+            layout: horizontal
+          - type: custom:mushroom-template-card
+            entity: sensor.slzb_06m_zigbee_chip_temp
+            icon: mdi:zigbee
+            icon_color: >-
+              {% set t = states('sensor.slzb_06m_zigbee_chip_temp') | float(0)
+              %} {% if t >= 70 %}
+                red
+              {% elif t >= 55 %}
+                amber
+              {% else %}
+                green
+              {% endif %}
+            primary: Zigbee
+            secondary: >-
+              {{ states('sensor.slzb_06m_zigbee_chip_temp') }} °C · {{
+              states('sensor.slzb_06m_zigbee_type') }}
+            layout: horizontal
+        column_span: 2
+        grid_options:
+          rows: auto
+          columns: 6
+  - type: grid
+    cards:
+      - type: custom:mushroom-title-card
+        title: 🧭 Navigation
+        alignment: start
+      - type: custom:mushroom-template-card
+        primary: Toutes les pieces
+        icon: mdi:home
+        tap_action:
+          action: navigate
+          navigation_path: /la-maison-des-dous/maison
+        color: blue
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Journal des automatisations
+        icon: mdi:history
+        tap_action:
+          action: navigate
+          navigation_path: /la-maison-des-dous/automatisations
+        color: purple
+        features_position: bottom
+      - type: custom:mushroom-template-card
+        primary: Santé système
+        icon: mdi:heart-pulse
+        tap_action:
+          action: navigate
+          navigation_path: /la-maison-des-dous/sante-systeme
+        color: red
+        features_position: bottom
+cards: []
+badges:
+  - type: entity
+    entity: sensor.zg_227z_11_temperature
+  - type: entity
+    entity: sensor.zg_227z_11_humidity
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: "# 💽 Serveurs"

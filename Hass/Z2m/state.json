@@ -26,32 +26,32 @@
     "0xa4c138739d3c63c9": {
         "battery": 100,
         "temperature_unit": "celsius",
-        "temperature": 21.2,
-        "humidity": 58,
+        "temperature": 19.8,
+        "humidity": 61,
         "temperature_calibration": 0,
         "humidity_calibration": 0,
         "linkquality": 152,
-        "last_seen": "2026-09-27T09:20:25.494Z"
+        "last_seen": "2026-10-20T08:26:51.023Z"
     },
     "0xa4c138fd9d4ada0e": {
         "temperature_calibration": 0,
         "humidity_calibration": 0,
         "battery": 100,
-        "temperature": 21,
-        "humidity": 60,
+        "temperature": 20,
+        "humidity": 61,
         "temperature_unit": "celsius",
         "linkquality": 196,
-        "last_seen": "2026-09-26T08:27:50.681Z"
+        "last_seen": "2026-10-20T08:12:48.914Z"
     },
     "0xa4c138733ffb78b7": {
         "temperature_calibration": 0,
         "humidity_calibration": 0,
         "battery": 100,
-        "temperature": 23.9,
-        "humidity": 64,
+        "temperature": 18.6,
+        "humidity": 67,
         "temperature_unit": "celsius",
-        "linkquality": 168,
-        "last_seen": "2026-09-26T08:08:35.891Z"
+        "linkquality": 132,
+        "last_seen": "2026-10-20T08:33:45.708Z"
     },
     "0xa4c138d30633d680": {
         "local_temperature": 17,
@@ -150,93 +150,93 @@
     },
     "0xa4c1380d8ef826d1": {
         "battery": 100,
-        "temperature": 21.8,
-        "humidity": 59,
-        "linkquality": 120,
+        "temperature": 19.7,
+        "humidity": 63,
+        "linkquality": 124,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:18:08.391Z"
+        "last_seen": "2026-10-20T08:19:31.600Z"
     },
     "0xa4c138621cc3aba0": {
         "battery": 100,
-        "temperature": 21.2,
-        "humidity": 59,
-        "linkquality": 108,
+        "temperature": 17.8,
+        "humidity": 65,
+        "linkquality": 92,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:30:14.986Z"
+        "last_seen": "2026-10-20T08:01:44.048Z"
     },
     "0xa4c1389e85562cc8": {
         "battery": 100,
-        "temperature": 20.8,
-        "humidity": 58,
-        "linkquality": 72,
+        "temperature": 18,
+        "humidity": 63,
+        "linkquality": 88,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-27T09:18:50.639Z"
+        "last_seen": "2026-10-20T08:34:06.031Z"
     },
     "0xa4c138a305a5a04c": {
         "humidity_calibration": 0,
         "battery": 100,
-        "temperature": 21.4,
-        "humidity": 56,
-        "linkquality": 64,
+        "temperature": 18.6,
+        "humidity": 60,
+        "linkquality": 72,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
-        "last_seen": "2026-09-26T08:47:51.672Z"
+        "last_seen": "2026-10-20T08:04:08.946Z"
     },
     "0xa4c13892b299c65f": {
         "humidity_calibration": 0,
         "battery": 100,
-        "temperature": 20.7,
-        "humidity": 59,
-        "linkquality": 48,
+        "temperature": 18.7,
+        "humidity": 66,
+        "linkquality": 76,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
-        "last_seen": "2026-09-26T08:12:47.858Z"
+        "last_seen": "2026-10-20T08:33:06.991Z"
     },
     "0xa4c138e490179c42": {
         "battery": 100,
-        "temperature": 21.1,
-        "humidity": 56,
-        "linkquality": 96,
+        "temperature": 18.6,
+        "humidity": 57,
+        "linkquality": 76,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-27T09:19:23.028Z"
+        "last_seen": "2026-10-20T08:12:31.175Z"
     },
     "0xa4c1383daa25320b": {
         "battery": 100,
-        "temperature": 21.9,
-        "humidity": 56,
-        "linkquality": 224,
+        "temperature": 17.9,
+        "humidity": 67,
+        "linkquality": 212,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:29:22.354Z"
+        "last_seen": "2026-10-20T08:25:07.419Z"
     },
     "0xa4c138c59605147c": {
         "battery": 100,
-        "temperature": 20.8,
-        "humidity": 53,
-        "linkquality": 168,
+        "temperature": 17.5,
+        "humidity": 65,
+        "linkquality": 108,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:00:19.005Z"
+        "last_seen": "2026-10-20T08:00:36.776Z"
     },
     "0xa4c138b90293e8fc": {
         "battery": 100,
-        "temperature": 18.9,
-        "humidity": 59,
-        "linkquality": 100,
+        "temperature": 14.8,
+        "humidity": 61,
+        "linkquality": 92,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:41:19.060Z"
+        "last_seen": "2026-10-20T08:10:20.103Z"
     },
     "0xa4c13898f92c9563": {
         "preset": "manual",
@@ -263,90 +263,90 @@
         "last_seen": "2026-05-18T06:54:55.068Z"
     },
     "0x449fdafffe61aac3": {
-        "linkquality": 68,
+        "linkquality": 36,
         "state": "OFF",
-        "last_seen": "2026-09-26T08:41:54.236Z"
+        "last_seen": "2026-10-20T08:34:06.742Z"
     },
     "0xa4c13836584d7324": {
         "battery": 100,
-        "temperature": 18.5,
-        "humidity": 77,
+        "temperature": 12.7,
+        "humidity": 86,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:43:29.317Z",
-        "linkquality": 92
+        "last_seen": "2026-10-20T08:28:20.607Z",
+        "linkquality": 72
     },
     "0xa4c13802bd8eefce": {
-        "battery": 90,
-        "temperature": 21,
-        "humidity": 54,
+        "battery": 100,
+        "temperature": 18.1,
+        "humidity": 62,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:31:20.769Z",
-        "linkquality": 64
+        "last_seen": "2026-10-20T08:23:38.546Z",
+        "linkquality": 80
     },
     "0xa4c138c91503bd89": {
         "battery": 100,
-        "temperature": 21.7,
-        "humidity": 56,
+        "temperature": 19.7,
+        "humidity": 61,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:44:07.290Z",
-        "linkquality": 104
+        "last_seen": "2026-10-20T08:17:11.551Z",
+        "linkquality": 100
     },
     "0xa4c138a24af79390": {
-        "battery": 90,
-        "temperature": 21.2,
-        "humidity": 51,
+        "battery": 100,
+        "temperature": 15.7,
+        "humidity": 64,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:48:23.503Z",
-        "linkquality": 68
+        "last_seen": "2026-10-20T08:26:44.265Z",
+        "linkquality": 116
     },
     "0xa4c1380270beb5c0": {
-        "humidity": 57,
+        "humidity": 58,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
         "battery": 100,
-        "temperature": 21.2,
-        "last_seen": "2026-09-26T08:42:14.169Z",
-        "linkquality": 52
+        "temperature": 18.3,
+        "last_seen": "2026-10-20T07:46:27.440Z",
+        "linkquality": 48
     },
     "0xa4c1380abb16180e": {
         "battery": 100,
-        "temperature": 21.8,
-        "humidity": 56,
+        "temperature": 19.3,
+        "humidity": 64,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:15:34.687Z",
-        "linkquality": 136
+        "last_seen": "2026-10-20T08:23:27.830Z",
+        "linkquality": 156
     },
     "0x540f57fffe9030cf": {
-        "linkquality": 96,
+        "linkquality": 92,
         "state": "OFF",
-        "last_seen": "2026-09-27T09:17:19.903Z"
+        "last_seen": "2026-10-20T08:26:51.171Z"
     },
     "0xa4c1388b560f4222": {
-        "battery": 100,
-        "temperature": 21.1,
-        "humidity": 78,
+        "battery": 90,
+        "temperature": 16.6,
+        "humidity": 69,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:22:58.812Z",
-        "linkquality": 212
+        "last_seen": "2026-10-20T08:31:45.831Z",
+        "linkquality": 204
     },
     "0x18690afffe453eae": {
         "battery": 100,
-        "voltage": 3100,
-        "last_seen": "2026-09-26T08:37:51.345Z",
-        "linkquality": 96,
+        "voltage": 3000,
+        "last_seen": "2026-10-20T08:08:38.773Z",
+        "linkquality": 92,
         "update": {
             "state": "idle",
             "installed_version": 8704,
@@ -365,62 +365,62 @@
             "latest_source": null,
             "latest_release_notes": null
         },
-        "last_seen": "2026-09-26T08:38:04.115Z",
-        "linkquality": 112
+        "last_seen": "2026-10-20T07:41:31.386Z",
+        "linkquality": 92
     },
     "0xa4c1385cd3754dca": {
-        "battery": 100,
-        "temperature": 19.5,
-        "humidity": 58,
+        "battery": 90,
+        "temperature": 12,
+        "humidity": 78,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:44:55.316Z",
-        "linkquality": 124
+        "last_seen": "2026-10-20T08:26:11.494Z",
+        "linkquality": 92
     },
     "0xa4c138f1a37c550d": {
-        "temperature": 24.3,
-        "humidity": 57,
+        "temperature": 20.2,
+        "humidity": 61,
         "battery": 100,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:19:57.065Z",
-        "linkquality": 116
+        "last_seen": "2026-10-20T07:59:47.001Z",
+        "linkquality": 148
     },
     "0xa4c1389a10c7dfdb": {
         "battery": 100,
-        "temperature": 20,
-        "humidity": 62,
+        "temperature": 16.9,
+        "humidity": 66,
         "temperature_unit": "celsius",
         "temperature_calibration": 0,
         "humidity_calibration": 0,
-        "last_seen": "2026-09-26T08:42:54.136Z",
-        "linkquality": 152
+        "last_seen": "2026-10-20T08:04:56.677Z",
+        "linkquality": 124
     },
     "0xb0e8e8fffe5e7386": {
-        "local_temperature_calibration": 0,
+        "local_temperature_calibration": 0.1,
         "child_lock": "UNLOCK",
         "open_window": "ON",
         "frost_protection_temperature": 10,
-        "temperature_sensor_select": "internal",
+        "temperature_sensor_select": "local_temperature",
         "idle_steps": 20,
-        "closing_steps": 536,
-        "valve_opening_limit_voltage": 1918,
-        "valve_closing_limit_voltage": 2766,
+        "closing_steps": 541,
+        "valve_opening_limit_voltage": 2000,
+        "valve_closing_limit_voltage": 2856,
         "valve_motor_running_voltage": 0,
         "temporary_mode_duration": 0,
         "temporary_mode_select": "boost",
-        "external_temperature_input": 21.2,
+        "external_temperature_input": 20.2,
         "valve_opening_degree": 100,
         "valve_closing_degree": 100,
         "temperature_accuracy": -1,
         "smart_temperature_control": false,
-        "occupied_heating_setpoint": 10,
-        "system_mode": "off",
-        "local_temperature": 21.2,
+        "occupied_heating_setpoint": 21,
+        "system_mode": "heat",
+        "local_temperature": 22,
         "running_state": "idle",
-        "battery": 35,
+        "battery": 28,
         "weekly_schedule_monday": "00:00/16 07:00/19 10:00/16 10:00/16 17:00/19 23:00/16",
         "weekly_schedule_tuesday": "00:00/16 07:00/19 10:00/16 10:00/16 17:00/19 23:00/16",
         "weekly_schedule_wednesday": "00:00/16 07:00/19 10:00/16 10:00/16 17:00/19 23:00/16",
@@ -432,10 +432,66 @@
             "state": "idle",
             "installed_version": 5124,
             "latest_version": 5124,
-            "latest_source": "https://host0014.example.invalid/Koenkk/zigbee-OTA/master/images/Sonoff/trvzb_v1.4.4.ota",
+            "latest_source": "https://host0007.example.invalid/Koenkk/zigbee-OTA/master/images/Sonoff/trvzb_v1.4.4.ota",
             "latest_release_notes": null
         },
-        "last_seen": "2026-09-27T09:19:02.330Z",
-        "linkquality": 96
+        "last_seen": "2026-10-20T08:31:30.766Z",
+        "linkquality": 44
+    },
+    "0xa4c13814a2758cdc": {
+        "battery": 100,
+        "temperature": 18.9,
+        "temperature_unit": "celsius",
+        "temperature_calibration": 0,
+        "humidity_calibration": 0,
+        "humidity": 66,
+        "last_seen": "2026-10-20T08:09:28.318Z",
+        "linkquality": 120
+    },
+    "0xf044d3fffebacae5": {
+        "battery": 100,
+        "temperature": 18.9,
+        "humidity": 67.1,
+        "temperature_calibration": 0,
+        "humidity_calibration": 0,
+        "update": {
+            "state": "idle",
+            "installed_version": 8704,
+            "latest_version": 8704,
+            "latest_source": "https://host0007.example.invalid/Koenkk/zigbee-OTA/master/images/Sonoff/snzb-02p_v2.2.0.ota",
+            "latest_release_notes": null
+        },
+        "last_seen": "2026-10-20T08:19:01.215Z",
+        "linkquality": 64
+    },
+    "0xa4c138a8a7d3aa5e": {
+        "state_l1": "ON",
+        "countdown_l1": 0,
+        "state_l2": "ON",
+        "countdown_l2": 0,
+        "inching_control_set": {
+            "inching_control_1": "DISABLE",
+            "inching_time_1": 0,
+            "inching_control_2": "DISABLE",
+            "inching_time_2": 0
+        },
+        "switch_type": "momentary",
+        "last_seen": "2026-10-19T11:45:03.576Z",
+        "linkquality": 120
+    },
+    "0xa4c1383d07276425": {
+        "state_l1": "ON",
+        "countdown_l1": 0,
+        "state_l2": "ON",
+        "countdown_l2": 0,
+        "inching_control_set": {
+            "inching_control_1": "DISABLE",
+            "inching_time_1": 0,
+            "inching_control_2": "DISABLE",
+            "inching_time_2": 0
+        },
+        "switch_type": "momentary",
+        "last_seen": "2026-10-19T11:50:05.568Z",
+        "linkquality": 120
     }
 }

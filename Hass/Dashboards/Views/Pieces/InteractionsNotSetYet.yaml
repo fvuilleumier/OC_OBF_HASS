@@ -1,0 +1,16 @@
+# 🔘 INTERACTIONS — variante « rien a commander dans cette piece ».
+type: grid
+column_span: 1
+cards:
+  - type: custom:button-card
+    template: section_title
+    name: 🔘 Interactions
+  - type: custom:mushroom-template-card
+    primary: Aucune interaction configurée
+    secondary: Zone réservée aux commandes de la pièce
+    icon: mdi:gesture-tap
+    features_position: bottom
+    vertical: true
+    multiline_secondary: false
+    grid_options:
+      columns: full

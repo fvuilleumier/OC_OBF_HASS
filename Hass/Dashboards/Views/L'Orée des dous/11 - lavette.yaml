@@ -1,0 +1,174 @@
+theme: Backend-selected
+title: Lavette
+path: lavette
+icon: mdi:washing-machine
+badges:
+  - entity: sensor.lavette_operation_state
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: sensor.lavette_program_progress
+    color: ''
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: sensor.lavette_program_finish_time
+    color: ''
+type: sections
+max_columns: 1
+sections:
+  - type: grid
+    cards:
+      - color: state
+        type: entities
+        entities:
+          - entity: sensor.lavette_operation_state
+            name: Operation State
+          - entity: sensor.lavette_program_progress
+            name: Program Progress
+          - entity: sensor.lavette_program_finish_time
+            name: Program finish time
+          - entity: switch.lavette_child_lock
+            name: Child Lock
+          - entity: binary_sensor.lavette_remote_control
+            name: Remote Control
+          - entity: binary_sensor.lavette_remote_start
+            name: Remote Start
+        show_header_toggle: false
+      - type: custom:apexcharts-card
+        graph_span: 5h
+        update_interval: 5min
+        header:
+          show: true
+          title: Progression
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 160
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.lavette_program_progress
+            name: Progression
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 10min
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.sp1pm62_power
+        needle: true
+        name: Consommation Lavette
+        max: 400
+        severity:
+          green: 0
+          yellow: 50
+          red: 200
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: sp1pm62 power
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm62_power
+            name: sp1pm62 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 🧼 Lavette
+footer:
+  type: markdown
+  content: ''

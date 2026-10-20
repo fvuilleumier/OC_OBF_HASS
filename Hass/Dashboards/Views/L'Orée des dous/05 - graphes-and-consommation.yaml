@@ -1,0 +1,1541 @@
+title: Graphes & consommation
+path: graphes-and-consommation
+icon: mdi:chart-bar
+badges: []
+type: sections
+max_columns: 4
+sections:
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.s1pm30_power
+        needle: true
+        max: 350
+        severity:
+          green: 0
+          yellow: 90
+          red: 110
+        name: Serveurs
+  - type: grid
+    cards:
+      - type: gauge
+        name: Congélateur
+        max: 250
+        severity:
+          green: 0
+          yellow: 55
+          red: 120
+        needle: true
+        entity: sensor.sp1pm64_power
+  - type: grid
+    cards:
+      - type: gauge
+        name: Cave à vin
+        max: 250
+        severity:
+          green: 0
+          yellow: 55
+          red: 120
+        needle: true
+        entity: sensor.s1pm58_power
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.sp1pm63_power
+        name: Bureau
+        min: 1
+        max: 350
+        severity:
+          green: 0
+          yellow: 100
+          red: 120
+        needle: true
+  - type: grid
+    cards:
+      - type: gauge
+        severity:
+          green: 0
+          yellow: 300
+          red: 350
+        needle: true
+        entity: sensor.s1pm59_power
+        name: 'Deshumidificateur '
+        max: 450
+  - type: grid
+    cards:
+      - type: gauge
+        needle: true
+        severity:
+          green: 0
+          yellow: 35
+          red: 60
+        name: Pompe boiler
+        entity: sensor.s1pm44_power
+        max: 100
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.sp1pm71_power
+        name: Chaudière
+        needle: true
+        severity:
+          green: 0
+          yellow: 25
+          red: 50
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.s1pm60_power
+        name: Culligan
+        needle: true
+        severity:
+          green: 0
+          yellow: 25
+          red: 50
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.sp1pm61_power
+        needle: true
+        severity:
+          green: 0
+          yellow: 100
+          red: 120
+        name: Wall-E
+        max: 150
+  - type: grid
+    cards:
+      - type: gauge
+        needle: true
+        severity:
+          green: 0
+          yellow: 50
+          red: 80
+        entity: sensor.s1pm40_power
+        name: 'Compresseur '
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.sp1pm62_power
+        needle: true
+        name: Lavette
+        severity:
+          green: 0
+          yellow: 50
+          red: 200
+        max: 400
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.s1pm42_power
+        needle: true
+        name: Eponge
+        severity:
+          green: 0
+          yellow: 50
+          red: 80
+  - type: grid
+    cards:
+      - type: gauge
+        entity: sensor.s1pm31_power
+        needle: true
+        name: Lampe salon
+        severity:
+          green: 0
+          yellow: 25
+          red: 35
+        max: 50
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Rez (°C)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_10_temperature
+            name: zg 227z 10 temperature · moy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_10_temperature
+            name: zg 227z 10 temperature · max
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: max
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_10_temperature
+            name: zg 227z 10 temperature · min
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: min
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: 1er (°C)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_07_temperature
+            name: zg 227z 07 temperature · moy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_07_temperature
+            name: zg 227z 07 temperature · max
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: max
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_07_temperature
+            name: zg 227z 07 temperature · min
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: min
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Extérieur (°C)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_14_temperature
+            name: zg 227z 14 temperature · moy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_14_temperature
+            name: zg 227z 14 temperature · max
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: max
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_14_temperature
+            name: zg 227z 14 temperature · min
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: min
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Cave (°C)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_12_temperature
+            name: zg 227z 12 temperature · moy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_12_temperature
+            name: zg 227z 12 temperature · max
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: max
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_12_temperature
+            name: zg 227z 12 temperature · min
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: min
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 5d
+        update_interval: 1h
+        header:
+          show: true
+          title: Intérieur cave (°C)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_20_temperature
+            name: zg 227z 12 temperature · moy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Atelier (°C)
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_13_temperature
+            name: zg 227z 13 temperature · moy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_13_temperature
+            name: zg 227z 13 temperature · max
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: max
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_13_temperature
+            name: zg 227z 13 temperature · min
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: min
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Serveurs
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm30_power
+            name: s1pm30 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: 'Bureau '
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm63_power
+            name: sp1pm63 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Deshumidificateur
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm59_power
+            name: s1pm59 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Cave
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm64_power
+            name: sp1pm64 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: day
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Pompe panneaux
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm44_power
+            name: s1pm44 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: 5minute
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Chauffage
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm71_power
+            name: sp1pm71 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: 5minute
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 24h
+        update_interval: 5min
+        header:
+          show: true
+          title: Culligan
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm60_power
+            name: s1pm60 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: 5minute
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Many
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm61_power
+            name: sp1pm61 power
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Lavette
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm32_power
+            name: s1pm32 power
+            color: var(--info-color)
+            type: column
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: day
+              align: middle
+          - entity: sensor.sp1pm62_power
+            name: sp1pm62 power
+            color: var(--warning-color)
+            type: column
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: day
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Eponge
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm42_power
+            name: s1pm42 power
+            color: var(--info-color)
+            type: column
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: day
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Deshumidificateur total
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm59_energy
+            name: s1pm59 energy
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: sum
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Cave total
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm64_energy
+            name: sp1pm64 energy
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: sum
+              period: day
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: Boiler total
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm44_energy
+            name: s1pm44 energy
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: sum
+              period: day
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: 'Chauffage cumul '
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.sp1pm71_energy
+            name: sp1pm71 energy
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: sum
+              period: day
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Lavette total
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm32_energy
+            name: s1pm32 energy
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: state
+              period: hour
+              align: middle
+          - entity: sensor.sp1pm62_energy
+            name: sp1pm62 energy
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: state
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Eponge total
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm42_energy
+            name: s1pm42 energy
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: state
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 30d
+        update_interval: 1h
+        header:
+          show: true
+          title: 'Culligan cumul '
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: false
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+          fill:
+            type: gradient
+            gradient:
+              opacityFrom: 0.42
+              opacityTo: 0.03
+              stops:
+                - 0
+                - 85
+                - 100
+        yaxis:
+          - decimals: 2
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.s1pm60_energy
+            name: s1pm60 energy
+            color: var(--info-color)
+            type: area
+            stroke_width: 2
+            statistics:
+              type: sum
+              period: day
+              align: middle
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 📈 Métriques
+footer:
+  type: markdown
+  content: ''
+cards: []

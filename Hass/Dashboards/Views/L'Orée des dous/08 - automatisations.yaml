@@ -1,0 +1,300 @@
+type: sections
+title: Journal des automatisations
+path: automatisations
+icon: mdi:history
+max_columns: 4
+sections:
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F916 Automatisations"
+        grid_options:
+          columns: full
+      - type: tile
+        entity: automation.eponge_start
+        name: Éponge démarrée
+        icon: mdi:power-cycle
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.automation_27
+        name: Éponge terminée
+        icon: mdi:check-circle
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.lavette_end_of_program_2
+        name: Lavette terminée
+        icon: mdi:washing-machine
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.chauffage_mode_vacances
+        name: Chauffage vacances
+        icon: mdi:radiator
+      - type: tile
+        entity: automation.turn_off_deshumidificateur
+        name: Déshumidificateur
+        icon: mdi:air-humidifier
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.turn_off_compresseur_air_20h30
+        name: Compresseur 20h30
+        icon: mdi:air-compressor
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.ordi_allume
+        name: Ordinateur allumé
+        icon: mdi:monitor-alert
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4BE Sauvegardes NAS"
+        grid_options:
+          columns: full
+      - type: tile
+        entity: automation.turn_hdd_nas_on
+        name: NAS ON — quotidien
+        icon: mdi:harddisk
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.turn_hdd_nas_off
+        name: NAS OFF — quotidien
+        icon: mdi:harddisk-remove
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.turn_hdd_nas_on_weekly
+        name: NAS ON — hebdo
+        icon: mdi:backup-restore
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.turn_off_hdd_nas_weekly
+        name: NAS OFF — hebdo
+        icon: mdi:backup-restore
+        vertical: false
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F50B UPS"
+        grid_options:
+          columns: full
+      - type: tile
+        entity: automation.ups_battery_low
+        name: Batterie faible
+        icon: mdi:battery-alert
+        color: red
+      - type: tile
+        entity: automation.ups_on_battery
+        name: Coupure électrique
+        icon: mdi:power-plug-off
+        color: orange
+        vertical: false
+        features_position: bottom
+      - type: entities
+        title: État actuel
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.ups_status
+            name: État UPS
+          - entity: sensor.ups_battery_charge
+            name: Batterie
+          - entity: sensor.ups_load
+            name: Charge
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4A1 Éclairage automatique"
+        grid_options:
+          columns: full
+      - type: tile
+        entity: automation.sapin_de_noel_on
+        name: Sapin ON
+        icon: mdi:pine-tree
+      - type: tile
+        entity: automation.sapin_de_noel_off
+        name: Sapin OFF
+        icon: mdi:pine-tree
+      - type: tile
+        entity: switch.sb18
+        name: Lumières Noël OFF
+        icon: mdi:string-lights
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.switch_off_lumieres_exterieur_after_2h
+        name: Extérieur OFF après 2h
+        icon: mdi:outdoor-lamp
+        vertical: false
+        features_position: bottom
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F525 Chauffage"
+        grid_options:
+          columns: full
+      - type: tile
+        entity: input_boolean.holiday_mode
+        name: Mode vacances
+        icon: mdi:beach
+        color: blue
+      - type: entities
+        title: Thermostats
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+            name: Bureau
+          - entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
+            name: Chambre TBX9F_ORG_0002
+          - entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
+            name: Chambre enfants
+          - entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
+            name: Salle de jeu
+          - entity: climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+            name: Salle à manger
+          - entity: climate.trv_btr_06_rez_sud_est_salon
+            name: Salon
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4DF Appareils"
+        grid_options:
+          columns: full
+      - type: entities
+        title: Éponge
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: input_boolean.eponge_started
+            name: Cycle en cours
+          - entity: sensor.s1pm42_power
+            name: Puissance
+      - type: entities
+        title: Lavette
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.lavette_operation_state
+            name: État
+          - entity: sensor.lavette_program_progress
+            name: Progression
+          - entity: sensor.lavette_program_finish_time
+            name: Fin prévue
+          - entity: binary_sensor.lavette_remote_start
+            name: Démarrage à distance
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4DC Historique"
+        grid_options:
+          columns: full
+      - type: logbook
+        title: Activité récente
+        hours_to_show: 24
+        target:
+          entity_id:
+            - automation.chauffage_mode_vacances
+            - automation.ups_battery_low
+            - automation.ordi_allume
+            - automation.eponge_start
+            - automation.automation_27
+            - automation.lavette_end_of_program_2
+            - automation.ups_on_battery
+            - automation.turn_hdd_nas_on
+            - automation.turn_hdd_nas_off
+            - automation.turn_hdd_nas_on_weekly
+            - automation.turn_off_hdd_nas_weekly
+            - automation.atelier_chargeur_is_charging
+            - automation.atelier_switch_off_chargeur
+            - automation.cave_a_vin_gestion_optimisee
+            - automation.turn_off_compresseur_air_20h30
+            - automation.turn_off_deshumidificateur
+            - automation.turn_on_deshumidificateur
+            - automation.ducon_task_started
+            - automation.ducon_end_task_correctly
+            - automation.ducon_bin_full
+            - automation.lumieres_ext_noel_off_after_2h
+            - automation.switch_off_lumieres_exterieur_after_2h
+            - automation.vacances_bureau_off_2
+            - automation.sapin_de_noel_on
+            - automation.sapin_de_noel_off
+            - automation.vacances_bureau_on_2
+            - automation.vacances_bureau_off
+            - automation.vacances_chambre_off
+            - automation.vacances_chambre_on
+            - automation.vacances_bureau_on
+            - automation.vacances_lampe_salon_off
+            - automation.vacances_lamp_salon_on
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F3DD️ Vacances"
+        grid_options:
+          columns: full
+      - type: tile
+        entity: automation.vacances_lamp_salon_on
+        name: Salon ON
+        icon: mdi:lamps-outline
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_lampe_salon_off
+        name: Salon OFF
+        icon: mdi:lamps-outline
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_bureau_on_2
+        name: Bureau ON
+        icon: mdi:lamps-outline
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_bureau_off_2
+        name: Bureau OFF
+        icon: mdi:lamps-outline
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_bureau_on
+        name: Enfants ON (Tasmorallonge)
+        icon: mdi:lamps-outline
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_bureau_off
+        name: Enfants OFF (Tasmorallonge)
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_chambre_on
+        name: Chambre ON (Tasmorallonge vacances)
+        vertical: false
+        features_position: bottom
+      - type: tile
+        entity: automation.vacances_chambre_off
+        name: Chambre OFF (Tasmorallonge vacances)
+        vertical: false
+        features_position: bottom
+cards: []
+header:
+  card:
+    type: markdown
+    text_only: true
+    content: >
+      # 📰 Journalisation des automations

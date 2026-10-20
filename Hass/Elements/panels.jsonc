@@ -1,0 +1,301 @@
+// WebSocket : get_panels
+{
+  "config": {
+    "component_name": "config",
+    "icon": "mdi:cog",
+    "title": "config",
+    "default_visible": true,
+    "config": null,
+    "url_path": "config",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "la-maison-des-dous": {
+    "component_name": "lovelace",
+    "icon": "mdi:home",
+    "title": "L'Orée des Dous",
+    "default_visible": true,
+    "config": {
+      "mode": "storage"
+    },
+    "url_path": "la-maison-des-dous",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "map": {
+    "component_name": "lovelace",
+    "icon": "mdi:map",
+    "title": "Map",
+    "default_visible": true,
+    "config": {
+      "mode": "storage"
+    },
+    "url_path": "map",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": false
+  },
+  "l-oree-des-dous-new": {
+    "component_name": "lovelace",
+    "icon": "mdi:floor-plan",
+    "title": "L'Orée des Dous - Pieces",
+    "default_visible": true,
+    "config": {
+      "mode": "storage"
+    },
+    "url_path": "l-oree-des-dous-new",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "lovelace": {
+    "component_name": "lovelace",
+    "icon": null,
+    "title": null,
+    "default_visible": true,
+    "config": null,
+    "url_path": "lovelace",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "light": {
+    "component_name": "light",
+    "icon": "mdi:lamps",
+    "title": "light",
+    "default_visible": true,
+    "config": null,
+    "url_path": "light",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": false
+  },
+  "security": {
+    "component_name": "security",
+    "icon": "mdi:security",
+    "title": "security",
+    "default_visible": true,
+    "config": null,
+    "url_path": "security",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": false
+  },
+  "climate": {
+    "component_name": "climate",
+    "icon": "mdi:home-thermometer",
+    "title": "climate",
+    "default_visible": true,
+    "config": null,
+    "url_path": "climate",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": false
+  },
+  "home": {
+    "component_name": "home",
+    "icon": "mdi:home",
+    "title": "home",
+    "default_visible": true,
+    "config": null,
+    "url_path": "home",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": false
+  },
+  "maintenance": {
+    "component_name": "maintenance",
+    "icon": "mdi:wrench",
+    "title": "maintenance",
+    "default_visible": true,
+    "config": null,
+    "url_path": "maintenance",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": false
+  },
+  "profile": {
+    "component_name": "profile",
+    "icon": null,
+    "title": null,
+    "default_visible": true,
+    "config": null,
+    "url_path": "profile",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "notfound": {
+    "component_name": "notfound",
+    "icon": null,
+    "title": null,
+    "default_visible": true,
+    "config": null,
+    "url_path": "notfound",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "app": {
+    "component_name": "app",
+    "icon": null,
+    "title": null,
+    "default_visible": true,
+    "config": null,
+    "url_path": "app",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "45df7312_zigbee2mqtt": {
+    "component_name": "app",
+    "icon": "mdi:zigbee",
+    "title": "Zigbee2MQTT",
+    "default_visible": true,
+    "config": {
+      "addon": "45df7312_zigbee2mqtt"
+    },
+    "url_path": "45df7312_zigbee2mqtt",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "core_configurator": {
+    "component_name": "app",
+    "icon": "mdi:wrench",
+    "title": "File editor",
+    "default_visible": true,
+    "config": {
+      "addon": "core_configurator"
+    },
+    "url_path": "core_configurator",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "core_ssh": {
+    "component_name": "app",
+    "icon": "mdi:console",
+    "title": "Terminal",
+    "default_visible": true,
+    "config": {
+      "addon": "core_ssh"
+    },
+    "url_path": "core_ssh",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "1bd4a9fb_victoria_metrics": {
+    "component_name": "app",
+    "icon": "mdi:puzzle",
+    "title": "VictoriaMetrics",
+    "default_visible": true,
+    "config": {
+      "addon": "1bd4a9fb_victoria_metrics"
+    },
+    "url_path": "1bd4a9fb_victoria_metrics",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "a0d7b954_grafana": {
+    "component_name": "app",
+    "icon": "mdi:chart-timeline",
+    "title": "Grafana",
+    "default_visible": true,
+    "config": {
+      "addon": "a0d7b954_grafana"
+    },
+    "url_path": "a0d7b954_grafana",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "media-browser": {
+    "component_name": "media-browser",
+    "icon": "mdi:play-box-multiple",
+    "title": "media_browser",
+    "default_visible": true,
+    "config": null,
+    "url_path": "media-browser",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "history": {
+    "component_name": "history",
+    "icon": "mdi:chart-box",
+    "title": "history",
+    "default_visible": true,
+    "config": null,
+    "url_path": "history",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "logbook": {
+    "component_name": "logbook",
+    "icon": "mdi:format-list-bulleted-type",
+    "title": "logbook",
+    "default_visible": true,
+    "config": null,
+    "url_path": "logbook",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "energy": {
+    "component_name": "energy",
+    "icon": "mdi:lightning-bolt",
+    "title": "energy",
+    "default_visible": true,
+    "config": null,
+    "url_path": "energy",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "_my_redirect": {
+    "component_name": "my",
+    "icon": null,
+    "title": null,
+    "default_visible": true,
+    "config": null,
+    "url_path": "_my_redirect",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "hacs": {
+    "component_name": "custom",
+    "icon": "hacs:hacs",
+    "title": "HACS",
+    "default_visible": true,
+    "config": {
+      "_panel_custom": {
+        "name": "hacs-frontend",
+        "embed_iframe": true,
+        "trust_external": false,
+        "js_url": "/hacsfiles/frontend/entrypoint.js?hacstag=TBX9F_VAL_0002"
+      }
+    },
+    "url_path": "hacs",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "todo": {
+    "component_name": "todo",
+    "icon": "mdi:clipboard-list",
+    "title": "todo",
+    "default_visible": true,
+    "config": null,
+    "url_path": "todo",
+    "require_admin": false,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  }
+}

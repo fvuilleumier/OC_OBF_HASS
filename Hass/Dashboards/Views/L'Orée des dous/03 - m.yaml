@@ -1,0 +1,397 @@
+title: La maison des Dous
+path: m
+icon: mdi:home-thermometer-outline
+badges: []
+type: sections
+max_columns: 2
+sections:
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 1d
+        update_interval: 5min
+        header:
+          show: true
+          title: Température salon
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: HH:mm
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_18_temperature
+            name: Rez
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            group_by:
+              func: avg
+              duration: 10min
+        grid_options:
+          columns: full
+    column_span: 2
+  - type: grid
+    cards:
+      - type: gauge
+        name: Bas
+        unit: °C
+        max: 35
+        severity:
+          green: 18
+          yellow: 25
+          red: 30
+        needle: true
+        entity: sensor.zg_227z_10_temperature
+        min: 10
+  - type: grid
+    cards:
+      - type: gauge
+        name: Haut
+        unit: °C
+        max: 35
+        severity:
+          green: 18
+          yellow: 25
+          red: 30
+        needle: true
+        entity: sensor.zg_227z_07_temperature
+        min: 10
+  - type: grid
+    cards:
+      - type: gauge
+        name: Dehors
+        unit: °C
+        max: 40
+        needle: true
+        severity:
+          green: 0
+          yellow: 25
+          red: 30
+        min: -10
+        entity: sensor.zg_227z_14_temperature
+  - type: grid
+    cards:
+      - type: gauge
+        name: Cave
+        max: 35
+        unit: °C
+        severity:
+          green: 18
+          yellow: 25
+          red: 30
+        needle: true
+        min: 10
+        entity: sensor.zg_227z_12_temperature
+  - type: grid
+    cards:
+      - type: gauge
+        name: Intérieur Cave à vin
+        unit: °C
+        severity:
+          green: 15
+          yellow: 18
+          red: 19
+        needle: true
+        min: 15
+        entity: sensor.zg_227z_20_temperature
+        max: 21
+  - type: grid
+    cards:
+      - type: gauge
+        unit: °C
+        severity:
+          green: 45
+          yellow: 50
+          red: 55
+        needle: true
+        min: 30
+        entity: sensor.zg_227z_24_temperature
+        max: 80
+        name: Boiler haut
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: gauge
+        unit: °C
+        severity:
+          green: 55
+          yellow: 60
+          red: 65
+        needle: true
+        min: 30
+        entity: sensor.zg_227z_25_temperature
+        max: 80
+        name: Boiler bas
+        grid_options:
+          columns: 6
+          rows: auto
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Températures — 7 jours
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 1
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_10_temperature
+            name: Rez
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_07_temperature
+            name: 1er
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_14_temperature
+            name: Dehors
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        graph_span: 7d
+        update_interval: 30min
+        header:
+          show: true
+          title: Humidité — 7 jours
+          show_states: true
+          colorize_states: true
+        apex_config:
+          chart:
+            height: 220
+            animations:
+              enabled: false
+            toolbar:
+              show: false
+            zoom:
+              enabled: false
+          stroke:
+            curve: smooth
+            width: 2
+          dataLabels:
+            enabled: false
+          markers:
+            size: 0
+          legend:
+            show: true
+            position: bottom
+            fontSize: 10px
+          xaxis:
+            labels:
+              datetimeUTC: false
+              format: dd/MM
+              style:
+                fontSize: 10px
+        yaxis:
+          - decimals: 0
+            apex_config:
+              tickAmount: 4
+        series:
+          - entity: sensor.zg_227z_10_humidity
+            name: Rez
+            color: var(--info-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_07_humidity
+            name: 1er
+            color: var(--warning-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_14_humidity
+            name: Dehors
+            color: var(--success-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+          - entity: sensor.zg_227z_12_humidity
+            name: Cave
+            color: var(--purple-color)
+            type: line
+            stroke_width: 2
+            statistics:
+              type: mean
+              period: hour
+              align: middle
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F321️ Températures"
+      - type: entities
+        entities:
+          - entity: sensor.zg_227z_07_temperature
+            name: 1er
+          - entity: sensor.zg_227z_18_temperature
+            name: Salon
+          - entity: sensor.zg_227z_16_temperature
+            name: Cuisine
+          - entity: sensor.zg_227z_01_temperature
+            name: Salle de bain 1er
+          - entity: sensor.zg_227z_10_temperature
+            name: Salle de jeu
+          - entity: sensor.zg_227z_06_temperature
+            name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
+          - entity: sensor.zg_227z_08_temperature
+            name: Chambre TBX9F_ORG_0005
+          - entity: sensor.zg_227z_15_temperature
+            name: Chambre TBX9F_ORG_0002
+          - entity: sensor.zg_227z_10_temperature
+            name: Rez
+          - entity: sensor.zg_227z_11_temperature
+            name: Entrée
+          - entity: sensor.zg_227z_22_temperature
+            name: Buanderie
+          - entity: sensor.zg_227z_03_temperature
+            name: Déshumidificateur
+          - entity: sensor.zg_227z_05_temperature
+            name: Bureau TBX9F_ORG_0001
+          - entity: sensor.zg_227z_19_temperature
+            name: Bureau TBX9F_ID_0056
+          - entity: sensor.zg_227z_02_temperature
+            name: Salle de bain rez
+          - entity: sensor.zg_227z_12_temperature
+            name: Cave
+          - entity: sensor.zg_227z_13_temperature
+            name: Atelier
+          - entity: sensor.zg_227z_14_temperature
+            name: Dehors
+  - type: grid
+    cards:
+      - type: custom:button-card
+        template: section_title
+        name: "\U0001F4A7 Humidité"
+      - type: entities
+        entities:
+          - entity: sensor.zg_227z_07_humidity
+            name: 1er
+          - entity: sensor.zg_227z_18_humidity
+            name: Salon
+          - entity: sensor.zg_227z_16_humidity
+            name: Cuisine
+          - entity: sensor.zg_227z_01_humidity
+            name: Salle de bain 1er
+          - entity: sensor.zg_227z_10_humidity
+            name: Salle de jeu
+          - entity: sensor.zg_227z_06_humidity
+            name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
+          - entity: sensor.zg_227z_08_humidity
+            name: Chambre TBX9F_ORG_0005
+          - entity: sensor.zg_227z_15_humidity
+            name: Chambre TBX9F_ORG_0002
+          - entity: sensor.zg_227z_10_humidity
+            name: Rez
+          - entity: sensor.zg_227z_11_humidity
+            name: Entrée
+          - entity: sensor.zg_227z_22_humidity
+            name: Buanderie
+          - entity: sensor.zg_227z_03_humidity
+            name: Déshumidificateur
+          - entity: sensor.zg_227z_05_humidity
+            name: Bureau TBX9F_ORG_0001
+          - entity: sensor.zg_227z_19_humidity
+            name: Bureau TBX9F_ID_0056
+          - entity: sensor.zg_227z_02_humidity
+            name: Salle de bain rez
+          - entity: sensor.zg_227z_12_humidity
+            name: Cave
+          - entity: sensor.zg_227z_13_humidity
+            name: Atelier
+          - entity: sensor.zg_227z_14_humidity
+            name: Dehors
+header:
+  layout: center
+  badges_position: bottom
+  badges_wrap: wrap
+  card:
+    type: markdown
+    text_only: true
+    content: "# \U0001F321️ Température - \U0001F4A7 Humidité"
+footer:
+  type: markdown
+  content: ''
+cards: []

@@ -2,13 +2,13 @@
 default_config:
 
 # DEPRECATED
-# Listen on port TBX7D_SECRET_0002
+# Listen on port 8033
 #http:
-#  server_port: TBX7D_SECRET_0002
+#  server_port: 41001
 #  use_x_forwarded_for: true
 #  trusted_proxies:
-#    - 192.168.166.10             # Add Reverse Proxy IPv4 address
-#    - 192.168.97.0/24           # Add LAN
+#    - 192.168.23.10             # Add Reverse Proxy IPv4 address
+#    - 192.168.239.0/24           # Add LAN
 
 # Text to speech
 tts:
@@ -26,7 +26,7 @@ frontend:
 template:
   - binary_sensor:
       - name: Production panneaux solaire
-        unique_id: production_panneaux_solaire
+        unique_id: TBX9F_ID_0055
         delay_on:
           minutes: 5
         delay_off:
@@ -80,7 +80,7 @@ template:
 # Ping mikrotik server
 #binary_sensor:
 #  - platform: ping
-#    host: 192.168.206.1
+#    host: 192.168.146.1
 #    name: "Mikrotik rooter"
 #    count: 2
 #    scan_interval: 500

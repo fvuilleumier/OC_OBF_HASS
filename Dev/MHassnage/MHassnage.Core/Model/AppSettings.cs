@@ -14,7 +14,7 @@ public sealed class HassSettings
 {
     public string Url { get; set; } = "";
 
-    /// <summary>Jeton longue durée : uniquement dans les user-secrets (clé « Hass:Token »).</summary>
+    /// <summary>Jeton longue durée : chiffré dans %APPDATA%\MHassnage\appsettings.json, en clair en mémoire seulement.</summary>
     public string Token { get; set; } = "";
 
     /// <summary>Partage Samba du dossier /config de HA.</summary>

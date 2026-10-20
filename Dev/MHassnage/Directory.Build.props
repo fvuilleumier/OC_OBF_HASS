@@ -3,7 +3,5 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
-    <!-- Identifiant partagé par tous les projets : le jeton HA n'est saisi qu'une fois -->
-    <UserSecretsId>mhassnage-7c1f2e4a-5b3d-4e8a-9f60-2d1c8b7a9e31</UserSecretsId>
   </PropertyGroup>
 </Project>

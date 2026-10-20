@@ -59,6 +59,23 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+
+                <!-- Marche à suivre pour (re)créer le jeton HA -->
+                <Border Margin="0,16,0,0" Padding="12" CornerRadius="4" BorderThickness="1"
+                        BorderBrush="#F5A623" Background="{StaticResource BackgroundBrush}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TokenHelp}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBox Text="{Binding TokenHelp, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
+                             Background="Transparent" BorderThickness="0" FontFamily="Consolas"
+                             Foreground="{StaticResource TextBrush}" />
+                </Border>
             </StackPanel>
         </Border>
     </Grid>

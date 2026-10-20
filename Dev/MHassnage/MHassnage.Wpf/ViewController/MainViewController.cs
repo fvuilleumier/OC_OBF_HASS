@@ -28,12 +28,19 @@ public sealed partial class MainViewController : ObservableObject
         foreach (var problem in SettingsService.Validate(settings))
             SettingsProblems.Add(problem);
 
+        if (SettingsProblems.Any(p => p.StartsWith("Hass:Token", StringComparison.Ordinal)))
+            TokenHelp = HassTokenHelp.Text(settings.Hass.Url, SettingsService.SettingsPath);
+
         _selected = Operations[0];
     }
 
     public AppSettings Settings { get; }
     public IReadOnlyList<OperationItem> Operations { get; }
     public ObservableCollection<string> SettingsProblems { get; } = [];
+
+    /// <summary>Marche à suivre pour recréer le jeton HA ; null si le jeton est présent.</summary>
+    [ObservableProperty]
+    private string? _tokenHelp;
 
     [ObservableProperty]
     private OperationItem _selected;

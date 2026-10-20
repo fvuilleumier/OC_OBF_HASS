@@ -1,6 +1,0 @@
-# Termes propres à l'organisation, un par ligne.
-# Forme : « terme » ou « terme => catégorie ».
-# Catégories usuelles : Person, Client, Site, Organization, Hostname, DomainName.
-
-Fabien => Organization
-Tebicom => Organization

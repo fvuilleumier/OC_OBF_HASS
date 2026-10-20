@@ -4,25 +4,25 @@
     Version du produit, reprise par les exécutables.
 
     Le numéro n'est tenu qu'à un endroit : la balise FileVersion de
-    TebiObfuscator.Core.csproj. Cette cible la lit avant que le SDK ne compose
+    Obfuscator.Core.csproj. Cette cible la lit avant que le SDK ne compose
     les attributs de l'assemblage, pour que l'exécutable porte le même numéro
     que le cœur — dans ses propriétés de fichier comme à l'écran. Recopier le
     numéro dans chaque projet, ce serait le laisser diverger à la première
     livraison où l'on en oublierait un.
   -->
   <Target Name="UseProductVersion" BeforeTargets="GetAssemblyVersion">
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)TebiObfuscator.Core\TebiObfuscator.Core.csproj"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Obfuscator.Core\Obfuscator.Core.csproj"
              Query="/Project/PropertyGroup/FileVersion/text()">
-      <Output TaskParameter="Result" PropertyName="TebiProductVersion" />
+      <Output TaskParameter="Result" PropertyName="ObfProductVersion" />
     </XmlPeek>
 
-    <Error Condition="'$(TebiProductVersion)' == ''"
-           Text="Version du produit introuvable : la balise FileVersion manque dans TebiObfuscator.Core.csproj." />
+    <Error Condition="'$(ObfProductVersion)' == ''"
+           Text="Version du produit introuvable : la balise FileVersion manque dans Obfuscator.Core.csproj." />
 
     <PropertyGroup>
-      <FileVersion>$(TebiProductVersion)</FileVersion>
-      <AssemblyVersion>$(TebiProductVersion)</AssemblyVersion>
-      <InformationalVersion>$(TebiProductVersion)</InformationalVersion>
+      <FileVersion>$(ObfProductVersion)</FileVersion>
+      <AssemblyVersion>$(ObfProductVersion)</AssemblyVersion>
+      <InformationalVersion>$(ObfProductVersion)</InformationalVersion>
     </PropertyGroup>
   </Target>
 

@@ -49,6 +49,15 @@ public sealed record RepoState(
         };
 }
 
+/// <summary>
+/// Fichier à commiter : entier (IncludedHunks null), ou seulement les blocs listés
+/// (index des blocs du diff HEAD → copie de travail).
+/// </summary>
+public sealed record CommitEntry(FileChange Change, IReadOnlySet<int>? IncludedHunks = null)
+{
+    public bool IsPartial => IncludedHunks is not null;
+}
+
 /// <summary>Résultat brut d'une commande git.</summary>
 public sealed record GitResult(int ExitCode, string Output, string Error)
 {

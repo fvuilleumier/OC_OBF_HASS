@@ -1,0 +1,141 @@
+<Window x:Class="Obfuscator.Wpf.View.ExchangeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Obfuscator.Wpf.View"
+        Title="Obfuscator" Width="920" Height="640" MinWidth="640" MinHeight="380"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="CanResizeWithGrip"
+        Background="{StaticResource Surface}" Foreground="{StaticResource TextPrimary}"
+        TextOptions.TextFormattingMode="Ideal">
+
+    <!-- Liste à confirmer d'un échange : chaque fichier que l'échange écrit,
+         retire ou laisse de côté, avec ses alertes. Rien n'est écrit avant la
+         confirmation. -->
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="Visible" />
+
+        <DataTemplate x:Key="WarningTemplate" DataType="{x:Type local:ExchangeWarningLine}">
+            <TextBlock x:Name="WarningLine" Text="{Binding Text}" FontSize="11" TextWrapping="Wrap"
+                       Foreground="{StaticResource TextMuted}" Margin="0,1,0,0" />
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsSerious}" Value="True">
+                    <Setter TargetName="WarningLine" Property="Foreground" Value="{StaticResource SuspectForeground}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RowTemplate" DataType="{x:Type local:ExchangeRowModel}">
+            <Border BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="0,0,0,1" Padding="8,7,10,7">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay}" IsEnabled="{Binding CanToggle}"
+                              VerticalAlignment="Top" Margin="0,2,0,0"
+                              ToolTip="Décochez pour laisser ce fichier tel quel ; une case grisée ne se change pas." />
+
+                    <Border Grid.Column="1" x:Name="Chip" Style="{StaticResource Pill}" Background="{StaticResource Raised}"
+                            VerticalAlignment="Top" Margin="0,0,10,0" MinWidth="104">
+                        <TextBlock x:Name="ChipText" Text="{Binding ActionLabel}" FontSize="10.5"
+                                   HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" />
+                    </Border>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="{Binding Path}" FontFamily="Cascadia Mono, Consolas" FontSize="12"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding Path}" />
+                        <TextBlock Text="{Binding OtherPath}" FontSize="10.5" Foreground="{StaticResource TextMuted}"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding OtherPath}"
+                                   Visibility="{Binding HasOtherPath, Converter={StaticResource Visible}}" />
+                        <TextBlock Text="{Binding Note}" FontSize="11" TextWrapping="Wrap" Margin="0,2,0,0"
+                                   Foreground="{StaticResource TextSecondary}"
+                                   Visibility="{Binding HasNote, Converter={StaticResource Visible}}" />
+                        <ItemsControl ItemsSource="{Binding Warnings}" ItemTemplate="{StaticResource WarningTemplate}"
+                                      Focusable="False" />
+                        <Button Content="Résoudre les conflits…" Style="{StaticResource MiniAccentButton}" Click="OnResolve"
+                                HorizontalAlignment="Left" Margin="0,5,0,0"
+                                Visibility="{Binding CanResolve, Converter={StaticResource Visible}}"
+                                ToolTip="Montre chaque passage changé des deux côtés, la version en clair à gauche, celle de l'IA à droite, et fait choisir lequel garder." />
+                        <CheckBox Content="ignorer ce fichier à l'avenir" IsChecked="{Binding IgnoreLater, Mode=TwoWay}"
+                                  FontSize="11" Margin="0,4,0,0" HorizontalAlignment="Left"
+                                  Visibility="{Binding CanIgnore, Converter={StaticResource Visible}}"
+                                  ToolTip="Un fichier à vous — notes, consignes — que le rapatriement laissera de côté désormais. On le réexamine depuis l'onglet « Échanges »." />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="3" Text="{Binding Stats}" FontSize="11" Foreground="{StaticResource TextMuted}"
+                               VerticalAlignment="Top" Margin="12,2,0,0" />
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Tone}" Value="Add">
+                    <Setter TargetName="Chip" Property="Background" Value="{StaticResource SuccessDim}" />
+                    <Setter TargetName="ChipText" Property="Foreground" Value="{StaticResource Success}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tone}" Value="Remove">
+                    <Setter TargetName="Chip" Property="Background" Value="{StaticResource DangerDim}" />
+                    <Setter TargetName="ChipText" Property="Foreground" Value="{StaticResource Danger}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tone}" Value="Block">
+                    <Setter TargetName="Chip" Property="Background" Value="{StaticResource WarningDim}" />
+                    <Setter TargetName="ChipText" Property="Foreground" Value="{StaticResource SuspectForeground}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tone}" Value="Refused">
+                    <Setter TargetName="Chip" Property="Background" Value="{StaticResource DangerDim}" />
+                    <Setter TargetName="ChipText" Property="Foreground" Value="{StaticResource Danger}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel Margin="22,18,22,16">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Name="HeadingText" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock Name="FolderText" FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,3,0,0"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Name="SummaryText" Margin="0,10,0,0" TextWrapping="Wrap" Foreground="{StaticResource TextSecondary}" />
+
+            <Border Name="BlockingPanel" Visibility="Collapsed" Margin="0,10,0,0" CornerRadius="6" Padding="12,8"
+                    Background="{StaticResource DangerDim}">
+                <TextBlock Name="BlockingText" TextWrapping="Wrap" Foreground="{StaticResource Danger}" LineHeight="18" />
+            </Border>
+
+            <Border Name="WarningPanel" Visibility="Collapsed" Margin="0,10,0,0" CornerRadius="6" Padding="12,8"
+                    Background="{StaticResource WarningDim}" BorderBrush="{StaticResource WarningBorder}" BorderThickness="1">
+                <TextBlock Name="WarningText" TextWrapping="Wrap" Foreground="{StaticResource SuspectForeground}" LineHeight="18" />
+            </Border>
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,14,0,0">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Name="CancelButton" Content="Annuler" IsCancel="True" Click="OnCancel" />
+                <Button Name="ConfirmButton" IsDefault="True" Click="OnConfirm" Margin="0"
+                        Style="{StaticResource PrimaryButton}" />
+            </StackPanel>
+            <TextBlock Name="FooterText" Style="{StaticResource Hint}" VerticalAlignment="Center" Margin="0,0,18,0" />
+        </DockPanel>
+
+        <Grid Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Coche ou décoche d'un coup tout ce qui peut l'être ; une case
+                 grisée garde son état. -->
+            <CheckBox Grid.Row="0" Name="SelectAllCheck" Content="Tout cocher" Click="OnSelectAll"
+                      Margin="9,0,0,8" HorizontalAlignment="Left"
+                      ToolTip="Coche, ou décoche, tous les fichiers dont la case peut changer — y compris les fichiers bloqués et les suppressions." />
+
+            <Border Grid.Row="1" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="5">
+                <ListBox Name="RowsList" BorderThickness="0" Background="Transparent"
+                         ItemContainerStyle="{StaticResource PlainItem}" ItemTemplate="{StaticResource RowTemplate}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel" />
+            </Border>
+            <TextBlock Grid.Row="1" Name="EmptyText" Style="{StaticResource Hint}" Visibility="Collapsed"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+    </DockPanel>
+</Window>

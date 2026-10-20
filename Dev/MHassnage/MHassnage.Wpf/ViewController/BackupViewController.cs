@@ -7,13 +7,38 @@ using MHassnage.Core.Service;
 
 namespace MHassnage.Wpf.ViewController;
 
-/// <summary>Fichier modifié dans la liste, avec sa case à cocher pour le commit.</summary>
+/// <summary>Fichier modifié dans la liste : case du fichier + blocs exclus (commit partiel).</summary>
 public sealed partial class ChangeItem(FileChange change) : ObservableObject
 {
     public FileChange Change { get; } = change;
 
     [ObservableProperty]
     private bool _isChecked = true;
+
+    /// <summary>Nombre de blocs du diff (connu une fois le diff affiché ; 0 = fichier entier).</summary>
+    public int HunkCount { get; set; }
+
+    /// <summary>Blocs décochés : non commités, ils restent en modification.</summary>
+    public HashSet<int> ExcludedHunks { get; } = [];
+
+    /// <summary>Vrai si une partie seulement des blocs sera commitée (affiché « partiel »).</summary>
+    public bool IsPartial => ExcludedHunks.Count > 0 && ExcludedHunks.Count < HunkCount;
+
+    public void SetHunk(int index, bool included)
+    {
+        if (included) ExcludedHunks.Remove(index); else ExcludedHunks.Add(index);
+        if (included && !IsChecked) IsChecked = true;
+        OnPropertyChanged(nameof(IsPartial));
+    }
+
+    /// <summary>Entrée de commit, ou null si rien n'est retenu.</summary>
+    public CommitEntry? ToCommitEntry()
+    {
+        if (!IsChecked) return null;
+        if (ExcludedHunks.Count == 0 || HunkCount == 0) return new CommitEntry(Change);
+        if (ExcludedHunks.Count >= HunkCount) return null;
+        return new CommitEntry(Change, Enumerable.Range(0, HunkCount).Except(ExcludedHunks).ToHashSet());
+    }
 }
 
 /// <summary>
@@ -38,8 +63,8 @@ public sealed partial class BackupViewController : ObservableObject, IRepository
     public CommitBarViewController CommitBar { get; }
     public ObservableCollection<ChangeItem> Changes { get; } = [];
 
-    public IReadOnlyCollection<FileChange> SelectedFiles =>
-        Changes.Where(c => c.IsChecked).Select(c => c.Change).ToList();
+    public IReadOnlyCollection<CommitEntry> SelectedEntries =>
+        Changes.Select(c => c.ToCommitEntry()).OfType<CommitEntry>().ToList();
 
     [ObservableProperty]
     private bool _isBusy;
@@ -51,7 +76,7 @@ public sealed partial class BackupViewController : ObservableObject, IRepository
     private ChangeItem? _selectedChange;
 
     [ObservableProperty]
-    private FileDiff? _diff;
+    private DiffViewController? _diff;
 
     /// <summary>Faux : seuls les changements et 3 lignes de contexte sont affichés.</summary>
     [ObservableProperty]
@@ -148,7 +173,7 @@ public sealed partial class BackupViewController : ObservableObject, IRepository
                 return DiffService.Compare(change.Path, before, after, context);
             }, cts.Token);
 
-            if (!cts.IsCancellationRequested) Diff = diff;
+            if (!cts.IsCancellationRequested) Diff = new DiffViewController(diff, SelectedChange);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)

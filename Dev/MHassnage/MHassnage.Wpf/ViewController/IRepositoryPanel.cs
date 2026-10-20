@@ -10,8 +10,8 @@ public interface IRepositoryPanel
     LogViewController Log { get; }
     bool IsBusy { get; set; }
 
-    /// <summary>Fichiers cochés pour le commit.</summary>
-    IReadOnlyCollection<FileChange> SelectedFiles { get; }
+    /// <summary>Fichiers (entiers ou par blocs) retenus pour le commit.</summary>
+    IReadOnlyCollection<CommitEntry> SelectedEntries { get; }
 
     Task RefreshAsync();
 }

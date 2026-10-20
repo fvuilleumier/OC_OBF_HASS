@@ -61,22 +61,51 @@ public sealed class GitService(string repositoryPath, string gitExecutable = "gi
     /// Commit des seuls fichiers donnés : l'index est d'abord vidé, puis ces fichiers
     /// (ajouts, modifications et suppressions) y sont placés.
     /// </summary>
-    public async Task CommitAsync(IReadOnlyCollection<FileChange> files, string message, CancellationToken ct = default)
+    public Task CommitAsync(IReadOnlyCollection<FileChange> files, string message, CancellationToken ct = default) =>
+        CommitAsync(files.Select(f => new CommitEntry(f)).ToList(), message, ct);
+
+    /// <summary>
+    /// Commit sélectif : fichiers entiers, ou seulement certains blocs d'un fichier modifié.
+    /// Pour un fichier partiel, le contenu indexé = HEAD + blocs retenus ; la copie de travail
+    /// n'est pas touchée (les blocs non retenus restent en modification après le commit).
+    /// </summary>
+    public async Task CommitAsync(IReadOnlyCollection<CommitEntry> entries, string message, CancellationToken ct = default)
     {
-        if (files.Count == 0) throw new InvalidOperationException("Aucun fichier sélectionné.");
+        if (entries.Count == 0) throw new InvalidOperationException("Aucun fichier sélectionné.");
         if (string.IsNullOrWhiteSpace(message)) throw new InvalidOperationException("Message de commit vide.");
+
+        string root = (await RunChecked(["rev-parse", "--show-toplevel"], ct: ct)).Output.Trim();
 
         // Index remis à HEAD (sans toucher aux fichiers) ; dépôt neuf sans HEAD : rien à faire
         if ((await RunAsync(["rev-parse", "--verify", "-q", "HEAD"], ct: ct)).Success)
             await RunChecked(["reset", "-q"], ct: ct);
 
-        // Chemins relatifs à la racine du dépôt, pris littéralement (crochets, étoiles…)
-        var paths = files.SelectMany(f => f.OldPath is null ? [f.Path] : new[] { f.Path, f.OldPath });
-        string pathspec = string.Concat(paths.Select(p => $":(top,literal){p}\0"));
-        await RunChecked(["add", "-A", "--pathspec-from-file=-", "--pathspec-file-nul"], pathspec, ct);
+        // Fichiers entiers : chemins relatifs à la racine, pris littéralement (crochets, étoiles…)
+        var whole = entries.Where(e => !e.IsPartial).Select(e => e.Change).ToList();
+        if (whole.Count > 0)
+        {
+            var paths = whole.SelectMany(f => f.OldPath is null ? [f.Path] : new[] { f.Path, f.OldPath });
+            string pathspec = string.Concat(paths.Select(p => $":(top,literal){p}\0"));
+            await RunChecked(["add", "-A", "--pathspec-from-file=-", "--pathspec-file-nul"], pathspec, ct);
+        }
+
+        // Fichiers partiels : contenu reconstruit, écrit comme objet git puis placé dans l'index
+        foreach (var entry in entries.Where(e => e.IsPartial))
+        {
+            string path = entry.Change.Path;
+            string head = await ReadAtHeadAsync(path, ct);
+            string content = DiffService.ApplyHunks(head, ReadWorking(root, path), entry.IncludedHunks!);
+
+            string sha = (await RunChecked(["-C", root, "hash-object", "-w", "--stdin", $"--path={path}"], content, ct))
+                .Output.Trim();
+            var tree = await RunAsync(["-C", root, "ls-tree", "--full-tree", "HEAD", "--", path], ct: ct);
+            string mode = tree.Success && tree.Output.Length > 6 ? tree.Output[..6] : "100644";
+            await RunChecked(["-C", root, "update-index", "--add", "--cacheinfo", $"{mode},{sha},{path}"], ct: ct);
+            Log($"OK  {path} : {entry.IncludedHunks!.Count} bloc(s) retenu(s)");
+        }
 
         await RunChecked(["commit", "-F", "-"], message, ct);
-        Log($"OK  commit : {message.Split('\n')[0]} ({files.Count} fichier(s))");
+        Log($"OK  commit : {message.Split('\n')[0]} ({entries.Count} fichier(s))");
     }
 
     public async Task PushAsync(CancellationToken ct = default)

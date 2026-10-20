@@ -47,6 +47,12 @@
                     <DataTemplate DataType="{x:Type vc:BackupViewController}">
                         <v:BackupView />
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type vc:PrepareForAiViewController}">
+                        <v:ExchangeView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vc:RetrieveAiWorkViewController}">
+                        <v:ExchangeView />
+                    </DataTemplate>
                     <DataTemplate DataType="{x:Type vc:PlaceholderViewController}">
                         <StackPanel>
                             <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" />

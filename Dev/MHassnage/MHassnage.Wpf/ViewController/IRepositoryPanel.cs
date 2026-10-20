@@ -3,8 +3,8 @@ using MHassnage.Core.Service;
 
 namespace MHassnage.Wpf.ViewController;
 
-/// <summary>Ce qu'un panel fournit à la <see cref="CommitBarViewController"/>.</summary>
-public interface IRepositoryPanel
+/// <summary>Ce qu'un dépôt fournit à la <see cref="CommitBarViewController"/>.</summary>
+public interface IRepositoryPanel : IRefreshable
 {
     GitService Git { get; }
     LogViewController Log { get; }
@@ -12,6 +12,4 @@ public interface IRepositoryPanel
 
     /// <summary>Fichiers (entiers ou par blocs) retenus pour le commit.</summary>
     IReadOnlyCollection<CommitEntry> SelectedEntries { get; }
-
-    Task RefreshAsync();
 }

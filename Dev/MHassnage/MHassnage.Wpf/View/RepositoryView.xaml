@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="MHassnage.Wpf.View.RepositoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:v="clr-namespace:MHassnage.Wpf.View">
+    <!-- DataContext : RepositoryViewController. Dépôt : fichiers modifiés, diff, barre de commit. -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,6">
+            <Button DockPanel.Dock="Right" Content="⟳ Rafraîchir" Command="{Binding RefreshCommand}" Style="{StaticResource ActionButton}" Padding="8,3" />
+            <TextBlock Text="{Binding RepoText}" Foreground="{StaticResource MutedTextBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+        </DockPanel>
+
+        <Grid Grid.Row="1" IsEnabled="{Binding IsBusy, Converter={StaticResource Not}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" MinWidth="160" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock Text="{Binding Changes.Count, StringFormat='{}{0} fichier(s)'}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Content="Tout" Command="{Binding CheckAllCommand}" Style="{StaticResource ActionButton}" Padding="8,2" Margin="10,0,0,0" />
+                    <Button Content="Rien" Command="{Binding UncheckAllCommand}" Style="{StaticResource ActionButton}" Padding="8,2" />
+                </StackPanel>
+                <ListBox ItemsSource="{Binding Changes}" SelectedItem="{Binding SelectedChange}"
+                         Background="{StaticResource BackgroundBrush}" BorderThickness="0" Foreground="{StaticResource TextBrush}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,6,0" />
+                                <TextBlock Text="{Binding Change.Letter}" Width="16" FontFamily="Consolas" FontWeight="Bold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#E5C07B" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Change.Letter}" Value="?"><Setter Property="Foreground" Value="#6CC17A" /></DataTrigger>
+                                                <DataTrigger Binding="{Binding Change.Letter}" Value="A"><Setter Property="Foreground" Value="#6CC17A" /></DataTrigger>
+                                                <DataTrigger Binding="{Binding Change.Letter}" Value="D"><Setter Property="Foreground" Value="#E06C75" /></DataTrigger>
+                                                <DataTrigger Binding="{Binding Change.Letter}" Value="!"><Setter Property="Foreground" Value="#E06C75" /></DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Change.Path}" ToolTip="{Binding Change.Path}" />
+                                <TextBlock Text="  (partiel)" Foreground="{StaticResource AccentBrush}" FontStyle="Italic">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPartial}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent" />
+
+            <DockPanel Grid.Column="2">
+                <CheckBox DockPanel.Dock="Top" Content="Fichier entier (sinon : modifications et 3 lignes de contexte)"
+                          IsChecked="{Binding ShowWholeFile}" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                    <Grid>
+                        <v:DiffView DataContext="{Binding Diff}" />
+                        <TextBlock Text="Aucune modification à afficher." Foreground="{StaticResource MutedTextBrush}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Diff}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+            </DockPanel>
+        </Grid>
+
+        <v:CommitBar Grid.Row="2" DataContext="{Binding CommitBar}" Margin="0,10,0,0"
+                     IsEnabled="{Binding DataContext.IsBusy, RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}, Converter={StaticResource Not}}" />
+    </Grid>
+</UserControl>

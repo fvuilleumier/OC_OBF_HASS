@@ -46,8 +46,8 @@ public sealed partial class MainViewController : ObservableObject
         bool firstOpening = !_panels.ContainsKey(value.Operation);
         CurrentPanel = PanelFor(value);
 
-        if (firstOpening && CurrentPanel is IRepositoryPanel repository)
-            _ = repository.RefreshAsync();
+        if (firstOpening && CurrentPanel is IRefreshable refreshable)
+            _ = refreshable.RefreshAsync();
     }
 
     private object PanelFor(OperationItem item)
@@ -58,6 +58,8 @@ public sealed partial class MainViewController : ObservableObject
         {
             Operation.Status => new StatusViewController(_settings),
             Operation.BackupHass => new BackupViewController(_settings),
+            Operation.PrepareForAi => new PrepareForAiViewController(_settings),
+            Operation.RetrieveAiWork => new RetrieveAiWorkViewController(_settings),
             _ => new PlaceholderViewController(item.Title, "Prévu dans une prochaine étape."),
         };
         _panels[item.Operation] = panel;

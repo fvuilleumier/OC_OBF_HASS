@@ -394,9 +394,7 @@ public sealed class ObfuscatePresenter(ObfuscationProject project)
 
         // Les candidats sont cherchés dans le texte produit : ce qui a été
         // masqué n'y figure plus, seul reste ce qu'aucune règle n'a couvert.
-        List<VocabularyCandidate> candidates = [.. VocabularyCandidateFinder
-            .Find([project.Policy.Entities.Blank(result.Text)], project.Vocabulary, project.Policy.Allowlist)
-            .Where(candidate => !project.Policy.IsIgnored(candidate.Text))];
+        IReadOnlyList<VocabularyCandidate> candidates = VocabularyCandidateFinder.FindUndecided([result.Text], project.Policy, project.Vocabulary);
 
         return new TextObfuscation(result.Text, result.Applied, leaks, known, candidates);
     }

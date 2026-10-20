@@ -450,6 +450,7 @@ public partial class MainWindow
         }
 
         UpdateFilterCounts();
+        RefreshFileSuspects();
     }
 
     /// <summary>

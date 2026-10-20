@@ -56,6 +56,31 @@ public static partial class VocabularyCandidateFinder
     private static partial Regex InternalIdentifier();
 
     /// <summary>
+    /// Recherche les candidats qui attendent encore une décision : ni retenus
+    /// dans le vocabulaire, ni gardés en clair, ni écartés. Les identifiants
+    /// d'entités gardés en clair sont effacés des textes avant la recherche.
+    ///
+    /// C'est la définition commune à l'écran des suggestions, au relevé et à
+    /// la publication pilotée par une autre application : un terme tranché ne
+    /// doit reparaître dans aucun d'eux.
+    /// </summary>
+    /// <param name="texts">Contenus en clair des fichiers analysés</param>
+    /// <param name="policy">Politique du projet : entités gardées, liste blanche, propositions écartées</param>
+    /// <param name="vocabulary">Vocabulaire du projet</param>
+    /// <returns>Les candidats non tranchés, du plus fréquent au moins fréquent</returns>
+    public static IReadOnlyList<VocabularyCandidate> FindUndecided(
+        IEnumerable<string> texts,
+        ObfuscationPolicy policy,
+        Vocabulary vocabulary)
+    {
+        ArgumentNullException.ThrowIfNull(texts);
+        ArgumentNullException.ThrowIfNull(policy);
+
+        return [.. Find(texts.Select(policy.Entities.Blank), vocabulary, policy.Allowlist)
+            .Where(candidate => !policy.IsIgnored(candidate.Text))];
+    }
+
+    /// <summary>
     /// Recherche des termes candidats dans un lot de textes.
     /// </summary>
     /// <param name="texts">Contenus des fichiers analysés</param>

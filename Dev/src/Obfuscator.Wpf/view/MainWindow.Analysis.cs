@@ -321,6 +321,7 @@ public partial class MainWindow
         FillFindings(new ScanReport([], [], 0));
         ReplaceSuggestions([]);
         RebuildMaskTargets();
+        RefreshFileSuspects();
     }
 
     /// <summary>

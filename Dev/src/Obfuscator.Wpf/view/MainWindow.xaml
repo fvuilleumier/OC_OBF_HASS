@@ -599,6 +599,20 @@
                                                FontSize="11" Foreground="{StaticResource TextMuted}" />
                                 </StackPanel>
 
+                                <!-- Filtre de la liste : tous les fichiers, ou seulement ceux
+                                     où des signalements restent à trancher — ceux qu'il faut
+                                     ouvrir. -->
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,8,0,6">
+                                    <RadioButton Name="FilesFilterAllButton" Style="{StaticResource FilterChip}" GroupName="FilesFilter"
+                                                 IsChecked="True" Click="OnFilesFilterClick" Background="{StaticResource Raised}"
+                                                 Foreground="{StaticResource TextPrimary}" Content="Tout"
+                                                 ToolTip="Affiche tous les fichiers de la source." />
+                                    <RadioButton Name="FilesFilterSuspectButton" Style="{StaticResource FilterChip}" GroupName="FilesFilter"
+                                                 Click="OnFilesFilterClick" Background="{StaticResource SuspectBackground}"
+                                                 Foreground="{StaticResource SuspectForeground}" Content="À trancher"
+                                                 ToolTip="N'affiche que les fichiers où des valeurs signalées restent à trancher : ce sont eux qu'il faut ouvrir." />
+                                </StackPanel>
+
                                 <ListBox Name="FilesList" Height="120" BorderThickness="1"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          MouseDoubleClick="OnFilesListDoubleClick" KeyDown="OnFilesListKeyDown"
@@ -614,6 +628,7 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" VerticalAlignment="Center" FontSize="11.5"
                                                            TextTrimming="CharacterEllipsis">
@@ -621,9 +636,17 @@
                                                          Text="{Binding FolderLabel, Mode=OneWay}"
                                                          Foreground="{StaticResource TextMuted}" />
                                                 </TextBlock>
+                                                <!-- Signalements qui restent à trancher, aux couleurs
+                                                     des signalés de l'aperçu ; rien quand il n'y en a plus. -->
+                                                <Border Grid.Column="1" Style="{StaticResource Pill}" Margin="6,0,0,0"
+                                                        Background="{StaticResource SuspectBackground}" ToolTip="{Binding SuspectsTip}"
+                                                        Visibility="{Binding HasSuspects, Converter={StaticResource Visible}}">
+                                                    <TextBlock Text="{Binding SuspectsText}" FontSize="10.5"
+                                                               Foreground="{StaticResource SuspectForeground}" />
+                                                </Border>
                                                 <!-- Poubelle : le fichier quitte « in » pour la corbeille,
                                                      après confirmation. -->
-                                                <Button Grid.Column="1" Style="{StaticResource DangerIconButton}"
+                                                <Button Grid.Column="2" Style="{StaticResource DangerIconButton}"
                                                         Click="OnDeleteInputFile" Margin="6,0,0,0"
                                                         Visibility="{Binding CanDelete, Converter={StaticResource Visible}}"
                                                         ToolTip="Supprimer ce fichier du dossier « in » (il est placé dans la corbeille)">
@@ -635,7 +658,7 @@
                                                 </Button>
                                                 <!-- Dossier en clair lié : l'application n'y supprime
                                                      rien ; un fichier y est seulement tenu à l'écart. -->
-                                                <Button Grid.Column="1" Style="{StaticResource DangerIconButton}"
+                                                <Button Grid.Column="2" Style="{StaticResource DangerIconButton}"
                                                         Click="OnExcludeInputFile" Margin="6,0,0,0"
                                                         Visibility="{Binding CanExclude, Converter={StaticResource Visible}}"
                                                         ToolTip="Tenir ce fichier à l'écart des échanges : il reste dans le dossier en clair, mais ne part plus vers la cible. Clic droit pour écarter tout un dossier.">

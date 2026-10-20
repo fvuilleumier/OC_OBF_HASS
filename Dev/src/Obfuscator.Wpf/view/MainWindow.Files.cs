@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using Obfuscator.Core.Model.Exchange;
@@ -15,16 +16,63 @@ using VisualBasicIO = Microsoft.VisualBasic.FileIO;
 namespace Obfuscator.Wpf.View;
 
 /// <summary>
-/// Fichier de la source, tel que la liste l'affiche.
+/// Fichier de la source, tel que la liste l'affiche, avec le nombre de valeurs
+/// signalées qui y restent à trancher : c'est ce qui dit, sans ouvrir chaque
+/// aperçu, lesquels demandent encore une décision.
 /// </summary>
-/// <param name="FullPath">Chemin complet</param>
-/// <param name="Name">Nom du fichier</param>
-/// <param name="Folder">Sous-dossier de la source, vide à la racine</param>
-/// <param name="Linked">Vrai si la source est un dossier en clair lié, faux pour « in »</param>
-public sealed record InputFileRow(string FullPath, string Name, string Folder, bool Linked)
+/// <param name="fullPath">Chemin complet</param>
+/// <param name="name">Nom du fichier</param>
+/// <param name="folder">Sous-dossier de la source, vide à la racine</param>
+/// <param name="linked">Vrai si la source est un dossier en clair lié, faux pour « in »</param>
+public sealed class InputFileRow(string fullPath, string name, string folder, bool linked) : NotifyingObject
 {
+    private int? _suspects;
+
+    /// <summary>Chemin complet.</summary>
+    public string FullPath { get; } = fullPath;
+
+    /// <summary>Nom du fichier.</summary>
+    public string Name { get; } = name;
+
+    /// <summary>Sous-dossier de la source, vide à la racine.</summary>
+    public string Folder { get; } = folder;
+
+    /// <summary>Vrai si la source est un dossier en clair lié, faux pour « in ».</summary>
+    public bool Linked { get; } = linked;
+
     /// <summary>Sous-dossier affiché en retrait après le nom, s'il y en a un.</summary>
     public string FolderLabel => Folder.Length == 0 ? string.Empty : $"  · {Folder}";
+
+    /// <summary>
+    /// Nombre de valeurs signalées qui restent à trancher dans le fichier, ou
+    /// <c>null</c> tant qu'il n'a pas été analysé.
+    /// </summary>
+    public int? Suspects
+    {
+        get => _suspects;
+        set
+        {
+            if (_suspects == value)
+            {
+                return;
+            }
+
+            _suspects = value;
+            NotifyPropertyChanged();
+            NotifyPropertyChanged(nameof(HasSuspects));
+            NotifyPropertyChanged(nameof(SuspectsText));
+            NotifyPropertyChanged(nameof(SuspectsTip));
+        }
+    }
+
+    /// <summary>Vrai s'il reste au moins un signalement à trancher.</summary>
+    public bool HasSuspects => Suspects > 0;
+
+    /// <summary>Compte affiché dans la pastille de la ligne.</summary>
+    public string SuspectsText => Suspects?.ToString(CultureInfo.CurrentCulture) ?? string.Empty;
+
+    /// <summary>Bulle de la pastille.</summary>
+    public string SuspectsTip => string.Create(CultureInfo.CurrentCulture, $"{Suspects} signalement(s) à trancher dans ce fichier : double-cliquez pour ouvrir son aperçu.");
 
     /// <summary>Vrai si la ligne propose la poubelle : seulement dans « in », que l'application alimente.</summary>
     public bool CanDelete => !Linked;
@@ -95,6 +143,64 @@ public partial class MainWindow
     /// l'une ou de l'autre signale un contenu modifié, à réanalyser.
     /// </summary>
     private Dictionary<string, (long Length, DateTime Written)>? _inputSignature;
+
+    /// <summary>Vrai si la liste ne montre que les fichiers où des signalements restent à trancher.</summary>
+    private bool _filesSuspectOnly;
+
+    // ═════════════════════════ Signalements et filtre ═══════════════════════
+
+    /// <summary>
+    /// Change le filtre de la liste des fichiers : tous, ou seulement ceux où
+    /// des signalements restent à trancher.
+    /// </summary>
+    /// <param name="sender">Bouton du filtre</param>
+    /// <param name="e">Données de l'événement</param>
+    private void OnFilesFilterClick(object sender, RoutedEventArgs e)
+    {
+        _filesSuspectOnly = FilesFilterSuspectButton.IsChecked == true;
+
+        // Affecter le filtre recompose aussitôt la vue de la liste.
+        CollectionViewSource.GetDefaultView(_fileRows).Filter = _filesSuspectOnly
+            ? row => row is InputFileRow { HasSuspects: true }
+            : null;
+    }
+
+    /// <summary>
+    /// Met à jour, sur chaque ligne de la liste des fichiers, le nombre de
+    /// valeurs signalées qui restent à trancher, et les comptes du filtre.
+    /// Appelée avec les en-têtes d'onglets : une décision fait baisser le
+    /// compte partout où la valeur apparaît, onglets ouverts ou non.
+    /// </summary>
+    private void RefreshFileSuspects()
+    {
+        // Un relevé par chemin plutôt qu'une recherche par ligne : sur un gros
+        // lot, chercher chaque fichier dans la liste des aperçus coûterait le
+        // carré du nombre de fichiers.
+        Dictionary<string, FilePreviewModel> models = _analysis is null
+            ? new(StringComparer.OrdinalIgnoreCase)
+            : _analysis.Files
+                .DistinctBy(file => file.Preview.Path, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(file => file.Preview.Path, StringComparer.OrdinalIgnoreCase);
+
+        int pending = 0;
+        foreach (InputFileRow row in _fileRows)
+        {
+            row.Suspects = models.TryGetValue(row.FullPath, out FilePreviewModel? file) ? file.CountOf(PreviewMarkerState.Suspect) : null;
+            pending += row.HasSuspects ? 1 : 0;
+        }
+
+        FilesFilterAllButton.Content = string.Create(CultureInfo.CurrentCulture, $"Tout · {_fileRows.Count}");
+        FilesFilterSuspectButton.Content = _analysis is null
+            ? "À trancher"
+            : string.Create(CultureInfo.CurrentCulture, $"À trancher · {pending}");
+
+        // Un fichier dont le dernier signalement vient d'être tranché quitte
+        // la liste filtrée : il n'y a plus rien à y faire.
+        if (_filesSuspectOnly)
+        {
+            CollectionViewSource.GetDefaultView(_fileRows).Refresh();
+        }
+    }
 
     // ═════════════════════════ Actions des boutons ══════════════════════════
 
@@ -624,6 +730,9 @@ public partial class MainWindow
                 _fileRows.Add(InputFileRow.Of(file, project.SourcePath, project.IsSourceLinked));
             }
 
+            // Les nouvelles lignes reprennent le compte de l'analyse affichée,
+            // en attendant la suivante.
+            RefreshFileSuspects();
             UpdateActionState();
         }
 

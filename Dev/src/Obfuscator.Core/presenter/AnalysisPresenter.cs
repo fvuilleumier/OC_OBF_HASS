@@ -248,9 +248,10 @@ public sealed class AnalysisPresenter
 
         // Une proposition écartée cesse d'exister pour l'affichage : elle n'est
         // ni reproposée, ni signalée, ni colorée.
-        IReadOnlyList<VocabularyCandidate> candidates = [.. VocabularyCandidateFinder
-            .Find(previews.Select(preview => _snapshot.Policy.Entities.Blank(preview.Text)), _snapshot.Vocabulary, _snapshot.Policy.Allowlist)
-            .Where(candidate => !_snapshot.Policy.IsIgnored(candidate.Text))];
+        IReadOnlyList<VocabularyCandidate> candidates = VocabularyCandidateFinder.FindUndecided(
+            previews.Select(preview => preview.Text),
+            _snapshot.Policy,
+            _snapshot.Vocabulary);
 
         progress?.Report(new BatchProgress(count, count, string.Empty, "terminé", 1.0));
 

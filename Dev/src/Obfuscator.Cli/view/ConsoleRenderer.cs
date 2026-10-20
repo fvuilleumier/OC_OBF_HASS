@@ -224,4 +224,130 @@ internal static class ConsoleRenderer
     {
         return value.Length <= maximum ? value : value[..maximum] + "…";
     }
+
+    /// <summary>
+    /// Affiche le rapport d'un échange piloté — état, publication ou
+    /// rapatriement — pour une lecture à l'écran. Il ne porte, comme sa forme
+    /// JSON, aucune valeur réelle.
+    /// </summary>
+    /// <param name="report">Rapport à afficher</param>
+    public static void WriteAutomation(AutomationReport report)
+    {
+        ArgumentNullException.ThrowIfNull(report);
+
+        foreach (string error in report.Errors)
+        {
+            AnsiConsole.MarkupLine("[red]{0}[/]", error.EscapeMarkup());
+        }
+
+        if (report.Project is not null)
+        {
+            AnsiConsole.MarkupLine("Projet : [bold]{0}[/]", report.Project.EscapeMarkup());
+            AnsiConsole.MarkupLine("Source : {0}", (report.SourceFolder ?? string.Empty).EscapeMarkup());
+            AnsiConsole.MarkupLine("Cible  : {0}", (report.TargetFolder ?? string.Empty).EscapeMarkup());
+        }
+
+        if (!report.Isolation.Safe && report.Errors.Count == 0)
+        {
+            AnsiConsole.MarkupLine("[red]Isolement non sûr :[/] {0}", report.Isolation.Message.EscapeMarkup());
+        }
+
+        if (report.Status is AutomationStatus status)
+        {
+            AnsiConsole.MarkupLine(
+                "À rapatrier : {0} · à obfusquer de nouveau : {1} · dernière obfuscation : {2} · dernier rapatriement : {3}",
+                status.TargetPending.ToString(CultureInfo.InvariantCulture),
+                status.SourcePending.ToString(CultureInfo.InvariantCulture),
+                (status.LastObfuscation ?? "jamais").EscapeMarkup(),
+                (status.LastReturn ?? "jamais").EscapeMarkup());
+        }
+        else if (report.Errors.Count == 0)
+        {
+            AnsiConsole.MarkupLine(string.Join(" · ", report.Summary
+                .Where(pair => pair.Value > 0)
+                .Select(pair => string.Create(CultureInfo.InvariantCulture, $"{pair.Value} {pair.Key}"))).EscapeMarkup());
+        }
+
+        WriteAutomationChanges(report);
+
+        foreach (PendingDecision pending in report.Pending)
+        {
+            AnsiConsole.MarkupLine(
+                "[yellow]À trancher[/] {0} « {1} » ({2} occ.) : {3}",
+                pending.Kind.ToString().EscapeMarkup(),
+                pending.Value.EscapeMarkup(),
+                pending.Occurrences.ToString(CultureInfo.InvariantCulture),
+                string.Join(", ", pending.Files).EscapeMarkup());
+        }
+
+        foreach (AutomationConflict conflict in report.Conflicts)
+        {
+            AnsiConsole.MarkupLine(
+                "[yellow]{0}[/] {1}{2}",
+                conflict.Reason == AutomationConflictReason.Conflict ? "Conflit" : "Choix requis",
+                conflict.Path.EscapeMarkup(),
+                conflict.Count > 0 ? string.Create(CultureInfo.InvariantCulture, $" ({conflict.Count})") : string.Empty);
+        }
+
+        if (report.Outcome is AutomationOutcome outcome)
+        {
+            AnsiConsole.MarkupLine(
+                "[green]Écrit :[/] {0} créé(s), {1} modifié(s), {2} retiré(s), {3} laissé(s) de côté.",
+                outcome.Created.ToString(CultureInfo.InvariantCulture),
+                outcome.Modified.ToString(CultureInfo.InvariantCulture),
+                outcome.Deleted.ToString(CultureInfo.InvariantCulture),
+                outcome.Skipped.Count.ToString(CultureInfo.InvariantCulture));
+        }
+
+        AnsiConsole.MarkupLine("Code de retour : [bold]{0}[/] — {1}", report.ExitCode.ToString(CultureInfo.InvariantCulture), AutomationVerdict(report).EscapeMarkup());
+    }
+
+    /// <summary>
+    /// Affiche les fichiers d'un échange piloté, avec leurs alertes.
+    /// </summary>
+    /// <param name="report">Rapport</param>
+    private static void WriteAutomationChanges(AutomationReport report)
+    {
+        if (report.Changes.Count == 0)
+        {
+            return;
+        }
+
+        Table table = new Table()
+            .Border(TableBorder.Rounded)
+            .AddColumn("Action")
+            .AddColumn("Fichier (cible)")
+            .AddColumn(new TableColumn("+/-").RightAligned())
+            .AddColumn("Alertes");
+
+        foreach (AutomationChange change in report.Changes)
+        {
+            table.AddRow(
+                change.Action.ToString().EscapeMarkup(),
+                change.Path.EscapeMarkup(),
+                string.Create(CultureInfo.InvariantCulture, $"+{change.Added} -{change.Removed}"),
+                string.Join(Environment.NewLine, change.Warnings.Select(warning => Truncate(warning.Message, 90))).EscapeMarkup());
+        }
+
+        AnsiConsole.Write(table);
+    }
+
+    /// <summary>
+    /// Dit en clair ce que signifie le code d'un rapport.
+    /// </summary>
+    /// <param name="report">Rapport</param>
+    /// <returns>Le verdict</returns>
+    private static string AutomationVerdict(AutomationReport report)
+    {
+        return (AutomationExitCode)report.ExitCode switch
+        {
+            AutomationExitCode.Ok when report.Applied => "écrit.",
+            AutomationExitCode.Ok when report.DryRun => "tout passerait ; rien n'a été écrit.",
+            AutomationExitCode.Ok => "rien à faire.",
+            AutomationExitCode.Error => "erreur technique.",
+            AutomationExitCode.Blocked => "bloqué (fuite, isolement, fichier refusé ou bloqué) ; rien n'a été écrit.",
+            AutomationExitCode.Pending => "des éléments sont à trancher dans l'application ; rien n'a été écrit.",
+            _ => "des conflits ou des choix sont à trancher dans l'application ; rien n'a été écrit.",
+        };
+    }
 }

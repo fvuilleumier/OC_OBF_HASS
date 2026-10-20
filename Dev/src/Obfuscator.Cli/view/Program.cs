@@ -55,6 +55,21 @@ internal static class Program
                 .WithDescription("Restitue les valeurs réelles dans un fichier ou le presse-papiers.")
                 .WithExample("deobfuscate", "--clipboard");
 
+            // Échanges pilotés par une autre application : des codes de retour
+            // stables (0 OK, 1 erreur, 2 bloqué, 3 éléments à trancher, 4
+            // conflits) et un rapport JSON sans valeur réelle.
+            config.AddCommand<StatusCommand>("status")
+                .WithDescription("Donne l'état des échanges entre la source et la cible. Lecture seule.")
+                .WithExample("status", "MonProjet", "--json");
+
+            config.AddCommand<PublishCommand>("publish")
+                .WithDescription("Publie la source vers la cible si rien n'est à trancher ; sinon, n'écrit rien. Codes : 0 OK, 1 erreur, 2 bloqué, 3 éléments à trancher.")
+                .WithExample("publish", "MonProjet", "--dry-run", "--json");
+
+            config.AddCommand<ReturnCommand>("return")
+                .WithDescription("Rapatrie le travail de l'IA si aucun conflit ni choix n'est requis ; sinon, n'écrit rien. Codes : 0 OK, 1 erreur, 2 bloqué, 4 conflits ou choix.")
+                .WithExample("return", "MonProjet", "--dry-run", "--json");
+
             // Une erreur attendue — projet absent, chemin introuvable — doit
             // produire un message lisible et non une trace d'exception.
             config.SetExceptionHandler((exception, _) =>

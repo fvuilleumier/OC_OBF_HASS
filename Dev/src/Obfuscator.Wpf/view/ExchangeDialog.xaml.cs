@@ -55,6 +55,19 @@ public partial class ExchangeDialog : Window
 
         ConfirmButton.Content = content.ConfirmLabel;
         ConfirmButton.IsEnabled = content.CanConfirm;
+
+        // La résolution s'ouvre une fois la liste affichée, par-dessus elle :
+        // en la fermant, on retrouve la liste et ses autres fichiers.
+        if (content.ResolveFirstOnOpen && content.Rows.FirstOrDefault(row => row.CanResolve) is ExchangeRowModel first)
+        {
+            ContentRendered += OpenFirstConflict;
+
+            void OpenFirstConflict(object? sender, EventArgs e)
+            {
+                ContentRendered -= OpenFirstConflict;
+                ResolveRow(first);
+            }
+        }
     }
 
     /// <summary>
@@ -88,7 +101,20 @@ public partial class ExchangeDialog : Window
     /// <param name="e">Données de l'événement</param>
     private void OnResolve(object sender, RoutedEventArgs e)
     {
-        if (_content.Resolve is null || (sender as FrameworkElement)?.DataContext is not ExchangeRowModel row)
+        if ((sender as FrameworkElement)?.DataContext is ExchangeRowModel row)
+        {
+            ResolveRow(row);
+        }
+    }
+
+    /// <summary>
+    /// Fait trancher les conflits d'une ligne, puis la met à jour avec les
+    /// comptes.
+    /// </summary>
+    /// <param name="row">Ligne du fichier en conflit</param>
+    private void ResolveRow(ExchangeRowModel row)
+    {
+        if (_content.Resolve is null)
         {
             return;
         }

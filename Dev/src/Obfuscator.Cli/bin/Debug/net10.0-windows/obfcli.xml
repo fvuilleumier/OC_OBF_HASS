@@ -35,6 +35,69 @@
             <param name="text">Texte à y placer</param>
             <exception cref="T:System.InvalidOperationException">Si le presse-papiers est inaccessible</exception>
         </member>
+        <member name="T:Obfuscator.Cli.View.Commands.AutomationSettings">
+            <summary>
+            Paramètres communs aux échanges pilotés par une autre application.
+            </summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.AutomationSettings.Path">
+            <summary>Dossier du projet, ou l'un de ses sous-dossiers.</summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.AutomationSettings.Json">
+            <summary>Rendre un objet JSON unique sur la sortie standard.</summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.AutomationSettings.IsDryRun">
+            <summary>Vrai pour une simulation ; l'état n'écrit jamais rien.</summary>
+        </member>
+        <member name="T:Obfuscator.Cli.View.Commands.WritingAutomationSettings">
+            <summary>
+            Paramètres des échanges qui peuvent écrire : publication et rapatriement.
+            </summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.WritingAutomationSettings.DryRun">
+            <summary>N'écrire rien, seulement rapporter.</summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.WritingAutomationSettings.IsDryRun">
+            <inheritdoc />
+        </member>
+        <member name="T:Obfuscator.Cli.View.Commands.AutomationCommand`1">
+            <summary>
+            Base des commandes pilotées par une autre application : ouvrir le projet,
+            appeler <see cref="T:Obfuscator.Core.Presenter.ExchangeAutomation"/>, rendre le rapport, et renvoyer son
+            code. Une erreur technique est rapportée comme le reste — en JSON si on le
+            demande — avec le code 1 : l'application qui pilote doit toujours recevoir
+            un rapport lisible.
+            </summary>
+            <typeparam name="TSettings">Paramètres de la commande</typeparam>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.AutomationCommand`1.Name">
+            <summary>Nom de la commande, repris dans le rapport.</summary>
+        </member>
+        <member name="M:Obfuscator.Cli.View.Commands.AutomationCommand`1.Run(Obfuscator.Core.Model.Policy.ObfuscationProject,`0)">
+            <summary>
+            Exécute l'échange sur le projet ouvert.
+            </summary>
+            <param name="project">Projet</param>
+            <param name="settings">Paramètres saisis</param>
+            <returns>Le rapport</returns>
+        </member>
+        <member name="M:Obfuscator.Cli.View.Commands.AutomationCommand`1.Execute(Spectre.Console.Cli.CommandContext,`0,System.Threading.CancellationToken)">
+            <summary>
+            Ouvre le projet, exécute l'échange et rend le rapport.
+            </summary>
+            <param name="context">Contexte d'exécution de la commande</param>
+            <param name="settings">Paramètres saisis</param>
+            <param name="cancellationToken">Jeton d'annulation transmis par l'hôte</param>
+            <returns>Le code du rapport</returns>
+        </member>
+        <member name="M:Obfuscator.Cli.View.Commands.AutomationCommand`1.IsReportable(System.Exception)">
+            <summary>
+            Indique si une erreur se rapporte : toutes, sauf celles qui laissent le
+            processus dans un état où il ne peut plus rien rapporter.
+            </summary>
+            <param name="exception">Erreur survenue</param>
+            <returns><c>true</c> si elle doit devenir un rapport d'erreur</returns>
+        </member>
         <member name="T:Obfuscator.Cli.View.Commands.DeobfuscateCommand">
             <summary>
             Restitue les valeurs réelles dans un fichier ou dans le presse-papiers.
@@ -124,6 +187,34 @@
             <param name="cancellationToken">Jeton d'annulation transmis par l'hôte</param>
             <returns>Code de sortie : 0 si la vérification passe, 2 sinon</returns>
         </member>
+        <member name="T:Obfuscator.Cli.View.Commands.PublishCommand">
+            <summary>
+            Publie la source vers la cible si rien n'attend l'utilisateur : ni fuite,
+            ni défaut d'isolement, ni fichier refusé ou bloqué, ni élément à trancher.
+            Sinon, ou avec <c>--dry-run</c>, rien n'est écrit. Aucune opération git :
+            l'application qui pilote s'en charge.
+            </summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.PublishCommand.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Obfuscator.Cli.View.Commands.PublishCommand.Run(Obfuscator.Core.Model.Policy.ObfuscationProject,Obfuscator.Cli.View.Commands.WritingAutomationSettings)">
+            <inheritdoc />
+        </member>
+        <member name="T:Obfuscator.Cli.View.Commands.ReturnCommand">
+            <summary>
+            Rapatrie le travail de l'IA dans la source s'il ne demande aucun choix : ni
+            conflit à trancher, ni fichier que l'échange ne coche pas d'office. Sinon,
+            ou avec <c>--dry-run</c>, rien n'est écrit. Aucune opération git :
+            l'application qui pilote s'en charge.
+            </summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.ReturnCommand.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Obfuscator.Cli.View.Commands.ReturnCommand.Run(Obfuscator.Core.Model.Policy.ObfuscationProject,Obfuscator.Cli.View.Commands.WritingAutomationSettings)">
+            <inheritdoc />
+        </member>
         <member name="T:Obfuscator.Cli.View.Commands.ReviewCommand">
              <summary>
              Écran de revue : l'utilisateur coche ce qu'il veut réellement masquer.
@@ -196,6 +287,18 @@
             <param name="settings">Paramètres saisis</param>
             <param name="cancellationToken">Jeton d'annulation transmis par l'hôte</param>
             <returns>Code de sortie du processus</returns>
+        </member>
+        <member name="T:Obfuscator.Cli.View.Commands.StatusCommand">
+            <summary>
+            Donne l'état des échanges : ce que l'IA a changé, ce que la source a changé
+            depuis le dernier échange. Lecture seule.
+            </summary>
+        </member>
+        <member name="P:Obfuscator.Cli.View.Commands.StatusCommand.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Obfuscator.Cli.View.Commands.StatusCommand.Run(Obfuscator.Core.Model.Policy.ObfuscationProject,Obfuscator.Cli.View.Commands.AutomationSettings)">
+            <inheritdoc />
         </member>
         <member name="T:Obfuscator.Cli.View.Commands.VerifyCommand">
             <summary>
@@ -270,6 +373,27 @@
             <param name="maximum">Longueur maximale</param>
             <returns>Le texte, éventuellement suivi d'une ellipse</returns>
         </member>
+        <member name="M:Obfuscator.Cli.View.ConsoleRenderer.WriteAutomation(Obfuscator.Core.Presenter.AutomationReport)">
+            <summary>
+            Affiche le rapport d'un échange piloté — état, publication ou
+            rapatriement — pour une lecture à l'écran. Il ne porte, comme sa forme
+            JSON, aucune valeur réelle.
+            </summary>
+            <param name="report">Rapport à afficher</param>
+        </member>
+        <member name="M:Obfuscator.Cli.View.ConsoleRenderer.WriteAutomationChanges(Obfuscator.Core.Presenter.AutomationReport)">
+            <summary>
+            Affiche les fichiers d'un échange piloté, avec leurs alertes.
+            </summary>
+            <param name="report">Rapport</param>
+        </member>
+        <member name="M:Obfuscator.Cli.View.ConsoleRenderer.AutomationVerdict(Obfuscator.Core.Presenter.AutomationReport)">
+            <summary>
+            Dit en clair ce que signifie le code d'un rapport.
+            </summary>
+            <param name="report">Rapport</param>
+            <returns>Le verdict</returns>
+        </member>
         <member name="T:Obfuscator.Cli.View.Program">
              <summary>
              Point d'entrée de la View console.
@@ -312,6 +436,68 @@
             <param name="startPath">Chemin de départ</param>
             <returns>La racine du projet</returns>
             <exception cref="T:System.IO.DirectoryNotFoundException">Si aucun projet n'est trouvé</exception>
+        </member>
+        <member name="T:Obfuscator.Cli.View.ShellRecycler">
+             <summary>
+             Retire les fichiers d'un échange en les plaçant dans la corbeille de
+             Windows, comme le fait l'application graphique : une suppression qui
+             n'aurait pas dû avoir lieu se rattrape.
+            
+             La ligne de commande est pilotée par une autre application, sans personne
+             devant l'écran : la corbeille est donc atteinte sans aucune boîte de
+             dialogue, ni confirmation ni message d'erreur. Un retrait qui échoue lève
+             une exception, que la commande rapporte.
+             </summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.DeleteOperation">
+            <summary>Opération de suppression.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.Silent">
+            <summary>Sans fenêtre de progression.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.NoConfirmation">
+            <summary>Sans demande de confirmation.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.AllowUndo">
+            <summary>Vers la corbeille, d'où l'on peut revenir en arrière.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.NoErrorInterface">
+            <summary>Sans boîte d'erreur : l'échec est rendu par le code de retour.</summary>
+        </member>
+        <member name="M:Obfuscator.Cli.View.ShellRecycler.Recycle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Obfuscator.Cli.View.ShellRecycler.SHFileOperation(Obfuscator.Cli.View.ShellRecycler.ShellFileOperation@)">
+            <summary>Opère sur des fichiers comme l'explorateur.</summary>
+            <param name="operation">Description de l'opération</param>
+            <returns>0 en cas de succès</returns>
+        </member>
+        <member name="T:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation">
+            <summary>Description d'une opération sur des fichiers (<c>SHFILEOPSTRUCTW</c>).</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.Window">
+            <summary>Fenêtre propriétaire des boîtes de dialogue, aucune ici.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.Function">
+            <summary>Opération demandée.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.From">
+            <summary>Fichiers visés, séparés par des caractères nuls.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.To">
+            <summary>Destination, sans objet pour une suppression.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.Flags">
+            <summary>Options de l'opération.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.AnyOperationsAborted">
+            <summary>Vrai si l'opération a été interrompue.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.NameMappings">
+            <summary>Correspondances de noms, sans objet ici.</summary>
+        </member>
+        <member name="F:Obfuscator.Cli.View.ShellRecycler.ShellFileOperation.ProgressTitle">
+            <summary>Titre de la progression, sans objet ici.</summary>
         </member>
     </members>
 </doc>

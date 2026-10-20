@@ -246,6 +246,13 @@ public sealed record ExchangeDialogContent(
 
     /// <summary>Recompose les comptes de l'échange après une résolution.</summary>
     public Func<string>? Summarize { get; init; }
+
+    /// <summary>
+    /// Vrai pour ouvrir d'emblée la résolution du premier fichier en conflit :
+    /// le rapatriement demandé par une autre application, qui n'a pas pu
+    /// l'écrire seule, arrive ainsi directement sur ce qu'il faut trancher.
+    /// </summary>
+    public bool ResolveFirstOnOpen { get; init; }
 }
 
 /// <summary>

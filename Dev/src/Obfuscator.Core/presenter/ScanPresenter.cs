@@ -71,17 +71,14 @@ public sealed class ScanPresenter(ObfuscationProject project)
         foreach (string path in filePaths)
         {
             SourceDocument document = SourceDocument.Load(File.ReadAllBytes(path));
-            texts.Add(project.Policy.Entities.Blank(document.Text));
+            texts.Add(document.Text);
             fileCount++;
 
             string fileName = Path.GetFileName(path);
             findings.Add(pipeline.Run(document.Text, fileName).Replacements, fileName);
         }
 
-        IReadOnlyList<VocabularyCandidate> candidates =
-            [.. VocabularyCandidateFinder
-                .Find(texts, project.Vocabulary, project.Policy.Allowlist)
-                .Where(candidate => !project.Policy.IsIgnored(candidate.Text))];
+        IReadOnlyList<VocabularyCandidate> candidates = VocabularyCandidateFinder.FindUndecided(texts, project.Policy, project.Vocabulary);
 
         return new ScanReport(findings.ToFindings(), candidates, fileCount);
     }

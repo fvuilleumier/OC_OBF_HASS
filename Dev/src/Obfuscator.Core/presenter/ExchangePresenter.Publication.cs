@@ -476,10 +476,7 @@ public sealed partial class ExchangePresenter
                 $"fuite dans le nom du fichier : {CategoryLabels.Label(leak.Category)} « {leak.MaskedLiteral} » resterait en clair dans le chemin de la cible, alors qu'elle est masquée ailleurs ({leak.Pseudonym})."));
         }
 
-        ObfuscationPolicy policy = _snapshot.Policy;
-        List<ResidualFinding> pending = [.. file.Suspicious.Where(finding =>
-            !policy.IsKeptEverywhere(finding.Value)
-            && !policy.IsExceptedAt(file.Item.Key, finding.Line, file.Document.Text, finding.Start, finding.Value))];
+        List<ResidualFinding> pending = [.. file.Suspicious.Where(finding => IsUndecided(file, finding))];
 
         foreach (ResidualFinding finding in pending.Take(SuspectsListed))
         {

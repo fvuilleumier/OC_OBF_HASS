@@ -456,7 +456,14 @@ public partial class MainWindow
         {
             SetBusy(true, "Préparation de l'obfuscation…", "Chaque fichier de la source est obfusqué et contrôlé en mémoire, puis comparé à la cible. Rien n'est encore écrit.");
             Progress<BatchProgress> progress = BusyReporter();
-            PublicationPlan plan = await Task.Run(() => presenter.PreparePublication(progress)).ConfigureAwait(true);
+
+            // Les éléments à trancher sont relevés avec le plan, sur le même
+            // instantané : c'est la définition que suit aussi « obfcli publish ».
+            (PublicationPlan plan, IReadOnlyList<PendingDecision> pending) = await Task.Run(() =>
+            {
+                PublicationPlan prepared = presenter.PreparePublication(progress);
+                return (prepared, presenter.PendingDecisions(prepared));
+            }).ConfigureAwait(true);
             SetBusy(false, string.Empty, string.Empty);
 
             // Un dossier lié introuvable n'est jamais créé ni remplacé par
@@ -479,7 +486,7 @@ public partial class MainWindow
                 return;
             }
 
-            ExchangeDialogResult? decision = ExchangeDialog.Ask(this, PublicationContent(project, plan));
+            ExchangeDialogResult? decision = ExchangeDialog.Ask(this, PublicationContent(project, plan, pending));
             if (decision is null)
             {
                 SetStatus("Obfuscation annulée : rien n'a été écrit.");
@@ -558,7 +565,11 @@ public partial class MainWindow
                 return;
             }
 
-            ExchangeDialogResult? decision = ExchangeDialog.Ask(this, ReturnContent(presenter, plan));
+            // Un rapatriement demandé au lancement ouvre d'emblée le premier
+            // conflit : c'est pour lui que l'autre application a passé la main.
+            bool openConflicts = _launchOpensConflicts;
+            _launchOpensConflicts = false;
+            ExchangeDialogResult? decision = ExchangeDialog.Ask(this, ReturnContent(presenter, plan) with { ResolveFirstOnOpen = openConflicts });
             if (decision is null)
             {
                 SetStatus("Rapatriement annulé : rien n'a été écrit.");
@@ -623,8 +634,9 @@ public partial class MainWindow
     /// </summary>
     /// <param name="project">Projet</param>
     /// <param name="plan">Plan de l'obfuscation</param>
+    /// <param name="pending">Éléments qui attendent une décision</param>
     /// <returns>Le contenu de la liste</returns>
-    private static ExchangeDialogContent PublicationContent(ObfuscationProject project, PublicationPlan plan)
+    private static ExchangeDialogContent PublicationContent(ObfuscationProject project, PublicationPlan plan, IReadOnlyList<PendingDecision> pending)
     {
         string label = ExchangeLabel(plan.TargetRoot, plan.TargetIsLinked, "out");
         List<ExchangeChange> shown = [.. plan.Changes.Where(change => change.Action != ExchangeAction.Identical)];
@@ -640,6 +652,17 @@ public partial class MainWindow
         if (suspects > 0)
         {
             warnings.Add(string.Create(CultureInfo.CurrentCulture, $"{suspects} fichier(s) portent des valeurs signalées non tranchées : elles partent en clair. Tranchez-les dans l'aperçu si elles doivent être masquées."));
+        }
+
+        // Le même relevé que « obfcli publish » : tant qu'il n'est pas vide,
+        // une publication pilotée par une autre application s'arrête ici.
+        if (pending.Count > 0)
+        {
+            int signalled = pending.Count(item => item.Kind == PendingKind.Suspect);
+            int proposed = pending.Count(item => item.Kind == PendingKind.VocabularyCandidate);
+            warnings.Add(string.Create(
+                CultureInfo.CurrentCulture,
+                $"{pending.Count} élément(s) à trancher : {signalled} valeur(s) signalée(s), {proposed} terme(s) proposé(s) pour le vocabulaire. Tranchez-les dans l'aperçu et l'onglet « Suggestions » (Masquer, Garder, Ignorer) : chaque décision est enregistrée, et l'élément ne reviendra plus."));
         }
 
         string summary = string.Join(" · ", new[]

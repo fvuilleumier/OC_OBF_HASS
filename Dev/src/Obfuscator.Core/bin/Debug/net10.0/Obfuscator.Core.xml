@@ -8456,6 +8456,21 @@
             </code>
             </remarks>
         </member>
+        <member name="M:Obfuscator.Core.Model.Policy.VocabularyCandidateFinder.FindUndecided(System.Collections.Generic.IEnumerable{System.String},Obfuscator.Core.Model.Policy.ObfuscationPolicy,Obfuscator.Core.Model.Policy.Vocabulary)">
+             <summary>
+             Recherche les candidats qui attendent encore une décision : ni retenus
+             dans le vocabulaire, ni gardés en clair, ni écartés. Les identifiants
+             d'entités gardés en clair sont effacés des textes avant la recherche.
+            
+             C'est la définition commune à l'écran des suggestions, au relevé et à
+             la publication pilotée par une autre application : un terme tranché ne
+             doit reparaître dans aucun d'eux.
+             </summary>
+             <param name="texts">Contenus en clair des fichiers analysés</param>
+             <param name="policy">Politique du projet : entités gardées, liste blanche, propositions écartées</param>
+             <param name="vocabulary">Vocabulaire du projet</param>
+             <returns>Les candidats non tranchés, du plus fréquent au moins fréquent</returns>
+        </member>
         <member name="M:Obfuscator.Core.Model.Policy.VocabularyCandidateFinder.Find(System.Collections.Generic.IEnumerable{System.String},Obfuscator.Core.Model.Policy.Vocabulary,Obfuscator.Core.Model.Policy.Allowlist)">
             <summary>
             Recherche des termes candidats dans un lot de textes.
@@ -9549,6 +9564,439 @@
             <param name="outputPath">Fichier à produire</param>
             <returns>Le compte rendu de la restitution</returns>
         </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationExitCode">
+            <summary>
+            Codes de retour des échanges pilotés par une autre application. Ils sont
+            les mêmes pour l'état, la publication et le rapatriement.
+            </summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationExitCode.Ok">
+            <summary>Tout est passé ; en simulation, tout passerait.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationExitCode.Error">
+            <summary>Erreur technique : projet introuvable, coffre illisible, exception.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationExitCode.Blocked">
+            <summary>Fuite, isolement non sûr, fichier refusé ou bloqué : rien ne peut être écrit.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationExitCode.Pending">
+            <summary>Publication : des éléments attendent une décision de l'utilisateur.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationExitCode.Conflicts">
+            <summary>Rapatriement : des conflits attendent d'être tranchés.</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationIsolation">
+            <summary>Contrôle d'isolement, tel que le rapport le donne.</summary>
+            <param name="Safe">Vrai si l'échange peut avoir lieu</param>
+            <param name="Message">Ce qui bloque, sinon les avertissements ; vide si rien n'est à dire</param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.AutomationIsolation.#ctor(System.Boolean,System.String)">
+            <summary>Contrôle d'isolement, tel que le rapport le donne.</summary>
+            <param name="Safe">Vrai si l'échange peut avoir lieu</param>
+            <param name="Message">Ce qui bloque, sinon les avertissements ; vide si rien n'est à dire</param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationIsolation.Safe">
+            <summary>Vrai si l'échange peut avoir lieu</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationIsolation.Message">
+            <summary>Ce qui bloque, sinon les avertissements ; vide si rien n'est à dire</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationWarning">
+            <summary>Alerte d'un fichier, telle que le rapport la donne.</summary>
+            <param name="Kind">Nature de l'alerte</param>
+            <param name="Serious">Vrai si elle demande une action avant de commiter</param>
+            <param name="Line">Ligne concernée, à partir de 1 ; 0 pour le fichier entier</param>
+            <param name="Message">Message, sans valeur réelle ni pseudonyme associé à une valeur</param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.AutomationWarning.#ctor(Obfuscator.Core.Presenter.ExchangeWarningKind,System.Boolean,System.Int32,System.String)">
+            <summary>Alerte d'un fichier, telle que le rapport la donne.</summary>
+            <param name="Kind">Nature de l'alerte</param>
+            <param name="Serious">Vrai si elle demande une action avant de commiter</param>
+            <param name="Line">Ligne concernée, à partir de 1 ; 0 pour le fichier entier</param>
+            <param name="Message">Message, sans valeur réelle ni pseudonyme associé à une valeur</param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationWarning.Kind">
+            <summary>Nature de l'alerte</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationWarning.Serious">
+            <summary>Vrai si elle demande une action avant de commiter</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationWarning.Line">
+            <summary>Ligne concernée, à partir de 1 ; 0 pour le fichier entier</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationWarning.Message">
+            <summary>Message, sans valeur réelle ni pseudonyme associé à une valeur</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationChange">
+            <summary>Fichier d'un échange, tel que le rapport le donne.</summary>
+            <param name="Action">Ce que l'échange en fait</param>
+            <param name="Path">Chemin dans la cible, pseudonymisé, relatif au dossier de l'IA ou à « out »</param>
+            <param name="Added">Lignes ajoutées</param>
+            <param name="Removed">Lignes retirées</param>
+            <param name="Conflicts">Conflits à résoudre</param>
+            <param name="Warnings">Alertes</param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.AutomationChange.#ctor(Obfuscator.Core.Presenter.ExchangeAction,System.String,System.Int32,System.Int32,System.Int32,System.Collections.Generic.IReadOnlyList{Obfuscator.Core.Presenter.AutomationWarning})">
+            <summary>Fichier d'un échange, tel que le rapport le donne.</summary>
+            <param name="Action">Ce que l'échange en fait</param>
+            <param name="Path">Chemin dans la cible, pseudonymisé, relatif au dossier de l'IA ou à « out »</param>
+            <param name="Added">Lignes ajoutées</param>
+            <param name="Removed">Lignes retirées</param>
+            <param name="Conflicts">Conflits à résoudre</param>
+            <param name="Warnings">Alertes</param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationChange.Action">
+            <summary>Ce que l'échange en fait</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationChange.Path">
+            <summary>Chemin dans la cible, pseudonymisé, relatif au dossier de l'IA ou à « out »</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationChange.Added">
+            <summary>Lignes ajoutées</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationChange.Removed">
+            <summary>Lignes retirées</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationChange.Conflicts">
+            <summary>Conflits à résoudre</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationChange.Warnings">
+            <summary>Alertes</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationConflictReason">
+            <summary>Ce qu'un fichier du rapatriement attend de l'utilisateur.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationConflictReason.Conflict">
+            <summary>Des passages changés des deux côtés, à trancher.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.AutomationConflictReason.Choice">
+            <summary>
+            Un choix que l'échange ne fait pas d'office : accepter une suppression
+            de l'IA, recréer un fichier supprimé côté clair, remplacer un fichier
+            sans base connue. Le laisser de côté serait déjà une décision.
+            </summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationConflict">
+            <summary>Fichier d'un rapatriement qui attend une décision.</summary>
+            <param name="Path">Chemin dans la cible, pseudonymisé</param>
+            <param name="Count">Nombre de conflits à trancher ; 0 pour un simple choix</param>
+            <param name="Reason">Ce que le fichier attend</param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.AutomationConflict.#ctor(System.String,System.Int32,Obfuscator.Core.Presenter.AutomationConflictReason)">
+            <summary>Fichier d'un rapatriement qui attend une décision.</summary>
+            <param name="Path">Chemin dans la cible, pseudonymisé</param>
+            <param name="Count">Nombre de conflits à trancher ; 0 pour un simple choix</param>
+            <param name="Reason">Ce que le fichier attend</param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationConflict.Path">
+            <summary>Chemin dans la cible, pseudonymisé</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationConflict.Count">
+            <summary>Nombre de conflits à trancher ; 0 pour un simple choix</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationConflict.Reason">
+            <summary>Ce que le fichier attend</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationOutcome">
+            <summary>Compte rendu d'un échange écrit.</summary>
+            <param name="Created">Fichiers créés</param>
+            <param name="Modified">Fichiers modifiés</param>
+            <param name="Deleted">Fichiers retirés</param>
+            <param name="Skipped">Fichiers laissés de côté au dernier moment, sous leur chemin dans la cible</param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.AutomationOutcome.#ctor(System.Int32,System.Int32,System.Int32,System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>Compte rendu d'un échange écrit.</summary>
+            <param name="Created">Fichiers créés</param>
+            <param name="Modified">Fichiers modifiés</param>
+            <param name="Deleted">Fichiers retirés</param>
+            <param name="Skipped">Fichiers laissés de côté au dernier moment, sous leur chemin dans la cible</param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationOutcome.Created">
+            <summary>Fichiers créés</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationOutcome.Modified">
+            <summary>Fichiers modifiés</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationOutcome.Deleted">
+            <summary>Fichiers retirés</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationOutcome.Skipped">
+            <summary>Fichiers laissés de côté au dernier moment, sous leur chemin dans la cible</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationStatus">
+            <summary>État des deux côtés d'un échange, tel que le rapport le donne.</summary>
+            <param name="HasExchanged">Vrai si une obfuscation a déjà eu lieu vers cette cible depuis cette source</param>
+            <param name="TargetPending">Fichiers de la cible à rapatrier</param>
+            <param name="SourcePending">Fichiers de la source à obfusquer de nouveau</param>
+            <param name="TargetModified">Fichiers de la cible modifiés</param>
+            <param name="TargetCreated">Fichiers créés dans la cible</param>
+            <param name="TargetDeleted">Fichiers supprimés de la cible</param>
+            <param name="SourceChanged">Fichiers de la source modifiés</param>
+            <param name="SourceAdded">Fichiers nouveaux dans la source</param>
+            <param name="LastObfuscation">Date de la dernière obfuscation, au format ISO 8601, ou <c>null</c></param>
+            <param name="LastReturn">Date du dernier rapatriement, au format ISO 8601, ou <c>null</c></param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.AutomationStatus.#ctor(System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>État des deux côtés d'un échange, tel que le rapport le donne.</summary>
+            <param name="HasExchanged">Vrai si une obfuscation a déjà eu lieu vers cette cible depuis cette source</param>
+            <param name="TargetPending">Fichiers de la cible à rapatrier</param>
+            <param name="SourcePending">Fichiers de la source à obfusquer de nouveau</param>
+            <param name="TargetModified">Fichiers de la cible modifiés</param>
+            <param name="TargetCreated">Fichiers créés dans la cible</param>
+            <param name="TargetDeleted">Fichiers supprimés de la cible</param>
+            <param name="SourceChanged">Fichiers de la source modifiés</param>
+            <param name="SourceAdded">Fichiers nouveaux dans la source</param>
+            <param name="LastObfuscation">Date de la dernière obfuscation, au format ISO 8601, ou <c>null</c></param>
+            <param name="LastReturn">Date du dernier rapatriement, au format ISO 8601, ou <c>null</c></param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.HasExchanged">
+            <summary>Vrai si une obfuscation a déjà eu lieu vers cette cible depuis cette source</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.TargetPending">
+            <summary>Fichiers de la cible à rapatrier</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.SourcePending">
+            <summary>Fichiers de la source à obfusquer de nouveau</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.TargetModified">
+            <summary>Fichiers de la cible modifiés</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.TargetCreated">
+            <summary>Fichiers créés dans la cible</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.TargetDeleted">
+            <summary>Fichiers supprimés de la cible</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.SourceChanged">
+            <summary>Fichiers de la source modifiés</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.SourceAdded">
+            <summary>Fichiers nouveaux dans la source</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.LastObfuscation">
+            <summary>Date de la dernière obfuscation, au format ISO 8601, ou <c>null</c></summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationStatus.LastReturn">
+            <summary>Date du dernier rapatriement, au format ISO 8601, ou <c>null</c></summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.AutomationReport">
+             <summary>
+             Rapport d'un échange piloté par une autre application : l'état, la
+             publication ou le rapatriement, simulé ou écrit.
+            
+             Toutes les listes sont présentes, vides plutôt qu'absentes, pour que
+             l'application qui le lit n'ait pas à deviner. Le rapport ne porte jamais de
+             valeur réelle : les valeurs sont masquées, les chemins sont ceux de la
+             cible, pseudonymisés.
+             </summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Command">
+            <summary>Commande exécutée : <c>status</c>, <c>publish</c> ou <c>return</c>.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.DryRun">
+            <summary>Vrai pour une simulation, qui n'écrit rien.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.ExitCode">
+            <summary>Code de retour, le plus grave des cas rencontrés.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Applied">
+            <summary>Vrai si l'échange a été écrit.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Project">
+            <summary>Dossier du projet, ou <c>null</c> s'il est introuvable.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.SourceFolder">
+            <summary>Dossier source : le dossier en clair lié, sinon « in ».</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.TargetFolder">
+            <summary>Dossier cible : le dossier de l'IA lié, sinon « out ».</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.CanCommit">
+            <summary>Vrai si l'échange pourrait être écrit.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Isolation">
+            <summary>Contrôle d'isolement.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Summary">
+            <summary>Nombre de fichiers par action, toutes les actions de la commande présentes.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Changes">
+            <summary>Fichiers de l'échange, hors fichiers identiques.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Pending">
+            <summary>Publication : éléments qui attendent une décision.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Conflicts">
+            <summary>Rapatriement : fichiers en conflit.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Outcome">
+            <summary>Compte rendu, si l'échange a été écrit.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Errors">
+            <summary>Erreurs techniques.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.AutomationReport.Status">
+            <summary>État des échanges, pour la commande <c>status</c>.</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.ExchangeAutomation">
+             <summary>
+             Pilote les échanges d'un projet pour une autre application : répondre à
+             « est-ce que tout passe ? » sans rien écrire, puis publier ou rapatrier
+             seulement si rien n'attend l'utilisateur.
+            
+             Aucune règle n'est réécrite ici : tout passe par <see cref="T:Obfuscator.Core.Presenter.ExchangePresenter"/>,
+             comme depuis l'écran. Une simulation travaille sur un instantané du projet,
+             qu'il est impossible d'enregistrer : elle ne peut rien écrire, ni règles, ni
+             coffre, ni registre.
+             </summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.ExchangeAutomation.StatusCommand">
+            <summary>Commande de l'état des échanges.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.ExchangeAutomation.PublishCommand">
+            <summary>Commande de la publication.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.ExchangeAutomation.ReturnCommand">
+            <summary>Commande du rapatriement.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.ExchangeAutomation.PublicationActions">
+            <summary>Actions d'une publication, dans l'ordre du résumé.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.ExchangeAutomation.ReturnActions">
+            <summary>Actions d'un rapatriement, dans l'ordre du résumé.</summary>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.Status(Obfuscator.Core.Model.Policy.ObfuscationProject)">
+            <summary>
+            Donne l'état des échanges. Lecture seule.
+            </summary>
+            <param name="project">Projet ouvert</param>
+            <returns>Le rapport, code 0</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.Publish(Obfuscator.Core.Model.Policy.ObfuscationProject,System.Boolean,Obfuscator.Core.Model.Exchange.IFileRecycler,System.IProgress{Obfuscator.Core.Presenter.BatchProgress})">
+            <summary>
+            Prépare la publication et l'écrit si rien ne s'y oppose : ni fuite, ni
+            défaut d'isolement, ni fichier refusé ou bloqué, ni élément à trancher.
+            Sinon, ou en simulation, rien n'est écrit. Aucune opération git.
+            </summary>
+            <param name="project">Projet ouvert</param>
+            <param name="dryRun">Vrai pour une simulation</param>
+            <param name="recycler">Retrait des fichiers, pour une publication écrite</param>
+            <param name="progress">Destinataire de l'avancement, facultatif</param>
+            <returns>Le rapport</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.Return(Obfuscator.Core.Model.Policy.ObfuscationProject,System.Boolean,Obfuscator.Core.Model.Exchange.IFileRecycler,System.IProgress{Obfuscator.Core.Presenter.BatchProgress})">
+            <summary>
+            Prépare le rapatriement et l'écrit s'il ne demande aucun choix : ni
+            conflit, ni défaut d'isolement, ni fichier refusé. Sinon, ou en
+            simulation, rien n'est écrit. Aucune opération git.
+            </summary>
+            <param name="project">Projet ouvert</param>
+            <param name="dryRun">Vrai pour une simulation</param>
+            <param name="recycler">Retrait des fichiers, pour un rapatriement écrit</param>
+            <param name="progress">Destinataire de l'avancement, facultatif</param>
+            <returns>Le rapport</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.Failure(System.String,System.Boolean,Obfuscator.Core.Model.Policy.ObfuscationProject,System.Exception)">
+            <summary>
+            Compose le rapport d'une erreur technique : projet introuvable, coffre
+            illisible, exception.
+            </summary>
+            <param name="command">Commande exécutée</param>
+            <param name="dryRun">Vrai pour une simulation</param>
+            <param name="project">Projet, s'il a pu être ouvert</param>
+            <param name="error">Erreur rencontrée</param>
+            <returns>Le rapport, code 1</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.ToJson(Obfuscator.Core.Presenter.AutomationReport)">
+            <summary>
+            Met un rapport en JSON : un seul objet, clés en camelCase, natures en
+            toutes lettres.
+            </summary>
+            <param name="report">Rapport</param>
+            <returns>Le texte JSON</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.Worst(Obfuscator.Core.Presenter.AutomationExitCode,Obfuscator.Core.Presenter.AutomationExitCode)">
+            <summary>
+            Retient le plus grave de deux codes, dans l'ordre 1 &gt; 2 &gt; 4 &gt; 3 &gt; 0.
+            </summary>
+            <param name="first">Premier code</param>
+            <param name="second">Second code</param>
+            <returns>Le plus grave</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.Severity(Obfuscator.Core.Presenter.AutomationExitCode)">
+            <summary>
+            Donne le rang de gravité d'un code.
+            </summary>
+            <param name="code">Code de retour</param>
+            <returns>Un rang, d'autant plus élevé que le code est grave</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.ConflictOf(Obfuscator.Core.Presenter.ReturnPlan,Obfuscator.Core.Presenter.ExchangeChange)">
+            <summary>
+            Dit ce qu'un fichier du rapatriement attend de l'utilisateur, s'il
+            attend quelque chose.
+            </summary>
+            <param name="plan">Plan du rapatriement</param>
+            <param name="change">Fichier du plan</param>
+            <returns>Le conflit ou le choix à faire, ou <c>null</c> si le fichier peut être écrit tel quel</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.IsolationOf(Obfuscator.Core.Model.Exchange.IsolationReport)">
+            <summary>
+            Résume le contrôle d'isolement.
+            </summary>
+            <param name="report">Contrôle</param>
+            <returns>Le verdict et ce qu'il y a à en dire</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.SummaryOf(System.Collections.Generic.IReadOnlyList{Obfuscator.Core.Presenter.ExchangeChange},Obfuscator.Core.Presenter.ExchangeAction[])">
+            <summary>
+            Compte les fichiers par action : toutes les actions de la commande, à
+            zéro quand aucun fichier ne s'y range.
+            </summary>
+            <param name="changes">Fichiers de l'échange</param>
+            <param name="actions">Actions de la commande</param>
+            <returns>Les comptes, par action en camelCase</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.ChangesOf(System.Collections.Generic.IReadOnlyList{Obfuscator.Core.Presenter.ExchangeChange})">
+            <summary>
+            Décrit les fichiers de l'échange, hors fichiers identiques.
+            </summary>
+            <param name="changes">Fichiers de l'échange</param>
+            <returns>Les fichiers, sous leur chemin dans la cible</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.WarningOf(Obfuscator.Core.Presenter.ExchangeWarning)">
+            <summary>
+            Décrit une alerte pour le rapport. Les messages qui associent un extrait
+            de valeur à son pseudonyme — fuite, valeur connue restée en clair — ou
+            qui reprennent un passage du fichier — syntaxe illisible — sont
+            remplacés par un message neutre : seule leur nature et leur ligne sortent.
+            </summary>
+            <param name="warning">Alerte d'échange</param>
+            <returns>L'alerte du rapport</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.TargetOfSkipped(System.String)">
+            <summary>
+            Ramène un fichier laissé de côté par une publication à son chemin : le
+            compte rendu le nomme par son chemin dans la cible, suivi de la raison.
+            </summary>
+            <param name="skipped">Mention du compte rendu</param>
+            <returns>Le chemin dans la cible</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.TargetOfSkipped(Obfuscator.Core.Presenter.ReturnPlan,System.String)">
+            <summary>
+            Ramène un fichier laissé de côté par un rapatriement à son chemin dans
+            la cible : le compte rendu le nomme par son chemin en clair, qui ne doit
+            pas sortir du poste.
+            </summary>
+            <param name="plan">Plan du rapatriement</param>
+            <param name="skipped">Mention du compte rendu</param>
+            <returns>Le chemin dans la cible, ou une mention neutre si le fichier n'est pas retrouvé</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangeAutomation.IsoDate(Obfuscator.Core.Model.Exchange.ExchangeEvent)">
+            <summary>
+            Donne la date d'un geste au format ISO 8601.
+            </summary>
+            <param name="exchange">Geste, ou <c>null</c></param>
+            <returns>La date, ou <c>null</c></returns>
+        </member>
         <member name="T:Obfuscator.Core.Presenter.ExchangeSide">
             <summary>Côté d'un échange.</summary>
         </member>
@@ -10123,6 +10571,9 @@
             n'est pas un dépôt à publier.
             </summary>
             <summary>
+            Éléments à trancher avant une publication.
+            </summary>
+            <summary>
             Obfuscation de la source vers la cible.
             </summary>
             <summary>
@@ -10328,6 +10779,48 @@
             <param name="side">Côté de l'échange</param>
             <returns>Le dossier lié</returns>
             <exception cref="T:System.InvalidOperationException">Si ce côté n'est pas un dossier lié versionné</exception>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangePresenter.PendingDecisions(Obfuscator.Core.Presenter.PublicationPlan)">
+             <summary>
+             Relève ce qui attend encore une décision dans une publication préparée :
+             les valeurs signalées non tranchées, et les termes proposés pour le
+             vocabulaire qu'aucune décision n'a encore retenus ni écartés.
+            
+             Les deux définitions sont celles de l'écran — l'aperçu et l'onglet des
+             suggestions —, calculées sur l'instantané qui a préparé le plan. Toute
+             décision y est enregistrée dans les règles du projet (vocabulaire, liste
+             blanche, exceptions) : un élément tranché ne reparaît donc jamais.
+             </summary>
+             <param name="plan">Plan préparé par ce présentateur</param>
+             <returns>Les éléments à trancher : les valeurs signalées d'abord, dans l'ordre du lot, puis les termes proposés</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangePresenter.IsUndecided(Obfuscator.Core.Presenter.PreparedFile,Obfuscator.Core.Model.Reporting.ResidualFinding)">
+            <summary>
+            Indique si une valeur signalée attend encore une décision : elle n'est
+            gardée en clair ni partout, ni à cet endroit. Une valeur masquée n'est
+            plus signalée du tout : le relevé des résidus ne voit que le clair.
+            </summary>
+            <param name="file">Fichier obfusqué</param>
+            <param name="finding">Valeur signalée</param>
+            <returns><c>true</c> si la valeur est à trancher</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangePresenter.PendingSuspects(Obfuscator.Core.Presenter.PreparedBatch,System.Boolean)">
+            <summary>
+            Regroupe les valeurs signalées non tranchées du lot : une entrée par
+            valeur, avec les fichiers où elle figure.
+            </summary>
+            <param name="batch">Lot obfusqué</param>
+            <param name="linked">Vrai si la cible est le dossier de l'IA</param>
+            <returns>Les valeurs signalées à trancher</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.ExchangePresenter.PendingCandidates(Obfuscator.Core.Presenter.PreparedBatch,System.Boolean)">
+            <summary>
+            Relève les termes proposés pour le vocabulaire qui n'ont reçu aucune
+            décision, avec les fichiers où chacun figure.
+            </summary>
+            <param name="batch">Lot obfusqué</param>
+            <param name="linked">Vrai si la cible est le dossier de l'IA</param>
+            <returns>Les termes à trancher</returns>
         </member>
         <member name="F:Obfuscator.Core.Presenter.ExchangePresenter.SensitiveNames">
             <summary>
@@ -10705,6 +11198,57 @@
             <param name="lineMap">Rang, dans le fichier écrit, de chaque ligne de l'ancien fichier</param>
             <returns><c>true</c> si une exception a changé</returns>
         </member>
+        <member name="T:Obfuscator.Core.Presenter.PendingKind">
+            <summary>Nature d'un élément qui attend une décision avant une publication.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.PendingKind.Suspect">
+            <summary>
+            Valeur signalée par le relevé des résidus — base64, entropie élevée,
+            bloc encadré — ni masquée, ni gardée en clair, ni exceptée.
+            </summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.PendingKind.VocabularyCandidate">
+            <summary>Terme proposé pour le vocabulaire, ni retenu, ni gardé en clair, ni écarté.</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.PendingDecision">
+            <summary>
+            Élément qui attend une décision de l'utilisateur avant une publication.
+            Il ne porte jamais la valeur réelle : seulement son extrait masqué, et les
+            fichiers où elle figure, sous leur chemin dans la cible.
+            </summary>
+            <param name="Kind">Nature de l'élément</param>
+            <param name="Value">Extrait masqué de la valeur, seule forme publiable</param>
+            <param name="Files">Fichiers où elle figure, sous leur chemin pseudonymisé dans la cible</param>
+            <param name="Occurrences">Nombre d'occurrences dans le lot</param>
+            <param name="Rule">Nature du soupçon pour une valeur signalée ; <c>null</c> pour un terme proposé</param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.PendingDecision.#ctor(Obfuscator.Core.Presenter.PendingKind,System.String,System.Collections.Generic.IReadOnlyList{System.String},System.Int32,System.String)">
+            <summary>
+            Élément qui attend une décision de l'utilisateur avant une publication.
+            Il ne porte jamais la valeur réelle : seulement son extrait masqué, et les
+            fichiers où elle figure, sous leur chemin dans la cible.
+            </summary>
+            <param name="Kind">Nature de l'élément</param>
+            <param name="Value">Extrait masqué de la valeur, seule forme publiable</param>
+            <param name="Files">Fichiers où elle figure, sous leur chemin pseudonymisé dans la cible</param>
+            <param name="Occurrences">Nombre d'occurrences dans le lot</param>
+            <param name="Rule">Nature du soupçon pour une valeur signalée ; <c>null</c> pour un terme proposé</param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.PendingDecision.Kind">
+            <summary>Nature de l'élément</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.PendingDecision.Value">
+            <summary>Extrait masqué de la valeur, seule forme publiable</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.PendingDecision.Files">
+            <summary>Fichiers où elle figure, sous leur chemin pseudonymisé dans la cible</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.PendingDecision.Occurrences">
+            <summary>Nombre d'occurrences dans le lot</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.PendingDecision.Rule">
+            <summary>Nature du soupçon pour une valeur signalée ; <c>null</c> pour un terme proposé</summary>
+        </member>
         <member name="T:Obfuscator.Core.Presenter.FindingAggregator">
              <summary>
              Regroupe les spans repérés dans un lot en valeurs distinctes, telles que la
@@ -10755,6 +11299,82 @@
         </member>
         <member name="P:Obfuscator.Core.Presenter.FindingAggregator.Accumulator.Files">
             <summary>Fichiers où la valeur apparaît.</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.LaunchGesture">
+            <summary>Geste demandé au lancement de l'application graphique.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.LaunchGesture.None">
+            <summary>Aucun : le projet est seulement ouvert.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.LaunchGesture.Publish">
+            <summary>Ouvrir la liste à confirmer de la publication.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.LaunchGesture.Return">
+            <summary>Ouvrir la liste à confirmer du rapatriement.</summary>
+        </member>
+        <member name="T:Obfuscator.Core.Presenter.LaunchRequest">
+             <summary>
+             Demande faite à l'application graphique par ses arguments de lancement :
+             <c>Obfuscator.exe [dossierProjet] [--publish | --return]</c>. C'est ainsi
+             qu'une autre application lui passe la main quand un échange demande une
+             décision de l'utilisateur.
+            
+             La même demande voyage vers une instance déjà ouverte : son chemin y est
+             donc absolu, résolu dans le dossier courant de celui qui l'a formulée.
+             </summary>
+             <param name="ProjectPath">Dossier du projet, absolu ; <c>null</c> sans projet</param>
+             <param name="Gesture">Geste à ouvrir une fois le projet ouvert</param>
+             <param name="Error">Ce qui rend les arguments inutilisables, ou <c>null</c></param>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.LaunchRequest.#ctor(System.String,Obfuscator.Core.Presenter.LaunchGesture,System.String)">
+             <summary>
+             Demande faite à l'application graphique par ses arguments de lancement :
+             <c>Obfuscator.exe [dossierProjet] [--publish | --return]</c>. C'est ainsi
+             qu'une autre application lui passe la main quand un échange demande une
+             décision de l'utilisateur.
+            
+             La même demande voyage vers une instance déjà ouverte : son chemin y est
+             donc absolu, résolu dans le dossier courant de celui qui l'a formulée.
+             </summary>
+             <param name="ProjectPath">Dossier du projet, absolu ; <c>null</c> sans projet</param>
+             <param name="Gesture">Geste à ouvrir une fois le projet ouvert</param>
+             <param name="Error">Ce qui rend les arguments inutilisables, ou <c>null</c></param>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.LaunchRequest.ProjectPath">
+            <summary>Dossier du projet, absolu ; <c>null</c> sans projet</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.LaunchRequest.Gesture">
+            <summary>Geste à ouvrir une fois le projet ouvert</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.LaunchRequest.Error">
+            <summary>Ce qui rend les arguments inutilisables, ou <c>null</c></summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.LaunchRequest.PublishOption">
+            <summary>Option de la publication.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.LaunchRequest.ReturnOption">
+            <summary>Option du rapatriement.</summary>
+        </member>
+        <member name="F:Obfuscator.Core.Presenter.LaunchRequest.Empty">
+            <summary>Demande vide : un lancement sans argument.</summary>
+        </member>
+        <member name="P:Obfuscator.Core.Presenter.LaunchRequest.IsEmpty">
+            <summary>Vrai pour un lancement sans argument, qui garde le comportement habituel.</summary>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.LaunchRequest.Parse(System.Collections.Generic.IReadOnlyList{System.String},System.String)">
+            <summary>
+            Lit les arguments de lancement.
+            </summary>
+            <param name="args">Arguments, tels que le système les transmet</param>
+            <param name="currentDirectory">Dossier où résoudre un chemin relatif</param>
+            <returns>La demande ; son <see cref="P:Obfuscator.Core.Presenter.LaunchRequest.Error"/> dit pourquoi elle est inutilisable</returns>
+        </member>
+        <member name="M:Obfuscator.Core.Presenter.LaunchRequest.Invalid(System.String)">
+            <summary>
+            Compose une demande inutilisable.
+            </summary>
+            <param name="error">Ce qui la rend inutilisable</param>
+            <returns>La demande</returns>
         </member>
         <member name="T:Obfuscator.Core.Presenter.ObfuscatedFile">
             <summary>

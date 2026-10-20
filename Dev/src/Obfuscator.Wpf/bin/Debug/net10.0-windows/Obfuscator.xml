@@ -5,12 +5,32 @@
     </assembly>
     <members>
         <member name="T:Obfuscator.Wpf.View.App">
-            <summary>
-            Point d'entrée de l'application graphique.
-            </summary>
+             <summary>
+             Point d'entrée de l'application graphique.
+            
+             Sans argument, elle ouvre sa fenêtre comme elle l'a toujours fait. Avec
+             <c>[dossierProjet] [--publish | --return]</c>, elle ouvre ce projet et, le
+             cas échéant, la liste à confirmer du geste demandé : c'est ainsi qu'une
+             autre application lui passe la main quand un échange attend une décision.
+             Si une instance tourne déjà, la demande lui est transmise et cette
+             instance-ci s'arrête aussitôt.
+             </summary>
             <summary>
             App
             </summary>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.App.OnStartup(System.Windows.StartupEventArgs)">
+            <summary>
+            Lit les arguments, transmet la demande à l'instance déjà ouverte s'il y
+            en a une, sinon ouvre la fenêtre et lui confie la demande.
+            </summary>
+            <param name="e">Arguments de lancement</param>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.App.OnExit(System.Windows.ExitEventArgs)">
+            <summary>
+            Rend le verrou de l'instance unique et arrête l'écoute.
+            </summary>
+            <param name="e">Données de fermeture</param>
         </member>
         <member name="M:Obfuscator.Wpf.View.App.InitializeComponent">
             <summary>
@@ -595,6 +615,13 @@
             <param name="sender">Bouton de la ligne</param>
             <param name="e">Données de l'événement</param>
         </member>
+        <member name="M:Obfuscator.Wpf.View.ExchangeDialog.ResolveRow(Obfuscator.Wpf.View.ExchangeRowModel)">
+            <summary>
+            Fait trancher les conflits d'une ligne, puis la met à jour avec les
+            comptes.
+            </summary>
+            <param name="row">Ligne du fichier en conflit</param>
+        </member>
         <member name="M:Obfuscator.Wpf.View.ExchangeDialog.OnSelectAll(System.Object,System.Windows.RoutedEventArgs)">
             <summary>
             Coche ou décoche d'un coup toutes les cases qui peuvent changer.
@@ -815,6 +842,13 @@
         </member>
         <member name="P:Obfuscator.Wpf.View.ExchangeDialogContent.Summarize">
             <summary>Recompose les comptes de l'échange après une résolution.</summary>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.ExchangeDialogContent.ResolveFirstOnOpen">
+            <summary>
+            Vrai pour ouvrir d'emblée la résolution du premier fichier en conflit :
+            le rapatriement demandé par une autre application, qui n'a pas pu
+            l'écrire seule, arrive ainsi directement sur ce qu'il faut trancher.
+            </summary>
         </member>
         <member name="T:Obfuscator.Wpf.View.ExchangeDialogResult">
             <summary>
@@ -1072,6 +1106,15 @@
             taperait dans la console du dossier, avec la configuration git et le compte
             ssh de l'utilisateur. L'écran attend la fin de git, et montre sa sortie.
             </summary>
+             <summary>
+             Demandes de lancement : ouvrir un projet, et le cas échéant sa
+             publication ou son rapatriement, à la demande d'une autre application.
+            
+             Elles arrivent par les arguments de lancement, ou d'une instance lancée
+             ensuite qui les a transmises à celle-ci. Le projet est ouvert comme s'il
+             avait été choisi parmi les projets récents, puis le geste suit le chemin
+             habituel de l'écran : rien n'est écrit sans la confirmation de l'utilisateur.
+             </summary>
              <summary>
              Aperçu côte à côte : un onglet par fichier ouvert, lignes repliées ou non,
              position de lecture conservée d'une analyse à l'autre.
@@ -2068,12 +2111,13 @@
             </summary>
             <returns>Le destinataire</returns>
         </member>
-        <member name="M:Obfuscator.Wpf.View.MainWindow.PublicationContent(Obfuscator.Core.Model.Policy.ObfuscationProject,Obfuscator.Core.Presenter.PublicationPlan)">
+        <member name="M:Obfuscator.Wpf.View.MainWindow.PublicationContent(Obfuscator.Core.Model.Policy.ObfuscationProject,Obfuscator.Core.Presenter.PublicationPlan,System.Collections.Generic.IReadOnlyList{Obfuscator.Core.Presenter.PendingDecision})">
             <summary>
             Compose la liste à confirmer d'une obfuscation.
             </summary>
             <param name="project">Projet</param>
             <param name="plan">Plan de l'obfuscation</param>
+            <param name="pending">Éléments qui attendent une décision</param>
             <returns>Le contenu de la liste</returns>
         </member>
         <member name="M:Obfuscator.Wpf.View.MainWindow.ReturnContent(Obfuscator.Core.Presenter.ExchangePresenter,Obfuscator.Core.Presenter.ReturnPlan)">
@@ -2249,6 +2293,25 @@
             <summary>
             Taille et date de chaque fichier au dernier relevé : un changement de
             l'une ou de l'autre signale un contenu modifié, à réanalyser.
+            </summary>
+        </member>
+        <member name="F:Obfuscator.Wpf.View.MainWindow._filesSuspectOnly">
+            <summary>Vrai si la liste ne montre que les fichiers où des signalements restent à trancher.</summary>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.MainWindow.OnFilesFilterClick(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Change le filtre de la liste des fichiers : tous, ou seulement ceux où
+            des signalements restent à trancher.
+            </summary>
+            <param name="sender">Bouton du filtre</param>
+            <param name="e">Données de l'événement</param>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.MainWindow.RefreshFileSuspects">
+            <summary>
+            Met à jour, sur chaque ligne de la liste des fichiers, le nombre de
+            valeurs signalées qui restent à trancher, et les comptes du filtre.
+            Appelée avec les en-têtes d'onglets : une décision fait baisser le
+            compte partout où la valeur apparaît, onglets ouverts ou non.
             </summary>
         </member>
         <member name="M:Obfuscator.Wpf.View.MainWindow.OnAddFiles(System.Object,System.Windows.RoutedEventArgs)">
@@ -2535,6 +2598,38 @@
             <summary>
             Oublie les résultats git du projet fermé.
             </summary>
+        </member>
+        <member name="F:Obfuscator.Wpf.View.MainWindow._launchOpensConflicts">
+            <summary>
+            Vrai si le prochain rapatriement doit ouvrir d'emblée son premier
+            conflit : il a été demandé au lancement.
+            </summary>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.MainWindow.HandleLaunch(Obfuscator.Core.Presenter.LaunchRequest)">
+            <summary>
+            Traite une demande de lancement : met la fenêtre au premier plan, ouvre
+            le projet, puis la liste à confirmer du geste demandé.
+            </summary>
+            <param name="request">Demande lue des arguments ou reçue d'une autre instance</param>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.MainWindow.OpenLaunchedProject(System.String)">
+            <summary>
+            Ouvre le projet d'une demande de lancement, s'il n'est pas déjà ouvert.
+            </summary>
+            <param name="path">Dossier du projet, absolu</param>
+            <returns><c>true</c> si le projet est ouvert</returns>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.MainWindow.BringToFront">
+            <summary>
+            Ramène la fenêtre au premier plan, restaurée si elle était réduite.
+            </summary>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.MainWindow.Inform(System.String)">
+            <summary>
+            Affiche un message sur une demande de lancement inutilisable, et le
+            garde dans le bandeau d'état.
+            </summary>
+            <param name="message">Message</param>
         </member>
         <member name="F:Obfuscator.Wpf.View.MainWindow.InPlaceExpansionLimit">
             <summary>
@@ -3425,36 +3520,55 @@
         </member>
         <member name="T:Obfuscator.Wpf.View.InputFileRow">
             <summary>
-            Fichier de la source, tel que la liste l'affiche.
+            Fichier de la source, tel que la liste l'affiche, avec le nombre de valeurs
+            signalées qui y restent à trancher : c'est ce qui dit, sans ouvrir chaque
+            aperçu, lesquels demandent encore une décision.
             </summary>
-            <param name="FullPath">Chemin complet</param>
-            <param name="Name">Nom du fichier</param>
-            <param name="Folder">Sous-dossier de la source, vide à la racine</param>
-            <param name="Linked">Vrai si la source est un dossier en clair lié, faux pour « in »</param>
+            <param name="fullPath">Chemin complet</param>
+            <param name="name">Nom du fichier</param>
+            <param name="folder">Sous-dossier de la source, vide à la racine</param>
+            <param name="linked">Vrai si la source est un dossier en clair lié, faux pour « in »</param>
         </member>
         <member name="M:Obfuscator.Wpf.View.InputFileRow.#ctor(System.String,System.String,System.String,System.Boolean)">
             <summary>
-            Fichier de la source, tel que la liste l'affiche.
+            Fichier de la source, tel que la liste l'affiche, avec le nombre de valeurs
+            signalées qui y restent à trancher : c'est ce qui dit, sans ouvrir chaque
+            aperçu, lesquels demandent encore une décision.
             </summary>
-            <param name="FullPath">Chemin complet</param>
-            <param name="Name">Nom du fichier</param>
-            <param name="Folder">Sous-dossier de la source, vide à la racine</param>
-            <param name="Linked">Vrai si la source est un dossier en clair lié, faux pour « in »</param>
+            <param name="fullPath">Chemin complet</param>
+            <param name="name">Nom du fichier</param>
+            <param name="folder">Sous-dossier de la source, vide à la racine</param>
+            <param name="linked">Vrai si la source est un dossier en clair lié, faux pour « in »</param>
         </member>
         <member name="P:Obfuscator.Wpf.View.InputFileRow.FullPath">
-            <summary>Chemin complet</summary>
+            <summary>Chemin complet.</summary>
         </member>
         <member name="P:Obfuscator.Wpf.View.InputFileRow.Name">
-            <summary>Nom du fichier</summary>
+            <summary>Nom du fichier.</summary>
         </member>
         <member name="P:Obfuscator.Wpf.View.InputFileRow.Folder">
-            <summary>Sous-dossier de la source, vide à la racine</summary>
+            <summary>Sous-dossier de la source, vide à la racine.</summary>
         </member>
         <member name="P:Obfuscator.Wpf.View.InputFileRow.Linked">
-            <summary>Vrai si la source est un dossier en clair lié, faux pour « in »</summary>
+            <summary>Vrai si la source est un dossier en clair lié, faux pour « in ».</summary>
         </member>
         <member name="P:Obfuscator.Wpf.View.InputFileRow.FolderLabel">
             <summary>Sous-dossier affiché en retrait après le nom, s'il y en a un.</summary>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.InputFileRow.Suspects">
+            <summary>
+            Nombre de valeurs signalées qui restent à trancher dans le fichier, ou
+            <c>null</c> tant qu'il n'a pas été analysé.
+            </summary>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.InputFileRow.HasSuspects">
+            <summary>Vrai s'il reste au moins un signalement à trancher.</summary>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.InputFileRow.SuspectsText">
+            <summary>Compte affiché dans la pastille de la ligne.</summary>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.InputFileRow.SuspectsTip">
+            <summary>Bulle de la pastille.</summary>
         </member>
         <member name="P:Obfuscator.Wpf.View.InputFileRow.CanDelete">
             <summary>Vrai si la ligne propose la poubelle : seulement dans « in », que l'application alimente.</summary>
@@ -4969,6 +5083,110 @@
         </member>
         <member name="P:Obfuscator.Wpf.View.SuggestionRow.Line">
             <summary>Ligne concernée, pour un signalement de résidu.</summary>
+        </member>
+        <member name="T:Obfuscator.Wpf.View.SingleInstance">
+             <summary>
+             Instance unique de l'application, pour les lancements qui portent des
+             arguments : une autre application qui demande d'ouvrir un projet sur sa
+             publication ou son rapatriement retrouve la fenêtre déjà ouverte, au lieu
+             d'en ouvrir une seconde sur le même coffre.
+            
+             La première instance tient un verrou nommé et écoute un canal nommé. Une
+             instance lancée avec des arguments, si le verrou est déjà tenu, transmet sa
+             demande par le canal et s'arrête. Un lancement sans argument garde le
+             comportement de toujours : il ouvre sa propre fenêtre.
+            
+             Verrou et canal sont propres à l'utilisateur et à sa session : le nom porte
+             son identifiant de sécurité, et le canal n'accepte que des connexions du
+             même utilisateur. Une demande reçue n'est qu'un chemin et un geste, relus
+             et revérifiés comme des arguments de lancement.
+             </summary>
+        </member>
+        <member name="F:Obfuscator.Wpf.View.SingleInstance.MaximumMessageBytes">
+            <summary>Taille maximale d'une demande : un chemin et un geste n'en demandent pas plus.</summary>
+        </member>
+        <member name="F:Obfuscator.Wpf.View.SingleInstance.ConnectTimeoutMilliseconds">
+            <summary>Délai laissé à l'instance ouverte pour accepter une demande.</summary>
+        </member>
+        <member name="F:Obfuscator.Wpf.View.SingleInstance.AnyProcess">
+            <summary>Autorise tout processus à prendre le premier plan, pour l'appel <c>AllowSetForegroundWindow</c>.</summary>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.#ctor">
+            <summary>
+            Prépare l'instance unique de l'utilisateur courant.
+            </summary>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.TryBecomePrimary">
+            <summary>
+            Tente de devenir l'instance principale, celle qui reçoit les demandes.
+            </summary>
+            <returns><c>true</c> si aucune autre instance ne tient le verrou</returns>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.TrySend(Obfuscator.Core.Presenter.LaunchRequest)">
+            <summary>
+            Transmet une demande à l'instance principale.
+            </summary>
+            <param name="request">Demande valide, chemin absolu</param>
+            <returns><c>true</c> si l'instance principale l'a reçue</returns>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.Listen(System.Action{Obfuscator.Core.Presenter.LaunchRequest})">
+            <summary>
+            Écoute les demandes des instances lancées ensuite, jusqu'à la fermeture.
+            </summary>
+            <param name="received">Appelé, hors du fil de l'écran, pour chaque demande valide</param>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.ListenAsync(System.Action{Obfuscator.Core.Presenter.LaunchRequest},System.Threading.CancellationToken)">
+            <summary>
+            Boucle d'écoute : une connexion à la fois, chacune pour une demande.
+            </summary>
+            <param name="received">Destinataire des demandes</param>
+            <param name="token">Jeton d'arrêt</param>
+            <returns>La tâche d'écoute</returns>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.ReadMessageAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Lit une demande entière, dans la limite de sa taille maximale.
+            </summary>
+            <param name="stream">Canal connecté</param>
+            <param name="token">Jeton d'arrêt</param>
+            <returns>Les octets reçus</returns>
+            <exception cref="T:System.IO.IOException">Si la demande dépasse la taille permise</exception>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.Decode(System.Byte[])">
+            <summary>
+            Relit une demande reçue, comme des arguments de lancement : un chemin
+            absolu et un geste connu, rien d'autre.
+            </summary>
+            <param name="message">Octets reçus</param>
+            <returns>La demande, ou <c>null</c> si elle est invalide</returns>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.AllowSetForegroundWindow(System.Int32)">
+            <summary>Cède le droit de passer au premier plan.</summary>
+            <param name="processId">Processus autorisé, ou -1 pour tous</param>
+            <returns>Vrai si le droit a été cédé</returns>
+        </member>
+        <member name="T:Obfuscator.Wpf.View.SingleInstance.LaunchMessage">
+            <summary>
+            Demande telle qu'elle voyage d'une instance à l'autre.
+            </summary>
+            <param name="ProjectPath">Dossier du projet, absolu</param>
+            <param name="Gesture">Geste demandé</param>
+        </member>
+        <member name="M:Obfuscator.Wpf.View.SingleInstance.LaunchMessage.#ctor(System.String,Obfuscator.Core.Presenter.LaunchGesture)">
+            <summary>
+            Demande telle qu'elle voyage d'une instance à l'autre.
+            </summary>
+            <param name="ProjectPath">Dossier du projet, absolu</param>
+            <param name="Gesture">Geste demandé</param>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.SingleInstance.LaunchMessage.ProjectPath">
+            <summary>Dossier du projet, absolu</summary>
+        </member>
+        <member name="P:Obfuscator.Wpf.View.SingleInstance.LaunchMessage.Gesture">
+            <summary>Geste demandé</summary>
         </member>
         <member name="T:Obfuscator.Wpf.View.BackgroundTaskState">
             <summary>État d'une tâche d'arrière-plan.</summary>

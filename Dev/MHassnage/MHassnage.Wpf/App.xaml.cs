@@ -12,7 +12,18 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        var settings = SettingsService.Load();
+        Core.Model.AppSettings settings;
+        try
+        {
+            settings = SettingsService.Load();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Configuration illisible :\n{SettingsService.SettingsPath}\n\n{ex.Message}",
+                            "MHassnage", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown(1);
+            return;
+        }
         var navigation = new NavigationController();
         var main = new MainViewController(settings, navigation);
 

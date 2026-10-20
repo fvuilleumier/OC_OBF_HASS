@@ -40,11 +40,26 @@ public static class SettingsService
         var settings = new AppSettings();
         configuration.Bind(settings);
 
+        TokenUnreadable = false;
         if (!IsPlaceholder(settings.Hass.Token))
-            settings.Hass.Token = SecretProtector.Unprotect(settings.Hass.Token);
+        {
+            try
+            {
+                settings.Hass.Token = SecretProtector.Unprotect(settings.Hass.Token);
+            }
+            catch (Exception ex) when (ex is System.Security.Cryptography.CryptographicException or FormatException)
+            {
+                // Valeur altérée, tronquée ou chiffrée par une autre clé : traitée comme absente
+                settings.Hass.Token = "";
+                TokenUnreadable = true;
+            }
+        }
 
         return settings;
     }
+
+    /// <summary>Vrai si le jeton chiffré du fichier n'a pas pu être déchiffré au dernier chargement.</summary>
+    public static bool TokenUnreadable { get; private set; }
 
     /// <summary>Liste les réglages manquants ou à compléter (sans jamais afficher de valeur).</summary>
     public static IReadOnlyList<string> Validate(AppSettings settings)
@@ -52,7 +67,8 @@ public static class SettingsService
         var problems = new List<string>();
 
         if (IsPlaceholder(settings.Hass.Url)) problems.Add("Hass:Url");
-        if (IsPlaceholder(settings.Hass.Token)) problems.Add("Hass:Token (saisi en clair, chiffré au lancement suivant)");
+        if (TokenUnreadable) problems.Add("Hass:Token (illisible : valeur altérée, à ressaisir en clair)");
+        else if (IsPlaceholder(settings.Hass.Token)) problems.Add("Hass:Token (saisi en clair, chiffré au lancement suivant)");
         if (IsPlaceholder(settings.Repositories.Private.Path)) problems.Add("Repositories:Private:Path");
         if (IsPlaceholder(settings.Repositories.Public.Path)) problems.Add("Repositories:Public:Path");
         if (IsPlaceholder(settings.Obfuscator.CliPath)) problems.Add("Obfuscator:CliPath");

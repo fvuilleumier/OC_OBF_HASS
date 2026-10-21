@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MHassnage.Core.Model;
@@ -21,14 +21,29 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
     {
         Settings = settings;
         Obfuscator = new ObfuscatorService(settings.Obfuscator, Log);
-        Repository = new RepositoryViewController(settings, repositoryKey, Log);
+        Repository = new RepositoryViewController(settings, repositoryKey, Log) { ShowCommitBar = false };
+        Repositories.Add(Repository);
+        _selectedRepository = Repository;
+        Repository.CommitBar.RefreshAll = RefreshAsync;
     }
 
     protected AppSettings Settings { get; }
     protected ObfuscatorService Obfuscator { get; }
 
     public LogViewController Log { get; } = new();
+
+    /// <summary>Dépôt principal : celui qui reçoit le résultat, porte la barre de commit et le loader.</summary>
     public RepositoryViewController Repository { get; }
+
+    /// <summary>Un onglet de diff par dépôt.</summary>
+    public ObservableCollection<RepositoryViewController> Repositories { get; } = [];
+
+    /// <summary>Onglets affichés seulement s'il y a plusieurs dépôts.</summary>
+    public bool ShowTabs => Repositories.Count > 1;
+
+    [ObservableProperty]
+    private RepositoryViewController _selectedRepository;
+
     public ObservableCollection<ExchangeIssue> Issues { get; } = [];
 
     public abstract string Title { get; }
@@ -48,7 +63,10 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
     [ObservableProperty]
     private string _statusText = "";
 
-    public Task RefreshAsync() => Repository.RefreshAsync();
+    public async Task RefreshAsync()
+    {
+        foreach (var repo in Repositories) await repo.RefreshAsync();
+    }
 
     protected abstract ObfuscatorDialog Dialog { get; }
     protected abstract Task<bool> PreStepAsync();
@@ -156,7 +174,7 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
         {
             Repository.IsBusy = false;
         }
-        await Repository.RefreshAsync();
+        await RefreshAsync();
     }
 }
 
@@ -183,9 +201,36 @@ public sealed class PrepareForAiViewController(AppSettings settings)
 /// « Récupérer le travail de l'IA » : pull du dépôt public (option) → simulation du rapatriement →
 /// rapatriement direct si aucun conflit → diff et commit du dépôt privé.
 /// </summary>
-public sealed class RetrieveAiWorkViewController(AppSettings settings)
-    : ExchangeViewController(settings, "Private")
+public sealed class RetrieveAiWorkViewController : ExchangeViewController
 {
+    /// <summary>
+    /// Deux onglets de diff (OREE_DOUS_HASS, OC_OBF_HASS) et une barre de commit commune :
+    /// chaque dépôt coché reçoit les fichiers et blocs cochés dans son onglet.
+    /// Après chaque Commit / Push, le projet de l'Obfuscator (OBF_HASS) est copié vers
+    /// Obfuscator:BackupFolder (hors git).
+    /// </summary>
+    public RetrieveAiWorkViewController(AppSettings settings) : base(settings, "Private")
+    {
+        var repo = new RepositoryViewController(settings, "Public", Log) { ShowCommitBar = false };
+        Repositories.Add(repo);
+        Repository.CommitBar.AddTarget(repo);
+        Repository.CommitBar.AfterAction = BackupObfuscatorAsync;
+    }
+
+    private async Task BackupObfuscatorAsync()
+    {
+        Log.Step($"Sauvegarde de {RepoNames.Obfuscator} vers {Settings.Obfuscator.BackupFolder}");
+        try
+        {
+            int files = await Task.Run(() => FolderBackupService.Mirror(Settings.Obfuscator.ProjectFolder, Settings.Obfuscator.BackupFolder));
+            Log.Success($"{files} fichier(s) copié(s) (copie complète, ancien contenu remplacé)");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Sauvegarde de {RepoNames.Obfuscator} : {ex.Message}");
+        }
+    }
+
     public override string Title => "Récupérer le travail de l'IA";
     public override string Description => "Rapatrier les modifications de l'IA vers le dépôt privé";
     public override string RunLabel => "▶ Récupérer";

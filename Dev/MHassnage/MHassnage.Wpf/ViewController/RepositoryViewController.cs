@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MHassnage.Core.Model;
@@ -23,15 +23,29 @@ public sealed partial class RepositoryViewController : ObservableObject, IReposi
     {
         _settings = settings;
         _repositoryKey = repositoryKey;
+        if (repositoryKey == "Obfuscator") settings.Repositories.Obfuscator.Path = settings.Obfuscator.ProjectFolder;
         Log = log;
         Git = new GitService(Settings.Path, settings.Git.ExecutablePath, log);
-        CommitBar = new CommitBarViewController(this);
+        CommitBar = new CommitBarViewController(this, Name);
     }
 
-    private RepositorySettings Settings =>
-        _repositoryKey == "Public" ? _settings.Repositories.Public : _settings.Repositories.Private;
+    private RepositorySettings Settings => _settings.Repositories.Get(_repositoryKey);
 
-    public string Name => _repositoryKey == "Public" ? "dépôt public" : "dépôt privé";
+    public RepositorySettings RepositorySettings => Settings;
+
+    public string Name => _repositoryKey switch
+    {
+        "Public" => RepoNames.Public,
+        "Obfuscator" => RepoNames.Obfuscator,
+        _ => RepoNames.Private,
+    };
+
+    /// <summary>Nom court de l'onglet (« OREE_DOUS_HASS »).</summary>
+    public string ShortName => Name.Split(' ')[0];
+
+    /// <summary>Faux : la barre de commit est affichée ailleurs (panel à plusieurs dépôts).</summary>
+    [ObservableProperty]
+    private bool _showCommitBar = true;
 
     public GitService Git { get; }
 
@@ -58,7 +72,7 @@ public sealed partial class RepositoryViewController : ObservableObject, IReposi
         try
         {
             SettingsService.AddExclusion(_settings, _repositoryKey, rule);
-            Log.Step($"Exclusion ajoutée au {Name} : {rule}");
+            Log.Step($"Exclusion ajoutée à {Name} : {rule}");
         }
         catch (Exception ex)
         {
@@ -115,7 +129,7 @@ public sealed partial class RepositoryViewController : ObservableObject, IReposi
         try
         {
             string? selected = SelectedChange?.Change.Path;
-            Log.Step($"Lecture du {Name}");
+            Log.Step($"Lecture de {Name}");
             _state = await Task.Run(() => Git.GetStateAsync());
 
             var visible = _state.Changes.Where(c => !Exclusions.IsExcluded(c.Path, Settings.Excluded)).ToList();

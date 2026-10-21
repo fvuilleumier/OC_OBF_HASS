@@ -1,4 +1,4 @@
-<UserControl x:Class="MHassnage.Wpf.View.RepositoryView"
+﻿<UserControl x:Class="MHassnage.Wpf.View.RepositoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:v="clr-namespace:MHassnage.Wpf.View">
@@ -103,6 +103,7 @@
             </DockPanel>
         </Grid>
 
-        <v:CommitBar Grid.Row="2" DataContext="{Binding CommitBar}" Margin="0,10,0,0" />
+        <v:CommitBar Grid.Row="2" DataContext="{Binding CommitBar}" Margin="0,10,0,0"
+                     Visibility="{Binding DataContext.ShowCommitBar, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolVisibility}}" />
     </Grid>
 </UserControl>

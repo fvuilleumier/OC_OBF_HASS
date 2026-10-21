@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using MHassnage.Core.Model;
 using Microsoft.Extensions.Configuration;
@@ -81,7 +81,7 @@ public static class SettingsService
     /// <summary>Ajoute une règle d'exclusion au dépôt (« Private » ou « Public ») et l'enregistre.</summary>
     public static void AddExclusion(AppSettings settings, string repository, string rule)
     {
-        var repo = repository == "Public" ? settings.Repositories.Public : settings.Repositories.Private;
+        var repo = settings.Repositories.Get(repository);
         if (repo.Excluded.Contains(rule, StringComparer.OrdinalIgnoreCase)) return;
         repo.Excluded.Add(rule);
 

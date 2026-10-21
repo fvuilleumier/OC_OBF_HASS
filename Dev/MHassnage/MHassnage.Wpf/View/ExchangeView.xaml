@@ -1,4 +1,4 @@
-<UserControl x:Class="MHassnage.Wpf.View.ExchangeView"
+﻿<UserControl x:Class="MHassnage.Wpf.View.ExchangeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:v="clr-namespace:MHassnage.Wpf.View">
@@ -77,7 +77,30 @@
             </DockPanel>
         </Border>
 
-        <v:RepositoryView Grid.Row="2" DataContext="{Binding Repository}" />
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Un onglet de diff par dépôt (en-têtes masqués s'il n'y en a qu'un) -->
+            <TabControl ItemsSource="{Binding Repositories}" SelectedItem="{Binding SelectedRepository}"
+                        Style="{StaticResource DarkTabs}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ShortName}" ToolTip="{Binding Name}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <v:RepositoryView />
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+
+            <!-- Barre de commit commune (dépôts cochés) -->
+            <v:CommitBar Grid.Row="1" DataContext="{Binding Repository.CommitBar}" Margin="0,10,0,0" />
+        </Grid>
 
         <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Background="Transparent" />
         <v:LogPanel Grid.Row="4" DataContext="{Binding Log}" />

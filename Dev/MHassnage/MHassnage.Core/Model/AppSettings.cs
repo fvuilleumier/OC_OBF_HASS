@@ -1,4 +1,4 @@
-namespace MHassnage.Core.Model;
+﻿namespace MHassnage.Core.Model;
 
 /// <summary>Racine de la configuration (appsettings.json + user-secrets).</summary>
 public sealed class AppSettings
@@ -90,6 +90,20 @@ public sealed class RepositoriesSettings
 
     /// <summary>Dépôt public (OC_OBF_HASS) : contenu pseudonymisé.</summary>
     public RepositorySettings Public { get; set; } = new();
+
+    /// <summary>
+    /// Projet de l'Obfuscator (OBF_HASS) vu comme dépôt git ; seul Excluded est lu ici,
+    /// le chemin est Obfuscator:ProjectFolder.
+    /// </summary>
+    public RepositorySettings Obfuscator { get; set; } = new();
+
+    /// <summary>« Private », « Public » ou « Obfuscator ».</summary>
+    public RepositorySettings Get(string key) => key switch
+    {
+        "Public" => Public,
+        "Obfuscator" => Obfuscator,
+        _ => Private,
+    };
 }
 
 public sealed class RepositorySettings
@@ -137,6 +151,9 @@ public sealed class ObfuscatorSettings
 
     /// <summary>Dossier du projet obfuscator (celui qui contient .tebiobf).</summary>
     public string ProjectFolder { get; set; } = "";
+
+    /// <summary>Copie complète de ProjectFolder (hors git), refaite après chaque commit / push du rapatriement.</summary>
+    public string BackupFolder { get; set; } = @"c:\tmp\Backups\ObfHass";
 }
 
 public sealed class GitSettings

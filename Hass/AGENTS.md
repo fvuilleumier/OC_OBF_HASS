@@ -40,14 +40,14 @@ restaurées en clair dans le dépôt d'origine, puis relues avec git avant d'êt
 | Forme | Signifie | Occurrences |
 |---|---|---|
 | `666304389bac4f6e90d0c160ad98c6b6` | un identifiant global | 6879 |
-| `900000001` | un identifiant d'enregistrement, la valeur d'une clé nommée ID ou dont le nom contient le mot ID (unique_id, config_entry_id) ; un numéro reste un numéro | 5461 |
-| `TBX9F_ORG_0001` | une raison sociale, un nom de projet ou un terme interne | 937 |
+| `900000001` | un identifiant d'enregistrement, la valeur d'une clé nommée ID ou dont le nom contient le mot ID (unique_id, config_entry_id) ; un numéro reste un numéro | 5459 |
+| `TBX9F_ORG_0001` | une raison sociale, un nom de projet ou un terme interne | 952 |
 | `02:00:00:00:00:01` | une adresse MAC | 251 |
 | `192.168.23.10` | une adresse IPv4, ou son début quand c'est le réseau qui est masqué ; une adresse privée reste une adresse privée de la même plage, une adresse publique devient une adresse de la plage d'essai 198.18.0.0/15, et l'appartenance au même sous-réseau comme la partie hôte sont préservées | 123 |
-| `TBX9F_SECRET_0001` | un secret : mot de passe, clé d'API, jeton d'accès | 57 |
+| `TBX9F_SECRET_0001` | un secret : mot de passe, clé d'API, jeton d'accès | 59 |
 | `host0001.example.invalid` | un nom de machine pleinement qualifié | 17 |
 | `TBX9F_CRED_0001` | un identifiant de connexion nominatif | 10 |
-| `TBX9F_VAL_0001` | une valeur sensible non classée | 7 |
+| `TBX9F_VAL_0001` | une valeur sensible non classée | 9 |
 | `41001` | un port d'écoute non standard ; les ports de service normalisés sont conservés | 6 |
 | `270` | une coordonnée géographique — latitude, longitude ou altitude ; le nombre est fictif, de même forme, et ne garde aucune proximité avec le lieu réel | 4 |
 
@@ -129,13 +129,13 @@ restaurées en clair dans le dépôt d'origine, puis relues avec git avant d'êt
 | `Dashboards/Views/PlanInteractif_tile.yaml` | Noms internes (société, projets) ×8 |
 | `Elements/Areas.jsonc` | Noms internes (société, projets) ×6 |
 | `Elements/Config.jsonc` | Coordonnées géographiques ×2, Machines (nom qualifié) ×1, Ports non standard ×1 |
-| `Elements/Devices.jsonc` | Identifiants GUID ×1153, Identifiants (clés ID) ×221, Adresses IPv4 ×108, Adresses MAC ×59, Secrets et mots de passe ×39, Noms internes (société, projets) ×12, Autres valeurs sensibles ×6, Machines (nom qualifié) ×1 |
-| `Elements/Entities.jsonc` | Identifiants GUID ×5581, Identifiants (clés ID) ×3874, Noms internes (société, projets) ×571, Adresses MAC ×187, Secrets et mots de passe ×1 |
+| `Elements/Devices.jsonc` | Identifiants GUID ×1153, Identifiants (clés ID) ×221, Adresses IPv4 ×108, Adresses MAC ×59, Secrets et mots de passe ×39, Noms internes (société, projets) ×14, Autres valeurs sensibles ×6, Machines (nom qualifié) ×1 |
+| `Elements/Entities.jsonc` | Identifiants GUID ×5581, Identifiants (clés ID) ×3872, Noms internes (société, projets) ×574, Adresses MAC ×187, Secrets et mots de passe ×3 |
 | `Elements/Floors.jsonc` | aucun |
 | `Elements/labels.jsonc` | aucun |
 | `Elements/locale.jsonc` | aucun |
 | `Elements/panels.jsonc` | Autres valeurs sensibles ×1 |
-| `Elements/states.jsonc` | Identifiants (clés ID) ×1295, Noms internes (société, projets) ×155, Machines (nom qualifié) ×13, Comptes de connexion ×6, Adresses MAC ×5, Adresses IPv4 ×4, Identifiants GUID ×3, Coordonnées géographiques ×2 |
+| `Elements/states.jsonc` | Identifiants (clés ID) ×1295, Noms internes (société, projets) ×165, Machines (nom qualifié) ×13, Comptes de connexion ×6, Adresses MAC ×5, Adresses IPv4 ×4, Identifiants GUID ×3, Autres valeurs sensibles ×2, Coordonnées géographiques ×2 |
 | `Elements/themes.jsonc` | aucun |
 | `Elements/user.jsonc` | Identifiants (clés ID) ×2, Identifiants GUID ×1 |
 | `Elements/userData.jsonc` | aucun |

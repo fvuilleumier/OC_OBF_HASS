@@ -13915,7 +13915,7 @@
         "should_expose": false
       }
     },
-    "original_name": "Pixel-8-Pro-du-Fab",
+    "original_name": "TBX9F_ORG_0014",
     "platform": "mikrotik",
     "translation_key": null,
     "unique_id": "02:00:00:00:00:83"
@@ -13943,7 +13943,7 @@
         "should_expose": false
       }
     },
-    "original_name": "Pixel-8-Pro-du-Fab",
+    "original_name": "TBX9F_ORG_0014",
     "platform": "mikrotik",
     "translation_key": null,
     "unique_id": "02:00:00:00:00:84"
@@ -13971,7 +13971,7 @@
         "should_expose": false
       }
     },
-    "original_name": "Pixel-8-Pro-du-Fab",
+    "original_name": "TBX9F_ORG_0014",
     "platform": "mikrotik",
     "translation_key": null,
     "unique_id": "02:00:00:00:00:85"
@@ -14116,7 +14116,7 @@
     "translation_key": null,
     "unique_id": "02:00:00:00:00:88"
   },
-  "device_tracker.TBX9F_ID_0535": {
+  "device_tracker.TBX9F_SECRET_0043": {
     "area_id": null,
     "categories": {},
     "config_entry_id": "7cde34cc323e4752a06f5f2986865b67",
@@ -14125,7 +14125,7 @@
     "device_id": null,
     "disabled_by": "integration",
     "entity_category": "diagnostic",
-    "entity_id": "device_tracker.TBX9F_ID_0535",
+    "entity_id": "device_tracker.TBX9F_SECRET_0043",
     "has_entity_name": true,
     "hidden_by": null,
     "icon": null,

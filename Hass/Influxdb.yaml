@@ -1,6 +1,6 @@
 api_version: 1
 host: 1bd4a9fb-victoria-metrics
-port: 41006
+port: 41003
 max_retries: 3
 database: home_assistant
 

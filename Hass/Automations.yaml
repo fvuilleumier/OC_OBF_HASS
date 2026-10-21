@@ -217,16 +217,13 @@
   - at: '17:30:00'
     trigger: time
   conditions:
-  - condition: device
-    type: is_off
-    device_id: 09850ae4b1214b1aa7accc6ead57dca8
-    entity_id: e43f626068fc430097cf501bb3e8ad85
-    domain: switch
+  - condition: state
+    entity_id: input_boolean.c_est_noel
+    state: 'off'
   actions:
-  - type: turn_on
-    device_id: 09850ae4b1214b1aa7accc6ead57dca8
-    entity_id: e43f626068fc430097cf501bb3e8ad85
-    domain: switch
+  - action: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.c_est_noel
   mode: single
 - id: '900000011'
   alias: Sapin de Noël Off
@@ -237,16 +234,13 @@
   - at: '23:00:00'
     trigger: time
   conditions:
-  - condition: device
-    type: is_on
-    device_id: 09850ae4b1214b1aa7accc6ead57dca8
-    entity_id: e43f626068fc430097cf501bb3e8ad85
-    domain: switch
+  - condition: state
+    entity_id: input_boolean.c_est_noel
+    state: 'on'
   actions:
-  - type: turn_off
-    device_id: 09850ae4b1214b1aa7accc6ead57dca8
-    entity_id: e43f626068fc430097cf501bb3e8ad85
-    domain: switch
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.c_est_noel
   mode: single
 - id: '900000012'
   alias: Vacances lampe salon ON
@@ -1802,8 +1796,32 @@
     target:
       entity_id: input_datetime.cave_a_vin_dernier_allumage
     data:
-      datetime: '{{ now().isoformat() }}'
+          datetime: '{{ now().isoformat() }}'
   mode: single
+- id: c_est_noel_sync
+  alias: C'est noël - pilote SB18 et SB20
+  description: Répercute l'état du helper input_boolean.c_est_noel sur switch.sb18
+    (lumières ext Noël) et switch.sb20 (sapin). Seuls les switchs disponibles sont
+    commandés ; s'ils sont tous indisponibles, rien n'est fait.
+  triggers:
+  - trigger: state
+    entity_id: input_boolean.c_est_noel
+    to:
+    - 'on'
+    - 'off'
+  conditions: []
+  actions:
+  - variables:
+      cibles: '{{ [''switch.sb18'', ''switch.sb20''] | reject(''is_state'', ''unavailable'')
+        | reject(''is_state'', ''unknown'') | list }}'
+  - condition: template
+    value_template: '{{ cibles | count > 0 }}'
+  - action: switch.turn_{{ trigger.to_state.state }}
+    continue_on_error: true
+    target:
+      entity_id: '{{ cibles }}'
+  mode: queued
+
 - id: cave_a_vin_pas_allumee_depuis_2_jours
   alias: Cave à vin - pas allumée depuis 2 jours
   description: Alerte si le switch de la cave à vin est éteint et n'a pas été rallumé

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:MHassnage.Wpf.View"
         xmlns:vc="clr-namespace:MHassnage.Wpf.ViewController"
-        Title="MHassnage" Height="720" Width="1665"
+        Title="{Binding WindowTitle}" Height="720" Width="1665"
         Icon="/Resources/mhassnage.ico"
         Style="{StaticResource MainWindowStyle}"
         WindowStartupLocation="CenterScreen">
@@ -17,8 +17,10 @@
         <DockPanel Grid.Column="0" Margin="14">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,18">
                 <Image Source="/Resources/mhassnage.png" Width="40" Height="40" />
-                <TextBlock Text="MHassnage" FontSize="22" FontWeight="SemiBold"
-                           VerticalAlignment="Center" Margin="10,0,0,0" />
+                <StackPanel VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock Text="MHassnage" FontSize="22" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding VersionText}" FontSize="11" Foreground="{StaticResource MutedTextBrush}" />
+                </StackPanel>
             </StackPanel>
 
             <ItemsControl ItemsSource="{Binding Operations}">
@@ -38,7 +40,7 @@
         </DockPanel>
 
         <!-- Panel de l'opération : la vue est choisie selon le type de ViewController -->
-        <Border Grid.Column="1" Margin="0,14,14,14" Background="{StaticResource PanelBrush}" CornerRadius="6" Padding="18">
+        <Border Grid.Column="1" Margin="0,14,14,20" Background="{StaticResource PanelBrush}" CornerRadius="6" Padding="18">
             <ContentControl Content="{Binding CurrentPanel}">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type vc:StatusViewController}">
@@ -65,5 +67,9 @@
                 </ContentControl.Resources>
             </ContentControl>
         </Border>
+
+        <!-- Version, coin bas droit -->
+        <TextBlock Grid.Column="1" Text="{Binding VersionText}" FontSize="10" Foreground="{StaticResource MutedTextBrush}"
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,3" />
     </Grid>
 </Window>

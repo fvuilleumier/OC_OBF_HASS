@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v10.0": {
-      "MHassnage.Core/1.0.0": {
+      "MHassnage.Core/1.0.0.0": {
         "dependencies": {
           "DiffPlex": "1.9.0",
           "Microsoft.Extensions.Configuration.Binder": "10.0.0",
@@ -140,7 +140,7 @@
     }
   },
   "libraries": {
-    "MHassnage.Core/1.0.0": {
+    "MHassnage.Core/1.0.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

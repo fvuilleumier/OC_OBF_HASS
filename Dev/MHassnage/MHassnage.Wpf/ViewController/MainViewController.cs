@@ -34,6 +34,11 @@ public sealed partial class MainViewController : ObservableObject
 
     public IReadOnlyList<OperationItem> Operations { get; }
 
+    /// <summary>« v.1.0.0.0 » : version du projet MHassnage.Core.</summary>
+    public string VersionText { get; } = $"v.{typeof(AppSettings).Assembly.GetName().Version}";
+
+    public string WindowTitle => $"MHassnage {VersionText}";
+
     [ObservableProperty]
     private OperationItem _selected;
 

@@ -62,12 +62,33 @@ public sealed class ApplyItem
     public bool IsUnmapped { get; init; }
 
     public ApplyStatus Status => HaContent is null ? ApplyStatus.New
-        : Normalize(HaContent) == Normalize(RepoContent) ? ApplyStatus.Identical
+        : SameContent(HaContent) ? ApplyStatus.Identical
         : ApplyStatus.Modified;
 
     /// <summary>HA a changé depuis le dernier commit : l'écraser perdrait ces modifications.</summary>
-    public bool ChangedInHa => HaContent is not null && HeadContent is not null
-                               && Normalize(HaContent) != Normalize(HeadContent);
+    public bool ChangedInHa => HaContent is not null && HeadContent is not null && !SameContent(HaContent, HeadContent);
+
+    /// <summary>
+    /// Même contenu que le dépôt ? Fichier : texte identique (fins de ligne près).
+    /// Dashboard : même configuration une fois le YAML relu (guillemets, style de bloc, retours
+    /// à la ligne ne comptent pas : HA ne stocke que du JSON).
+    /// </summary>
+    public bool SameContent(string? other) => other is not null && SameContent(other, RepoContent);
+
+    private bool SameContent(string a, string b)
+    {
+        if (Normalize(a) == Normalize(b)) return true;
+        if (Target.Kind != ApplyKind.Dashboard) return false;
+        try
+        {
+            return System.Text.Json.Nodes.JsonNode.DeepEquals(
+                Service.YamlService.FromYaml(a), Service.YamlService.FromYaml(b));
+        }
+        catch (YamlDotNet.Core.YamlException)
+        {
+            return false;
+        }
+    }
 
     public static string Normalize(string text) => text.Replace("\r\n", "\n").TrimEnd('\n') + "\n";
 }

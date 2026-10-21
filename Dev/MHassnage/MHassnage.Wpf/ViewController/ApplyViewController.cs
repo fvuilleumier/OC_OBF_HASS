@@ -126,12 +126,12 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
         if (selected.Count == 0) { Log.Error("Aucun élément coché."); return; }
 
         bool restart = selected.Any(i => i.Category == ApplyCategory.Config);
-        string message = $"Écrire {selected.Count} élément(s) dans Home Assistant ?\n\n"
+        string message = $"Écrire {selected.Count} élément(s) dans Hass ?\n\n"
                          + string.Join("\n", selected.Select(i => $"• {i.Target}").Take(15))
                          + (selected.Count > 15 ? "\n…" : "")
-                         + "\n\nLa version actuelle de HA est sauvegardée avant (restaurable)."
-                         + (restart ? "\nUn fichier de configuration change : HA sera vérifié puis redémarré." : "");
-        if (MessageBox.Show(message, "Appliquer dans HA", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+                         + "\n\nLa version actuelle de Hass est sauvegardée avant (restaurable)."
+                         + (restart ? "\nUn fichier de configuration change : Hass sera vérifié puis redémarré." : "");
+        if (!View.ConfirmWindow.Ask("Appliquer dans Hass", message, "Appliquer dans Hass"))
             return;
 
         Log.Step($"Application de {selected.Count} élément(s) dans Home Assistant");
@@ -159,11 +159,11 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
             {
                 string file = Path.Combine(temp, item.RepoPath);
                 string? now = File.Exists(file) ? ApplyItem.Normalize(await File.ReadAllTextAsync(file)) : null;
-                if (now == item.RepoContent) continue;
+                if (item.SameContent(now)) continue;
                 gaps++;
-                Log.Report($"ABSENT  écart après application : {item.RepoPath} ne correspond pas exactement à ce que HA renvoie");
+                Log.Report($"ABSENT  écart après application : Hass ne renvoie pas le même contenu que {item.RepoPath} (voir « Analyser »)");
             }
-            if (gaps == 0) Log.Success("Export de contrôle : HA correspond au dépôt privé pour tous les éléments appliqués.");
+            if (gaps == 0) Log.Success("Export de contrôle : Hass correspond au dépôt privé pour tous les éléments appliqués. Fais « Sauvegarder HA » pour aligner la mise en forme du dépôt.");
         }
         catch (Exception ex)
         {
@@ -180,10 +180,10 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
     {
         if (SelectedBackup is not { } backup) { Log.Error("Aucune sauvegarde sélectionnée."); return; }
 
-        string message = $"Remettre Home Assistant dans l'état du {backup.Manifest.Created.LocalDateTime:dd.MM.yyyy HH:mm:ss} ?\n\n"
+        string message = $"Remettre Hass dans l'état du {backup.Manifest.Created.LocalDateTime:dd.MM.yyyy HH:mm:ss} ?\n\n"
                          + string.Join("\n", backup.Manifest.Entries.Select(e => $"• {new ApplyTarget(e.Kind, e.Key)}{(e.Existed ? "" : " (sera supprimé)")}").Take(15))
                          + "\n\nL'état actuel est sauvegardé avant (la restauration est elle-même annulable).";
-        if (MessageBox.Show(message, "Restaurer la version précédente", MessageBoxButton.OKCancel, MessageBoxImage.Warning) != MessageBoxResult.OK)
+        if (!View.ConfirmWindow.Ask("Restaurer la version précédente", message, "Restaurer", danger: true))
             return;
 
         Log.Step($"Restauration de la sauvegarde du {backup.Manifest.Created.LocalDateTime:dd.MM.yyyy HH:mm:ss}");

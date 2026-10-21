@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="MHassnage.Core/MHassnage.Core.csproj" />
-  <Project Path="MHassnage.HassExport.Cli/MHassnage.HassExport.Cli.csproj" />
-  <Project Path="MHassnage.Wpf/MHassnage.Wpf.csproj" />
-</Solution>

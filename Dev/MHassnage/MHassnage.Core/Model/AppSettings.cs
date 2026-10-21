@@ -25,6 +25,13 @@ public sealed class HassSettings
     public FolderCopy Themes { get; set; } = new();
     public FolderCopy Z2m { get; set; } = new();
     public DashboardSettings Dashboards { get; set; } = new();
+
+    /// <summary>
+    /// « States » : volumineux et très changeants, exportés seulement sur demande.
+    /// Clés d'éléments (Keys) et noms de fichiers (Themes/Z2m/Elements) concernés.
+    /// </summary>
+    public List<string> StateKeys { get; set; } = ["states"];
+    public List<string> StateFiles { get; set; } = ["state.json"];
 }
 
 public sealed class FileCopy
@@ -76,11 +83,33 @@ public sealed class RepositorySettings
     public string ElementsFolder { get; set; } = "Elements";
 
     public string ExportPath => System.IO.Path.Combine(Path, ExportFolder);
+
+    /// <summary>
+    /// Fichiers et dossiers masqués des listes de modifications (jamais commités par MHassnage).
+    /// « Dev/ » = dossier ; « *.log » ou « Dev/*.md » = motif ; sinon chemin exact. Relatif à la racine du dépôt.
+    /// </summary>
+    public List<string> Excluded { get; set; } = [];
+}
+
+/// <summary>Correspondance chemin ↔ règle d'exclusion.</summary>
+public static class Exclusions
+{
+    public static bool IsExcluded(string path, IEnumerable<string> rules) => rules.Any(rule => Matches(path, rule));
+
+    public static bool Matches(string path, string rule)
+    {
+        rule = rule.Replace('\\', '/').Trim();
+        if (rule.Length == 0) return false;
+        if (rule.EndsWith('/')) return path.StartsWith(rule, StringComparison.OrdinalIgnoreCase);
+        if (rule.Contains('*') || rule.Contains('?'))
+            return System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(rule, path, ignoreCase: true);
+        return string.Equals(path, rule, StringComparison.OrdinalIgnoreCase);
+    }
 }
 
 public sealed class ObfuscatorSettings
 {
-    /// <summary>Chemin de tebiobf.exe.</summary>
+    /// <summary>Chemin de obfcli.exe.</summary>
     public string CliPath { get; set; } = "";
 
     /// <summary>Chemin de TebiObfuscator.exe (revue, conflits avancés).</summary>

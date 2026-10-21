@@ -1,0 +1,33 @@
+<UserControl x:Class="MHassnage.Wpf.View.LogPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:v="clr-namespace:MHassnage.Wpf.View">
+    <!-- DataContext : LogViewController. Console du panel ; quand elle est ouverte en grand, un rappel la remplace. -->
+    <Grid>
+        <v:LogView>
+            <v:LogView.Style>
+                <Style TargetType="v:LogView">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPoppedOut}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </v:LogView.Style>
+        </v:LogView>
+        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="4">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPoppedOut}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <TextBlock Text="Console ouverte dans une fenêtre — elle revient ici à sa fermeture."
+                       Foreground="{StaticResource MutedTextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+    </Grid>
+</UserControl>

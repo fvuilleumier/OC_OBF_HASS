@@ -53,6 +53,8 @@ public sealed class ObfuscatorService(ObfuscatorSettings settings, IProgress<str
         info.ArgumentList.Add(settings.ProjectFolder);
         info.ArgumentList.Add("--json");
         if (dryRun) info.ArgumentList.Add("--dry-run");
+        // Termes proposés (onglet Suggestions) : rapportés mais non bloquants
+        if (command == "publish") info.ArgumentList.Add("--allow-suggestions");
 
         Log($"obfcli {command}{(dryRun ? " --dry-run" : "")}");
         using var process = Process.Start(info)

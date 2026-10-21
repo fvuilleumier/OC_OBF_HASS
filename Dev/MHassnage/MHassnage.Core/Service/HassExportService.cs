@@ -15,6 +15,11 @@ namespace MHassnage.Core.Service;
 /// </summary>
 public sealed class HassExportService(AppSettings settings, IProgress<string>? log = null)
 {
+    private bool _includeStates = true;
+
+    private bool SkipFile(string path) =>
+        !_includeStates && settings.Hass.StateFiles.Contains(Path.GetFileName(path), StringComparer.OrdinalIgnoreCase);
+
     /// <summary>
     /// Clé de configuration → commande WebSocket. « KeyBy » transforme la liste renvoyée
     /// en objet indexé, comme l'était hass.&lt;clé&gt; dans le navigateur (diffs stables).
@@ -44,8 +49,11 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
 
     /// <param name="outputFolder">Dossier cible ; null = export du dépôt privé.</param>
     /// <exception cref="HassAuthException">Jeton refusé : afficher <see cref="HassTokenHelp"/>.</exception>
-    public async Task ExportAsync(string? outputFolder = null, CancellationToken ct = default)
+    /// <param name="includeStates">Faux : les states (HassSettings.StateKeys / StateFiles) ne sont pas exportés.</param>
+    public async Task ExportAsync(string? outputFolder = null, bool includeStates = true, CancellationToken ct = default)
     {
+        _includeStates = includeStates;
+        if (!includeStates) Log("States ignorés (option « Sauvegarder les states » décochée).");
         string output = outputFolder ?? settings.Repositories.Private.ExportPath;
         Directory.CreateDirectory(output);
         Log($"Export vers {output}");
@@ -74,7 +82,7 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
             throw new DirectoryNotFoundException(
                 $"Partage inaccessible : {root}. Ouvre-le une fois dans l'Explorateur Windows (identifiants Samba mémorisés).");
 
-        foreach (var e in settings.Hass.Elements)
+        foreach (var e in settings.Hass.Elements.Where(e => !SkipFile(e.Source)))
             Copy(Path.Combine(root, e.Source), Path.Combine(output, e.Destination));
 
         CopyFolder(root, settings.Hass.Themes, output);
@@ -97,7 +105,7 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
             ? folder.Files.Select(n => Path.Combine(src, n))
             : Directory.EnumerateFiles(src, "*", SearchOption.AllDirectories);
 
-        foreach (string file in files)
+        foreach (string file in files.Where(f => !SkipFile(f)))
             Copy(file, Path.Combine(dst, Path.GetRelativePath(src, file)));
     }
 
@@ -120,7 +128,7 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
         string folder = Path.Combine(output, settings.Repositories.Private.ElementsFolder);
         Directory.CreateDirectory(folder);
 
-        foreach (string key in settings.Hass.Keys)
+        foreach (string key in settings.Hass.Keys.Where(k => _includeStates || !settings.Hass.StateKeys.Contains(k)))
         {
             if (!KeyCommands.TryGetValue(key, out var command))
             {

@@ -1,8 +1,24 @@
-# Génère mhassnage.png (256) et mhassnage.ico (16..256) à partir du dessin du logo (identique au SVG).
+# Génère mhassnage.png (256) et mhassnage.ico (16..256) : roue dentée bleu Home Assistant + « M ».
 # Usage : pwsh -File Generate-Logo.ps1
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'Stop'
 $out = $PSScriptRoot
+function C([string]$hex, [int]$a = 255) { $c = [System.Drawing.ColorTranslator]::FromHtml($hex); [System.Drawing.Color]::FromArgb($a, $c) }
+function P([double]$x, [double]$y) { [System.Drawing.PointF]::new([float]$x, [float]$y) }
+
+# Contour de la roue dentée : 10 dents trapézoïdales
+function Gear-Points {
+    $teeth = 10; $rOut = 116; $rIn = 94; $pts = @()
+    for ($i = 0; $i -lt $teeth; $i++) {
+        $a = 2 * [Math]::PI * $i / $teeth
+        $step = 2 * [Math]::PI / $teeth
+        foreach ($k in @(@(-0.50, $rIn), @(-0.28, $rOut), @(0.28, $rOut), @(0.50, $rIn))) {
+            $t = $a + $k[0] * $step
+            $pts += P (128 + $k[1] * [Math]::Cos($t)) (128 + $k[1] * [Math]::Sin($t))
+        }
+    }
+    return [System.Drawing.PointF[]]$pts
+}
 
 function New-Logo([int]$size) {
     $bmp = [System.Drawing.Bitmap]::new($size, $size)
@@ -10,32 +26,21 @@ function New-Logo([int]$size) {
     $g.SmoothingMode = 'AntiAlias'
     $g.ScaleTransform($size / 256.0, $size / 256.0)
 
-    $bg = [System.Drawing.Drawing2D.GraphicsPath]::new()
-    $r = 96
-    $bg.AddArc(8, 8, $r, $r, 180, 90); $bg.AddArc(248 - $r, 8, $r, $r, 270, 90)
-    $bg.AddArc(248 - $r, 248 - $r, $r, $r, 0, 90); $bg.AddArc(8, 248 - $r, $r, $r, 90, 90)
-    $bg.CloseFigure()
-    $g.FillPath([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(0x1E, 0x22, 0x28)), $bg)
+    # Roue dentée en dégradé bleu HA
+    $gear = [System.Drawing.Drawing2D.GraphicsPath]::new()
+    $gear.AddPolygon([System.Drawing.PointF[]]@(Gear-Points))
+    $g.FillPath([System.Drawing.Drawing2D.LinearGradientBrush]::new((P 0 12), (P 0 244), (C '#5FD0FF'), (C '#1E8BC3')), $gear)
 
-    $blue = [System.Drawing.Color]::FromArgb(0x41, 0xBD, 0xF5)
-    $light = [System.Drawing.Color]::FromArgb(0xE6, 0xE9, 0xEE)
+    # Disque central sombre
+    $g.FillEllipse([System.Drawing.SolidBrush]::new((C '#1B2531')), 50, 50, 156, 156)
+    # Fin anneau bleu intérieur
+    $ring = [System.Drawing.Pen]::new((C '#41BDF5'), 4)
+    if ($size -ge 48) { $g.DrawEllipse($ring, 58, 58, 140, 140) }
 
-    $house = [System.Drawing.Pen]::new($blue, 16); $house.LineJoin = 'Round'
-    $pts = [System.Drawing.PointF[]]@(
-        [System.Drawing.PointF]::new(40, 120), [System.Drawing.PointF]::new(84, 64),
-        [System.Drawing.PointF]::new(128, 112), [System.Drawing.PointF]::new(172, 64),
-        [System.Drawing.PointF]::new(216, 120), [System.Drawing.PointF]::new(216, 212),
-        [System.Drawing.PointF]::new(40, 212))
-    $g.DrawPolygon($house, $pts)
-
-    $solid = [System.Drawing.Pen]::new($light, 12); $solid.StartCap = 'Round'; $solid.EndCap = 'Round'
-    $g.DrawArc($solid, 96, 140, 64, 64, 180, 180)
-    $g.FillPolygon([System.Drawing.SolidBrush]::new($light), [System.Drawing.PointF[]]@(
-        [System.Drawing.PointF]::new(160, 154), [System.Drawing.PointF]::new(172, 178), [System.Drawing.PointF]::new(148, 178)))
-
-    $dashed = [System.Drawing.Pen]::new($blue, 12)
-    if ($size -ge 32) { $dashed.DashPattern = [single[]]@(0.67, 0.67) }
-    $g.DrawArc($dashed, 96, 140, 64, 64, 0, 180)
+    # M
+    $pen = [System.Drawing.Pen]::new([System.Drawing.Color]::White, $(if ($size -le 24) { 26 } else { 20 }))
+    $pen.StartCap = 'Round'; $pen.EndCap = 'Round'; $pen.LineJoin = 'Round'
+    $g.DrawLines($pen, [System.Drawing.PointF[]]@((P 90 162), (P 90 98), (P 128 136), (P 166 98), (P 166 162)))
 
     $g.Dispose()
     return $bmp

@@ -25,7 +25,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <RadioButton Style="{StaticResource OperationTile}" GroupName="Operations"
-                                     Checked="OnOperationChecked" Tag="{Binding}">
+                                     Checked="OnOperationChecked" Loaded="OnTileLoaded" Tag="{Binding}">
                             <StackPanel>
                                 <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
                                 <TextBlock Text="{Binding Description}" Foreground="{StaticResource MutedTextBrush}"

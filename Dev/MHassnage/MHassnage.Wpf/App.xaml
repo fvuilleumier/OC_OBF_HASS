@@ -8,6 +8,7 @@
                 <ResourceDictionary Source="Resources/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <v:NotConverter x:Key="Not" />
+            <v:RatioStarConverter x:Key="RatioStar" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

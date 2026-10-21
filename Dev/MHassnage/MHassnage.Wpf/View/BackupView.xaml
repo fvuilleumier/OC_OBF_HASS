@@ -8,21 +8,28 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="5" />
-            <RowDefinition Height="120" />
+            <RowDefinition Height="140" />
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Margin="0,0,0,10">
-            <Button DockPanel.Dock="Right" Content="⬇ Exporter HA" Command="{Binding ExportCommand}" Style="{StaticResource AccentButton}"
-                    VerticalAlignment="Center" ToolTip="Exporte Home Assistant dans le dépôt privé" />
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox Content="Sauvegarder les states" IsChecked="{Binding IncludeStates}" Margin="0,0,12,0"
+                          ToolTip="Elements/states.jsonc et Z2m/state.json : utile de temps en temps, mais beaucoup de diff" />
+                <Button Content="⬇ Exporter HA" Command="{Binding ExportCommand}" Style="{StaticResource AccentButton}"
+                        ToolTip="Exporte Home Assistant dans le dépôt privé" />
+            </StackPanel>
             <StackPanel>
                 <TextBlock Text="Sauvegarder HA" FontSize="20" FontWeight="SemiBold" />
-                <TextBlock Text="J'ai modifié HA : exporter dans le dépôt privé, vérifier le diff, commiter" Foreground="{StaticResource MutedTextBrush}" />
+                <TextBlock Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap"
+                           Text="Après une modification faite directement dans Home Assistant (navigateur, smartphone) : récupère la configuration actuelle dans le dépôt privé, montre ce qui a changé, puis commit." />
             </StackPanel>
         </DockPanel>
 
         <v:RepositoryView Grid.Row="1" DataContext="{Binding Repository}" />
 
         <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="Transparent" />
-        <v:LogView Grid.Row="3" DataContext="{Binding Log}" />
+        <v:LogPanel Grid.Row="3" DataContext="{Binding Log}" />
+
+        <v:BusyOverlay Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding Repository}" />
     </Grid>
 </UserControl>

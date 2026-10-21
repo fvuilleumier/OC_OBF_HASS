@@ -1,45 +1,147 @@
-<UserControl x:Class="MHassnage.Wpf.View.StatusView"
+﻿<UserControl x:Class="MHassnage.Wpf.View.StatusView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!-- DataContext : StatusViewController -->
-    <StackPanel>
-        <TextBlock Text="État" FontSize="20" FontWeight="SemiBold" />
-        <TextBlock Text="Dépôts, jeton HA, dernier export" Foreground="{StaticResource MutedTextBrush}" Margin="0,4,0,18" />
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vc="clr-namespace:MHassnage.Wpf.ViewController">
+    <!-- DataContext : StatusViewController. Tableau de bord façon Power BI. -->
+    <UserControl.Resources>
+        <!-- Carte : bandeau de couleur selon l'état, titre, gros indicateurs, détails -->
+        <DataTemplate DataType="{x:Type vc:DashboardCard}">
+            <Border BorderThickness="0,4,0,0">
+                <Border.Style>
+                    <Style TargetType="Border" BasedOn="{StaticResource Card}">
+                        <Setter Property="BorderBrush" Value="#3A404A" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding State}" Value="ok">
+                                <Setter Property="BorderBrush" Value="#6CC17A" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding State}" Value="warning">
+                                <Setter Property="BorderBrush" Value="#F5A623" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding State}" Value="error">
+                                <Setter Property="BorderBrush" Value="#E06C75" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel>
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource CardTitle}" />
+                    <TextBlock Text="{Binding Headline}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,10" />
+                    <ItemsControl ItemsSource="{Binding Kpis}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,24,8">
+                                    <TextBlock Text="{Binding Value}" Style="{StaticResource Kpi}" />
+                                    <TextBlock Text="{Binding Label}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding Details}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                                           TextTrimming="CharacterEllipsis" ToolTip="{Binding}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
 
-        <TextBlock Text="Réglages à compléter" FontWeight="SemiBold" Margin="0,0,0,6">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SettingsProblems.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <ItemsControl ItemsSource="{Binding SettingsProblems}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding StringFormat='• {0}'}" Foreground="#F5A623" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <DockPanel Margin="0,0,0,14">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding UpdatedText}" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <Button Content="⟳ Actualiser" Command="{Binding RefreshCommand}" Style="{StaticResource ActionButton}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="État" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="Vue d'ensemble : Home Assistant, dépôts et Obfuscator" Foreground="{StaticResource MutedTextBrush}" />
+                </StackPanel>
+            </DockPanel>
 
-        <!-- Marche à suivre pour (re)créer le jeton HA -->
-        <Border Margin="0,16,0,0" Padding="12" CornerRadius="4" BorderThickness="1"
-                BorderBrush="#F5A623" Background="{StaticResource BackgroundBrush}">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding TokenHelp}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-            <TextBox Text="{Binding TokenHelp, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
-                     Background="Transparent" BorderThickness="0" FontFamily="Consolas"
-                     Foreground="{StaticResource TextBrush}" />
-        </Border>
-    </StackPanel>
+            <!-- Cartes 2 × 2 -->
+            <UniformGrid Columns="2">
+                <ContentControl Content="{Binding Hass}" />
+                <ContentControl Content="{Binding Obfuscator}" />
+                <ContentControl Content="{Binding PrivateRepo}" />
+                <ContentControl Content="{Binding PublicRepo}" />
+            </UniformGrid>
+
+            <!-- Graphique : entités par domaine -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="ENTITÉS PAR DOMAINE" Style="{StaticResource CardTitle}" />
+                    <ItemsControl ItemsSource="{Binding Domains}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="60" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Label}" Foreground="{StaticResource MutedTextBrush}" />
+                                    <Grid Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding Ratio, Converter={StaticResource RatioStar}, ConverterParameter=fill}" />
+                                            <ColumnDefinition Width="{Binding Ratio, Converter={StaticResource RatioStar}, ConverterParameter=rest}" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Background="{StaticResource AccentBrush}" CornerRadius="2" Height="14" />
+                                    </Grid>
+                                    <TextBlock Grid.Column="2" Text="{Binding Value}" TextAlignment="Right" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Réglages à compléter -->
+            <Border BorderBrush="#F5A623" BorderThickness="0,4,0,0">
+                <Border.Style>
+                    <Style TargetType="Border" BasedOn="{StaticResource Card}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SettingsProblems.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel>
+                    <TextBlock Text="RÉGLAGES À COMPLÉTER" Style="{StaticResource CardTitle}" />
+                    <ItemsControl ItemsSource="{Binding SettingsProblems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StringFormat='• {0}'}" Foreground="#F5A623" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Marche à suivre pour (re)créer le jeton HA -->
+            <Border BorderBrush="#E06C75" BorderThickness="0,4,0,0">
+                <Border.Style>
+                    <Style TargetType="Border" BasedOn="{StaticResource Card}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TokenHelp}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <TextBox Text="{Binding TokenHelp, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
+                         Background="Transparent" BorderThickness="0" FontFamily="Consolas"
+                         Foreground="{StaticResource TextBrush}" />
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

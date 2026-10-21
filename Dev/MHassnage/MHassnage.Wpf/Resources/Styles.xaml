@@ -86,4 +86,42 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <!-- Petit bouton carré à icône -->
+    <Style TargetType="Button" x:Key="IconButton">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="#353B45" CornerRadius="3" Padding="5" Opacity="0.7">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Carte du tableau de bord -->
+    <Style TargetType="Border" x:Key="Card">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Margin" Value="0,0,12,12" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="CardTitle">
+        <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,0,0,6" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="Kpi">
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="FontWeight" Value="Light" />
+    </Style>
+
 </ResourceDictionary>

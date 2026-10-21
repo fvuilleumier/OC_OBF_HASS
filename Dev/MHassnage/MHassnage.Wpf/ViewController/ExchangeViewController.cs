@@ -17,11 +17,11 @@ public sealed record ExchangeIssue(string Kind, string Text, string Detail);
 /// </summary>
 public abstract partial class ExchangeViewController : ObservableObject, IRefreshable
 {
-    protected ExchangeViewController(AppSettings settings, string repositoryPath)
+    protected ExchangeViewController(AppSettings settings, string repositoryKey)
     {
         Settings = settings;
         Obfuscator = new ObfuscatorService(settings.Obfuscator, Log);
-        Repository = new RepositoryViewController(repositoryPath, settings.Git.ExecutablePath, Log);
+        Repository = new RepositoryViewController(settings, repositoryKey, Log);
     }
 
     protected AppSettings Settings { get; }
@@ -74,6 +74,7 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
     {
         try
         {
+            Log.Step("Ouverture de l'Obfuscator");
             Obfuscator.OpenWpf(Dialog);
             StatusText = "Tranche dans l'Obfuscator, puis clique sur « Revérifier ».";
         }
@@ -88,6 +89,7 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
         Issues.Clear();
         NeedsObfuscator = false;
 
+        Log.Step("Simulation dans l'Obfuscator (rien n'est écrit)");
         var simulation = await SimulateAsync();
         ShowIssues(simulation);
         if (simulation.Code != ObfuscatorExitCode.Ok)
@@ -99,6 +101,7 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
             return;
         }
 
+        Log.Step("Tout passe : application par l'Obfuscator");
         var result = await ApplyAsync();
         ShowIssues(result);
         if (result.Code != ObfuscatorExitCode.Ok)
@@ -120,7 +123,7 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
     {
         Issues.Clear();
         foreach (var p in report.Pending)
-            Issues.Add(new ExchangeIssue(p.Kind, p.Value,
+            Issues.Add(new ExchangeIssue(p.Kind == "VocabularyCandidate" ? "Suggestion (non bloquant)" : "À trancher", p.Value,
                 $"{p.Occurrences} occurrence(s) · {string.Join(", ", p.Files.Take(3))}{(p.Files.Count > 3 ? "…" : "")}"));
         foreach (var c in report.Conflicts)
             Issues.Add(new ExchangeIssue(c.Reason, c.Path, c.Count > 0 ? $"{c.Count} conflit(s)" : "choix à faire"));
@@ -162,7 +165,7 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
 /// publication directe si tout passe → diff et commit du dépôt public.
 /// </summary>
 public sealed class PrepareForAiViewController(AppSettings settings)
-    : ExchangeViewController(settings, settings.Repositories.Public.Path)
+    : ExchangeViewController(settings, "Public")
 {
     public override string Title => "Préparer pour l'IA";
     public override string Description => "Exporter HA, pseudonymiser et publier vers le dépôt public";
@@ -181,7 +184,7 @@ public sealed class PrepareForAiViewController(AppSettings settings)
 /// rapatriement direct si aucun conflit → diff et commit du dépôt privé.
 /// </summary>
 public sealed class RetrieveAiWorkViewController(AppSettings settings)
-    : ExchangeViewController(settings, settings.Repositories.Private.Path)
+    : ExchangeViewController(settings, "Private")
 {
     public override string Title => "Récupérer le travail de l'IA";
     public override string Description => "Rapatrier les modifications de l'IA vers le dépôt privé";
@@ -195,6 +198,7 @@ public sealed class RetrieveAiWorkViewController(AppSettings settings)
         try
         {
             var publicRepo = new GitService(Settings.Repositories.Public.Path, Settings.Git.ExecutablePath, Log);
+            Log.Step("Pull du dépôt public");
             await Task.Run(() => publicRepo.PullAsync());
             return true;
         }

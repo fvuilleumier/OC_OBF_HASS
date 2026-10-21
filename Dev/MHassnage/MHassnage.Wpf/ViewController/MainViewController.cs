@@ -29,6 +29,7 @@ public sealed partial class MainViewController : ObservableObject
 
         _selected = Operations[0];
         _currentPanel = PanelFor(_selected);
+        if (_currentPanel is IRefreshable refreshable) _ = refreshable.RefreshAsync();
     }
 
     public IReadOnlyList<OperationItem> Operations { get; }

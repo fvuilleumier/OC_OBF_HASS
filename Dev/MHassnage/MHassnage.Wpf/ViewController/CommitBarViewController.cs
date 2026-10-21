@@ -11,18 +11,20 @@ public sealed partial class CommitBarViewController(IRepositoryPanel panel) : Ob
 
     /// <summary>Pull en avance rapide uniquement : jamais de merge implicite.</summary>
     [RelayCommand]
-    private Task PullAsync() => RunAsync(() => panel.Git.PullAsync());
+    private Task PullAsync() => RunAsync(() => { panel.Log.Step("Pull (avance rapide)"); return panel.Git.PullAsync(); });
 
     [RelayCommand]
     private Task CommitAsync() => RunAsync(Commit);
 
     [RelayCommand]
-    private Task PushAsync() => RunAsync(() => panel.Git.PushAsync());
+    private Task PushAsync() => RunAsync(() => { panel.Log.Step("Push"); return panel.Git.PushAsync(); });
 
     [RelayCommand]
     private Task CommitAndPushAsync() => RunAsync(async () =>
     {
-        if (await Commit()) await panel.Git.PushAsync();
+        if (!await Commit()) return;
+        panel.Log.Step("Push");
+        await panel.Git.PushAsync();
     });
 
     private async Task<bool> Commit()
@@ -31,6 +33,7 @@ public sealed partial class CommitBarViewController(IRepositoryPanel panel) : Ob
         if (entries.Count == 0) { panel.Log.Error("Aucun fichier ni bloc coché."); return false; }
         if (string.IsNullOrWhiteSpace(Message)) { panel.Log.Error("Message de commit vide."); return false; }
 
+        panel.Log.Step($"Commit de {entries.Count} fichier(s)");
         await panel.Git.CommitAsync(entries, Message.Trim());
         Message = "";
         return true;

@@ -23,13 +23,17 @@ public sealed partial class BackupViewController : ObservableObject, IRefreshabl
     public BackupViewController(AppSettings settings)
     {
         _settings = settings;
-        Repository = new RepositoryViewController(settings.Repositories.Private.Path, settings.Git.ExecutablePath, Log);
+        Repository = new RepositoryViewController(settings, "Private", Log);
     }
 
     public LogViewController Log { get; } = new();
     public RepositoryViewController Repository { get; }
 
     public Task RefreshAsync() => Repository.RefreshAsync();
+
+    /// <summary>Faux par défaut : les states font beaucoup de diff pour peu d'intérêt.</summary>
+    [ObservableProperty]
+    private bool _includeStates;
 
     /// <summary>Export de HA dans le dépôt privé, puis relecture des modifications.</summary>
     [RelayCommand]
@@ -40,7 +44,7 @@ public sealed partial class BackupViewController : ObservableObject, IRefreshabl
         try
         {
             Log.Clear();
-            await HassExportStep.RunAsync(_settings, Log);
+            await HassExportStep.RunAsync(_settings, Log, IncludeStates);
             Repository.SuggestMessage($"Sauvegarde HA du {DateTime.Now:dd.MM.yyyy HH:mm}");
         }
         finally
@@ -55,11 +59,12 @@ public sealed partial class BackupViewController : ObservableObject, IRefreshabl
 internal static class HassExportStep
 {
     /// <returns>Vrai si l'export a réussi.</returns>
-    public static async Task<bool> RunAsync(AppSettings settings, LogViewController log)
+    public static async Task<bool> RunAsync(AppSettings settings, LogViewController log, bool includeStates = false)
     {
         try
         {
-            await Task.Run(() => new HassExportService(settings, log).ExportAsync());
+            log.Step(includeStates ? "Export de Home Assistant (avec les states)" : "Export de Home Assistant (sans les states)");
+            await Task.Run(() => new HassExportService(settings, log).ExportAsync(includeStates: includeStates));
             log.Success("Export terminé.");
             return true;
         }

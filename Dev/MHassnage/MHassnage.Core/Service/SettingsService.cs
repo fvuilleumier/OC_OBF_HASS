@@ -78,6 +78,32 @@ public static class SettingsService
         return problems;
     }
 
+    /// <summary>Ajoute une règle d'exclusion au dépôt (« Private » ou « Public ») et l'enregistre.</summary>
+    public static void AddExclusion(AppSettings settings, string repository, string rule)
+    {
+        var repo = repository == "Public" ? settings.Repositories.Public : settings.Repositories.Private;
+        if (repo.Excluded.Contains(rule, StringComparer.OrdinalIgnoreCase)) return;
+        repo.Excluded.Add(rule);
+
+        string path = SettingsPath;
+        var root = JsonNode.Parse(File.ReadAllText(path), documentOptions: new JsonDocumentOptions
+        {
+            CommentHandling = JsonCommentHandling.Skip,
+            AllowTrailingCommas = true,
+        })!.AsObject();
+        var repos = (root["Repositories"] ??= new JsonObject()).AsObject();
+        var node = (repos[repository] ??= new JsonObject()).AsObject();
+        node["Excluded"] = new JsonArray(repo.Excluded.Select(r => (JsonNode)JsonValue.Create(r)!).ToArray());
+        Write(path, root);
+    }
+
+    private static void Write(string path, JsonNode root) =>
+        File.WriteAllText(path, root.ToJsonString(new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        }));
+
     private static bool IsPlaceholder(string? value) =>
         string.IsNullOrWhiteSpace(value) || value.Contains("À_COMPLÉTER", StringComparison.Ordinal);
 
@@ -112,11 +138,6 @@ public static class SettingsService
             changed = true;
         }
 
-        if (changed)
-            File.WriteAllText(path, root.ToJsonString(new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            }));
+        if (changed) Write(path, root);
     }
 }

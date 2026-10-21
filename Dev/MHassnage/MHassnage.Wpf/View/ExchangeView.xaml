@@ -9,13 +9,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="5" />
-            <RowDefinition Height="120" />
+            <RowDefinition Height="140" />
         </Grid.RowDefinitions>
 
         <!-- En-tête : titre, option, lancement -->
         <DockPanel Grid.Row="0" Margin="0,0,0,8">
-            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center"
-                        IsEnabled="{Binding Repository.IsBusy, Converter={StaticResource Not}}">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                 <CheckBox Content="{Binding PreStepLabel}" IsChecked="{Binding RunPreStep}" Margin="0,0,10,0" />
                 <Button Content="{Binding RunLabel}" Command="{Binding RunCommand}" Style="{StaticResource AccentButton}" />
             </StackPanel>
@@ -42,8 +41,7 @@
                 </Style>
             </Border.Style>
             <DockPanel>
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top"
-                            IsEnabled="{Binding Repository.IsBusy, Converter={StaticResource Not}}">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -82,6 +80,8 @@
         <v:RepositoryView Grid.Row="2" DataContext="{Binding Repository}" />
 
         <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Background="Transparent" />
-        <v:LogView Grid.Row="4" DataContext="{Binding Log}" />
+        <v:LogPanel Grid.Row="4" DataContext="{Binding Log}" />
+
+        <v:BusyOverlay Grid.Row="0" Grid.RowSpan="3" DataContext="{Binding Repository}" />
     </Grid>
 </UserControl>

@@ -15,14 +15,57 @@ public sealed partial class RepositoryViewController : ObservableObject, IReposi
     private RepoState? _state;
     private CancellationTokenSource? _diffLoading;
 
-    public RepositoryViewController(string path, string gitExecutable, LogViewController log)
+    private readonly AppSettings _settings;
+    private readonly string _repositoryKey;
+
+    /// <param name="repositoryKey">« Private » ou « Public » (section de Repositories).</param>
+    public RepositoryViewController(AppSettings settings, string repositoryKey, LogViewController log)
     {
+        _settings = settings;
+        _repositoryKey = repositoryKey;
         Log = log;
-        Git = new GitService(path, gitExecutable, log);
+        Git = new GitService(Settings.Path, settings.Git.ExecutablePath, log);
         CommitBar = new CommitBarViewController(this);
     }
 
+    private RepositorySettings Settings =>
+        _repositoryKey == "Public" ? _settings.Repositories.Public : _settings.Repositories.Private;
+
+    public string Name => _repositoryKey == "Public" ? "dépôt public" : "dépôt privé";
+
     public GitService Git { get; }
+
+    /// <summary>Fichiers modifiés masqués par les exclusions.</summary>
+    [ObservableProperty]
+    private int _excludedCount;
+
+    /// <summary>Exclut le fichier sélectionné (enregistré dans la configuration).</summary>
+    [RelayCommand]
+    private Task ExcludeFileAsync(ChangeItem? item) => ExcludeAsync(item?.Change.Path);
+
+    /// <summary>Exclut le dossier du fichier sélectionné.</summary>
+    [RelayCommand]
+    private Task ExcludeFolderAsync(ChangeItem? item)
+    {
+        string? path = item?.Change.Path;
+        int slash = path?.LastIndexOf('/') ?? -1;
+        return ExcludeAsync(slash > 0 ? path![..(slash + 1)] : null);
+    }
+
+    private async Task ExcludeAsync(string? rule)
+    {
+        if (rule is null) return;
+        try
+        {
+            SettingsService.AddExclusion(_settings, _repositoryKey, rule);
+            Log.Step($"Exclusion ajoutée au {Name} : {rule}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Exclusion non enregistrée : {ex.Message}");
+        }
+        await RefreshAsync();
+    }
     public LogViewController Log { get; }
     public CommitBarViewController CommitBar { get; }
     public ObservableCollection<ChangeItem> Changes { get; } = [];
@@ -72,12 +115,16 @@ public sealed partial class RepositoryViewController : ObservableObject, IReposi
         try
         {
             string? selected = SelectedChange?.Change.Path;
+            Log.Step($"Lecture du {Name}");
             _state = await Task.Run(() => Git.GetStateAsync());
 
-            RepoText = $"{_state.Root}  ·  {_state.Branch}  ·  {_state.SyncText}  ·  {_state.Changes.Count} fichier(s) modifié(s)";
+            var visible = _state.Changes.Where(c => !Exclusions.IsExcluded(c.Path, Settings.Excluded)).ToList();
+            ExcludedCount = _state.Changes.Count - visible.Count;
+            RepoText = $"{_state.Root}  ·  {_state.Branch}  ·  {_state.SyncText}  ·  {visible.Count} fichier(s) modifié(s)"
+                       + (ExcludedCount > 0 ? $" (+{ExcludedCount} exclu(s))" : "");
 
             Changes.Clear();
-            foreach (var change in _state.Changes) Changes.Add(new ChangeItem(change));
+            foreach (var change in visible) Changes.Add(new ChangeItem(change));
             SelectedChange = Changes.FirstOrDefault(c => c.Change.Path == selected) ?? Changes.FirstOrDefault();
             if (SelectedChange is null) Diff = null;
         }

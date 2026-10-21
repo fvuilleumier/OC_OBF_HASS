@@ -8,6 +8,7 @@ namespace MHassnage.HassExport.Cli;
 /// Console mince : exporte HA vers le dépôt privé.
 ///   mhassnage-export                 → export dans Repositories:Private (ExportFolder)
 ///   mhassnage-export --output &lt;dir&gt;  → export dans un autre dossier (comparaison, test)
+///   mhassnage-export --no-states     → sans les states (Elements/states.jsonc, Z2m/state.json)
 /// Codes de retour : 0 OK, 1 erreur, 2 jeton absent ou refusé, 3 réglages incomplets.
 /// </summary>
 internal static class Program
@@ -52,7 +53,7 @@ internal static class Program
 
         try
         {
-            await new HassExportService(settings, new SynchronousProgress(ColorConsole.Log)).ExportAsync(output);
+            await new HassExportService(settings, new SynchronousProgress(ColorConsole.Log)).ExportAsync(output, includeStates: !args.Contains("--no-states", StringComparer.OrdinalIgnoreCase));
             ColorConsole.Success("Export terminé.");
             return 0;
         }

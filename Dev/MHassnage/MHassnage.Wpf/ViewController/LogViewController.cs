@@ -1,18 +1,22 @@
 using System.Collections.ObjectModel;
 using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace MHassnage.Wpf.ViewController;
 
 /// <summary>Niveau d'une ligne de journal, déduit de son préfixe (comme la console).</summary>
-public enum LogLevel { Info, Ok, Warning, Error }
+public enum LogLevel { Info, Step, Ok, Warning, Error }
 
-public sealed record LogLine(DateTime Time, LogLevel Level, string Text);
+public sealed record LogLine(DateTime Time, LogLevel Level, string Text)
+{
+    public string TimeText => Time.ToString("HH:mm:ss");
+}
 
 /// <summary>
-/// Journal d'un panel. Reçoit les mêmes lignes que la console (« OK  … », « ERREUR  … »),
-/// depuis n'importe quel thread.
+/// Journal d'un panel. Reçoit les lignes des services (« OK  … », « ERREUR  … ») depuis
+/// n'importe quel thread, et les étapes propres à MHassnage (<see cref="Step"/>).
 /// </summary>
-public sealed class LogViewController : IProgress<string>
+public sealed partial class LogViewController : ObservableObject, IProgress<string>
 {
     private static readonly (string Prefix, LogLevel Level)[] Prefixes =
     [
@@ -23,6 +27,10 @@ public sealed class LogViewController : IProgress<string>
     ];
 
     public ObservableCollection<LogLine> Lines { get; } = [];
+
+    /// <summary>Vrai quand le journal est affiché dans sa propre fenêtre.</summary>
+    [ObservableProperty]
+    private bool _isPoppedOut;
 
     public void Report(string value)
     {
@@ -38,8 +46,11 @@ public sealed class LogViewController : IProgress<string>
         Add(level, text);
     }
 
+    /// <summary>Étape de MHassnage (« ▶ Export de Home Assistant »).</summary>
+    public void Step(string text) => Add(LogLevel.Step, $"▶ {text}");
+
     public void Error(string text) => Add(LogLevel.Error, $"[ERREUR] {text}");
-    public void Success(string text) => Add(LogLevel.Ok, text);
+    public void Success(string text) => Add(LogLevel.Ok, $"[OK] {text}");
 
     public void Clear() => Dispatch(Lines.Clear);
 

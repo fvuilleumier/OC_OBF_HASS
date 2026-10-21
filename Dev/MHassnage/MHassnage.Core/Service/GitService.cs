@@ -41,6 +41,15 @@ public sealed class GitService(string repositoryPath, string gitExecutable = "gi
         return new RepoState(root, branch, upstream, ahead, behind, ParseStatus(status.Output));
     }
 
+    /// <summary>Dernier commit (date, message) ; null si le dépôt est vide.</summary>
+    public async Task<(DateTimeOffset Date, string Subject)?> LastCommitAsync(CancellationToken ct = default)
+    {
+        var result = await RunAsync(["log", "-1", "--format=%cI%x1f%s"], ct: ct);
+        string[] parts = result.Output.Trim().Split('\x1f');
+        if (!result.Success || parts.Length < 2 || !DateTimeOffset.TryParse(parts[0], out var date)) return null;
+        return (date, parts[1]);
+    }
+
     /// <summary>Contenu d'un fichier au dernier commit ; "" s'il n'existe pas dans HEAD.</summary>
     public async Task<string> ReadAtHeadAsync(string path, CancellationToken ct = default)
     {

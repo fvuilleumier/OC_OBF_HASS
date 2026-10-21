@@ -10,14 +10,14 @@ public static class YamlService
     private static readonly ISerializer Serializer = new SerializerBuilder()
         .WithIndentedSequences()
         // Une chaîne qui ressemble à un nombre ou un booléen est mise entre guillemets :
-        // indispensable pour relire le YAML sans changer les types (Appliquer dans HA)
+        // indispensable pour relire le YAML sans changer les types (Appliquer dans Hass)
         .WithQuotingNecessaryStrings()
         .Build();
 
     public static string ToYaml(JsonElement json) => Serializer.Serialize(ToObject(json));
 
     /// <summary>
-    /// YAML → JSON pour renvoyer un dashboard à HA. Scalaire entre guillemets ou en bloc = chaîne ;
+    /// YAML → JSON pour renvoyer un dashboard à Hass. Scalaire entre guillemets ou en bloc = chaîne ;
     /// sinon null / booléen / entier / décimal selon sa forme (schéma YAML 1.2 « core »).
     /// </summary>
     public static JsonNode? FromYaml(string yaml)

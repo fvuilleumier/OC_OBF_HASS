@@ -1,4 +1,4 @@
-namespace MHassnage.Core.Model;
+﻿namespace MHassnage.Core.Model;
 
 /// <summary>Point de contrôle affiché dans l'état (« Zigbee2MQTT 2.1 → 2.2 »).</summary>
 public sealed record HealthItem(string Text, string? Detail = null, bool Serious = false);
@@ -16,7 +16,7 @@ public sealed class HassHealth
     /// <summary>Mises à jour disponibles (entités update.* à « on »).</summary>
     public List<HealthItem> Updates { get; } = [];
 
-    /// <summary>Problèmes signalés par HA (Paramètres → Réparations), hors ignorés.</summary>
+    /// <summary>Problèmes signalés par Hass (Paramètres → Réparations), hors ignorés.</summary>
     public List<HealthItem> Repairs { get; } = [];
 
     /// <summary>Notifications persistantes non lues.</summary>
@@ -29,10 +29,10 @@ public sealed class HassHealth
     /// <summary>Points de sécurité : comptes admin, MFA, jetons, accès externe.</summary>
     public List<HealthItem> Security { get; } = [];
 
-    /// <summary>Dernière sauvegarde HA réussie ; null si inconnue ou aucune.</summary>
+    /// <summary>Dernière sauvegarde Hass réussie ; null si inconnue ou aucune.</summary>
     public DateTimeOffset? LastBackup { get; set; }
     public int BackupCount { get; set; }
 
-    /// <summary>Commandes non disponibles sur cette version de HA (ignorées sans erreur).</summary>
+    /// <summary>Commandes non disponibles sur cette version de Hass (ignorées sans erreur).</summary>
     public List<string> Skipped { get; } = [];
 }

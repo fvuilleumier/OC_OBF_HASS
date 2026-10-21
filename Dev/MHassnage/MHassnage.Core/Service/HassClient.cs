@@ -1,4 +1,4 @@
-using MHassnage.Core.Model.OwnException;
+﻿using MHassnage.Core.Model.OwnException;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -21,7 +21,7 @@ public sealed class HassClient : IAsyncDisposable
 
     private HassClient() => _socket.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
 
-    /// <summary>Version de HA annoncée à la connexion.</summary>
+    /// <summary>Version de Hass annoncée à la connexion.</summary>
     public string HaVersion { get; private set; } = "";
 
     /// <exception cref="HassAuthException">Jeton refusé.</exception>

@@ -1,4 +1,4 @@
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -8,12 +8,12 @@ using MHassnage.Core.Model.OwnException;
 namespace MHassnage.Core.Service;
 
 /// <summary>
-/// « Appliquer dans HA » : compare le dépôt privé à HA, sauvegarde ce qui va être remplacé,
+/// « Appliquer dans Hass » : compare le dépôt privé à Hass, sauvegarde ce qui va être remplacé,
 /// écrit (Samba pour les fichiers, lovelace/config/save pour les dashboards), vérifie la
-/// configuration puis redémarre HA si un fichier de configuration a changé.
+/// configuration puis redémarre Hass si un fichier de configuration a changé.
 /// La même mécanique sert à « Restaurer la version précédente ».
 ///
-/// Ne fait jamais : supprimer un fichier de HA absent du dépôt, écrire les states
+/// Ne fait jamais : supprimer un fichier de Hass absent du dépôt, écrire les states
 /// (Hass:StateFiles), écrire les éléments JSON (Elements/*.jsonc, lecture seule).
 /// </summary>
 public sealed class HassApplyService(AppSettings settings, IProgress<string>? log = null)
@@ -26,8 +26,8 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
 
     // ================================================================ Analyse
 
-    /// <summary>Liste les éléments du dépôt privé et leur version actuelle dans HA.</summary>
-    /// <param name="unmappedNames">Nom côté HA choisi pour les fichiers sans correspondance (clé : chemin dans le dépôt).</param>
+    /// <summary>Liste les éléments du dépôt privé et leur version actuelle dans Hass.</summary>
+    /// <param name="unmappedNames">Nom côté Hass choisi pour les fichiers sans correspondance (clé : chemin dans le dépôt).</param>
     public async Task<List<ApplyItem>> AnalyzeAsync(IReadOnlyDictionary<string, string>? unmappedNames = null, CancellationToken ct = default)
     {
         EnsureSamba();
@@ -116,7 +116,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
         return items;
     }
 
-    /// <summary>Relit dans HA le contenu actuel d'un fichier (après changement de son nom côté HA).</summary>
+    /// <summary>Relit dans Hass le contenu actuel d'un fichier (après changement de son nom côté Hass).</summary>
     public string? ReadHaFile(string haPath)
     {
         string full = Path.Combine(SambaRoot, haPath);
@@ -126,7 +126,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
     // ================================================================ Application
 
     /// <summary>
-    /// Sauvegarde puis écrit les éléments ; vérifie la configuration et recharge / redémarre HA.
+    /// Sauvegarde puis écrit les éléments ; vérifie la configuration et recharge / redémarre Hass.
     /// </summary>
     /// <returns>Dossier de la sauvegarde prise avant l'écriture.</returns>
     public async Task<string> ApplyAsync(IReadOnlyList<ApplyItem> items, CancellationToken ct = default)
@@ -141,20 +141,20 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
         foreach (var c in changes.Where(c => c.Target.Kind == ApplyKind.Dashboard && c.Content is null))
             throw new InvalidOperationException($"YAML vide ou illisible pour le {c.Target}.");
 
-        string backup = await WriteAsync(changes, "Appliquer dans HA", ct);
+        string backup = await WriteAsync(changes, "Appliquer dans Hass", ct);
 
         // Nouveaux fichiers : correspondance enregistrée pour que l'export les ramène sous le même nom
         foreach (var i in items.Where(i => i.IsUnmapped))
         {
             SettingsService.AddElement(settings, i.Target.Key, i.RepoPath);
-            Log($"OK  correspondance enregistrée : {i.Target.Key} (HA) ↔ {i.RepoPath} (dépôt)");
+            Log($"OK  correspondance enregistrée : {i.Target.Key} (Hass) ↔ {i.RepoPath} (dépôt)");
         }
 
         await ReloadAsync(changes.Select(c => c.Category).ToHashSet(), ct);
         return backup;
     }
 
-    /// <summary>Remet HA dans l'état d'une sauvegarde (elle-même sauvegardée avant, donc réversible).</summary>
+    /// <summary>Remet Hass dans l'état d'une sauvegarde (elle-même sauvegardée avant, donc réversible).</summary>
     public async Task RestoreAsync(ApplyBackup backup, CancellationToken ct = default)
     {
         EnsureSamba();
@@ -192,7 +192,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
             manifest.Entries.Add(entry);
         }
         await File.WriteAllTextAsync(Path.Combine(folder, "manifest.json"), JsonSerializer.Serialize(manifest, Indented), Utf8, ct);
-        Log($"OK  sauvegarde de la version actuelle de HA : {folder}");
+        Log($"OK  sauvegarde de la version actuelle de Hass : {folder}");
         Prune();
 
         // 2. Écriture : fichiers d'abord (un nouveau fichier inclus doit exister avant configuration.yaml)
@@ -207,7 +207,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
                 continue;
             }
             Directory.CreateDirectory(Path.GetDirectoryName(full)!);
-            // HA tourne sous Linux : fins de ligne « \n », UTF-8 sans BOM
+            // Hass tourne sous Linux : fins de ligne « \n », UTF-8 sans BOM
             await File.WriteAllTextAsync(full, c.Content.Replace("\r\n", "\n"), Utf8, ct);
             Log($"OK  écrit : {c.Target.Key}");
         }
@@ -236,7 +236,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
             var check = await CheckConfigAsync(ct);
             if (check.Valid == false)
                 throw new InvalidOperationException(
-                    $"Configuration invalide, HA n'a PAS été redémarré : {check.Errors}\n" +
+                    $"Configuration invalide, Hass n'a PAS été redémarré : {check.Errors}\n" +
                     "Corrige le fichier, ou « Restaurer la version précédente ».");
             Log(check.Valid == true ? "OK  configuration valide" : "ABSENT  vérification de la configuration indisponible : redémarrage quand même");
 
@@ -252,7 +252,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
         }
     }
 
-    /// <summary>Vérification de configuration de HA (POST /api/config/core/check_config).</summary>
+    /// <summary>Vérification de configuration de Hass (POST /api/config/core/check_config).</summary>
     public async Task<ConfigCheck> CheckConfigAsync(CancellationToken ct = default)
     {
         Log("Vérification de la configuration par Home Assistant…");
@@ -271,7 +271,7 @@ public sealed class HassApplyService(AppSettings settings, IProgress<string>? lo
         }
     }
 
-    /// <summary>Redémarre HA puis attend qu'il réponde de nouveau (5 min max).</summary>
+    /// <summary>Redémarre Hass puis attend qu'il réponde de nouveau (5 min max).</summary>
     public async Task RestartAsync(CancellationToken ct = default)
     {
         Log("Redémarrage de Home Assistant…");

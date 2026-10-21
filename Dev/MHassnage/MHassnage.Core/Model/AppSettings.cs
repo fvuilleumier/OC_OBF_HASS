@@ -19,7 +19,7 @@ public sealed class HealthSettings
     /// <summary>Batterie en rouge en dessous de ce pourcentage.</summary>
     public int BatteryCriticalPercent { get; set; } = 10;
 
-    /// <summary>Sauvegarde HA signalée au-delà de ce nombre de jours.</summary>
+    /// <summary>Sauvegarde Hass signalée au-delà de ce nombre de jours.</summary>
     public int BackupMaxAgeDays { get; set; } = 7;
 
     /// <summary>Jeton longue durée inutilisé depuis plus de ce nombre de jours : signalé.</summary>
@@ -37,7 +37,7 @@ public sealed class HassSettings
     /// <summary>Jeton longue durée : chiffré dans %APPDATA%\MHassnage\appsettings.json, en clair en mémoire seulement.</summary>
     public string Token { get; set; } = "";
 
-    /// <summary>Partage Samba du dossier /config de HA.</summary>
+    /// <summary>Partage Samba du dossier /config de Hass.</summary>
     public string DefaultSambaHassPath { get; set; } = "";
 
     public List<string> Keys { get; set; } = [];
@@ -54,7 +54,7 @@ public sealed class HassSettings
     public List<string> StateFiles { get; set; } = ["state.json"];
 
     /// <summary>
-    /// Sauvegardes prises avant chaque « Appliquer dans HA » (version qui marchait),
+    /// Sauvegardes prises avant chaque « Appliquer dans Hass » (version qui marchait),
     /// pour « Restaurer la version précédente ». Vide = %APPDATA%\MHassnage\HassBackups.
     /// </summary>
     public string ApplyBackupFolder { get; set; } = "";

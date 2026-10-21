@@ -1,10 +1,10 @@
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace MHassnage.Core.Service;
 
 /// <summary>
-/// Chiffre les secrets de la configuration (jeton HA…) avec une clé propre à
+/// Chiffre les secrets de la configuration (jeton Hass…) avec une clé propre à
 /// l'application : la valeur se relit sur n'importe quel poste où MHassnage est
 /// installé, mais reste illisible pour qui trouve le fichier seul (sauvegarde,
 /// copie, synchronisation).

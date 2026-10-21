@@ -1,8 +1,8 @@
-namespace MHassnage.Core.Model;
+﻿namespace MHassnage.Core.Model;
 
 /// <summary>
-/// Marche à suivre pour (re)créer le jeton HA : affichée quand il manque,
-/// et quand HA le refuse (expiré ou révoqué).
+/// Marche à suivre pour (re)créer le jeton Hass : affichée quand il manque,
+/// et quand Hass le refuse (expiré ou révoqué).
 /// </summary>
 public static class HassTokenHelp
 {
@@ -10,12 +10,12 @@ public static class HassTokenHelp
         Le jeton d'accès Home Assistant est absent, expiré ou révoqué.
         Pour en créer un nouveau :
 
-          1. Ouvrir HA dans le navigateur ({hassUrl}).
+          1. Ouvrir Hass dans le navigateur ({hassUrl}).
           2. Cliquer sur son nom d'utilisateur, en bas à gauche (page /profile).
           3. Ouvrir l'onglet « Sécurité » (/profile/security).
           4. Dans « Jetons d'accès longue durée », cliquer sur « Créer un jeton ».
           5. Le nommer (par exemple « MHassnage ») et valider.
-          6. Copier le jeton tout de suite : HA ne l'affiche qu'une seule fois.
+          6. Copier le jeton tout de suite : Hass ne l'affiche qu'une seule fois.
 
         Le coller ensuite en clair dans :
           {settingsPath}

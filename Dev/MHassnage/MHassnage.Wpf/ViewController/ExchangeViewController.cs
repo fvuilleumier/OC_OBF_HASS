@@ -179,16 +179,16 @@ public abstract partial class ExchangeViewController : ObservableObject, IRefres
 }
 
 /// <summary>
-/// « Préparer pour l'IA » : export HA (option) → simulation de publication →
+/// « Préparer pour l'IA » : export Hass (option) → simulation de publication →
 /// publication directe si tout passe → diff et commit du dépôt public.
 /// </summary>
 public sealed class PrepareForAiViewController(AppSettings settings)
     : ExchangeViewController(settings, "Public")
 {
     public override string Title => "Préparer pour l'IA";
-    public override string Description => "Exporter HA, pseudonymiser et publier vers le dépôt public";
+    public override string Description => "Exporter Hass, pseudonymiser et publier vers le dépôt public";
     public override string RunLabel => "▶ Préparer";
-    public override string PreStepLabel => "Exporter HA d'abord";
+    public override string PreStepLabel => "Exporter Hass d'abord";
     protected override ObfuscatorDialog Dialog => ObfuscatorDialog.Publish;
     protected override string CommitMessage => $"Publication pour l'IA du {DateTime.Now:dd.MM.yyyy HH:mm}";
 

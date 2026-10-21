@@ -82,6 +82,24 @@
         <Setter Property="Padding" Value="6,4" />
     </Style>
 
+    <!-- En-tête de panel : hauteur fixe, identique partout (pas de saut en changeant de panel) -->
+    <Style TargetType="DockPanel" x:Key="PanelHeader">
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+        <Setter Property="LastChildFill" Value="True" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="PanelTitle">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="PanelDescription">
+        <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+        <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+    </Style>
+
     <!-- Case à cocher sombre, pour toute l'application (style implicite) -->
     <Style TargetType="CheckBox">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />

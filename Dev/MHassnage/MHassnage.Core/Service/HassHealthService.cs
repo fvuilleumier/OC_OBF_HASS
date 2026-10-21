@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.Json.Nodes;
 using MHassnage.Core.Model;
 using MHassnage.Core.Model.OwnException;
@@ -6,8 +6,8 @@ using MHassnage.Core.Model.OwnException;
 namespace MHassnage.Core.Service;
 
 /// <summary>
-/// Relevé de santé et de sécurité de HA via WebSocket, en lecture seule.
-/// Chaque commande est facultative : si la version de HA ne la connaît pas, elle est ignorée.
+/// Relevé de santé et de sécurité de Hass via WebSocket, en lecture seule.
+/// Chaque commande est facultative : si la version de Hass ne la connaît pas, elle est ignorée.
 /// </summary>
 public sealed class HassHealthService(AppSettings settings)
 {

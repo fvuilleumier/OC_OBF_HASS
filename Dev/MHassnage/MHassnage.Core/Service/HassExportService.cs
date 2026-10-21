@@ -7,7 +7,7 @@ using MHassnage.Core.Model.OwnException;
 namespace MHassnage.Core.Service;
 
 /// <summary>
-/// Export complet de HA vers un dossier (par défaut l'export du dépôt privé) :
+/// Export complet de Hass vers un dossier (par défaut l'export du dépôt privé) :
 ///   1. fichiers YAML copiés depuis le partage Samba (automations, configuration, thèmes, Z2m) ;
 ///   2. éléments (états, registres…) lus en WebSocket → Elements/&lt;clé&gt;.jsonc ;
 ///   3. dashboards (lovelace/config) → Dashboards/&lt;nom&gt;.yaml + une copie par vue.
@@ -205,7 +205,7 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
 
             string viewsFolder = Path.Combine(folder, "views", name);
             Directory.CreateDirectory(viewsFolder);
-            // Vues supprimées ou renommées dans HA : leurs anciens fichiers ne doivent pas survivre
+            // Vues supprimées ou renommées dans Hass : leurs anciens fichiers ne doivent pas survivre
             foreach (string old in Directory.EnumerateFiles(viewsFolder, "*.yaml")) File.Delete(old);
             int i = 0;
             foreach (var view in views)

@@ -79,7 +79,7 @@ public static class SettingsService
     }
 
     /// <summary>
-    /// Ajoute une correspondance fichier HA ↔ fichier du dépôt (Hass:Elements) et l'enregistre :
+    /// Ajoute une correspondance fichier Hass ↔ fichier du dépôt (Hass:Elements) et l'enregistre :
     /// l'export suivant ramènera le fichier sous le même nom dans le dépôt.
     /// </summary>
     public static void AddElement(AppSettings settings, string haName, string repoName)

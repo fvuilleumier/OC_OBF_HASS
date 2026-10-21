@@ -27,7 +27,7 @@ public sealed partial class ApplyItemViewModel : ObservableObject
     [ObservableProperty]
     private bool _isChecked;
 
-    /// <summary>Nom du fichier dans HA (modifiable pour un nouveau fichier : « Helpers.yaml » → « helper.yaml »).</summary>
+    /// <summary>Nom du fichier dans Hass (modifiable pour un nouveau fichier : « Helpers.yaml » → « helper.yaml »).</summary>
     [ObservableProperty]
     private string _haName;
 
@@ -38,8 +38,8 @@ public sealed partial class ApplyItemViewModel : ObservableObject
     public string Text => Item.Target.Kind == ApplyKind.Dashboard ? $"{Item.RepoPath}  →  {Item.Target}" : Item.RepoPath;
 
     public string Warning => Item.ChangedInHa
-        ? "⚠ Modifié dans HA depuis le dernier commit : l'appliquer écrasera ces changements (décoché par défaut)."
-        : Item.IsUnmapped ? "Nouveau fichier : vérifie son nom dans HA (casse comprise)." : "";
+        ? "⚠ Modifié dans Hass depuis le dernier commit : l'appliquer écrasera ces changements (décoché par défaut)."
+        : Item.IsUnmapped ? "Nouveau fichier : vérifie son nom dans Hass (casse comprise)." : "";
 
     public void Refresh()
     {
@@ -49,16 +49,16 @@ public sealed partial class ApplyItemViewModel : ObservableObject
 }
 
 /// <summary>
-/// « Appliquer dans HA » : diff HA actuel ↔ dépôt privé, sélection, écriture avec sauvegarde
+/// « Appliquer dans Hass » : diff Hass actuel ↔ dépôt privé, sélection, écriture avec sauvegarde
 /// préalable, vérification de la configuration, redémarrage, export de contrôle.
-/// « Restaurer la version précédente » remet HA dans l'état d'une sauvegarde.
+/// « Restaurer la version précédente » remet Hass dans l'état d'une sauvegarde.
 /// </summary>
 public sealed partial class ApplyViewController : ObservableObject, IRefreshable
 {
     private readonly AppSettings _settings;
     private readonly HassApplyService _service;
 
-    /// <summary>Noms côté HA choisis pour les nouveaux fichiers (conservés entre deux analyses).</summary>
+    /// <summary>Noms côté Hass choisis pour les nouveaux fichiers (conservés entre deux analyses).</summary>
     private readonly Dictionary<string, string> _unmappedNames = new(StringComparer.OrdinalIgnoreCase);
 
     public ApplyViewController(AppSettings settings)
@@ -84,7 +84,7 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
     private ApplyBackup? _selectedBackup;
 
     [ObservableProperty]
-    private string _statusText = "Clique sur « Analyser » pour comparer HA au dépôt privé.";
+    private string _statusText = "Clique sur « Analyser » pour comparer Hass au dépôt privé.";
 
     /// <summary>Faux : seuls les changements et 3 lignes de contexte sont affichés.</summary>
     [ObservableProperty]
@@ -112,11 +112,11 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
 
         int identical = items.Count(i => i.Status == ApplyStatus.Identical);
         StatusText = Items.Count == 0
-            ? $"HA est identique au dépôt privé ({identical} élément(s) comparé(s)) : rien à appliquer."
-            : $"{Items.Count} élément(s) diffèrent de HA ({identical} identique(s)). Vérifie chaque diff (à gauche HA, à droite le dépôt), puis « Appliquer ».";
+            ? $"Hass est identique au dépôt privé ({identical} élément(s) comparé(s)) : rien à appliquer."
+            : $"{Items.Count} élément(s) diffèrent de Hass ({identical} identique(s)). Vérifie chaque diff (à gauche Hass, à droite le dépôt), puis « Appliquer ».";
         Log.Success(StatusText);
         if (Items.Any(i => i.Item.ChangedInHa))
-            Log.Report("ABSENT  certains éléments ont été modifiés dans HA depuis le dernier commit : ils sont décochés. Fais d'abord « Sauvegarder HA » si ces changements comptent.");
+            Log.Report("ABSENT  certains éléments ont été modifiés dans Hass depuis le dernier commit : ils sont décochés. Fais d'abord « Sauvegarder Hass » si ces changements comptent.");
     });
 
     [RelayCommand]
@@ -140,12 +140,12 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
 
         Log.Step("Export de contrôle (sans les states)");
         await ControlAsync(selected);
-        StatusText = "Appliqué. Teste HA ; en cas de problème : « Restaurer la version précédente ».";
+        StatusText = "Appliqué. Teste Hass ; en cas de problème : « Restaurer la version précédente ».";
         Items.Clear();
         Diff = null;
     });
 
-    /// <summary>Réexporte HA dans un dossier temporaire et compare aux éléments appliqués.</summary>
+    /// <summary>Réexporte Hass dans un dossier temporaire et compare aux éléments appliqués.</summary>
     private async Task ControlAsync(List<ApplyItem> applied)
     {
         string temp = Path.Combine(Path.GetTempPath(), "MHassnage-controle");
@@ -163,7 +163,7 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
                 gaps++;
                 Log.Report($"ABSENT  écart après application : Hass ne renvoie pas le même contenu que {item.RepoPath} (voir « Analyser »)");
             }
-            if (gaps == 0) Log.Success("Export de contrôle : Hass correspond au dépôt privé pour tous les éléments appliqués. Fais « Sauvegarder HA » pour aligner la mise en forme du dépôt.");
+            if (gaps == 0) Log.Success("Export de contrôle : Hass correspond au dépôt privé pour tous les éléments appliqués. Fais « Sauvegarder Hass » pour aligner la mise en forme du dépôt.");
         }
         catch (Exception ex)
         {
@@ -189,7 +189,7 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
         Log.Step($"Restauration de la sauvegarde du {backup.Manifest.Created.LocalDateTime:dd.MM.yyyy HH:mm:ss}");
         await Task.Run(() => _service.RestoreAsync(backup));
         LoadBackups();
-        StatusText = "HA restauré. Pense à « Sauvegarder HA » pour remettre le dépôt privé en phase (ou corrige le dépôt).";
+        StatusText = "Hass restauré. Pense à « Sauvegarder Hass » pour remettre le dépôt privé en phase (ou corrige le dépôt).";
         Log.Success(StatusText);
     });
 
@@ -215,7 +215,7 @@ public sealed partial class ApplyViewController : ObservableObject, IRefreshable
     private void ShowDiff()
     {
         if (SelectedItem?.Item is not { } item) { Diff = null; return; }
-        var diff = DiffService.Compare($"HA : {item.Target}   ↔   dépôt : {item.RepoPath}",
+        var diff = DiffService.Compare($"Hass : {item.Target}   ↔   dépôt : {item.RepoPath}",
             item.HaContent ?? "", item.RepoContent, ShowWholeFile ? -1 : 3);
         Diff = new DiffViewController(diff, null);
     }

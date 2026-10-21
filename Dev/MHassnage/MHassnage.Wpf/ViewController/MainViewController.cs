@@ -20,11 +20,11 @@ public sealed partial class MainViewController : ObservableObject
 
         Operations =
         [
-            new(Operation.Status, "État", "Dépôts, jeton HA, dernier export"),
-            new(Operation.BackupHass, "Sauvegarder HA", "J'ai modifié HA : exporter et commiter"),
+            new(Operation.Status, "État", "Dépôts, jeton Hass, dernier export"),
+            new(Operation.BackupHass, "Sauvegarder Hass", "J'ai modifié Hass : exporter et commiter"),
             new(Operation.PrepareForAi, "Préparer pour l'IA", "Exporter et publier pseudonymisé"),
             new(Operation.RetrieveAiWork, "Récupérer le travail de l'IA", "Rapatrier vers le dépôt privé"),
-            new(Operation.ApplyToHass, "Appliquer dans HA", "Diff, validation, écriture"),
+            new(Operation.ApplyToHass, "Appliquer dans Hass", "Diff, validation, écriture"),
         ];
 
         _selected = Operations[0];
@@ -52,7 +52,8 @@ public sealed partial class MainViewController : ObservableObject
         bool firstOpening = !_panels.ContainsKey(value.Operation);
         CurrentPanel = PanelFor(value);
 
-        if (firstOpening && CurrentPanel is IRefreshable refreshable)
+        // L'état est relu à chaque retour ; les autres panels gardent leur sélection
+        if ((firstOpening || CurrentPanel is StatusViewController) && CurrentPanel is IRefreshable refreshable)
             _ = refreshable.RefreshAsync();
     }
 

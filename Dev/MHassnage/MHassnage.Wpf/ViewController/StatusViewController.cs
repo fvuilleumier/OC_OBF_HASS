@@ -56,7 +56,7 @@ public sealed partial class DashboardCard(string title) : ObservableObject
     }
 }
 
-/// <summary>Accueil « État » : vue d'ensemble façon Power BI (dépôts, HA, Obfuscator, réglages).</summary>
+/// <summary>Accueil « État » : vue d'ensemble façon Power BI (dépôts, Hass, Obfuscator, réglages).</summary>
 public sealed partial class StatusViewController : ObservableObject, IRefreshable
 {
     private readonly AppSettings _settings;
@@ -82,7 +82,7 @@ public sealed partial class StatusViewController : ObservableObject, IRefreshabl
     public DashboardCard Updates { get; } = new("MISES À JOUR");
     public DashboardCard Repairs { get; } = new("RÉPARATIONS ET NOTIFICATIONS");
     public DashboardCard Security { get; } = new("SÉCURITÉ");
-    public DashboardCard Backups { get; } = new("SAUVEGARDES HA");
+    public DashboardCard Backups { get; } = new("SAUVEGARDES Hass");
     public DashboardCard Batteries { get; }
     public DashboardCard Unavailable { get; } = new("ENTITÉS INDISPONIBLES");
 
@@ -92,7 +92,7 @@ public sealed partial class StatusViewController : ObservableObject, IRefreshabl
     /// <summary>Entités par domaine (10 premiers).</summary>
     public ObservableCollection<BarItem> Domains { get; } = [];
 
-    /// <summary>Marche à suivre pour recréer le jeton HA ; null si le jeton est présent.</summary>
+    /// <summary>Marche à suivre pour recréer le jeton Hass ; null si le jeton est présent.</summary>
     [ObservableProperty]
     private string? _tokenHelp;
 
@@ -183,12 +183,12 @@ public sealed partial class StatusViewController : ObservableObject, IRefreshabl
             Hass.State = "error";
             Hass.Headline = "Jeton refusé ou absent";
             TokenHelp ??= HassTokenHelp.Text(_settings.Hass.Url, SettingsService.SettingsPath);
-            foreach (var card in hassCards.Where(c => c.State == "loading")) { card.State = "error"; card.Headline = "HA inaccessible"; }
+            foreach (var card in hassCards.Where(c => c.State == "loading")) { card.State = "error"; card.Headline = "Hass inaccessible"; }
         }
         catch (Exception ex)
         {
             Fail(Hass, ex);
-            foreach (var card in hassCards.Where(c => c.State == "loading")) { card.State = "error"; card.Headline = "HA inaccessible"; }
+            foreach (var card in hassCards.Where(c => c.State == "loading")) { card.State = "error"; card.Headline = "Hass inaccessible"; }
         }
     }
 

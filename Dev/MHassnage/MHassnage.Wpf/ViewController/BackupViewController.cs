@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MHassnage.Core.Model;
 using MHassnage.Core.Model.OwnException;
@@ -13,7 +13,7 @@ public interface IRefreshable
 }
 
 /// <summary>
-/// Opération « Sauvegarder HA » : export de HA dans le dépôt privé, revue du diff,
+/// Opération « Sauvegarder Hass » : export de Hass dans le dépôt privé, revue du diff,
 /// puis Commit / Push / Commit &amp; Push.
 /// </summary>
 public sealed partial class BackupViewController : ObservableObject, IRefreshable
@@ -35,7 +35,7 @@ public sealed partial class BackupViewController : ObservableObject, IRefreshabl
     [ObservableProperty]
     private bool _includeStates;
 
-    /// <summary>Export de HA dans le dépôt privé, puis relecture des modifications.</summary>
+    /// <summary>Export de Hass dans le dépôt privé, puis relecture des modifications.</summary>
     [RelayCommand]
     private async Task ExportAsync()
     {
@@ -45,7 +45,7 @@ public sealed partial class BackupViewController : ObservableObject, IRefreshabl
         {
             Log.Clear();
             await HassExportStep.RunAsync(_settings, Log, IncludeStates);
-            Repository.SuggestMessage($"Sauvegarde HA du {DateTime.Now:dd.MM.yyyy HH:mm}");
+            Repository.SuggestMessage($"Sauvegarde Hass du {DateTime.Now:dd.MM.yyyy HH:mm}");
         }
         finally
         {
@@ -55,7 +55,7 @@ public sealed partial class BackupViewController : ObservableObject, IRefreshabl
     }
 }
 
-/// <summary>Export de HA partagé par les panels ; les erreurs vont au journal.</summary>
+/// <summary>Export de Hass partagé par les panels ; les erreurs vont au journal.</summary>
 internal static class HassExportStep
 {
     /// <returns>Vrai si l'export a réussi.</returns>

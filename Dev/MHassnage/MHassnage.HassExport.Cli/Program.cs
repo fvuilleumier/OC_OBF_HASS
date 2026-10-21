@@ -1,11 +1,11 @@
-using MHassnage.Core.Model;
+﻿using MHassnage.Core.Model;
 using MHassnage.Core.Model.OwnException;
 using MHassnage.Core.Service;
 
 namespace MHassnage.HassExport.Cli;
 
 /// <summary>
-/// Console mince : exporte HA vers le dépôt privé.
+/// Console mince : exporte Hass vers le dépôt privé.
 ///   mhassnage-export                 → export dans Repositories:Private (ExportFolder)
 ///   mhassnage-export --output &lt;dir&gt;  → export dans un autre dossier (comparaison, test)
 ///   mhassnage-export --no-states     → sans les states (Elements/states.jsonc, Z2m/state.json)

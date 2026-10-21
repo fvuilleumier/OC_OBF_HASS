@@ -89,14 +89,14 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel>
-            <DockPanel Margin="0,0,0,14">
+            <DockPanel Style="{StaticResource PanelHeader}">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="{Binding UpdatedText}" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
                     <Button Content="⟳ Actualiser" Command="{Binding RefreshCommand}" Style="{StaticResource ActionButton}" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="État" FontSize="20" FontWeight="SemiBold" />
-                    <TextBlock Text="Vue d'ensemble : Home Assistant, dépôts et Obfuscator" Foreground="{StaticResource MutedTextBrush}" />
+                    <TextBlock Text="État" Style="{StaticResource PanelTitle}" />
+                    <TextBlock Text="Vue d'ensemble : Hass, dépôts et Obfuscator" Style="{StaticResource PanelDescription}" />
                 </StackPanel>
             </DockPanel>
 
@@ -170,7 +170,7 @@
                 </StackPanel>
             </Border>
 
-            <!-- Marche à suivre pour (re)créer le jeton HA -->
+            <!-- Marche à suivre pour (re)créer le jeton Hass -->
             <Border BorderBrush="#E06C75" BorderThickness="0,4,0,0">
                 <Border.Style>
                     <Style TargetType="Border" BasedOn="{StaticResource Card}">

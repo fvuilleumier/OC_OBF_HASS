@@ -14,15 +14,15 @@
         </Grid.RowDefinitions>
 
         <!-- En-tête -->
-        <DockPanel Grid.Row="0" Margin="0,0,0,8">
+        <DockPanel Grid.Row="0" Style="{StaticResource PanelHeader}">
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                 <Button Content="🔍 Analyser" Command="{Binding AnalyzeCommand}" Style="{StaticResource ActionButton}" />
                 <Button Content="▶ Appliquer dans Hass" Command="{Binding ApplyCommand}" Style="{StaticResource AccentButton}" />
             </StackPanel>
             <StackPanel>
-                <TextBlock Text="Appliquer dans Hass" FontSize="20" FontWeight="SemiBold" />
-                <TextBlock Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap"
-                           Text="Écrit dans Hass ce qui est dans le dépôt privé (fichiers YAML par Samba, dashboards par l'API). La version actuelle de Hass est sauvegardée avant ; si un fichier de configuration change, Hass est vérifié puis redémarré." />
+                <TextBlock Text="Appliquer dans Hass" Style="{StaticResource PanelTitle}" />
+                <TextBlock Style="{StaticResource PanelDescription}"
+                           Text="Écrire le dépôt privé dans Hass (sauvegarde avant, vérification et redémarrage si la configuration change)." />
             </StackPanel>
         </DockPanel>
 
@@ -46,7 +46,7 @@
                                 <TextBlock Text="{Binding Letter}" Width="16" FontFamily="Consolas" FontWeight="Bold" Foreground="#E5C07B" />
                                 <TextBlock Text="{Binding Text}" ToolTip="{Binding Text}" />
                             </StackPanel>
-                            <!-- Nom dans HA pour un nouveau fichier -->
+                            <!-- Nom dans Hass pour un nouveau fichier -->
                             <StackPanel Orientation="Horizontal" Margin="38,3,0,0">
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
@@ -58,7 +58,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
-                                <TextBlock Text="nom dans HA :" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <TextBlock Text="nom dans Hass :" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                 <TextBox Text="{Binding HaName, UpdateSourceTrigger=LostFocus}" MinWidth="150" Style="{StaticResource InputBox}" Padding="4,1" />
                             </StackPanel>
                             <TextBlock Text="{Binding Warning}" Foreground="#F5A623" FontSize="11" TextWrapping="Wrap" Margin="38,2,0,0">

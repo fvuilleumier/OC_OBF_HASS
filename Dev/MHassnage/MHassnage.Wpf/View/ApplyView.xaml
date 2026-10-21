@@ -1,0 +1,115 @@
+<UserControl x:Class="MHassnage.Wpf.View.ApplyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:v="clr-namespace:MHassnage.Wpf.View">
+    <!-- DataContext : ApplyViewController -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="140" />
+        </Grid.RowDefinitions>
+
+        <!-- En-tête -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,8">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="🔍 Analyser" Command="{Binding AnalyzeCommand}" Style="{StaticResource ActionButton}" />
+                <Button Content="▶ Appliquer dans HA" Command="{Binding ApplyCommand}" Style="{StaticResource AccentButton}" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Appliquer dans HA" FontSize="20" FontWeight="SemiBold" />
+                <TextBlock Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap"
+                           Text="Écrit dans Home Assistant ce qui est dans le dépôt privé (fichiers YAML par Samba, dashboards par l'API). La version actuelle de HA est sauvegardée avant ; si un fichier de configuration change, HA est vérifié puis redémarré." />
+            </StackPanel>
+        </DockPanel>
+
+        <TextBlock Grid.Row="1" Text="{Binding StatusText}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,8" />
+
+        <!-- Éléments | diff -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340" MinWidth="200" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" HorizontalContentAlignment="Stretch"
+                     Background="{StaticResource BackgroundBrush}" BorderThickness="0" Foreground="{StaticResource TextBrush}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,2">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" Margin="0,0,6,0" />
+                                <TextBlock Text="{Binding Letter}" Width="16" FontFamily="Consolas" FontWeight="Bold" Foreground="#E5C07B" />
+                                <TextBlock Text="{Binding Text}" ToolTip="{Binding Text}" />
+                            </StackPanel>
+                            <!-- Nom dans HA pour un nouveau fichier -->
+                            <StackPanel Orientation="Horizontal" Margin="38,3,0,0">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Item.IsUnmapped}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <TextBlock Text="nom dans HA :" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <TextBox Text="{Binding HaName, UpdateSourceTrigger=LostFocus}" MinWidth="150" Style="{StaticResource InputBox}" Padding="4,1" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Warning}" Foreground="#F5A623" FontSize="11" TextWrapping="Wrap" Margin="38,2,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Warning}" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent" />
+
+            <DockPanel Grid.Column="2">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                    <CheckBox DockPanel.Dock="Right" Content="Fichier entier" IsChecked="{Binding ShowWholeFile}" />
+                    <TextBlock Text="À gauche : HA actuel   ·   à droite : dépôt privé (ce qui sera écrit)" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" />
+                </DockPanel>
+                <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                    <v:DiffView DataContext="{Binding Diff}" />
+                </Border>
+            </DockPanel>
+        </Grid>
+
+        <!-- Restauration -->
+        <Border Grid.Row="3" Margin="0,10,0,0" Padding="10" CornerRadius="4" Background="{StaticResource BackgroundBrush}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" VerticalAlignment="Top">
+                    <Button Content="↶ Restaurer la version précédente" Command="{Binding RestoreCommand}" Style="{StaticResource AccentButton}" Background="#A8434D"
+                            ToolTip="Remet dans HA les éléments de la sauvegarde sélectionnée (état d'avant cette application)" />
+                    <Button Content="📁 Ouvrir le dossier" Command="{Binding OpenBackupFolderCommand}" Style="{StaticResource ActionButton}" Margin="6,6,0,0" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="SAUVEGARDES PRISES AVANT CHAQUE APPLICATION (la plus récente = la dernière version qui marchait)"
+                               Style="{StaticResource CardTitle}" />
+                    <ListBox ItemsSource="{Binding Backups}" SelectedItem="{Binding SelectedBackup}" DisplayMemberPath="Text"
+                             MaxHeight="90" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextBrush}" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <GridSplitter Grid.Row="4" HorizontalAlignment="Stretch" Background="Transparent" />
+        <v:LogPanel Grid.Row="5" DataContext="{Binding Log}" />
+
+        <v:BusyOverlay Grid.Row="0" Grid.RowSpan="4" />
+    </Grid>
+</UserControl>

@@ -52,6 +52,19 @@ public sealed class HassSettings
     /// </summary>
     public List<string> StateKeys { get; set; } = ["states"];
     public List<string> StateFiles { get; set; } = ["state.json"];
+
+    /// <summary>
+    /// Sauvegardes prises avant chaque « Appliquer dans HA » (version qui marchait),
+    /// pour « Restaurer la version précédente ». Vide = %APPDATA%\MHassnage\HassBackups.
+    /// </summary>
+    public string ApplyBackupFolder { get; set; } = "";
+
+    /// <summary>Nombre de sauvegardes d'application conservées (les plus anciennes sont supprimées).</summary>
+    public int ApplyBackupKeep { get; set; } = 30;
+
+    public string ApplyBackupPath => ApplyBackupFolder.Length > 0
+        ? ApplyBackupFolder
+        : System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MHassnage", "HassBackups");
 }
 
 public sealed class FileCopy

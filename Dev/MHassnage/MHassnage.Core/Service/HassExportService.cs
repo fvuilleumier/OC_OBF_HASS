@@ -1,4 +1,4 @@
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using MHassnage.Core.Model;
@@ -195,7 +195,7 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
                 continue;
             }
 
-            string name = FileName(string.IsNullOrWhiteSpace(dashboard.FileName) ? segment : dashboard.FileName);
+            string name = SafeFileName(string.IsNullOrWhiteSpace(dashboard.FileName) ? segment : dashboard.FileName);
             Directory.CreateDirectory(folder);
             string file = Path.Combine(folder, $"{name}.yaml");
             await File.WriteAllTextAsync(file, YamlService.ToYaml(config), ct);
@@ -212,14 +212,14 @@ public sealed class HassExportService(AppSettings settings, IProgress<string>? l
             {
                 i++;
                 string? viewName = view?["path"]?.GetValue<string>() ?? view?["title"]?.GetValue<string>();
-                string viewFile = Path.Combine(viewsFolder, $"{i:00} - {FileName(viewName ?? "vue")}.yaml");
+                string viewFile = Path.Combine(viewsFolder, $"{i:00} - {SafeFileName(viewName ?? "vue")}.yaml");
                 await File.WriteAllTextAsync(viewFile, YamlService.ToYaml(view), ct);
                 Log($"OK  {viewFile}");
             }
         }
     }
 
-    private static string FileName(string name) =>
+    public static string SafeFileName(string name) =>
         string.Concat(name.Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c)).Trim();
 
     private void Log(string message) => log?.Report(message);

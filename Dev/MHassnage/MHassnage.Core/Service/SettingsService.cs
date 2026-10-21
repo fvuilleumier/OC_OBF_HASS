@@ -78,6 +78,28 @@ public static class SettingsService
         return problems;
     }
 
+    /// <summary>
+    /// Ajoute une correspondance fichier HA ↔ fichier du dépôt (Hass:Elements) et l'enregistre :
+    /// l'export suivant ramènera le fichier sous le même nom dans le dépôt.
+    /// </summary>
+    public static void AddElement(AppSettings settings, string haName, string repoName)
+    {
+        if (settings.Hass.Elements.Any(e => e.Destination.Equals(repoName, StringComparison.OrdinalIgnoreCase))) return;
+        settings.Hass.Elements.Add(new FileCopy { Source = haName, Destination = repoName });
+
+        string path = SettingsPath;
+        var root = JsonNode.Parse(File.ReadAllText(path), documentOptions: new JsonDocumentOptions
+        {
+            CommentHandling = JsonCommentHandling.Skip,
+            AllowTrailingCommas = true,
+        })!.AsObject();
+        var hass = (root["Hass"] ??= new JsonObject()).AsObject();
+        hass["Elements"] = new JsonArray(settings.Hass.Elements
+            .Select(e => (JsonNode)new JsonObject { ["Source"] = e.Source, ["Destination"] = e.Destination })
+            .ToArray());
+        Write(path, root);
+    }
+
     /// <summary>Ajoute une règle d'exclusion au dépôt (« Private » ou « Public ») et l'enregistre.</summary>
     public static void AddExclusion(AppSettings settings, string repository, string rule)
     {

@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MHassnage.Core.Model;
 using MHassnage.Wpf.Controller;
 
@@ -61,6 +61,7 @@ public sealed partial class MainViewController : ObservableObject
             Operation.BackupHass => new BackupViewController(_settings),
             Operation.PrepareForAi => new PrepareForAiViewController(_settings),
             Operation.RetrieveAiWork => new RetrieveAiWorkViewController(_settings),
+            Operation.ApplyToHass => new ApplyViewController(_settings),
             _ => new PlaceholderViewController(item.Title, "Prévu dans une prochaine étape."),
         };
         _panels[item.Operation] = panel;

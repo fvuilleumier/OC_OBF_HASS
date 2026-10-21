@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:MHassnage.Wpf.View"
         xmlns:vc="clr-namespace:MHassnage.Wpf.ViewController"
-        Title="MHassnage" Height="720" Width="1180"
+        Title="MHassnage" Height="720" Width="1665"
         Icon="/Resources/mhassnage.ico"
         Style="{StaticResource MainWindowStyle}"
         WindowStartupLocation="CenterScreen">

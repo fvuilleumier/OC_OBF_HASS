@@ -7,6 +7,26 @@ public sealed class AppSettings
     public RepositoriesSettings Repositories { get; set; } = new();
     public ObfuscatorSettings Obfuscator { get; set; } = new();
     public GitSettings Git { get; set; } = new();
+    public HealthSettings Health { get; set; } = new();
+}
+
+/// <summary>Seuils du panel « État ».</summary>
+public sealed class HealthSettings
+{
+    /// <summary>Batterie signalée en dessous de ce pourcentage.</summary>
+    public int BatteryWarningPercent { get; set; } = 20;
+
+    /// <summary>Batterie en rouge en dessous de ce pourcentage.</summary>
+    public int BatteryCriticalPercent { get; set; } = 10;
+
+    /// <summary>Sauvegarde HA signalée au-delà de ce nombre de jours.</summary>
+    public int BackupMaxAgeDays { get; set; } = 7;
+
+    /// <summary>Jeton longue durée inutilisé depuis plus de ce nombre de jours : signalé.</summary>
+    public int StaleTokenDays { get; set; } = 180;
+
+    /// <summary>Nombre d'administrateurs au-delà duquel on alerte.</summary>
+    public int MaxAdmins { get; set; } = 2;
 }
 
 /// <summary>Accès à Home Assistant et contenu à exporter.</summary>

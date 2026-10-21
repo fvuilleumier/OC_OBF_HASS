@@ -36,8 +36,41 @@
                             <DataTemplate>
                                 <StackPanel Margin="0,0,24,8">
                                     <TextBlock Text="{Binding Value}" Style="{StaticResource Kpi}" />
-                                    <TextBlock Text="{Binding Label}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+                                    <TextBlock Text="{Binding Label}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" TextWrapping="Wrap" MaxWidth="170" />
                                 </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="{Binding EmptyText}" Foreground="#6CC17A" FontSize="12">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding EmptyText}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <ItemsControl ItemsSource="{Binding Items}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,1">
+                                    <TextBlock DockPanel.Dock="Right" Text="{Binding Detail}" Foreground="{StaticResource MutedTextBrush}"
+                                               FontSize="11" Margin="8,0,0,0" MaxWidth="180" TextTrimming="CharacterEllipsis" ToolTip="{Binding Detail}" />
+                                    <TextBlock Text="{Binding Text}" FontSize="12" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Serious}" Value="True">
+                                                        <Setter Property="Foreground" Value="#E06C75" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DockPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -73,6 +106,16 @@
                 <ContentControl Content="{Binding Obfuscator}" />
                 <ContentControl Content="{Binding PrivateRepo}" />
                 <ContentControl Content="{Binding PublicRepo}" />
+            </UniformGrid>
+
+            <TextBlock Text="À VÉRIFIER RÉGULIÈREMENT" Style="{StaticResource CardTitle}" Margin="2,6,0,8" />
+            <UniformGrid Columns="3">
+                <ContentControl Content="{Binding Updates}" />
+                <ContentControl Content="{Binding Repairs}" />
+                <ContentControl Content="{Binding Security}" />
+                <ContentControl Content="{Binding Backups}" />
+                <ContentControl Content="{Binding Batteries}" />
+                <ContentControl Content="{Binding Unavailable}" />
             </UniformGrid>
 
             <!-- Graphique : entités par domaine -->

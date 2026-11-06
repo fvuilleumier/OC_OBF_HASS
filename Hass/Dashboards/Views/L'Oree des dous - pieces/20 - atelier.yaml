@@ -257,15 +257,15 @@ sections:
           columns: 6
           rows: auto
       - type: custom:mushroom-template-card
-        entity: sensor.msws65_atelier_power
-        primary: "{{ states('sensor.msws65_atelier_power') | float(0) | round(0) }} W · {{ states('sensor.msws65_atelier_energy_day') | float(0) | round(2) }} kWh"
+        entity: sensor.msws65_power
+        primary: "{{ states('sensor.msws65_power') | float(0) | round(0) }} W · {{ states('sensor.msws65_atelier_energy_day') | float(0) | round(2) }} kWh"
         secondary: Chargeurs
         icon: mdi:battery-charging-medium
         vertical: true
         features_position: bottom
         tap_action:
           action: more-info
-        color: "{% if states('sensor.msws65_atelier_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
+        color: "{% if states('sensor.msws65_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
         grid_options:
           columns: 6
           rows: auto
@@ -361,15 +361,16 @@ sections:
             alignment: center
             subtitle: "\U0001FAAB Chargeurs"
           - type: custom:mushroom-template-card
-            entity: switch.msws65_atelier
+            entity: switch.msws65
             icon: mdi:pump
-            primary: "{% set p = states('sensor.msws65_atelier_power') | float(0) %} {% if not is_state('switch.msws65_atelier', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
-            secondary: "{{ states('sensor.msws65_atelier_power') | float(0) | round(0) }} W"
+            primary: "{% set p = states('sensor.msws65_power') | float(0) %} {% if not is_state('switch.msws65', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+            secondary: "{{ states('sensor.msws65_power') | float(0) | round(0) }} W"
             tap_action:
               action: toggle
-            color: "{% set p = states('sensor.msws65_atelier_power') | float(0) %} {% if not is_state('switch.msws65_atelier', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            color: "{% set p = states('sensor.msws65_power') | float(0) %} {% if not is_state('switch.msws65', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            name: MSSW-Atelier
           - type: gauge
-            entity: sensor.msws65_atelier_power
+            entity: sensor.msws65_power
             name: Puissance
             needle: true
             min: 0
@@ -426,7 +427,7 @@ sections:
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.msws65_atelier_power
+              - entity: sensor.msws65_power
                 name: Maintenant
                 color: var(--warning-color)
                 type: area
@@ -435,7 +436,7 @@ sections:
                 group_by:
                   func: avg
                   duration: 10min
-              - entity: sensor.msws65_atelier_power
+              - entity: sensor.msws65_power
                 name: moy 24 h
                 color: var(--info-color)
                 float_precision: 0
@@ -445,7 +446,7 @@ sections:
                 show:
                   in_chart: false
                   in_header: true
-              - entity: sensor.msws65_atelier_power
+              - entity: sensor.msws65_power
                 name: pic 24 h
                 color: var(--error-color)
                 float_precision: 0
@@ -480,6 +481,7 @@ sections:
             tap_action:
               action: toggle
             color: "{% set p = states('sensor.s1pm40_power') | float(0) %} {% if not is_state('switch.s1pm40', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            name: Compresseur
           - type: gauge
             entity: sensor.s1pm40_power
             name: Puissance

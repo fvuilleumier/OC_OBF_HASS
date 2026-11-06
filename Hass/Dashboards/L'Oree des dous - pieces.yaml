@@ -626,7 +626,7 @@ views:
             template: section_title
             name: ♨️ Chauffage
           - type: custom:mushroom-climate-card
-            entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
+            entity: climate.trv_btr_02_climate
             name: Radiateur
             hvac_modes:
               - heat
@@ -654,25 +654,26 @@ views:
                   {% endif %}
                 }
           - type: custom:mushroom-template-card
-            entity: binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window
-            primary: "{% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+            entity: binary_sensor.trv_btr_02_window
+            primary: "{% if is_state('binary_sensor.trv_btr_02_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: "{% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+            icon: "{% if is_state('binary_sensor.trv_btr_02_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: "{% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}red{% else %}green{% endif %}"
+            color: "{% if is_state('binary_sensor.trv_btr_02_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
-            entity: switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating
-            primary: "{% if is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+            entity: switch.trv_btr_02
+            primary: "{% if is_state('switch.trv_btr_02', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: "{% if is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+            color: "{% if is_state('switch.trv_btr_02', 'on') %}orange{% else %}grey{% endif %}"
+            name: Chambre 1er sud ouest (TBX9F_ORG_0002)
       - type: grid
         column_span: 1
         cards:
@@ -794,6 +795,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm31_power') | float(0) %} {% if not is_state('switch.s1pm31', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Lampe salon
               - type: gauge
                 entity: sensor.s1pm31_power
                 name: Puissance
@@ -1083,7 +1085,7 @@ views:
             template: section_title
             name: ♨️ Chauffage
           - type: custom:mushroom-climate-card
-            entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
+            entity: climate.trv_btr_03_climate
             name: Radiateur
             hvac_modes:
               - heat
@@ -1111,25 +1113,26 @@ views:
                   {% endif %}
                 }
           - type: custom:mushroom-template-card
-            entity: binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window
-            primary: "{% if is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+            entity: binary_sensor.trv_btr_03_window
+            primary: "{% if is_state('binary_sensor.trv_btr_03_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: "{% if is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+            icon: "{% if is_state('binary_sensor.trv_btr_03_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: "{% if is_state('binary_sensor.trv_btr_03_chambre_1er_sud_est_enfants_window', 'on') %}red{% else %}green{% endif %}"
+            color: "{% if is_state('binary_sensor.trv_btr_03_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
-            entity: switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating
-            primary: "{% if is_state('switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+            entity: switch.trv_btr_03
+            primary: "{% if is_state('switch.trv_btr_03', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: "{% if is_state('switch.trv_btr_03_chambre_1er_sud_est_enfants_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+            color: "{% if is_state('switch.trv_btr_03', 'on') %}orange{% else %}grey{% endif %}"
+            name: Chambre 1er sud est (enfants)
       - type: grid
         column_span: 1
         cards:
@@ -1580,7 +1583,7 @@ views:
             template: section_title
             name: ♨️ Chauffage
           - type: custom:mushroom-climate-card
-            entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
+            entity: climate.trv_btr_04_climate
             name: Radiateur
             hvac_modes:
               - heat
@@ -1608,25 +1611,26 @@ views:
                   {% endif %}
                 }
           - type: custom:mushroom-template-card
-            entity: binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window
-            primary: "{% if is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+            entity: binary_sensor.trv_btr_04_window
+            primary: "{% if is_state('binary_sensor.trv_btr_04_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: "{% if is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+            icon: "{% if is_state('binary_sensor.trv_btr_04_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: "{% if is_state('binary_sensor.trv_btr_04_chambre_rez_salle_de_jeu_window', 'on') %}red{% else %}green{% endif %}"
+            color: "{% if is_state('binary_sensor.trv_btr_04_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
-            entity: switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating
-            primary: "{% if is_state('switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+            entity: switch.trv_btr_04
+            primary: "{% if is_state('switch.trv_btr_04', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: "{% if is_state('switch.trv_btr_04_chambre_rez_salle_de_jeu_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+            color: "{% if is_state('switch.trv_btr_04', 'on') %}orange{% else %}grey{% endif %}"
+            name: Chambre rez (Salle de jeu)
       - type: grid
         column_span: 1
         cards:
@@ -1719,8 +1723,9 @@ views:
             features:
               - type: toggle
             features_position: bottom
+            name: Lampe salon
           - type: tile
-            entity: switch.sb50
+            entity: switch.sb17
             name: TV des Dous
             color: accent
             hide_state: true
@@ -1855,7 +1860,7 @@ views:
             template: section_title
             name: ♨️ Chauffage
           - type: custom:mushroom-climate-card
-            entity: climate.trv_btr_06_rez_sud_est_salon
+            entity: climate.trv_btr_06_climate
             name: Radiateur
             hvac_modes:
               - heat
@@ -1883,25 +1888,26 @@ views:
                   {% endif %}
                 }
           - type: custom:mushroom-template-card
-            entity: binary_sensor.trv_btr_06_rez_sud_est_salon_window
-            primary: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+            entity: binary_sensor.trv_btr_06_window
+            primary: "{% if is_state('binary_sensor.trv_btr_06_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+            icon: "{% if is_state('binary_sensor.trv_btr_06_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}red{% else %}green{% endif %}"
+            color: "{% if is_state('binary_sensor.trv_btr_06_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
-            entity: switch.trv_btr_06_rez_sud_est_salon_boost_heating
-            primary: "{% if is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+            entity: switch.trv_btr_06
+            primary: "{% if is_state('switch.trv_btr_06', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: "{% if is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+            color: "{% if is_state('switch.trv_btr_06', 'on') %}orange{% else %}grey{% endif %}"
+            name: Rez sud est (salon)
       - type: grid
         column_span: 1
         cards:
@@ -2530,6 +2536,7 @@ views:
 
               {% endif %}
             vertical: true
+            name: Mesure eponge
           - type: tile
             entity: button.cuisine_jura_brew
             name: Make a coffe !
@@ -2551,6 +2558,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm42_power') | float(0) %} {% if not is_state('switch.s1pm42', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Mesure eponge
               - type: gauge
                 entity: sensor.s1pm42_power
                 name: Puissance
@@ -3845,6 +3853,7 @@ views:
               columns: 6
               rows: 2
             vertical: true
+            name: Serveurs
           - type: tile
             entity: sensor.ups_battery_charge
             show_entity_picture: false
@@ -4035,6 +4044,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm30_power') | float(0) %} {% if not is_state('switch.s1pm30', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Serveurs
               - type: gauge
                 entity: sensor.s1pm30_power
                 name: Puissance
@@ -4786,6 +4796,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.sp1pm71_power') | float(0) %} {% if not is_state('switch.sp1pm71', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Chaudière
               - type: gauge
                 entity: sensor.sp1pm71_power
                 name: Puissance
@@ -5010,6 +5021,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm44_power') | float(0) %} {% if not is_state('switch.s1pm44', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Pompe eau chaude - temp boiler bas
               - type: gauge
                 entity: sensor.s1pm44_power
                 name: Puissance
@@ -5122,6 +5134,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm59_power') | float(0) %} {% if not is_state('switch.s1pm59', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Rallonge deshumidificateur
               - type: gauge
                 entity: sensor.s1pm59_power
                 name: Puissance
@@ -5275,15 +5288,26 @@ views:
           - type: custom:button-card
             template: section_title
             name: "\U0001F518 Interactions"
-          - type: custom:mushroom-template-card
-            primary: Aucune interaction configurée
-            secondary: Zone réservée aux commandes de la pièce
-            icon: mdi:gesture-tap
-            features_position: bottom
+          - type: tile
+            entity: switch.s1pm58
+            name: Cave à vin
+            color: red
+            show_entity_picture: false
+            hide_state: true
             vertical: true
-            multiline_secondary: false
-            grid_options:
-              columns: full
+            features:
+              - type: toggle
+            features_position: bottom
+          - type: tile
+            entity: switch.sp1pm64
+            name: Congélateur
+            color: accent
+            show_entity_picture: false
+            hide_state: true
+            vertical: true
+            features:
+              - type: toggle
+            features_position: bottom
       - type: grid
         column_span: 1
         cards:
@@ -5528,6 +5552,7 @@ views:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm58_power') | float(0) %} {% if not is_state('switch.s1pm58', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
                 features_position: bottom
+                name: Cave à vin
               - type: gauge
                 entity: sensor.s1pm58_power
                 name: Puissance
@@ -5641,6 +5666,7 @@ views:
                   action: toggle
                 color: "{% set p = states('sensor.sp1pm64_power') | float(0) %} {% if not is_state('switch.sp1pm64', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
                 features_position: bottom
+                name: Congélateur
               - type: gauge
                 entity: sensor.sp1pm64_power
                 name: Puissance
@@ -5794,15 +5820,16 @@ views:
           - type: custom:button-card
             template: section_title
             name: "\U0001F518 Interactions"
-          - type: custom:mushroom-template-card
-            primary: Aucune interaction configurée
-            secondary: Zone réservée aux commandes de la pièce
-            icon: mdi:gesture-tap
-            features_position: bottom
+          - type: tile
+            entity: switch.sm27
+            name: 'Lumière '
+            color: indigo
+            show_entity_picture: false
+            hide_state: true
             vertical: true
-            multiline_secondary: false
-            grid_options:
-              columns: full
+            features:
+              - type: toggle
+            features_position: bottom
       - type: grid
         column_span: 1
         cards:
@@ -5930,7 +5957,7 @@ views:
             template: section_title
             name: ♨️ Chauffage
           - type: custom:mushroom-climate-card
-            entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+            entity: climate.trv_btr_01_climate
             name: Radiateur
             hvac_modes:
               - heat
@@ -5958,25 +5985,26 @@ views:
                   {% endif %}
                 }
           - type: custom:mushroom-template-card
-            entity: binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window
-            primary: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+            entity: binary_sensor.trv_btr_01_window
+            primary: "{% if is_state('binary_sensor.trv_btr_01_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
             secondary: Fenêtre
-            icon: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+            icon: "{% if is_state('binary_sensor.trv_btr_01_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}red{% else %}green{% endif %}"
+            color: "{% if is_state('binary_sensor.trv_btr_01_window', 'on') %}red{% else %}green{% endif %}"
           - type: custom:mushroom-template-card
-            entity: switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating
-            primary: "{% if is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+            entity: switch.trv_btr_01
+            primary: "{% if is_state('switch.trv_btr_01', 'on') %}Actif{% else %}Désactivé{% endif %}"
             secondary: Boost chauffage
             icon: mdi:fire
             vertical: true
             features_position: bottom
             tap_action:
               action: toggle
-            color: "{% if is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+            color: "{% if is_state('switch.trv_btr_01', 'on') %}orange{% else %}grey{% endif %}"
+            name: Chambre 1er nord est (Bureau)
       - type: grid
         column_span: 1
         cards:
@@ -6107,8 +6135,9 @@ views:
               {% endif %}
             features_position: bottom
             vertical: true
+            name: Bureau PC Game
           - type: custom:mushroom-template-card
-            entity: switch.sm27_lumiere_bureau
+            entity: switch.sm27
             primary: Ecrans
             secondary: >
               {% if is_state('switch.sm26', 'on') %}
@@ -6127,6 +6156,7 @@ views:
               {% endif %}
             features_position: bottom
             vertical: true
+            name: Lumière Bureau
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
@@ -6140,6 +6170,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.sp1pm63_power') | float(0) %} {% if not is_state('switch.sp1pm63', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Mesure bureau
               - type: gauge
                 entity: sensor.sp1pm63_power
                 name: Puissance
@@ -6781,7 +6812,7 @@ views:
                 apex_config:
                   tickAmount: 3
             series:
-              - entity: sensor.zg_227z_17_galetas_temperature
+              - entity: sensor.zg_227z_17_temperature
                 name: Température
                 color: var(--success-color)
                 type: area
@@ -6838,7 +6869,7 @@ views:
                 apex_config:
                   tickAmount: 4
             series:
-              - entity: sensor.zg_227z_17_galetas_humidity
+              - entity: sensor.zg_227z_17_humidity
                 name: Humidité
                 color: var(--info-color)
                 type: area
@@ -7178,15 +7209,15 @@ views:
               columns: 6
               rows: auto
           - type: custom:mushroom-template-card
-            entity: sensor.msws65_atelier_power
-            primary: "{{ states('sensor.msws65_atelier_power') | float(0) | round(0) }} W · {{ states('sensor.msws65_atelier_energy_day') | float(0) | round(2) }} kWh"
+            entity: sensor.msws65_power
+            primary: "{{ states('sensor.msws65_power') | float(0) | round(0) }} W · {{ states('sensor.msws65_atelier_energy_day') | float(0) | round(2) }} kWh"
             secondary: Chargeurs
             icon: mdi:battery-charging-medium
             vertical: true
             features_position: bottom
             tap_action:
               action: more-info
-            color: "{% if states('sensor.msws65_atelier_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
+            color: "{% if states('sensor.msws65_power') | float(0) > 5 %}orange{% else %}grey{% endif %}"
             grid_options:
               columns: 6
               rows: auto
@@ -7282,15 +7313,16 @@ views:
                 alignment: center
                 subtitle: "\U0001FAAB Chargeurs"
               - type: custom:mushroom-template-card
-                entity: switch.msws65_atelier
+                entity: switch.msws65
                 icon: mdi:pump
-                primary: "{% set p = states('sensor.msws65_atelier_power') | float(0) %} {% if not is_state('switch.msws65_atelier', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
-                secondary: "{{ states('sensor.msws65_atelier_power') | float(0) | round(0) }} W"
+                primary: "{% set p = states('sensor.msws65_power') | float(0) %} {% if not is_state('switch.msws65', 'on') %}Hors tension {% elif p > 5 %}En marche {% else %}En veille{% endif %}"
+                secondary: "{{ states('sensor.msws65_power') | float(0) | round(0) }} W"
                 tap_action:
                   action: toggle
-                color: "{% set p = states('sensor.msws65_atelier_power') | float(0) %} {% if not is_state('switch.msws65_atelier', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                color: "{% set p = states('sensor.msws65_power') | float(0) %} {% if not is_state('switch.msws65', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: MSSW-Atelier
               - type: gauge
-                entity: sensor.msws65_atelier_power
+                entity: sensor.msws65_power
                 name: Puissance
                 needle: true
                 min: 0
@@ -7347,7 +7379,7 @@ views:
                     apex_config:
                       tickAmount: 4
                 series:
-                  - entity: sensor.msws65_atelier_power
+                  - entity: sensor.msws65_power
                     name: Maintenant
                     color: var(--warning-color)
                     type: area
@@ -7356,7 +7388,7 @@ views:
                     group_by:
                       func: avg
                       duration: 10min
-                  - entity: sensor.msws65_atelier_power
+                  - entity: sensor.msws65_power
                     name: moy 24 h
                     color: var(--info-color)
                     float_precision: 0
@@ -7366,7 +7398,7 @@ views:
                     show:
                       in_chart: false
                       in_header: true
-                  - entity: sensor.msws65_atelier_power
+                  - entity: sensor.msws65_power
                     name: pic 24 h
                     color: var(--error-color)
                     float_precision: 0
@@ -7401,6 +7433,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.s1pm40_power') | float(0) %} {% if not is_state('switch.s1pm40', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Compresseur
               - type: gauge
                 entity: sensor.s1pm40_power
                 name: Puissance
@@ -7558,10 +7591,12 @@ views:
             entity: switch.s146
             features:
               - type: toggle
+            name: Garage gauche
           - type: tile
             entity: switch.s168
             features:
               - type: toggle
+            name: Garage droite
       - type: grid
         column_span: 1
         cards:
@@ -8025,6 +8060,7 @@ views:
                 red
               {% endif %}
             vertical: true
+            name: Prise jardin Wall-e
           - type: custom:vertical-stack-in-card
             cards:
               - type: custom:mushroom-title-card
@@ -8038,6 +8074,7 @@ views:
                 tap_action:
                   action: toggle
                 color: "{% set p = states('sensor.sp1pm61_power') | float(0) %} {% if not is_state('switch.sp1pm61', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+                name: Prise jardin Wall-e
               - type: gauge
                 entity: sensor.sp1pm61_power
                 name: Puissance

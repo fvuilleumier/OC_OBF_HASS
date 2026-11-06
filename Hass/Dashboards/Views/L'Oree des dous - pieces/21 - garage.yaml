@@ -14,10 +14,12 @@ sections:
         entity: switch.s146
         features:
           - type: toggle
+        name: Garage gauche
       - type: tile
         entity: switch.s168
         features:
           - type: toggle
+        name: Garage droite
   - type: grid
     column_span: 1
     cards:

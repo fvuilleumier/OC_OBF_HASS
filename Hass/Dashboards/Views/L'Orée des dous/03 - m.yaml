@@ -393,5 +393,5 @@ header:
     content: "# \U0001F321️ Température - \U0001F4A7 Humidité"
 footer:
   type: markdown
-  content: ''
+  content: ""
 cards: []

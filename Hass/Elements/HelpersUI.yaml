@@ -1,0 +1,95 @@
+# Généré par MHassnager à chaque export — NE PAS MODIFIER.
+# Miroir des helpers créés dans l'interface de Hass (source de vérité : Hass).
+# Nouveaux helpers : les décrire dans Helpers.new.yaml, MHassnager les crée dans Hass.
+input_boolean:
+  - id: atelier_chargeur_started
+    name: Atelier chargeur started
+    icon: mdi:battery-charging-10
+  - id: TBX9F_ID_0568
+    name: Chauffage mode vacances
+    icon: mdi:radiator-off
+  - id: eponge_started
+    name: Eponge started
+    icon: mdi:silverware-clean
+  - id: lumiere_toilettes_rez_was_on
+    name: Lumière toilettes rez was on
+    icon: mdi:toggle-switch
+  - id: tous_a_la_maison
+    name: Tous à la maison
+    icon: mdi:home-account
+  - name: Tous au lit
+    icon: mdi:power-sleep
+    id: tous_au_lit
+  - name: Tous dehors
+    icon: mdi:home-export-outline
+    id: tous_dehors
+input_datetime:
+  - id: cave_a_vin_dernier_allumage
+    name: Cave a vin dernier allumage
+    has_date: true
+    has_time: true
+    icon: mdi:glass-wine
+config_entries:
+  min_max:
+    - entry_id: TBX9F_ID_0829
+      title: atelier_energy_day
+      options:
+        entity_ids:
+          - sensor.s1pm40_energy_day
+          - sensor.msws65_energy_day
+        name: atelier_energy_day
+        round_digits: 2
+        type: sum
+    - entry_id: TBX9F_ID_0830
+      title: atelier_power
+      options:
+        entity_ids:
+          - sensor.s1pm40_power
+          - sensor.msws65_atelier_power
+        name: atelier_power
+        round_digits: 2
+        type: sum
+    - entry_id: TBX9F_ID_0831
+      title: buanderie_energy_day
+      options:
+        entity_ids:
+          - sensor.s1pm59_energy_day
+          - sensor.sp1pm62_energy_day
+          - sensor.sp1pm70_energy_day
+          - sensor.s1pm43_energy_day
+          - sensor.s1pm44_energy_day
+          - sensor.sp1pm71_energy_day
+        name: buanderie_energy_day
+        round_digits: 2
+        type: sum
+    - entry_id: TBX9F_ID_0832
+      title: buanderie_power
+      options:
+        entity_ids:
+          - sensor.sp1pm62_power
+          - sensor.s1pm59_power
+          - sensor.sp1pm70_power
+          - sensor.s1pm43_power
+          - sensor.s1pm44_power
+          - sensor.sp1pm71_power
+        name: buanderie_power
+        round_digits: 2
+        type: sum
+    - entry_id: TBX9F_ID_0833
+      title: cave_energy_day
+      options:
+        entity_ids:
+          - sensor.s1pm58_energy_day
+          - sensor.sp1pm64_energy_day
+        name: cave_energy_day
+        round_digits: 2
+        type: sum
+    - entry_id: TBX9F_ID_0834
+      title: cave_power
+      options:
+        entity_ids:
+          - sensor.sp1pm64_power
+          - sensor.s1pm58_power
+        name: cave_power
+        round_digits: 2
+        type: sum

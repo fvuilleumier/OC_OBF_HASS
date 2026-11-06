@@ -31,8 +31,9 @@ sections:
         show_entity_picture: false
         vertical: false
         features_position: bottom
+        name: Lampe salon
       - type: tile
-        entity: switch.sm27_lumiere_bureau
+        entity: switch.sm27
         name: Lumière bureau
         icon: mdi:office-building
         color: amber
@@ -58,7 +59,7 @@ sections:
       - type: tile
         entity: switch.s168
         name: Garage droite
-        icon: ''
+        icon: ""
         color: purple
         vertical: false
         features_position: bottom
@@ -70,7 +71,7 @@ sections:
       - color: lime
         type: tile
         show_entity_picture: false
-        entity: switch.sb50
+        entity: switch.sb17
         name: TV des Dous
       - color: black
         type: tile
@@ -79,6 +80,13 @@ sections:
         name: HDD NAS des Dous
         features_position: bottom
         vertical: false
+      - type: tile
+        entity: switch.s1pm58
+        name: Cave à vin
+        color: red
+        show_entity_picture: false
+        vertical: false
+        features_position: bottom
   - type: grid
     cards:
       - type: custom:button-card
@@ -132,15 +140,16 @@ sections:
         template: section_title
         name: "\U0001F6E0️ Atelier"
       - type: tile
-        entity: switch.msws65_atelier
-        icon: ''
+        entity: switch.msws65
+        icon: ""
         color: light-blue
         show_entity_picture: false
         vertical: false
         features_position: bottom
+        name: MSSW-Atelier
       - type: tile
         entity: switch.s1pm40
-        icon: ''
+        icon: ""
         color: green
         show_entity_picture: false
         vertical: false
@@ -149,6 +158,7 @@ sections:
         icon_tap_action:
           action: more-info
         features_position: bottom
+        name: Compresseur
   - type: grid
     cards:
       - type: custom:button-card
@@ -165,9 +175,10 @@ sections:
         entity: switch.sp1pm62
         features_position: bottom
         vertical: false
+        name: Mesure Lavette
       - type: tile
         entity: switch.sp1pm61
-        icon: ''
+        icon: ""
         color: cyan
         show_entity_picture: false
         vertical: false
@@ -176,6 +187,7 @@ sections:
         icon_tap_action:
           action: more-info
         features_position: bottom
+        name: Prise jardin Wall-e
       - type: tile
         entity: switch.s1pm30
         name: Serveurs
@@ -274,5 +286,5 @@ header:
       # 🔘 Toutes les intéractions
 footer:
   type: markdown
-  content: ''
+  content: ""
 cards: []

@@ -272,6 +272,7 @@ sections:
           columns: 6
           rows: 2
         vertical: true
+        name: Serveurs
       - type: tile
         entity: sensor.ups_battery_charge
         show_entity_picture: false
@@ -462,6 +463,7 @@ sections:
             tap_action:
               action: toggle
             color: "{% set p = states('sensor.s1pm30_power') | float(0) %} {% if not is_state('switch.s1pm30', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            name: Serveurs
           - type: gauge
             entity: sensor.s1pm30_power
             name: Puissance

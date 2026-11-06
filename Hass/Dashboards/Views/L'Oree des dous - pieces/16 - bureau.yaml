@@ -10,15 +10,16 @@ sections:
       - type: custom:button-card
         template: section_title
         name: "\U0001F518 Interactions"
-      - type: custom:mushroom-template-card
-        primary: Aucune interaction configurée
-        secondary: Zone réservée aux commandes de la pièce
-        icon: mdi:gesture-tap
-        features_position: bottom
+      - type: tile
+        entity: switch.sm27
+        name: 'Lumière '
+        color: indigo
+        show_entity_picture: false
+        hide_state: true
         vertical: true
-        multiline_secondary: false
-        grid_options:
-          columns: full
+        features:
+          - type: toggle
+        features_position: bottom
   - type: grid
     column_span: 1
     cards:
@@ -146,7 +147,7 @@ sections:
         template: section_title
         name: ♨️ Chauffage
       - type: custom:mushroom-climate-card
-        entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+        entity: climate.trv_btr_01_climate
         name: Radiateur
         hvac_modes:
           - heat
@@ -174,25 +175,26 @@ sections:
               {% endif %}
             }
       - type: custom:mushroom-template-card
-        entity: binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window
-        primary: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+        entity: binary_sensor.trv_btr_01_window
+        primary: "{% if is_state('binary_sensor.trv_btr_01_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
         secondary: Fenêtre
-        icon: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+        icon: "{% if is_state('binary_sensor.trv_btr_01_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
         vertical: true
         features_position: bottom
         tap_action:
           action: more-info
-        color: "{% if is_state('binary_sensor.trv_btr_01_chambre_1er_sud_est_bureau_window', 'on') %}red{% else %}green{% endif %}"
+        color: "{% if is_state('binary_sensor.trv_btr_01_window', 'on') %}red{% else %}green{% endif %}"
       - type: custom:mushroom-template-card
-        entity: switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating
-        primary: "{% if is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+        entity: switch.trv_btr_01
+        primary: "{% if is_state('switch.trv_btr_01', 'on') %}Actif{% else %}Désactivé{% endif %}"
         secondary: Boost chauffage
         icon: mdi:fire
         vertical: true
         features_position: bottom
         tap_action:
           action: toggle
-        color: "{% if is_state('switch.trv_btr_01_chambre_1er_sud_est_bureau_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+        color: "{% if is_state('switch.trv_btr_01', 'on') %}orange{% else %}grey{% endif %}"
+        name: Chambre 1er nord est (Bureau)
   - type: grid
     column_span: 1
     cards:
@@ -323,8 +325,9 @@ sections:
           {% endif %}
         features_position: bottom
         vertical: true
+        name: Bureau PC Game
       - type: custom:mushroom-template-card
-        entity: switch.sm27_lumiere_bureau
+        entity: switch.sm27
         primary: Ecrans
         secondary: >
           {% if is_state('switch.sm26', 'on') %}
@@ -343,6 +346,7 @@ sections:
           {% endif %}
         features_position: bottom
         vertical: true
+        name: Lumière Bureau
       - type: custom:vertical-stack-in-card
         cards:
           - type: custom:mushroom-title-card
@@ -356,6 +360,7 @@ sections:
             tap_action:
               action: toggle
             color: "{% set p = states('sensor.sp1pm63_power') | float(0) %} {% if not is_state('switch.sp1pm63', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            name: Mesure bureau
           - type: gauge
             entity: sensor.sp1pm63_power
             name: Puissance

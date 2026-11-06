@@ -269,6 +269,7 @@ sections:
             red
           {% endif %}
         vertical: true
+        name: Prise jardin Wall-e
       - type: custom:vertical-stack-in-card
         cards:
           - type: custom:mushroom-title-card
@@ -282,6 +283,7 @@ sections:
             tap_action:
               action: toggle
             color: "{% set p = states('sensor.sp1pm61_power') | float(0) %} {% if not is_state('switch.sp1pm61', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            name: Prise jardin Wall-e
           - type: gauge
             entity: sensor.sp1pm61_power
             name: Puissance

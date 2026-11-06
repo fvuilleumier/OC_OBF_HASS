@@ -273,6 +273,7 @@ sections:
 
           {% endif %}
         vertical: true
+        name: Mesure eponge
       - type: tile
         entity: button.cuisine_jura_brew
         name: Make a coffe !
@@ -294,6 +295,7 @@ sections:
             tap_action:
               action: toggle
             color: "{% set p = states('sensor.s1pm42_power') | float(0) %} {% if not is_state('switch.s1pm42', 'on') %}red {% elif p > 5 %}orange {% else %}green{% endif %}"
+            name: Mesure eponge
           - type: gauge
             entity: sensor.s1pm42_power
             name: Puissance

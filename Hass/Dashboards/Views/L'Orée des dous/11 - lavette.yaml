@@ -9,13 +9,13 @@ badges:
     show_state: true
     show_icon: true
     entity: sensor.lavette_program_progress
-    color: ''
+    color: ""
   - type: entity
     show_name: false
     show_state: true
     show_icon: true
     entity: sensor.lavette_program_finish_time
-    color: ''
+    color: ""
 type: sections
 max_columns: 1
 sections:
@@ -171,4 +171,4 @@ header:
       # 🧼 Lavette
 footer:
   type: markdown
-  content: ''
+  content: ""

@@ -72,7 +72,7 @@ sections:
             apex_config:
               tickAmount: 3
         series:
-          - entity: sensor.zg_227z_17_galetas_temperature
+          - entity: sensor.zg_227z_17_temperature
             name: Température
             color: var(--success-color)
             type: area
@@ -129,7 +129,7 @@ sections:
             apex_config:
               tickAmount: 4
         series:
-          - entity: sensor.zg_227z_17_galetas_humidity
+          - entity: sensor.zg_227z_17_humidity
             name: Humidité
             color: var(--info-color)
             type: area

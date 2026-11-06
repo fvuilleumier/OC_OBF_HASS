@@ -9,7 +9,7 @@ cards:
     template: section_title
     name: ♨️ Chauffage
   - type: custom:mushroom-climate-card
-    entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
+    entity: climate.trv_btr_02_climate
     name: Radiateur
     hvac_modes:
       - heat
@@ -38,22 +38,22 @@ cards:
           {% endif %}
         }
   - type: custom:mushroom-template-card
-    entity: binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window
+    entity: binary_sensor.trv_btr_02_window
     primary: >-
-      {% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}Ouverte{% else %}Fermée{% endif %}
+      {% if is_state('binary_sensor.trv_btr_02_window', 'on') %}Ouverte{% else %}Fermée{% endif %}
     secondary: Fenêtre
     icon: >-
-      {% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}
+      {% if is_state('binary_sensor.trv_btr_02_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}
     vertical: true
     features_position: bottom
     tap_action:
       action: more-info
     color: >-
-      {% if is_state('binary_sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_window', 'on') %}red{% else %}green{% endif %}
+      {% if is_state('binary_sensor.trv_btr_02_window', 'on') %}red{% else %}green{% endif %}
   - type: custom:mushroom-template-card
-    entity: switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating
+    entity: switch.trv_btr_02
     primary: >-
-      {% if is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}
+      {% if is_state('switch.trv_btr_02', 'on') %}Actif{% else %}Désactivé{% endif %}
     secondary: Boost chauffage
     icon: mdi:fire
     vertical: true
@@ -61,4 +61,4 @@ cards:
     tap_action:
       action: toggle
     color: >-
-      {% if is_state('switch.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_boost_heating', 'on') %}orange{% else %}grey{% endif %}
+      {% if is_state('switch.trv_btr_02', 'on') %}orange{% else %}grey{% endif %}

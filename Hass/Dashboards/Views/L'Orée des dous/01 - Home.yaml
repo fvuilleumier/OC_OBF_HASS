@@ -9,6 +9,7 @@ badges:
       action: toggle
     state_content: name
     color: orange
+    name: Lampe salon
   - type: entity
     show_name: true
     show_state: false
@@ -22,17 +23,18 @@ badges:
     show_name: true
     show_state: false
     show_icon: true
-    entity: switch.sb20
+    entity: input_boolean.c_est_noel
     color: green
     icon: mdi:pine-tree
-    name: Sapin
+    name: C'est noël
     tap_action:
       action: toggle
   - type: entity
     show_name: true
-    show_state: false
+    show_state: true
     show_icon: true
-    entity: switch.sb18
+    entity: switch.s1pm44
+    name: Pompe eau chaude
     tap_action:
       action: toggle
 type: sections
@@ -143,10 +145,12 @@ sections:
         entity: switch.s146
         features:
           - type: toggle
+        name: Garage gauche
       - type: tile
         entity: switch.s168
         features:
           - type: toggle
+        name: Garage droite
   - type: grid
     cards:
       - camera_view: auto
@@ -186,7 +190,7 @@ sections:
         secondary: "{{ states('sensor.myip') }}"
         icon: mdi:ip-network
         entity: sensor.myip
-        icon_color: ''
+        icon_color: ""
         grid_options:
           columns: full
   - type: grid
@@ -227,5 +231,5 @@ header:
       ✨ Sois toi même, tous les autres sont déjà pris ✨
 footer:
   type: markdown
-  content: ''
+  content: ""
 cards: []

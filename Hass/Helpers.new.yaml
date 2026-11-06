@@ -1,0 +1,6 @@
+# Helpers à créer dans Hass par MHassnager (WebSocket, modifiables ensuite dans l'interface).
+# Vidé après application. Format : celui de helpers.yaml (domaine → clé → options).
+input_boolean:
+  c_est_noel:
+    name: C'est noël
+    icon: mdi:pine-tree

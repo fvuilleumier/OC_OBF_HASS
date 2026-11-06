@@ -137,7 +137,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "fa2e1264e31b45b3a90c07b74a48e49a",
@@ -146,7 +146,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.784236,
     "name_by_user": null,
     "name": "SM54",
     "next_name_part": null,
@@ -419,14 +419,14 @@
     "manufacturer": "Home Assistant Community Apps",
     "model": "Home Assistant App",
     "model_id": null,
-    "modified_at": 1790864281.475229,
+    "modified_at": 1793000453.105286,
     "name_by_user": null,
     "name": "Grafana",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "13.0.3",
+    "sw_version": "13.0.4",
     "via_device_id": null
   },
   "233f2b65aa5b45c18e0edb47ca0996de": {
@@ -605,7 +605,7 @@
       ]
     ],
     "created_at": 1763373213.519352,
-    "disabled_by": "user",
+    "disabled_by": null,
     "entry_type": null,
     "hw_version": null,
     "id": "100aaf2cfc944172aa592b07c2a7371a",
@@ -614,7 +614,7 @@
     "manufacturer": "SMLIGHT",
     "model": "SLZB-06M",
     "model_id": null,
-    "modified_at": 1786627704.855471,
+    "modified_at": 1793700821.785989,
     "name_by_user": "SLZB-06M-R",
     "name": "SLZB-06M-R",
     "next_name_part": "area",
@@ -683,7 +683,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "4722154a0fd8452f98b70e58f0a58763",
@@ -692,7 +692,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 1785955123.10701,
+    "modified_at": 1793700821.787989,
     "name_by_user": null,
     "name": "SM56",
     "next_name_part": null,
@@ -858,14 +858,14 @@
     "manufacturer": "Shelly",
     "model": "Shelly Plus 1PM",
     "model_id": "TBX9F_ID_0068",
-    "modified_at": 1787828744.882956,
+    "modified_at": 1793176504.917554,
     "name_by_user": "SP1PM61 - Prise jardin Wall-e",
     "name": "SP1PM61",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "TBX9F_ID_0070",
     "serial_number": null,
-    "sw_version": "20260311-095847/1.7.5-g9979d16",
+    "sw_version": "20261026-143025/1.7.6-g01e9e18",
     "via_device_id": null
   },
   "f8e8298879f340fa9a1c2f8327a9f146": {
@@ -966,7 +966,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "953897c069f6491c805d032cdec87a92",
@@ -975,7 +975,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 1785955123.10281,
+    "modified_at": 1793700821.789745,
     "name_by_user": null,
     "name": "SM55",
     "next_name_part": null,
@@ -1322,7 +1322,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "bcbf624497344ea699d15eedbed9be13",
@@ -1331,7 +1331,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.791564,
     "name_by_user": null,
     "name": "SM37",
     "next_name_part": null,
@@ -1370,14 +1370,14 @@
     "manufacturer": "Home Assistant",
     "model": "Home Assistant Operating System",
     "model_id": null,
-    "modified_at": 1790077291.678648,
+    "modified_at": 1793701970.251746,
     "name_by_user": null,
     "name": "Home Assistant Operating System",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "18.3",
+    "sw_version": "18.4",
     "via_device_id": null
   },
   "c2b5eb791cfa4e07b12cb7ee692a908d": {
@@ -1478,7 +1478,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "2e74d341fe9c4ac39c2a61663b09e494",
@@ -1487,7 +1487,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff Basic",
     "model_id": null,
-    "modified_at": 1758203570.909256,
+    "modified_at": 1793700821.793106,
     "name_by_user": "SB16 - Tasmorallonge",
     "name": "SB16",
     "next_name_part": "area",
@@ -1795,7 +1795,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "ad7575948c6f4e38ac5afb1d5a12c2b6",
@@ -1804,7 +1804,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 1787565440.309394,
+    "modified_at": 1793806281.285475,
     "name_by_user": "SM29",
     "name": "SM29",
     "next_name_part": null,
@@ -2291,14 +2291,14 @@
     "manufacturer": "Home Assistant App: Zigbee2MQTT",
     "model": "Home Assistant App",
     "model_id": null,
-    "modified_at": 1791192027.001067,
+    "modified_at": 1793701150.876649,
     "name_by_user": null,
     "name": "Zigbee2MQTT",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "2.14.2-1",
+    "sw_version": "2.14.3-1",
     "via_device_id": null
   },
   "492e7c8a3d9f46649b08e226866b4d43": {
@@ -2339,6 +2339,45 @@
     "serial_number": null,
     "sw_version": "0123052026",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
+  },
+  "a038b3996e45461fa99ec9b730d74838": {
+    "area_id": "reduit",
+    "configuration_url": null,
+    "config_entries": [
+      "TBX9F_ID_3607"
+    ],
+    "config_entries_subentries": {
+      "TBX9F_ID_3607": [
+        null
+      ]
+    },
+    "config_entry_id": "TBX9F_ID_3607",
+    "config_subentry_id": null,
+    "connections": [],
+    "created_at": 1793804062.525648,
+    "disabled_by": null,
+    "entry_type": null,
+    "hw_version": "",
+    "id": "a038b3996e45461fa99ec9b730d74838",
+    "identifiers": [
+      [
+        "bambu_lab",
+        "20P5BJ670401915_ExternalSpool2"
+      ]
+    ],
+    "labels": [],
+    "manufacturer": "Bambu Lab",
+    "model": "External Spool",
+    "model_id": null,
+    "modified_at": 1793804145.441972,
+    "name_by_user": "BambuDous_ExternalSpool2",
+    "name": "X2D_20P5BJ670401915_ExternalSpool2",
+    "next_name_part": "area",
+    "parent_device_id": null,
+    "primary_config_entry": "TBX9F_ID_3607",
+    "serial_number": null,
+    "sw_version": "",
+    "via_device_id": "e30d38c73d8e404bb83b5823ba00fa20"
   },
   "81de8c1afea040698cd9e992392d1c92": {
     "area_id": "toilettes_1er_2",
@@ -2399,7 +2438,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "fdeb4a75fe31401ea3862eaf2885a685",
@@ -2408,7 +2447,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff Basic",
     "model_id": null,
-    "modified_at": 1785955123.08547,
+    "modified_at": 1793700821.799218,
     "name_by_user": null,
     "name": "SB48",
     "next_name_part": null,
@@ -2901,6 +2940,45 @@
     "sw_version": "20230913-111548/v1.14.0-gcb84623",
     "via_device_id": null
   },
+  "d683453f457746ec95aa1223ef113146": {
+    "area_id": "reduit",
+    "configuration_url": null,
+    "config_entries": [
+      "TBX9F_ID_3607"
+    ],
+    "config_entries_subentries": {
+      "TBX9F_ID_3607": [
+        null
+      ]
+    },
+    "config_entry_id": "TBX9F_ID_3607",
+    "config_subentry_id": null,
+    "connections": [],
+    "created_at": 1793804062.523526,
+    "disabled_by": null,
+    "entry_type": null,
+    "hw_version": "N3F05",
+    "id": "d683453f457746ec95aa1223ef113146",
+    "identifiers": [
+      [
+        "bambu_lab",
+        "19C06A662707904"
+      ]
+    ],
+    "labels": [],
+    "manufacturer": "Bambu Lab",
+    "model": "AMS 2 Pro",
+    "model_id": null,
+    "modified_at": 1793804145.44099,
+    "name_by_user": "BambuDous_AMS_2_PRO",
+    "name": "X2D_20P5BJ670401915_AMS_1",
+    "next_name_part": "area",
+    "parent_device_id": null,
+    "primary_config_entry": "TBX9F_ID_3607",
+    "serial_number": null,
+    "sw_version": "05.00.22.19",
+    "via_device_id": "e30d38c73d8e404bb83b5823ba00fa20"
+  },
   "646fade6f071430eb36bffbf4a5ce0fa": {
     "area_id": "maison_des_dous",
     "configuration_url": "https://forecast.solar",
@@ -2969,14 +3047,14 @@
     "manufacturer": "Official apps",
     "model": "Home Assistant App",
     "model_id": null,
-    "modified_at": 1791378608.702624,
+    "modified_at": 1793000453.104971,
     "name_by_user": null,
     "name": "File editor",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "6.2.0",
+    "sw_version": "6.3.0",
     "via_device_id": null
   },
   "4946f1f8ceac46d7b23ff5666ef97d9a": {
@@ -3091,8 +3169,8 @@
     "manufacturer": "myStrom",
     "model": null,
     "model_id": null,
-    "modified_at": 1787297874.280766,
-    "name_by_user": null,
+    "modified_at": 1793700821.801944,
+    "name_by_user": "MSWS65 - MSSW-Atelier",
     "name": "MSSW-Atelier",
     "next_name_part": "area",
     "parent_device_id": null,
@@ -3252,14 +3330,14 @@
     "manufacturer": "Home Assistant",
     "model": "Home Assistant Backup",
     "model_id": null,
-    "modified_at": 1792261175.959227,
+    "modified_at": 1793000454.099939,
     "name_by_user": null,
     "name": "Backup",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "TBX9F_ID_0096",
     "serial_number": null,
-    "sw_version": "2026.10.2",
+    "sw_version": "2026.10.4",
     "via_device_id": null
   },
   "c052bd39c6c94488ad455c0476d4bf25": {
@@ -3496,14 +3574,14 @@
     "manufacturer": "Moes",
     "model": "Thermostatic radiator valve",
     "model_id": "TBX9F_ID_0099",
-    "modified_at": 1761903318.944098,
+    "modified_at": 1793701101.641736,
     "name_by_user": "TRV-BTR-02 - Chambre 1er sud ouest (TBX9F_ORG_0002)",
     "name": "TRV-BTR-02 - Chambre 1er sud ouest (TBX9F_ORG_0002)",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": null,
+    "sw_version": "Zigbee2MQTT 2.14.3",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
   },
   "6e66bc44008e42399e9c349ff2141723": {
@@ -3721,7 +3799,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "9a3ed66e591440b78c4f74e62e5381d3",
@@ -3730,7 +3808,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 1785955123.098275,
+    "modified_at": 1793700821.805412,
     "name_by_user": null,
     "name": "SM54",
     "next_name_part": null,
@@ -3969,14 +4047,14 @@
     "manufacturer": "Shelly",
     "model": "Shelly Plus 1PM",
     "model_id": "TBX9F_ID_0068",
-    "modified_at": 1791215232.302369,
+    "modified_at": 1793176505.15519,
     "name_by_user": "SP1PM64 - Congélateur",
     "name": "SP1PM64",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "TBX9F_ID_0106",
     "serial_number": null,
-    "sw_version": "20260311-095847/1.7.5-g9979d16",
+    "sw_version": "20261026-143025/1.7.6-g01e9e18",
     "via_device_id": null
   },
   "e99ec15d2f6c4a3c9d02177bc8bf773f": {
@@ -4325,14 +4403,14 @@
     "manufacturer": "Moes",
     "model": "Thermostatic radiator valve",
     "model_id": "TBX9F_ID_0099",
-    "modified_at": 1760454918.228842,
+    "modified_at": 1793701098.448824,
     "name_by_user": "TRV-BTR-05 - Rez sud ouest (salle à manger)",
     "name": "TRV-BTR-05 - Rez sud ouest (salle à manger)",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": null,
+    "sw_version": "Zigbee2MQTT 2.14.3",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
   },
   "ea83507d620a40269fc8e5f9d0f267cc": {
@@ -4706,7 +4784,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "8ab7c3302d8742d9910bf713d83c354d",
@@ -4715,7 +4793,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.808143,
     "name_by_user": null,
     "name": "SM55",
     "next_name_part": null,
@@ -4871,14 +4949,14 @@
     "manufacturer": "Home Assistant",
     "model": "Home Assistant Supervisor",
     "model_id": null,
-    "modified_at": 1792261175.356429,
+    "modified_at": 1793700850.124972,
     "name_by_user": null,
     "name": "Home Assistant Supervisor",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "2026.10.2",
+    "sw_version": "2026.10.5",
     "via_device_id": null
   },
   "a911901b8a524a2b97a7de115cb6ab07": {
@@ -5027,14 +5105,14 @@
     "manufacturer": "Official apps",
     "model": "Home Assistant App",
     "model_id": null,
-    "modified_at": 1792415778.707685,
+    "modified_at": 1793177009.945618,
     "name_by_user": null,
     "name": "Mosquitto broker",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "7.1.2",
+    "sw_version": "7.1.3",
     "via_device_id": null
   },
   "6c55f2065e844e7fb5eee718d7634ef4": {
@@ -5076,6 +5154,45 @@
     "sw_version": "6.43.2",
     "via_device_id": "95e309bb59e4489693b5bce6d2661045"
   },
+  "52e54cf6f70b4776a24f44631e4710b3": {
+    "area_id": "reduit",
+    "configuration_url": null,
+    "config_entries": [
+      "TBX9F_ID_3607"
+    ],
+    "config_entries_subentries": {
+      "TBX9F_ID_3607": [
+        null
+      ]
+    },
+    "config_entry_id": "TBX9F_ID_3607",
+    "config_subentry_id": null,
+    "connections": [],
+    "created_at": 1793804062.52489,
+    "disabled_by": null,
+    "entry_type": null,
+    "hw_version": "",
+    "id": "52e54cf6f70b4776a24f44631e4710b3",
+    "identifiers": [
+      [
+        "bambu_lab",
+        "20P5BJ670401915_ExternalSpool"
+      ]
+    ],
+    "labels": [],
+    "manufacturer": "Bambu Lab",
+    "model": "External Spool",
+    "model_id": null,
+    "modified_at": 1793804145.441637,
+    "name_by_user": "BambuDous_ExternalSpool",
+    "name": "X2D_20P5BJ670401915_ExternalSpool",
+    "next_name_part": "area",
+    "parent_device_id": null,
+    "primary_config_entry": "TBX9F_ID_3607",
+    "serial_number": null,
+    "sw_version": "",
+    "via_device_id": "e30d38c73d8e404bb83b5823ba00fa20"
+  },
   "3983482dda85479d844c824ae8c12879": {
     "area_id": "salle_de_jeu",
     "configuration_url": null,
@@ -5105,14 +5222,14 @@
     "manufacturer": "Moes",
     "model": "Thermostatic radiator valve",
     "model_id": "TBX9F_ID_0099",
-    "modified_at": 1760454886.11579,
+    "modified_at": 1793701097.995209,
     "name_by_user": "TRV-BTR-04 - Chambre rez (Salle de jeu)",
     "name": "TRV-BTR-04 - Chambre rez (Salle de jeu)",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": null,
+    "sw_version": "Zigbee2MQTT 2.14.3",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
   },
   "5566c8205dea4ceea57e04627be16078": {
@@ -5188,14 +5305,14 @@
     "manufacturer": "Moes",
     "model": "Thermostatic radiator valve",
     "model_id": "TBX9F_ID_0099",
-    "modified_at": 1760455602.565819,
+    "modified_at": 1793701098.753728,
     "name_by_user": "TRV-BTR-06 - Rez sud est (salon)",
     "name": "TRV-BTR-06 - Rez sud est (salon)",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": null,
+    "sw_version": "Zigbee2MQTT 2.14.3",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
   },
   "3706af83ad614163ab55760a2f58b8a5": {
@@ -5383,14 +5500,14 @@
     "manufacturer": "Home Assistant Community Apps",
     "model": "Home Assistant App",
     "model_id": null,
-    "modified_at": 1788205556.726987,
+    "modified_at": 1793000453.10513,
     "name_by_user": null,
     "name": "AppDaemon",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "0.19.2",
+    "sw_version": "0.19.3",
     "via_device_id": null
   },
   "d7ebeb6b884846d99c123c9fbdb440a2": {
@@ -5457,7 +5574,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "25f861b79294445b83ecf4ca74800d4e",
@@ -5466,7 +5583,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.810368,
     "name_by_user": null,
     "name": "SM38",
     "next_name_part": null,
@@ -5744,14 +5861,14 @@
     "manufacturer": "AstroWeather",
     "model": null,
     "model_id": null,
-    "modified_at": 1780642856.555514,
+    "modified_at": 1793177015.132309,
     "name_by_user": null,
     "name": "AstroWeather La maison des Dous",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "TBX9F_ID_0127",
     "serial_number": null,
-    "sw_version": "0.80.0",
+    "sw_version": "0.82.0",
     "via_device_id": null
   },
   "95e309bb59e4489693b5bce6d2661045": {
@@ -5861,14 +5978,14 @@
     "manufacturer": "Zigbee2MQTT",
     "model": "Bridge",
     "model_id": null,
-    "modified_at": 1791191097.201656,
+    "modified_at": 1793701096.322199,
     "name_by_user": null,
     "name": "Zigbee2MQTT Bridge",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": "2.14.2",
+    "sw_version": "2.14.3",
     "via_device_id": null
   },
   "b2f63a8c117f478d90cfbae2789056d6": {
@@ -5891,7 +6008,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "b2f63a8c117f478d90cfbae2789056d6",
@@ -5900,7 +6017,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff Basic",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.812194,
     "name_by_user": null,
     "name": "SB48",
     "next_name_part": null,
@@ -6017,14 +6134,14 @@
     "manufacturer": "Home Assistant",
     "model": "Home Assistant Core",
     "model_id": null,
-    "modified_at": 1792261175.356276,
+    "modified_at": 1793000453.085575,
     "name_by_user": null,
     "name": "Home Assistant Core",
     "next_name_part": null,
     "parent_device_id": null,
     "primary_config_entry": "7e8201b8983641bb9729845e568ff1c7",
     "serial_number": null,
-    "sw_version": "2026.10.2",
+    "sw_version": "2026.10.4",
     "via_device_id": null
   },
   "8eaecc650163476cb014f881e8760497": {
@@ -6095,14 +6212,14 @@
     "manufacturer": "Moes",
     "model": "Thermostatic radiator valve",
     "model_id": "TBX9F_ID_0099",
-    "modified_at": 1760454841.637805,
+    "modified_at": 1793701097.647072,
     "name_by_user": "TRV-BTR-03 - Chambre 1er sud est (enfants)",
     "name": "TRV-BTR-03 - Chambre 1er sud est (enfants)",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": null,
+    "sw_version": "Zigbee2MQTT 2.14.3",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
   },
   "68042bac986b45ae98a81753ccc8d19f": {
@@ -6178,14 +6295,14 @@
     "manufacturer": "Moes",
     "model": "Thermostatic radiator valve",
     "model_id": "TBX9F_ID_0099",
-    "modified_at": 1760455535.130266,
+    "modified_at": 1793701096.658685,
     "name_by_user": "TRV-BTR-01 - Chambre 1er nord est (Bureau)",
     "name": "TRV-BTR-01 - Chambre 1er nord est (Bureau)",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "492e1d0f4a31489398cfe41124f26e1d",
     "serial_number": null,
-    "sw_version": null,
+    "sw_version": "Zigbee2MQTT 2.14.3",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
   },
   "ef72ae2df2bc4f94881b05f99cdabe41": {
@@ -6598,7 +6715,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "525c2198106d4714aabc555bc35773c0",
@@ -6607,7 +6724,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff Basic",
     "model_id": null,
-    "modified_at": 1786005407.494465,
+    "modified_at": 1793700821.814523,
     "name_by_user": "SB22 - porte cave",
     "name": "SB22",
     "next_name_part": null,
@@ -6651,14 +6768,53 @@
     "manufacturer": "Shelly",
     "model": "Shelly Plus 1PM",
     "model_id": "TBX9F_ID_0068",
-    "modified_at": 1790863483.312018,
+    "modified_at": 1793176505.256852,
     "name_by_user": "SP1PM70 - Pompe dilatation chaudière",
     "name": "SP1PM70",
     "next_name_part": "area",
     "parent_device_id": null,
     "primary_config_entry": "TBX9F_ID_0136",
     "serial_number": null,
-    "sw_version": "20260311-095847/1.7.5-g9979d16",
+    "sw_version": "20261026-143025/1.7.6-g01e9e18",
+    "via_device_id": null
+  },
+  "e30d38c73d8e404bb83b5823ba00fa20": {
+    "area_id": "reduit",
+    "configuration_url": null,
+    "config_entries": [
+      "TBX9F_ID_3607"
+    ],
+    "config_entries_subentries": {
+      "TBX9F_ID_3607": [
+        null
+      ]
+    },
+    "config_entry_id": "TBX9F_ID_3607",
+    "config_subentry_id": null,
+    "connections": [],
+    "created_at": 1793804060.741016,
+    "disabled_by": null,
+    "entry_type": null,
+    "hw_version": "AP04",
+    "id": "e30d38c73d8e404bb83b5823ba00fa20",
+    "identifiers": [
+      [
+        "bambu_lab",
+        "20P5BJ670401915"
+      ]
+    ],
+    "labels": [],
+    "manufacturer": "Bambu Lab",
+    "model": "X2D",
+    "model_id": null,
+    "modified_at": 1793804145.435688,
+    "name_by_user": "BambuDous_X2D",
+    "name": "X2D_20P5BJ670401915",
+    "next_name_part": "area",
+    "parent_device_id": null,
+    "primary_config_entry": "TBX9F_ID_3607",
+    "serial_number": "20P5BJ670401915",
+    "sw_version": "01.02.00.00",
     "via_device_id": null
   },
   "d60bd1af03bf4dfaad6f2fba8ccbb13f": {
@@ -6698,6 +6854,50 @@
     "primary_config_entry": "TBX9F_ID_0065",
     "serial_number": null,
     "sw_version": "core: v3.3.1 / zigbee: 20250220",
+    "via_device_id": null
+  },
+  "257d609311b44a32bf0ec4dd45f1a72c": {
+    "area_id": "reduit",
+    "configuration_url": "http://192.168.38.72:80",
+    "config_entries": [
+      "TBX9F_ID_3608"
+    ],
+    "config_entries_subentries": {
+      "TBX9F_ID_3608": [
+        null
+      ]
+    },
+    "config_entry_id": "TBX9F_ID_3608",
+    "config_subentry_id": null,
+    "connections": [
+      [
+        "mac",
+        "02:00:00:00:00:A2"
+      ]
+    ],
+    "created_at": 1793953567.499333,
+    "disabled_by": null,
+    "entry_type": null,
+    "hw_version": "gen2",
+    "id": "257d609311b44a32bf0ec4dd45f1a72c",
+    "identifiers": [
+      [
+        "shelly",
+        "A0DD6C3138B0"
+      ]
+    ],
+    "labels": [],
+    "manufacturer": "Shelly",
+    "model": "Shelly Plus 1PM",
+    "model_id": "TBX9F_ID_0068",
+    "modified_at": 1793953578.609718,
+    "name_by_user": "SP1PM72 - BambuDous",
+    "name": "SP1PM72",
+    "next_name_part": "area",
+    "parent_device_id": null,
+    "primary_config_entry": "TBX9F_ID_3608",
+    "serial_number": null,
+    "sw_version": "20261026-143025/1.7.6-g01e9e18",
     "via_device_id": null
   },
   "da04ef0a1b7841dfbd8be050c887fec4": {
@@ -6798,7 +6998,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "55b50ed3f6924d9e88a3ab3028ff26f6",
@@ -6807,7 +7007,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 1785955123.069849,
+    "modified_at": 1793700821.815884,
     "name_by_user": null,
     "name": "SM38",
     "next_name_part": null,
@@ -6846,8 +7046,8 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff Basic",
     "model_id": null,
-    "modified_at": 1792316054.870872,
-    "name_by_user": null,
+    "modified_at": 1793700821.817373,
+    "name_by_user": "SB24 - Tasmorallonge",
     "name": "02:00:00:00:00:29",
     "next_name_part": null,
     "parent_device_id": null,
@@ -7276,7 +7476,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "2581e020f9694feabed1bf1e47f5e750",
@@ -7285,7 +7485,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.819413,
     "name_by_user": null,
     "name": "SM56",
     "next_name_part": null,
@@ -7368,8 +7568,8 @@
     "manufacturer": "Shelly",
     "model": "Shelly 1",
     "model_id": "TBX9F_ID_0129",
-    "modified_at": 1787565295.977957,
-    "name_by_user": "Garage droite",
+    "modified_at": 1793700821.821243,
+    "name_by_user": "S168 - Garage droite",
     "name": "S168",
     "next_name_part": "area",
     "parent_device_id": null,
@@ -7416,6 +7616,45 @@
     "serial_number": null,
     "sw_version": "0123052026",
     "via_device_id": "ec7c214c946444268ee8cde52a41cd0f"
+  },
+  "92edd3684ee744f28c041f667658fd4c": {
+    "area_id": null,
+    "configuration_url": "homeassistant://hacs/repository/588734673",
+    "config_entries": [
+      "166b89e4cdaa476b9f96216b3d3bb16e"
+    ],
+    "config_entries_subentries": {
+      "166b89e4cdaa476b9f96216b3d3bb16e": [
+        null
+      ]
+    },
+    "config_entry_id": "166b89e4cdaa476b9f96216b3d3bb16e",
+    "config_subentry_id": null,
+    "connections": [],
+    "created_at": 1793803374.713754,
+    "disabled_by": null,
+    "entry_type": "service",
+    "hw_version": null,
+    "id": "92edd3684ee744f28c041f667658fd4c",
+    "identifiers": [
+      [
+        "hacs",
+        "588734673"
+      ]
+    ],
+    "labels": [],
+    "manufacturer": "greghesp, AdrianGarside",
+    "model": "integration",
+    "model_id": null,
+    "modified_at": 1793803374.713789,
+    "name_by_user": null,
+    "name": "Bambu Lab",
+    "next_name_part": null,
+    "parent_device_id": null,
+    "primary_config_entry": "166b89e4cdaa476b9f96216b3d3bb16e",
+    "serial_number": null,
+    "sw_version": null,
+    "via_device_id": null
   },
   "af9d844b00b34120a89aa934f65ccec4": {
     "area_id": "cuisine",
@@ -7793,7 +8032,7 @@
       ]
     ],
     "created_at": 0.0,
-    "disabled_by": null,
+    "disabled_by": "user",
     "entry_type": null,
     "hw_version": null,
     "id": "01fcb385b6c24af994750c5b36e71bb1",
@@ -7802,7 +8041,7 @@
     "manufacturer": "Tasmota",
     "model": "Sonoff MINIR2",
     "model_id": null,
-    "modified_at": 0.0,
+    "modified_at": 1793700821.824053,
     "name_by_user": null,
     "name": "SM39",
     "next_name_part": null,

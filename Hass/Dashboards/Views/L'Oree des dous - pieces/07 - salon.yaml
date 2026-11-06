@@ -18,8 +18,9 @@ sections:
         features:
           - type: toggle
         features_position: bottom
+        name: Lampe salon
       - type: tile
-        entity: switch.sb50
+        entity: switch.sb17
         name: TV des Dous
         color: accent
         hide_state: true
@@ -154,7 +155,7 @@ sections:
         template: section_title
         name: ♨️ Chauffage
       - type: custom:mushroom-climate-card
-        entity: climate.trv_btr_06_rez_sud_est_salon
+        entity: climate.trv_btr_06_climate
         name: Radiateur
         hvac_modes:
           - heat
@@ -182,25 +183,26 @@ sections:
               {% endif %}
             }
       - type: custom:mushroom-template-card
-        entity: binary_sensor.trv_btr_06_rez_sud_est_salon_window
-        primary: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
+        entity: binary_sensor.trv_btr_06_window
+        primary: "{% if is_state('binary_sensor.trv_btr_06_window', 'on') %}Ouverte{% else %}Fermée{% endif %}"
         secondary: Fenêtre
-        icon: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
+        icon: "{% if is_state('binary_sensor.trv_btr_06_window', 'on') %}mdi:window-open-variant{% else %}mdi:window-closed-variant{% endif %}"
         vertical: true
         features_position: bottom
         tap_action:
           action: more-info
-        color: "{% if is_state('binary_sensor.trv_btr_06_rez_sud_est_salon_window', 'on') %}red{% else %}green{% endif %}"
+        color: "{% if is_state('binary_sensor.trv_btr_06_window', 'on') %}red{% else %}green{% endif %}"
       - type: custom:mushroom-template-card
-        entity: switch.trv_btr_06_rez_sud_est_salon_boost_heating
-        primary: "{% if is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating', 'on') %}Actif{% else %}Désactivé{% endif %}"
+        entity: switch.trv_btr_06
+        primary: "{% if is_state('switch.trv_btr_06', 'on') %}Actif{% else %}Désactivé{% endif %}"
         secondary: Boost chauffage
         icon: mdi:fire
         vertical: true
         features_position: bottom
         tap_action:
           action: toggle
-        color: "{% if is_state('switch.trv_btr_06_rez_sud_est_salon_boost_heating', 'on') %}orange{% else %}grey{% endif %}"
+        color: "{% if is_state('switch.trv_btr_06', 'on') %}orange{% else %}grey{% endif %}"
+        name: Rez sud est (salon)
   - type: grid
     column_span: 1
     cards:

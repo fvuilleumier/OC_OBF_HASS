@@ -22,8 +22,8 @@ sections:
       - type: custom:mushroom-template-card
         primary: Galetas
         secondary: >
-          {{ states('sensor.zg_227z_17_galetas_temperature') }} °C · {{
-          states('sensor.zg_227z_17_galetas_humidity') }} %
+          {{ states('sensor.zg_227z_17_temperature') }} °C · {{
+          states('sensor.zg_227z_17_humidity') }} %
         icon: mdi:home-roof
         tap_action:
           action: navigate

@@ -313,7 +313,7 @@ sections:
             name: 1er
           - entity: sensor.zg_227z_18_battery
             name: Salon
-          - entity: sensor.trv_btr_06_rez_sud_est_salon_battery
+          - entity: sensor.trv_btr_06_battery
             name: Salon (vanne)
           - entity: sensor.zg_227z_16_battery
             name: Cuisine
@@ -321,7 +321,7 @@ sections:
             name: Salle de bain 1er
           - entity: sensor.zg_227z_10_battery
             name: Salle de jeu
-          - entity: sensor.trv_btr_04_chambre_rez_salle_de_jeu_battery
+          - entity: sensor.trv_btr_04_battery
             name: Salle de jeu (vanne)
           - entity: sensor.zg_227z_06_battery
             name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003
@@ -329,21 +329,21 @@ sections:
             name: Chambre TBX9F_ORG_0004 et TBX9F_ORG_0003 (vanne)
           - entity: sensor.zg_227z_15_battery
             name: Chambre TBX9F_ORG_0005
-          - entity: sensor.zg_227z_08_chambre_TBX9F_ORG_0002_battery
+          - entity: sensor.zg_227z_08_battery
             name: Chambre TBX9F_ORG_0002
-          - entity: sensor.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002_battery
+          - entity: sensor.trv_btr_02_battery
             name: Chambre TBX9F_ORG_0002 (vanne)
           - entity: sensor.zg_227z_10_battery
             name: Rez
           - entity: sensor.trv_btr_05_battery
             name: Salle à manger (vanne)
-          - entity: sensor.zg_227z_11_reduit_battery
+          - entity: sensor.zg_227z_11_battery
             name: Entrée
           - entity: sensor.zg_227z_03_battery
             name: Déshumidificateur / Buanderie
           - entity: sensor.zg_227z_05_battery
             name: Bureau TBX9F_ORG_0001
-          - entity: sensor.trv_btr_01_chambre_1er_sud_est_bureau_battery
+          - entity: sensor.trv_btr_01_battery
             name: Bureau TBX9F_ORG_0001 (vanne)
           - entity: sensor.zg_227z_19_battery
             name: Bureau TBX9F_ID_0056

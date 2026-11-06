@@ -162,19 +162,6 @@
     "config_panel_domain": null,
     "show_in_sidebar": true
   },
-  "core_configurator": {
-    "component_name": "app",
-    "icon": "mdi:wrench",
-    "title": "File editor",
-    "default_visible": true,
-    "config": {
-      "addon": "core_configurator"
-    },
-    "url_path": "core_configurator",
-    "require_admin": true,
-    "config_panel_domain": null,
-    "show_in_sidebar": true
-  },
   "core_ssh": {
     "component_name": "app",
     "icon": "mdi:console",
@@ -184,6 +171,19 @@
       "addon": "core_ssh"
     },
     "url_path": "core_ssh",
+    "require_admin": true,
+    "config_panel_domain": null,
+    "show_in_sidebar": true
+  },
+  "a0d7b954_grafana": {
+    "component_name": "app",
+    "icon": "mdi:chart-timeline",
+    "title": "Grafana",
+    "default_visible": true,
+    "config": {
+      "addon": "a0d7b954_grafana"
+    },
+    "url_path": "a0d7b954_grafana",
     "require_admin": true,
     "config_panel_domain": null,
     "show_in_sidebar": true
@@ -201,15 +201,15 @@
     "config_panel_domain": null,
     "show_in_sidebar": true
   },
-  "a0d7b954_grafana": {
+  "core_configurator": {
     "component_name": "app",
-    "icon": "mdi:chart-timeline",
-    "title": "Grafana",
+    "icon": "mdi:wrench",
+    "title": "File editor",
     "default_visible": true,
     "config": {
-      "addon": "a0d7b954_grafana"
+      "addon": "core_configurator"
     },
-    "url_path": "a0d7b954_grafana",
+    "url_path": "core_configurator",
     "require_admin": true,
     "config_panel_domain": null,
     "show_in_sidebar": true

@@ -633,7 +633,7 @@
   triggers:
   - type: turned_on
     device_id: 62553bf15bb24c329d9b242a066e63e6
-    entity_id: switch.sm28_lumieres_exterieur
+    entity_id: switch.sm28
     domain: switch
     for:
       hours: 2
@@ -644,12 +644,12 @@
   - condition: device
     type: is_on
     device_id: 62553bf15bb24c329d9b242a066e63e6
-    entity_id: switch.sm28_lumieres_exterieur
+    entity_id: switch.sm28
     domain: switch
   actions:
   - type: turn_off
     device_id: 62553bf15bb24c329d9b242a066e63e6
-    entity_id: switch.sm28_lumieres_exterieur
+    entity_id: switch.sm28
     domain: switch
   mode: single
 - id: '900000020'
@@ -1331,12 +1331,12 @@
       sequence:
       - target:
           entity_id:
-          - climate.trv_btr_01_chambre_1er_sud_est_bureau
-          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
-          - climate.trv_btr_03_chambre_1er_sud_est_enfants
-          - climate.trv_btr_04_chambre_rez_salle_de_jeu
-          - climate.trv_btr_05_rez_sud_ouest_salle_a_manger
-          - climate.trv_btr_06_rez_sud_est_salon
+          - climate.trv_btr_01_climate
+          - climate.trv_btr_02_climate
+          - climate.trv_btr_03_climate
+          - climate.trv_btr_04_climate
+          - climate.trv_btr_05_climate
+          - climate.trv_btr_06_climate
         data:
           preset_mode: holiday
         action: climate.set_preset_mode
@@ -1347,12 +1347,12 @@
       sequence:
       - target:
           entity_id:
-          - climate.trv_btr_01_chambre_1er_sud_est_bureau
-          - climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
-          - climate.trv_btr_03_chambre_1er_sud_est_enfants
-          - climate.trv_btr_04_chambre_rez_salle_de_jeu
-          - climate.trv_btr_05_rez_sud_ouest_salle_a_manger
-          - climate.trv_btr_06_rez_sud_est_salon
+          - climate.trv_btr_01_climate
+          - climate.trv_btr_02_climate
+          - climate.trv_btr_03_climate
+          - climate.trv_btr_04_climate
+          - climate.trv_btr_05_climate
+          - climate.trv_btr_06_climate
         data:
           preset_mode: programming
         action: climate.set_preset_mode
@@ -1434,7 +1434,7 @@
   triggers:
   - trigger: numeric_state
     entity_id:
-    - sensor.msws65_atelier_power
+    - sensor.msws65_power
     for:
       hours: 0
       minutes: 15
@@ -1443,7 +1443,7 @@
   conditions:
   - condition: switch.is_on
     target:
-      entity_id: switch.msws65_atelier
+      entity_id: switch.msws65
     options:
       behavior: any
       for: 00:00:00
@@ -1457,7 +1457,7 @@
   - action: switch.turn_off
     metadata: {}
     target:
-      entity_id: switch.msws65_atelier
+      entity_id: switch.msws65
     data: {}
   - action: input_boolean.turn_off
     metadata: {}
@@ -1798,7 +1798,7 @@
     data:
           datetime: '{{ now().isoformat() }}'
   mode: single
-- id: c_est_noel_sync
+- id: TBX9F_ID_3594
   alias: C'est noël - pilote SB18 et SB20
   description: Répercute l'état du helper input_boolean.c_est_noel sur switch.sb18
     (lumières ext Noël) et switch.sb20 (sapin). Seuls les switchs disponibles sont

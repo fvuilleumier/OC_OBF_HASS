@@ -33,38 +33,38 @@ sections:
   - type: grid
     cards:
       - type: thermostat
-        entity: climate.trv_btr_01_chambre_1er_sud_est_bureau
+        entity: climate.trv_btr_01_climate
         name: Bureau
         show_current_as_primary: true
       - type: thermostat
         name: Salon
         show_current_as_primary: true
-        entity: climate.trv_btr_06_rez_sud_est_salon
+        entity: climate.trv_btr_06_climate
     column_span: 2
   - type: grid
     cards:
       - type: thermostat
         name: Chambre à coucher
         show_current_as_primary: true
-        entity: climate.trv_btr_02_chambre_1er_sud_ouest_TBX9F_ORG_0002
+        entity: climate.trv_btr_02_climate
   - type: grid
     cards:
       - type: thermostat
         name: Chambre des enfants
         show_current_as_primary: true
-        entity: climate.trv_btr_03_chambre_1er_sud_est_enfants
+        entity: climate.trv_btr_03_climate
   - type: grid
     cards:
       - type: thermostat
         name: Salle de jeu
         show_current_as_primary: true
-        entity: climate.trv_btr_04_chambre_rez_salle_de_jeu
+        entity: climate.trv_btr_04_climate
   - type: grid
     cards:
       - type: thermostat
         name: Salle à manger
         show_current_as_primary: true
-        entity: climate.trv_btr_05_rez_sud_ouest_salle_a_manger
+        entity: climate.trv_btr_05_climate
 header:
   layout: center
   badges_position: bottom
@@ -75,5 +75,5 @@ header:
     icon: mdi:sun-thermometer-outline
 footer:
   type: markdown
-  content: ''
+  content: ""
 cards: []
